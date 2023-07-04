@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('guardians', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->integer('guardian_id');
             $table->string('first_name', 500);
             $table->string('last_name', 500);
             $table->string('gender', 200);
@@ -21,11 +21,7 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('phone_number', 24);
             $table->string('address', 255);
-            $table->string('profile');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('job', 100);
             $table->timestamps();
         });
     }
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('guardians');
     }
 };
