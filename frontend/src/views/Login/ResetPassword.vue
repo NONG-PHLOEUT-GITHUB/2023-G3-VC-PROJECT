@@ -56,7 +56,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 img {
         width: 120%;
   
@@ -69,6 +69,7 @@ img {
 .main{
     background: white;
     width: 350%;
+    padding: 30px;
     border: solid 1px rgb(241, 235, 225);
   
 }

@@ -1,14 +1,14 @@
 <template>
-<reset-password></reset-password>
+  <router-view></router-view>
+
   
 </template>
 
 <script>
-import ResetPassword from './views/Login/ResetPassword.vue'
+
 
 export default {
   components: { 
-    ResetPassword 
   },
   
 
