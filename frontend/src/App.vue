@@ -12,9 +12,11 @@ export default {
   },
   
 
+  data: () => ({
+    //
+  }),
+  components:{
+    // ResetPassword
+  }
 }
 </script>
-
-<style>
-
-</style>
