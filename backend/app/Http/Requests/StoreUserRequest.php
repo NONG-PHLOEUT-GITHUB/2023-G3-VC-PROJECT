@@ -36,7 +36,7 @@ class StoreUserRequest extends FormRequest
             'date_of_birth' => 'required|date',
             'phone_number' => 'required|string|max:20',
             'address' => 'required|string|max:255',
-            'profile' => 'nullable|image|max:2048',
+            // 'profile' => 'nullable|image|max:2048',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|max:255',
         ];
