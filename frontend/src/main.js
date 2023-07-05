@@ -11,13 +11,16 @@ import App from './App.vue'
 import {createRouter , createWebHistory } from 'vue-router'
 import CreateUserForm from './views/Dashboard/CreateUserForm.vue'
 import ResetPassword from './views/Login/ResetPassword.vue'
+import LoginForm from './views/Login/LoginView.vue'
+
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 const router = createRouter({
     history:createWebHistory(),
     routes:[
         { path: '/createpage' , component: CreateUserForm},
-        { path: '/resetpasspage' , component: ResetPassword}
+        { path: '/resetpasspage' , component: ResetPassword},
+        { path: '/Login' , component: LoginForm}
     ]
 })
 createApp(App).use(router).mount('#app')
