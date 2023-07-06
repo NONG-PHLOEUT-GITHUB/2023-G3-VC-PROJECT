@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+<<<<<<< HEAD
 Route::post('/login', 'LoginController@login');
 
 // ***Route User***
@@ -34,3 +35,7 @@ Route::post('/login',[LoginController::class,'login'])
 Route::get('/users',[UserController::class,'index']);
 Route::post('/users',[UserController::class,'store']);
 
+=======
+
+Route::resource('users' , UserController::class);
+>>>>>>> ad1f8c0069b452d9d8f13f28aec27377e23a625a
