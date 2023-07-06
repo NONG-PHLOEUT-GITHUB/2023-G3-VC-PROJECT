@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Director/DirectorDashboard.vue';
 // import StudentView from '../views/Student/StudentView.vue';
-import TeacherView from '../views/Teacher/TeacherView.vue';
+import TeacherList from '../views/Director/TeacherList.vue';
+import ScheduleView from '../views/Director/ScheduleView.vue';
 import StudentList from '../views/Director/StudentList.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
@@ -19,13 +20,18 @@ const routes = [
   },
   {
     path: '/teacher',
-    name: '/teacher',
-    component: TeacherView
+    name: 'teacher',
+    component: TeacherList
   },
   {
     path: '/class',
-    name: '/class',
+    name: 'class',
     component: ClassView
+  },
+  {
+    path: '/schedule',
+    name: 'schedule',
+    component: ScheduleView
   },
   {
     path: '/createUser',

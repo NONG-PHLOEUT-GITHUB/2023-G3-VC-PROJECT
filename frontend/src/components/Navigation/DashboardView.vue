@@ -2,7 +2,7 @@
 <!-- Dashboard -->
 <div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
     <!-- Vertical Navbar -->
-    <nav class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg" id="navbarVertical">
+    <nav class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light border-bottom border-bottom-lg-0 border-end-lg bg-gray-300" id="navbarVertical">
         <div class="container-fluid">
             <!-- Toggler -->
             <button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,37 +10,39 @@
             </button>
             <!-- Brand -->
             <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" href="#">
-                <img src="https://static.vecteezy.com/system/resources/previews/004/641/880/original/illustration-of-high-school-building-school-building-free-vector.jpg" alt="..." >
+                <img src="https://cdn-icons-png.flaticon.com/512/855/855601.png" alt="..." >
+                <p class="text-dark"><b>PRINAVISCHOOL</b></p>
             </a>
             <!-- Collapse -->
             <div class="collapse navbar-collapse" id="sidebarCollapse">
                 <!-- Navigation -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link class="nav-link" href="#" :to="{ path: '/' }" :class="{ 'active': $route.path === '/' }">
+                        <router-link class="nav-link text-primary" href="#" :to="{ path: '/' }" :class="{ 'active': $route.path === '/' }">
                             <i class="bi bi-house"></i> Dashboard
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" href="#" :to="{ path: '/teacher' }">
-                            <i class="bi bi-people"></i> Teacher management
+                        <router-link class="nav-link text-primary" href="#" :to="{ path: '/teacher' }" :class="{ 'active': $route.path === '/teacher' }">
+                            <i class="bi bi-person"></i> Teacher management
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" href="#" :to="{ path: '/student' }">
+                        <router-link class="nav-link text-primary" href="#" :to="{ path: '/student' }" :class="{ 'active': $route.path === '/student' }">
                             <i class="bi bi-people" ></i> Student management
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" href="#" :to="{ path: '/class' }">
+                        <router-link class="nav-link text-primary" href="#" :to="{ path: '/class' }" :class="{ 'active': $route.path === '/class' }">
                             <i class="bi bi-building"></i> Class management
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-book"></i> Library management
-                        </a>
+                        <router-link class="nav-link text-primary" href="#" :to="{ path: '/schedule' }" :class="{ 'active': $route.path === '/schedule' }">
+                            <i class="bi bi-table"></i> Schedule
+                        </router-link>
                     </li>
+
                 </ul>
                 <!-- Divider -->
                 <hr class="navbar-divider my-5 opacity-20">
@@ -48,12 +50,12 @@
                 <!-- User (md) -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link text-primary" href="#">
                             <i class="bi bi-person-square"></i> Account
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link text-primary" href="#">
                             <i class="bi bi-box-arrow-left"></i> Logout
                         </a>
                     </li>
@@ -110,11 +112,9 @@
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 
-
 header{
     background: #000;
 }
-
 .bg-surface-primary{
     background: #000;
 }
