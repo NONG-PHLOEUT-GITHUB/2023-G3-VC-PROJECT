@@ -17,9 +17,9 @@
                 <!-- Navigation -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <!-- <router-link class="nav-link" href="#" :to="{ path: '/' }" :class="{ 'active': $route.path === '/' }">
+                        <router-link class="nav-link" href="#" :to="{ path: '/' }" :class="{ 'active': $route.path === '/' }">
                             <i class="bi bi-house"></i> Dashboard
-                        </router-link> -->
+                        </router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" href="#" :to="{ path: '/teacher' }">
