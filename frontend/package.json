@@ -8,10 +8,19 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@fortawesome/fontawesome-free": "^6.4.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
+=======
+
+    "axios": "^1.4.0",
+
+    "@mdi/font": "5.9.55",
+
+
+>>>>>>> b97def07089cd5d70142388c11392bc06fcc240b
     "bootstrap": "^5.3.0",
     "@mdi/font": "5.9.55",
     "bootstrap-vue": "^2.23.1",
@@ -19,9 +28,17 @@
     "roboto-fontface": "*",
     "vee-validate": "^4.10.5",
     "vue": "^3.2.13",
+<<<<<<< HEAD
     "vue-router": "^4.0.3",
     "vuetify": "^3.0.0-beta.0",
     "webfontloader": "^1.0.0"
+=======
+    "vuetify": "^3.0.0-beta.0",
+    "webfontloader": "^1.0.0",
+
+    "vue-router": "^4.2.2"
+
+>>>>>>> b97def07089cd5d70142388c11392bc06fcc240b
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
