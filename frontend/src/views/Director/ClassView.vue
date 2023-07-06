@@ -132,7 +132,6 @@ export default {
     display: flex;
     justify-content: space-between;
 }
-
 .col a {
     text-decoration: none;
     color: orange;
