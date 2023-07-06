@@ -3,6 +3,7 @@ import HomeView from '../views/Director/DirectorDashboard.vue';
 // import StudentView from '../views/Student/StudentView.vue';
 import TeacherList from '../views/Director/TeacherList.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
+import UserInfo from '../views/UserInfo/UserDetail.vue';
 import StudentList from '../views/Director/StudentList.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
@@ -37,6 +38,11 @@ const routes = [
     path: '/createUser',
     name: '/createUser',
     component: CreateUserForm
+  },
+  {
+    path: '/user_info',
+    name: '/user_info',
+    component: UserInfo
   },
 
 ]

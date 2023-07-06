@@ -63,50 +63,65 @@
             </div>
         </div>
     </nav>
-
-
-    <div class="h-screen flex-grow-1 overflow-y-lg-auto">
-        <!-- Header -->
-        <header class="bg-surface-primary border-bottom pt-6">
-            <div class="container-fluid">
-                <div class="mb-npx">
-                    <div class="row align-items-center">
-                        <div class="col-sm-6 col-12 mb-4 mb-sm-0">
-                            <!-- Title -->
-                            <h1 class="h2 mb-0 ls-tight">SCHOOL MANAGEMENT</h1>
-                        </div>
-                        <!-- profile -->
-                        <div class="col-sm-6 col-12 text-sm-end">
-                            <div class="mx-n1">
-                                <img alt="..." src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
-                                <p class="d-none d-md-inline-block mb-0 ms-4 me-3">Logan Lerman</p>
+        <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+            <!-- Header -->
+            <header class="bg-surface-primary border-bottom pt-6">
+                <div class="container-fluid">
+                    <div class="mb-npx">
+                        <div class="row align-items-center">
+                            <div class="col-sm-6 col-12 mb-4 mb-sm-0">
+                                <!-- Title -->
+                                <h1 class="h2 mb-0 ls-tight">SCHOOL MANAGEMENT</h1>
                             </div>
+                            <!-- profile -->
+                            <div class="col-sm-6 col-12 text-sm-end">
+                                <div class="mx-n1">
+                                    <img alt="..."
+                                        src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                                        class="avatar avatar-sm rounded-circle me-2">
+                                    <p class="d-none d-md-inline-block mb-0 ms-4 me-3">Logan Lerman</p>
+                                </div>
+                            </div>
+                            <!-- profile -->
                         </div>
-                        <!-- profile -->
+                        <!-- Nav -->
+                        <ul class="nav nav-tabs mt-4 overflow-x border-0">
+                            <li class="nav-item ">
+                                <a href="#" class="nav-link active">Student List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link font-regular">Shared</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link font-regular">File requests</a>
+                            </li>
+                        </ul>
                     </div>
-                    <!-- Nav -->
-                    <ul class="nav nav-tabs mt-4 overflow-x border-0">
-                        <li class="nav-item ">
-                            <a href="#" class="nav-link active">All files</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link font-regular">Shared</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link font-regular">File requests</a>
-                        </li>
-                    </ul>
                 </div>
-            </div>
-        </header>
-        <main>
-            <slot></slot>
-        </main>
+            </header>
+            <main>
+                <slot></slot>
+            </main>
+        </div>
     </div>
-</div>
 </template>
-<style scoped>
+<script>
 
+export default {
+     data:()=> ({
+
+    }),
+    computed: {
+        isActive() {
+            return (path) => {
+                return this.$route.path === path
+            }
+        }
+    } 
+}
+
+</script>
+<style scoped>
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
 
 /* Bootstrap Icons */
@@ -118,14 +133,29 @@ header{
 .bg-surface-primary{
     background: #000;
 }
-.nav-link {
-  /* Your default link styles */
-  /* background: #000; */
 
-  color: red;
+.nav-link {
+    /* Your default link styles */
+    /* background: #000; */
+
+    color: red;
+}
+.my-link {
+  /* Define your custom styles here */
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+  background: #000;
+  /* ... */
 }
 
-/* .nav-link.active {
-  background: #000;
-} */
+.my-link.active {
+  /* Define your active styles here */
+  color: #fff;
+  background-color: #007bff;
+  /* ... */
+}
+
+
+
 </style>
