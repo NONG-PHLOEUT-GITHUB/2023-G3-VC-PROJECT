@@ -7,11 +7,29 @@
 
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
+import vuetify from './plugins/vuetify'
+import { loadFonts } from './plugins/webfontloader'
+import CreateUserForm from './views/Dashboard/CreateUserForm.vue'
+import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap-vue/dist/bootstrap-vue.css'
+loadFonts()
+const app = createApp(App)
+app.component('create-user-form' , CreateUserForm)
+
+app
+  .use(router)
+  .use(vuetify)
+  .mount('#app')
 // import router from './router'
 import {createRouter , createWebHistory } from 'vue-router'
+
 import CreateUserForm from './views/Dashboard/CreateUserForm.vue'
 import ResetPassword from './views/Login/ResetPassword.vue'
 import LoginForm from './views/Login/LoginView.vue'
+import ForgotPassword from './views/Login/ForgotPassword.vue'
+import SetupPassword from './views/Login/SetupPassword.vue'
+import AttendanceList from './views/Student/AttendanceList.vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -20,7 +38,10 @@ const router = createRouter({
     routes:[
         { path: '/createpage' , component: CreateUserForm},
         { path: '/resetpasspage' , component: ResetPassword},
-        { path: '/Login' , component: LoginForm}
+        { path: '/Login' , component: LoginForm},
+        { path: '/forgotpassword' , component: ForgotPassword},
+        { path: '/setuppassword' , component: SetupPassword},
+        { path: '/attendancelist' , component: AttendanceList}
     ]
 })
 createApp(App).use(router).mount('#app')
