@@ -22,7 +22,7 @@
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" href="#" :to="{ path: '/teacher' }">
+                        <router-link class="nav-link" href="#" :to="{ path: '/teacher' }" :class="{ 'active': $route.path === '/teacher' }">
                             <i class="bi bi-people"></i> Teacher management
                         </router-link>
                     </li>
