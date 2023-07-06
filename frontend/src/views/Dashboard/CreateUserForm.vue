@@ -97,17 +97,6 @@
     </div>
 
     <div class="col-md-4">
-      <label for="validationCustom02" class="form-label">Profile</label>
-      <input
-        type="file"
-        class="form-control-file"
-        id="fileInput"
-        @change="getFile"
-        placeholder="Choose File"
-      />
-      <div class="valid-feedback">Looks good!</div>
-    </div>
-    <div class="col-md-4">
       <label for="validationCustom02" class="form-label">Gender</label>
       <div class="gender">
         <input
@@ -130,6 +119,18 @@
         <label class="form-check-label" for="female">Female</label>
       </div>
     </div>
+    <div class="col-md-4">
+      <label for="validationCustom02" class="form-label">Profile</label>
+      <input
+        type="file"
+        class="form-control-file"
+        id="fileInput"
+        @change="getFile"
+        placeholder="Choose File"
+      />
+      <div class="valid-feedback">Looks good!</div>
+    </div>
+    
     <!-- <div class="col-md-4">
       <label for="validationCustom02" class="form-label">Role</label>
       <select class="form-select" required aria-label="select example" v-model="role">
@@ -180,9 +181,6 @@ export default {
     },
     createUser() {
        
-      const files = new FormData();
-      files.append('image', this.profile.name);
-      console.log(files);
       const newUser =
         {
           first_name: this.first_name,
@@ -196,7 +194,9 @@ export default {
           email: this.email,
           password: this.password,
         };
-    alert('success');
+        const files = new FormData();
+        files.append('image', this.profile.name);
+        // files.append('formData', JSON.stringify(newUser))
     axios.post(this.URL, newUser).then((response) => {
         console.log(response);
       });
