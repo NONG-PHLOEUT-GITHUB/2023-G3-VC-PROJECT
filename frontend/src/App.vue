@@ -1,30 +1,30 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div clas="h-screen flex-grow-1 overflow-y-lg-auto">
+    <main>
+      <dashboard-view>
+        <router-view></router-view>
+      </dashboard-view>
+    </main>
+  </div>
 </template>
 
+<script>
+import DashboardView from './components/Navigation/DashboardView.vue';
+
+export default {
+  components: {
+    DashboardView,
+  },
+
+  data: () => ({
+    //
+  }),
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+@import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
+/* Bootstrap Icons */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 </style>
