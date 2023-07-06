@@ -7,15 +7,22 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function login(Request $request){
-        $credentials  = $request->validate([
-            'email' => ['required'],
-            'password' => ['required'],
-        ]);
-        if(Auth::attempt($credentials)){
-            return response()->json(['status' => true, 'message' => 'Login successful']);
-        }
+    public function login(Request $request)
+    {
 
-        return response()->json(['status' => false, 'message' => 'failed']);
+        $credenTail = $request->only(
+            'email',
+            'password'
+        );
+        // dd(Auth::attempt($credenTail));
+
+        if (Auth::attempt($credenTail)) {
+
+            $user = Auth::user(); // get current user
+        
+            $token = $user->createToken('API Token')->plainTextToken;
+            return response()->json(['login success' => true, 'data' => $user, 'token' => $token], 201);
+        }
+        return response()->json(['message' => 'Invalid credentail'], 401);
     }
 }
