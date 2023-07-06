@@ -1,9 +1,6 @@
 <template>
   <div >
     <table id="my-file">
-        <div class="div">
-            
-        </div>
       <thead>
         <tr>
           <th>User_id</th>
@@ -16,6 +13,7 @@
           <th>Address</th>
           <th>Profile</th>
           <th>Email</th>
+          <th v-if="!isDetail">Detail Student</th>
         </tr>
       </thead>
       <tbody>
@@ -30,9 +28,9 @@
           <td>{{ student.address}}</td>
           <td>{{ student.profile}}</td>
           <td>{{ student.email}}</td>
+          <td ><button v-if="!isDetail" class="detail">Detail</button></td>
         </tr>
       </tbody>
-      
     </table>
     <button class="button" v-if="!isDownloading" @click="downloadPDF()" >
         <img class="picture" src="../../assets/downloads.png">Download PDF
@@ -53,12 +51,15 @@ export default {
     data(){
         return{
             isDownloading: false,
+            isDetail:false,
             pdfUrl: null,
             students: [],
         }
     },
+    // copy form website "https://stackoverflow.com/questions/47668546/generate-pdf-with-jspdf-and-vue-js"and convert it with ai
     methods: {
         downloadPDF() {
+          this.isDetail = true
         axios({
         url: 'http://127.0.0.1:8000/api/users',
         method: 'GET',
@@ -76,6 +77,7 @@ export default {
 
             pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
             pdf.save('download.pdf');
+            this.isDetail = false
         });
         })
         .catch(error => {
@@ -111,7 +113,7 @@ td{
 } 
 .button{
     width: 14%;
-    margin-left: 76%;
+    margin-left: 81%;
     margin-top: 10px;
     background-color:rgb(171, 179, 181);
     padding: 7px;
@@ -125,5 +127,10 @@ tr{
     width: 10%;
     margin-right: 8px;
 }
-
+.detail{
+  background: rgb(158, 209, 226);
+  border: 1px solid rgb(158, 209, 226);
+  padding: 8px;
+  border-radius: 10px;
+}
 </style>
