@@ -57,24 +57,26 @@ export default {
                     password: this.password,
                 })
                     .then(response => {
+                        console.log('API response:', response.data.token);
+                        sessionStorage.setItem('email', this.email);
                         localStorage.setItem('access_token', response.data.token);
                         this.$router.push('/student');
-                        // alert('login successful');
+                        alert('login successful');
                     })
                     .catch(error => {
                         if (error.response.status === 401) {
-                            if(this.emailRules !== ''  && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '')  
+                            if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '')
                             // if(this.email == ''){
                             //     this.emailRules = ['email or password'];
                             // }else 
                             {
                                 this.emailRules = ['Email or password is icorrect'];
-                                this.passwordRules = ['Email or password is icorrect']; 
+                                this.passwordRules = ['Email or password is icorrect'];
                             }
                             // else if(!this.emailRules){
                             //         this.emailRules = ['email or password'];
                             // }
-                       
+
                         } else {
                             console.log(error);
                         }
