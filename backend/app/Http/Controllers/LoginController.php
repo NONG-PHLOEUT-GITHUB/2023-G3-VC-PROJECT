@@ -19,8 +19,9 @@ class LoginController extends Controller
         if (Auth::attempt($credenTail)) {
 
             $user = Auth::user(); // get current user
+        
             $token = $user->createToken('API Token')->plainTextToken;
-            return response()->json(['login success' => true, 'data' => $user, 'token', $token], 201);
+            return response()->json(['login success' => true, 'data' => $user, 'token' => $token], 201);
         }
         return response()->json(['message' => 'Invalid credentail'], 401);
     }
