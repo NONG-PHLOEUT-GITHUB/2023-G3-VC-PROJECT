@@ -1,6 +1,5 @@
 <template>
-
-  <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+  <div clas="h-screen flex-grow-1 overflow-y-lg-auto">
     <main>
       <dashboard-view>
         <router-view></router-view>
@@ -17,7 +16,9 @@ export default {
     DashboardView,
   },
 
-
+  data: () => ({
+    //
+  }),
 }
 </script>
 
