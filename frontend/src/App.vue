@@ -9,17 +9,12 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import DashboardView from './components/Navigation/DashboardView.vue';
 
 export default {
   components: {
     DashboardView,
   },
-=======
-
-export default {
->>>>>>> b97def07089cd5d70142388c11392bc06fcc240b
 
   data: () => ({
     //
