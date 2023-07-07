@@ -42,7 +42,7 @@ Route::post('/login',[LoginController::class,'login'])
 
 Route::get('/users',[UserController::class,'index']);
 Route::post('/users',[UserController::class,'store']);
-Route::put('/users',[UserController::class,'update']);
+Route::put('/users/{id}',[UserController::class,'update']);
 
 
 Route::resource('users' , UserController::class);
