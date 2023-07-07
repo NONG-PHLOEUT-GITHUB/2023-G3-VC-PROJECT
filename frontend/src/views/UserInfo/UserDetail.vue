@@ -19,7 +19,7 @@
                         <div class="card-body text-center">
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                                 alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                            <h5 class="my-3">John Smith</h5>
+                            <h5 class="my-3" v-for="user in users" :key="user">{{user.first_name}} {{user.first_name}}</h5>
                             <p class="text-muted mb-1">Full Stack Developer</p>
                             <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
                             <div class="d-flex justify-content-center mb-2">
@@ -57,40 +57,49 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="row">
+                        <div class="card-body" v-for="user in users" :key="user" >
+                            <div class="row" >
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Full Name</p>
+                                    <p class="mb-0">Full Name </p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">Johnatan Smith</p>
+                                    <p class="text-muted mb-0">{{user.first_name}} {{user.first_name}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row" >
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Gender</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{user.gender}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                             <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Age</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{user.age}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                             <div class="row" >
+                                <div class="col-sm-3">
+                                    <p class="mb-0">DateOfBirth</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{user.date_of_birth}}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Email</p>
+                                    <p class="mb-0">PhoneNumber</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">example@example.com</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Phone</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">(097) 234-5678</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Mobile</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">(098) 765-4321</p>
+                                    <p class="text-muted mb-0">{{user.phone_number}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -99,9 +108,21 @@
                                     <p class="mb-0">Address</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                    <p class="text-muted mb-0">{{user.address}}</p>
                                 </div>
                             </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Email</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{user.email}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <hr>
+                            
                         </div>
                     </div>
                     <div class="row">
@@ -179,3 +200,48 @@
         </div>
     </section>
 </template>
+<script>
+
+import axios from 'axios';
+
+export default ({
+    data(){
+        
+        return{
+            url:"http://127.0.0.1:8000/api/users",
+            users:[],
+            accountError: '',
+            isCustomer: false,
+            isAuthenticated : false
+        }
+    },
+    methods:{
+       fetchData() {
+        axios.get(this.url)
+            .then(response => {
+            // Process the response data
+            this.users = response.data.data;
+            const id = this.$route.params.id;
+            axios.get(`${this.url}/${id}`)
+                .then(response => {
+                    // Process the response data
+                    const user = response.data.data;
+                    console.log(user);
+                    this.user = user;
+                })
+                .catch(error => {
+                    // Handle the error
+                    console.log(error);
+                });
+            })
+            .catch(error => {
+            // Handle the error
+            console.log(error);
+            });
+        },
+    },
+    mounted() {
+    this.fetchData();
+    }
+})
+</script>
