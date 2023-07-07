@@ -1,83 +1,144 @@
 <template>
-    <div class="student-list">
-        <h1 class="text-primary">All students</h1>
-        <select class="form-select mb-3 mt-4" aria-label="Default select example" style="width: 30%;">
-            <option selected disabled>Select grade</option>
-            <option value="10">Grade 10</option>
-            <option value="11">Grade 11</option>
-            <option value="12">Grade 12</option>
-        </select>
-        <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
-            <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%;">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search student" aria-label="Search" style="width: 80%;">
-                <button class="btn btn-outline-warning my-2 my-sm-0 " type="button">Search</button>
-            </form>
-            
-            <button type="button" class="btn btn-primary align-self-end" style="width: 20%;"><router-link :to="{ path: '/createUser' }">Add new student</router-link></button>
+    <div class="card shadow border-0 mb-7">
+        <div class="card-header">
+            <h3 class="mb-0 text-primary">STUDENTS LIST</h3>
         </div>
-        <h2 class="text-primary">Grade 10</h2>
-        <div class="student-ten">
-            <div class="row" v-for="(student, index) of studentsTen" :key="index" style="width: 100%;">
-                <hr>
-                <div class="name" style="width: 75%;">
-                    <p>{{ index + 1 }}. <b> {{student.name}}</b></p>
-                </div>
-                <div class="group-btn d-flex align-items-center justify-content-between" style="width: 25%;">
-                    <button type="button" class="btn btn-warning align-self-start p-0 text-white" style="width: 45%;">Edit</button>
-                    <button type="button" class="btn btn-danger align-self-start p-0" style="width: 50%;">Delete</button>
-                </div>
+        <div class="card-header">
+            <select class="form-select mb-3" aria-label="Default select example" style="width: 30%;">
+                <option selected disabled>Select grade</option>
+                <option value="10">Grade 10</option>
+                <option value="11">Grade 11</option>
+                <option value="12">Grade 12</option>
+            </select>
+            <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
+                <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%;">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search student" aria-label="Search" style="width: 78%;">
+                    <button class="btn btn-outline-warning my-2 my-sm-0 " type="button"><i class="bi bi-search"></i> Search</button>
+                </form>
+                <router-link :to="{ path: '/createUser' }" class="text-white" style="width: 20%;"><button type="button" class="btn btn-primary align-self-end" style="width: 100%;"><i class="bi bi-person-plus-fill"></i> Add new student</button></router-link>
             </div>
         </div>
-        <h2 class="text-primary">Grade 11</h2>
-        <div class="student-ten">
-            <div class="row" v-for="(student, index) of studentsTen" :key="index" style="width: 100%;">
-                <hr>
-                <div class="name" style="width: 75%;">
-                    <p>{{ index + 1 }}. <b> {{student.name}}</b></p>
-                </div>
-                <div class="group-btn d-flex align-items-center justify-content-between" style="width: 25%;">
-                    <button type="button" class="btn btn-warning align-self-start p-0 text-white" style="width: 45%;">Edit</button>
-                    <button type="button" class="btn btn-danger align-self-start p-0" style="width: 50%;">Delete</button>
-                </div>
-            </div>
+        <div class="card-header">
+            <h5 class="mb-0 p-0 text-primary">STUDENT LIST CLASS 12A</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-nowrap">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">age</th>
+                        <th scope="col">class</th>
+                        <th scope="col">phone number</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="student of studentsList" :key="student" class="border-2-dark">
+                        <td>
+                            <img alt="..."
+                                src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                                class="avatar avatar-sm rounded-circle me-2">
+                            <a class="text-heading font-semibold" href="#">
+                                {{student.name}}
+                            </a>
+                        </td>
+                        <td>
+                            {{student.gender}}
+                        </td>
+                        <td>
+                            {{student.age}}
+                        </td>
+                        <td>
+                            {{student.class}}
+                        </td>
+                        <td>
+                            {{student.phone}}
+                        </td>
+                        <td class="text-end d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover">
+                                <i class="bi bi-person-circle"></i> View Profile
+                            </button>
+                            <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-header">
+            <h5 class="mb-0 p-0 text-primary">STUDENT LIST CLASS 12A</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-nowrap">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">age</th>
+                        <th scope="col">class</th>
+                        <th scope="col">phone number</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="student of studentsList" :key="student" class="border-2-dark">
+                        <td>
+                            <img alt="..."
+                                src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                                class="avatar avatar-sm rounded-circle me-2">
+                            <a class="text-heading font-semibold" href="#">
+                                {{student.name}}
+                            </a>
+                        </td>
+                        <td>
+                            {{student.gender}}
+                        </td>
+                        <td>
+                            {{student.age}}
+                        </td>
+                        <td>
+                            {{student.class}}
+                        </td>
+                        <td>
+                            {{student.phone}}
+                        </td>
+                        <td class="text-end d-flex justify-content-end">
+                            <button type="button" class="btn btn-sm btn-neutral  text-dark text-primary-hover">
+                                <i class="bi bi-person-circle"></i> View Profile
+                            </button>
+                            <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
 </template>
 <script>
 export default {
     data() {
         return {
-            studentsTen: [
-                {name: "Rien Rien"},
-                {name: "Nong Nong"},
-                {name: "Linna Linna"},
-                {name: "Navy Navy"},
-                {name: "Zeiipok Zeiipok"},
+            studentsList: [
+                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
             ]
         }
     }
 }
 </script>
-<style scoped>
-.student-list {
-    margin: 30px;
-}
-.student-ten {
-    padding: 0 30px 0 30px;
-    margin: 20px 0 20px 0;
-    border-radius: 10px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;  
-}
-.group-btn {
-    display: flex;
-    align-items: center;
-}
-.row:hover {
-    background-color: rgb(199, 232, 240);
-}
-.row {
-    display: flex;
-    justify-content: space-between;
-}
-</style>
