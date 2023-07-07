@@ -47,7 +47,7 @@ class UserController extends Controller
     public function update(StoreUserRequest $request, string $id)
     {
         $user = User::store($request,$id);
-        return $user;
+        return response()->json(['success' => true, 'message' => 'user update successfully', 'user' => $user], 200);
     }
 
     /**
