@@ -12,17 +12,18 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Brand -->
-                <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" href="#">
+                <a class="navbar-brand d-flex align-items-center justify-content-center py-lg-2 mb-lg-5 px-lg-6 me-0"
+                    href="#">
                     <img src="https://static.vecteezy.com/system/resources/previews/004/641/880/original/illustration-of-high-school-building-school-building-free-vector.jpg"
-                        alt="...">
+                        alt="..." style="height: 80px; width: 100px;">
                 </a>
                 <!-- Collapse -->
                 <div class="collapse navbar-collapse" id="sidebarCollapse">
                     <!-- Navigation -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <router-link class="nav-link" href="#" :to="{ path: '/' }"
-                                :class="{ 'active': $route.path === '/' }">
+                            <router-link class="nav-link" href="#" :to="{ path: '/home' }"
+                                :class="{ 'active': $route.path === '/home' }">
                                 <i class="bi bi-house"></i> Dashboard
                             </router-link>
                         </li>
@@ -54,11 +55,12 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <!-- <router-link class="nav-link" href="#" :to="{ path: '/user_info' }"> -->
-                            <router-link class="nav-link" href="#" :to="{ path: '/user_info' }" :class="{ 'active': isActive('/user_info') }">
+                            <router-link class="nav-link" href="#" :to="{ path: '/user_info' }"
+                                :class="{ 'active': isActive('/user_info') }">
                                 <i class="bi bi-person-square"></i> Account
                             </router-link>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" @click="logout">
                             <a class="nav-link" href="#">
                                 <i class="bi bi-box-arrow-left"></i> Logout
                             </a>
@@ -112,9 +114,10 @@
     </div>
 </template>
 <script>
-
+import http from '../../htpp.common';
 export default {
-     data:()=> ({
+    emits:['isLogin'],
+    data: () => ({
 
     }),
     computed: {
@@ -123,7 +126,23 @@ export default {
                 return this.$route.path === path
             }
         }
-    } 
+    },
+
+    methods: {
+        logout() {
+            http.post('/api/logout')
+                .then(() => {
+                    sessionStorage.removeItem('email');
+                    this.$router.push("/");
+                    console.log('logout sess');
+                    this.$emit('isLogin', false,this.email);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
+    }
 }
 
 </script>
@@ -148,22 +167,20 @@ header {
 
     color: red;
 }
+
 .my-link {
-  /* Define your custom styles here */
-  color: #000;
-  font-weight: bold;
-  text-decoration: none;
-  background: #000;
-  /* ... */
+    /* Define your custom styles here */
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+    background: #000;
+    /* ... */
 }
 
 .my-link.active {
-  /* Define your active styles here */
-  color: #fff;
-  background-color: #007bff;
-  /* ... */
+    /* Define your active styles here */
+    color: #fff;
+    background-color: #007bff;
+    /* ... */
 }
-
-
-
 </style>
