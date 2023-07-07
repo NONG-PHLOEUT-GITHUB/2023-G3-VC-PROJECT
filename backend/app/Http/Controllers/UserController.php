@@ -23,8 +23,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = User::store($request);
-      
-        return response()->json(['success'=>true, 'data'=>$user], 200);
+        return $user;
     }
 
     /**
@@ -39,7 +38,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return response()->json(['success' => false, 'message' => 'User not found'], 404);
+            return response()->json(['message' => 'The record with ID ' . $id . ' was not found.'], 404);
         }
     
         return response()->json(['success' => true, 'data' => $user], 200);
@@ -50,15 +49,8 @@ class UserController extends Controller
      */
     public function update(StoreUserRequest $request, string $id)
     {
-        $user = User::find($id);
-
-        if (!$user) {
-            return response()->json(['success' => false, 'message' => 'User not found'], 404);
-        }
-    
-        $user = User::store($request, $id);
-    
-        return response()->json(['success' => true, 'data' => $user], 200);
+        $user = User::store($request,$id);
+        return $user;
     }
 
     /**
@@ -69,7 +61,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return response()->json(['success' => false, 'message' => 'User not found'], 404);
+            return response()->json(['message' => 'The record with ID ' . $id . ' was not found.'], 404);
         }
 
         $user->delete();

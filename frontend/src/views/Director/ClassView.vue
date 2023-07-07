@@ -1,143 +1,78 @@
-
 <template>
-    <div class="class-container">
-        <div class="classes">
-            <div class="card">
-                <img class="card-img-top" src="../../assets/grade10.png" alt="Card image cap" style="width: 100%" />
-                <div class="card-body">
-                    <h2 class="card-title p-0 m-0 text-primary">Grade 10</h2>
-                    <span class="card-text">14 classes</span>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="../../assets/grade11.png" alt="Card image cap" style="width: 100%" />
-                <div class="card-body">
-                    <h2 class="card-title p-0 m-0 text-primary">Grade 11</h2>
-                    <span class="card-text">12 classes</span>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="../../assets/grade12.png" alt="Card image cap" style="width: 100%" />
-                <div class="card-body">
-                    <h2 class="card-title p-0 m-0 text-primary">Grade 12</h2>
-                    <span class="card-text">17 classes</span>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="../../assets/classes.png" alt="Card image cap" style="width: 100%" />
-                <div class="card-body">
-                    <h2 class="card-title p-0 m-0 text-primary">All Classes</h2>
-                    <span class="card-text">43 classes</span>
-                </div>
-            </div>
-        </div>
-        <h1 class="text-primary">Grade 10</h1>
-        <div class="grade-ten">
-            <div class="row" v-for="(grade, index) of gradeTen" :key="index">
-                <hr>
-                <div class="col">
-                    <p>{{ index + 1 }}. <b> {{ grade.name }}</b></p>
-                </div>
-                <div class="col d-flex justify-content-between">
-                    <a href="#"><b>Score List</b></a>
-                    <a href="#"><b>Attendance List</b></a>
-                </div>
-            </div>
-        </div>
-        <h1 class="text-primary">Grade 11</h1>
-        <div class="grade-ten">
-            <div class="row" v-for="(grade, index) of gradeEleven" :key="index">
-                <hr>
-                <div class="col">
-                    <p>{{ index + 1 }}. <b> {{ grade.name }}</b></p>
-                </div>
-                <div class="col d-flex justify-content-between">
-                    <a href="#"><b>Score List</b></a>
-                    <a href="#"><b>Attendance List</b></a>
-                </div>
-            </div>
-        </div>
-        <h1 class="text-primary">Grade 12</h1>
-        <div class="grade-ten">
-            <div class="row" v-for="(grade, index) of gradeTwelve" :key="index">
-                <hr>
-                <div class="col">
-                    <p>{{ index + 1 }}. <b> {{ grade.name }}</b></p>
-                </div>
-                <div class="col d-flex justify-content-between">
-                    <a href="#"><b>Score List</b></a>
-                    <a href="#"><b>Attendance List</b></a>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="card shadow border-0 mb-7">
+      <div class="card-header">
+          <h3 class="mb-0 text-primary">CLASSES LIST</h3>
+      </div>
+      <div class="card-header">
+          <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
+              <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%;">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search class" aria-label="Search" style="width: 78%;">
+                  <button class="btn btn-outline-warning my-2 my-sm-0 " type="button"><i class="bi bi-search"></i> Search</button>
+              </form>
+              <router-link :to="{ path: '/createUser' }" class="text-white" style="width: 20%;"><button type="button" class="btn btn-primary align-self-end" style="width: 100%;"><i class="bi bi-building"></i> Add new class</button></router-link>
+          </div>
+      </div>
+      <div class="card-header">
+          <h5 class="mb-0 p-0 text-primary">GRADE 10</h5>
+      </div>
+      <div class="table-responsive">
+          <table class="table table-hover table-nowrap">
+              <thead class="thead-light">
+                  <tr>
+                      <th scope="col">Class</th>
+                      <th scope="col">Total students</th>
+                      <th scope="col">Teacher</th>
+                      <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr v-for="student of studentsList" :key="student" class="border-2-dark">
+                      <td>
+                          <img alt="..."
+                              src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                              class="avatar avatar-sm rounded-circle me-2">
+                          <a class="text-heading font-semibold" href="#">
+                              {{student.name}}
+                          </a>
+                      </td>
+                      <td>
+                          {{student.teacher}}
+                      </td>
+                      <td>
+                          {{student.students}}
+                      </td>
+                      <td class="text-end d-flex justify-content-end">
+                          <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover">
+                              View Score List
+                          </button>
+                          <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2">
+                              View Attendance List
+                          </button>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
 </template>
 <script>
 export default {
-    data() {
-        return {
-            gradeTen: [
-                { name: "Grade 10A" },
-                { name: "Grade 10B" },
-                { name: "Grade 10C" },
-                { name: "Grade 10D" },
-                { name: "Grade 10E" },
-            ],
-            gradeEleven: [
-                { name: "Grade 11A" },
-                { name: "Grade 11B" },
-                { name: "Grade 11C" },
-                { name: "Grade 11D" },
-                { name: "Grade 11E" },
-            ],
-            gradeTwelve: [
-                { name: "Grade 12A" },
-                { name: "Grade 12B" },
-                { name: "Grade 12C" },
-                { name: "Grade 12D" },
-                { name: "Grade 12E" },
-            ],
-        }
-    }
+  data() {
+      return {
+          studentsList: [
+              {name: "Class 10A", students: 53, teacher: "Sreypok Doem"},
+              {name: "Class 10B", students: 53, teacher: "Sreypok Doem"},
+              {name: "Class 10C", students: 53, teacher: "Sreypok Doem"},
+              {name: "Class 10D", students: 53, teacher: "Sreypok Doem"},
+              {name: "Class 10E", students: 53, teacher: "Sreypok Doem"},
+              {name: "Class 10C", students: 53, teacher: "Sreypok Doem"},
+              {name: "Class 10D", students: 53, teacher: "Sreypok Doem"},
+              {name: "Class 10E", students: 53, teacher: "Sreypok Doem"},
+              {name: "Class 10C", students: 53, teacher: "Sreypok Doem"},
+              {name: "Class 10D", students: 53, teacher: "Sreypok Doem"},
+              {name: "Class 10E", students: 53, teacher: "Sreypok Doem"},
+          ]
+      }
+  }
 }
 </script>
-<style scoped>
-.class-container {
-    margin: 30px;
-}
-
-.classes {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.card {
-    width: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-}
-
-.grade-ten {
-
-    padding: 0 30px 0 30px;
-    margin: 20px 0 20px 0;
-    border-radius: 10px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-}
-
-.row {
-    display: flex;
-    justify-content: space-between;
-}
-.col a {
-    text-decoration: none;
-    color: orange;
-}
-
-.col a:hover {
-    color: rgb(79, 79, 250);
-}
-</style>
