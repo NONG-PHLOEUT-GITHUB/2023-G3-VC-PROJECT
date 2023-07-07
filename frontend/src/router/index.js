@@ -7,7 +7,7 @@ import UserInfo from '../views/UserInfo/UserDetail.vue';
 import StudentList from '../views/Director/StudentList.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
-
+import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 const routes = [
   {
     path: '/',
@@ -43,6 +43,11 @@ const routes = [
     path: '/user_info',
     name: '/user_info',
     component: UserInfo
+  },
+  {
+    path: '/student_list',
+    name: 'student_list',
+    component: SaveListStudent
   },
 
 ]

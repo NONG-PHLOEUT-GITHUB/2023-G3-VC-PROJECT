@@ -90,7 +90,9 @@
                                 <a href="#" class="nav-link active">Student List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link font-regular">Shared</a>
+                            <router-link class="nav-link text-primary" href="#" :to="{ path: '/student_list' }" :class="{ 'active': $route.path === '/student_list' }">
+                                <i class="bi bi-person"></i> Teacher management
+                            </router-link>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link font-regular">File requests</a>
