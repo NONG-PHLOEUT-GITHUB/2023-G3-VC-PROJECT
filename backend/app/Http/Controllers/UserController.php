@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -73,4 +74,14 @@ class UserController extends Controller
 
         return response()->json(['success' => true, 'message' => 'User deleted successfully'], 200);
     }
+    
+    public function getTotalByRole()
+{
+    $totalByRole = [
+        'director' => Role::where('role', 1)->count(),
+        'teacher' => Role::where('role', 2)->count(),
+        'student' => Role::where('role', 3)->count()
+    ];
+    return $totalByRole;
+}
 }

@@ -9,14 +9,20 @@ class Role extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'admin',
-        'director',
-        'teacher',
-        'student',
+        'role',
         'user_id',
     ];
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasMany(User::class, 'id');
     } 
+    public static function store($request, $id = null)
+    {
+        $role = $request->only(
+            'role',
+            'user_id',
+        );
+        $role = self::updateOrCreate(['id' => $id], $role);
+        return $role;
+    }
 }

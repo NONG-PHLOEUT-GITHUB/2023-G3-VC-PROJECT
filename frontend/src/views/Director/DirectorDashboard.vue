@@ -9,7 +9,7 @@
                             <div class="row">
                                 <div class="col">
                                     <span class="h6 font-semibold text-muted text-sm d-block mb-2">Students</span>
-                                    <span class="h3 font-bold mb-0">2600</span>
+                                    <span class="h3 font-bold mb-0">{{ studentCount }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
@@ -26,7 +26,7 @@
                             <div class="row">
                                 <div class="col">
                                     <span class="h6 font-semibold text-muted text-sm d-block mb-2">Teachers</span>
-                                    <span class="h3 font-bold mb-0">215</span>
+                                    <span class="h3 font-bold mb-0">{{ teacherCount }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
@@ -134,6 +134,43 @@
     </main>
 </template>
 
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      roles: {}
+    };
+  },
+  computed: {
+    directorCount() {
+      return this.roles.director || 0;
+    },
+    teacherCount() {
+      return this.roles.teacher || 0;
+    },
+    studentCount() {
+      return this.roles.student || 0;
+    }
+  },
+  created() {
+    this.fetchData();
+    setInterval(this.fetchData); 
+  },
+  methods: {
+    fetchData() {
+      axios.get('http://127.0.0.1:8000/api/getTotal')
+        .then(response => {
+          this.roles = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
+};
+</script>
 <style>
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
 
