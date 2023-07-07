@@ -14,7 +14,6 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-
         return response()->json(['success'=>true, 'data'=>$user], 200);
     }
 
@@ -30,6 +29,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
+    public function getEmails($id)
+    {
+        return User::select('email')->where('id','!=', $id)->where('role', '!=', 'admin')->get();
+    }
     public function show(string $id)
     {
         $user = User::find($id);
@@ -47,7 +50,7 @@ class UserController extends Controller
     public function update(StoreUserRequest $request, string $id)
     {
         $user = User::store($request,$id);
-        return $user;
+        return response()->json(['success' => true, 'message' => 'user update successfully', 'user' => $user], 200);
     }
 
     /**

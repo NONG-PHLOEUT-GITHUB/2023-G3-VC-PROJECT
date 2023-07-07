@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,25 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', 'LoginController@login');
-
-
-
-Route::post('/login', 'LoginController@login');
-
-
-// ***Route User***
-
-
-
-Route::get('/users', [UserController::class, 'index']);
-Route::post('/users', [UserController::class, 'store']);
-
-Route::get('/users/{id}', [UserController::class,"show"]);
-
-Route::post('/login',[LoginController::class,'login'])
-                ->middleware('guest')
-                ->name('login');
-
-
-Route::resource('users' , UserController::class);
+Route::get('/users', [StudentController::class, 'index']);
+Route::post('/users', [StudentController::class, 'store']);

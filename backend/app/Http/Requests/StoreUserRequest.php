@@ -37,7 +37,7 @@ class StoreUserRequest extends FormRequest
             'phone_number' => 'required|string|max:20',
             'address' => 'required|string|max:255',
             // 'profile' => 'nullable|image|max:2048',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
             'password' => 'required|string|min:8|max:255',
         ];
     }
