@@ -63,8 +63,11 @@
                 <label for="formFileDisabled" class="form-label">Profile</label>
                 <input class="form-control" type="file" id="formFileDisabled" @change="getFile" >
               </div>
-              <div class="col-12 d-flex justify-content-end">
-                  <button type="submit" class="btn btn-primary text-white">Add User</button>
+              <div class="col-12 d-flex justify-content-end" >
+                  <button type="submit" class="btn btn-primary text-white"  >Add User</button>
+                    <!-- <ul v-for="user in listUser" :key="user" >
+                      <li>{{ user.gender}}</li>
+                    </ul> -->
               </div>
             </form>
         </div>
@@ -74,6 +77,9 @@
 <script>
 import axios from "axios";
 export default {
+  provide:{
+    listUser : 'listUser',
+  },
   data() {
     return {
       first_name: "",
@@ -87,6 +93,7 @@ export default {
       profile: null,
       gender: "",
       URL: "http://127.0.0.1:8000/api/users",
+      listUser:[]
     };
   },
   methods: {
@@ -108,15 +115,19 @@ export default {
           email: this.email,
           password: this.password,
         };
+        // this.$emit('userdata' , newUser);
         const files = new FormData();
         files.append('image', this.profile.name);
         axios.post(this.URL, newUser).then((response) => {
-          console.log(response);
+          this.listUser.push(response.data);
+          console.log(this.listUser);
         });
+          
       }
-    }
+    },
   }
-}
+  }
+
 </script>
 
 <style scoped>

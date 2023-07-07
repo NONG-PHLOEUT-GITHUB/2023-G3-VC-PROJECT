@@ -18,6 +18,7 @@
                 <router-link :to="{ path: '/createUser' }" class="text-white" style="width: 20%;"><button type="button" class="btn btn-primary align-self-end" style="width: 100%;"><i class="bi bi-person-plus-fill"></i> Add new student</button></router-link>
             </div>
         </div>
+        <!-- get data form database to display -->
         <div class="card-header">
             <h5 class="mb-0 p-0 text-primary">STUDENT LIST CLASS 12A</h5>
         </div>
@@ -27,85 +28,34 @@
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Gender</th>
-                        <th scope="col">age</th>
-                        <th scope="col">class</th>
-                        <th scope="col">phone number</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone Number</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="student of studentsList" :key="student" class="border-2-dark">
+                    <!-- <tr v-for="student of studentsList" :key="student" class="border-2-dark"> -->
+                    <tr v-for="user of listUser" :key="user" class="border-2-dark">
                         <td>
                             <img alt="..."
-                                src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                                src="{{ user.profile }}"
                                 class="avatar avatar-sm rounded-circle me-2">
                             <a class="text-heading font-semibold" href="#">
-                                {{student.name}}
+                                {{user.first_name}} {{user.last_name}} 
                             </a>
                         </td>
                         <td>
-                            {{student.gender}}
+                            {{user.gender}}
                         </td>
                         <td>
-                            {{student.age}}
+                            {{user.age}}
                         </td>
                         <td>
-                            {{student.class}}
+                            {{user.email}}
                         </td>
                         <td>
-                            {{student.phone}}
-                        </td>
-                        <td class="text-end d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover">
-                                <i class="bi bi-person-circle"></i> View Profile
-                            </button>
-                            <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </button>
-                            <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2">
-                                <i class="bi bi-trash-fill"></i> Delete
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="card-header">
-            <h5 class="mb-0 p-0 text-primary">STUDENT LIST CLASS 12A</h5>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-hover table-nowrap">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Gender</th>
-                        <th scope="col">age</th>
-                        <th scope="col">class</th>
-                        <th scope="col">phone number</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="student of studentsList" :key="student" class="border-2-dark">
-                        <td>
-                            <img alt="..."
-                                src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-                                class="avatar avatar-sm rounded-circle me-2">
-                            <a class="text-heading font-semibold" href="#">
-                                {{student.name}}
-                            </a>
-                        </td>
-                        <td>
-                            {{student.gender}}
-                        </td>
-                        <td>
-                            {{student.age}}
-                        </td>
-                        <td>
-                            {{student.class}}
-                        </td>
-                        <td>
-                            {{student.phone}}
+                            {{user.phone_number}}
                         </td>
                         <td class="text-end d-flex justify-content-end">
                             <button type="button" class="btn btn-sm btn-neutral  text-dark text-primary-hover">
@@ -125,20 +75,37 @@
     </div>
 </template>
 <script>
+import axios from "axios";
 export default {
     data() {
+        
         return {
-            studentsList: [
-                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-                {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-            ]
+            // studentsList: [
+            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
+            // ]
+            URL: "http://127.0.0.1:8000/api/users",
+            listUser:[]
         }
+    },
+        methods:{
+            //===================get data from Database =================
+        getURL() {
+        axios.get(this.URL).then((response) => {
+            this.listUser = response.data.data;
+            console.log(this.listUser);
+        });
+        },
+    },
+        mounted() {
+        return this.getURL();
+        },
+        
     }
-}
 </script>

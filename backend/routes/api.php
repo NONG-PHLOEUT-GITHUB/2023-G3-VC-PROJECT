@@ -44,9 +44,5 @@ Route::post('/logout',[LogoutController::class,'logout'])
                 ->middleware('guest')
                 ->name('logout');
 
-Route::get('/users',[UserController::class,'index']);
-Route::post('/users',[UserController::class,'store']);
-Route::put('/users',[UserController::class,'update']);
-
 
 Route::resource('users' , UserController::class);

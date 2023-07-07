@@ -12,6 +12,7 @@ import DashboardView from '../components/Navigation/DashboardView.vue';
 // import FormFogetPassword from '../views/Authentication/ForgotPassword.vue';
 import FormFogetPassword from '../components/HelloWorld.vue';
 
+import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 const routes = [
   {
     path: '/login',
@@ -65,6 +66,11 @@ const routes = [
     path: '/forgot_password',
     name: '/forgot_password',
     component: FormFogetPassword
+  },
+  {
+    path: '/student_list',
+    name: 'student_list',
+    component: SaveListStudent
   },
 
 ]

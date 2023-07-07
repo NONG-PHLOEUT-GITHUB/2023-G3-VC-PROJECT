@@ -49,22 +49,7 @@ class UserController extends Controller
      */
     public function update(StoreUserRequest $request, string $id)
     {
-        $user = User::find($id);
-        if (empty($user)){
-            return response()->json(['message' => "user id: " . $id . " doesn't exsit"], 404);
-        }
-        $user->update([
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'gender' => $request->input('gender'),
-            'age' => $request->input('age'),
-            'date_of_birth' => $request->input('date_of_birth'),
-            'phone_number' => $request->input('phone_number'),
-            'address' => $request->input('address'),
-            // 'profile' => $request->input('profile'),
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-        ]);
+        $user = User::store($request,$id);
         return response()->json(['success' => true, 'message' => 'user update successfully', 'user' => $user], 200);
     }
 
