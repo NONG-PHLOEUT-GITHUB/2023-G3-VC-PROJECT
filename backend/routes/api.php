@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,9 @@ Route::get('/users/{id}', [UserController::class,"show"]);
 Route::post('/login',[LoginController::class,'login'])
                 ->middleware('guest')
                 ->name('login');
+Route::post('/logout',[LogoutController::class,'logout'])
+                ->middleware('guest')
+                ->name('logout');
 
 
 Route::resource('users' , UserController::class);
