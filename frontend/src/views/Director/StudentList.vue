@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                     <!-- <tr v-for="student of studentsList" :key="student" class="border-2-dark"> -->
-                    <tr v-for="user of listUser" :key="user" class="border-2-dark">
+                    <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
                         <td>
                             <img alt="..."
                                 src="{{ user.profile }}"
@@ -61,10 +61,10 @@
                             <button type="button" class="btn btn-sm btn-neutral  text-dark text-primary-hover">
                                 <i class="bi bi-person-circle"></i> View Profile
                             </button>
-                            <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
+                            <router-link  :to="{ path: '/createUser' }"><button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2" @click="editUser(id)">
                                 <i class="bi bi-pencil-square"></i> Edit
-                            </button>
-                            <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2">
+                            </button></router-link>
+                            <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2" @click="deleteUser(user.id)">
                                 <i class="bi bi-trash-fill"></i> Delete
                             </button>
                         </td>
@@ -76,6 +76,7 @@
 </template>
 <script>
 import axios from "axios";
+import swal from "sweetalert";
 export default {
     data() {
         
@@ -94,18 +95,51 @@ export default {
             listUser:[]
         }
     },
-        methods:{
-            //===================get data from Database =================
+    methods:{
+        //===================get data from Database =================
         getURL() {
-        axios.get(this.URL).then((response) => {
-            this.listUser = response.data.data;
-            console.log(this.listUser);
-        });
-        },
+            axios.get(this.URL).then((response) => {
+                this.listUser = response.data.data;
+                console.log(this.listUser);
+            });
+        }, 
+        // ================== Edit a user ==================
+        // deleteUser(id) {
+        //     axios.put(this.URL + `/${id}`)
+        //     .then(() => {
+        //         this.getURL();
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     });
+        // },
+        //================== Delete a user =================
+        deleteUser(id) {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this user!",
+                icon: "warning",
+                buttons: ["Cancel", "Yes, delete it!"],
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                axios.delete(this.URL + `/${id}`)
+                    .then(() => {
+                    swal("Deleted!", "Your user has been deleted.", "success");
+                    this.getURL();
+                    })
+                    .catch(error => {
+                    swal("Error", "An error occurred while deleting the user.", "error");
+                    console.error(error);
+                    });
+                } else {
+                swal("Cancelled", "Your user is safe :)", "error");
+                }
+            });
+        }
     },
-        mounted() {
+    mounted() {
         return this.getURL();
-        },
-        
-    }
+    }, 
+}
 </script>
