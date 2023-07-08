@@ -8,8 +8,14 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Students</span>
-                                    <span class="h3 font-bold mb-0">{{ totalStudent }}</span>
+                                    <span class="h6 font-semibold text-muted text-sm d-block mb-2">Studnets</span>
+                                    <span  v-for="(result,index) in results" :key="index" class="h3 font-bold mb-0">
+                                    <p class="h6 font-semibold text-muted text-sm d-block mb-2" v-if="result.role == 3">
+                                        Total : {{result.total}}, 
+                                        Male: {{result.male}},
+                                        Female: {{result.female}}
+                                        </p>
+                                    </span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
@@ -26,7 +32,13 @@
                             <div class="row">
                                 <div class="col">
                                     <span class="h6 font-semibold text-muted text-sm d-block mb-2">Teachers</span>
-                                    <span  class="h3 font-bold mb-0">{{totalTeacher}}</span>
+                                    <span  v-for="(result,index) in results" :key="index" class="h3 font-bold mb-0">
+                                    <p class="h6 font-semibold text-muted text-sm d-block mb-2" v-if="result.role == 2">
+                                        Total : {{result.total}},
+                                        Male: {{result.male}},
+                                        Female: {{result.female}}
+                                        </p>
+                                    </span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
@@ -137,30 +149,21 @@
 import axios from 'axios';
 
 export default {
-  name: 'MyComponent',
   data() {
     return {
-      totalByRoleAndGender: {},
+      results:''
     };
   },
-  created() {
+  mounted() {
     axios.get('http://127.0.0.1:8000/api/getTotal')
       .then(response => {
-        this.totalByRoleAndGender = response.data;
+       this.results = response.data.data
       })
       .catch(error => {
         console.log(error);
       });
-  },
-  computed: {
-    totalTeacher() {
-      return this.totalByRoleAndGender.teacher.total || 0;
-    },
-    totalStudent() {
-      return this.totalByRoleAndGender.student.total || 0;
-    },
-  },
-};
+  }
+}
 </script>
 
 <style>

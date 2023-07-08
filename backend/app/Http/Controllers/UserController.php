@@ -85,14 +85,31 @@ class UserController extends Controller
     //     ];
     //     return $totalByRole;
     // }
-    public function getUerTotalByRoleAndGender()
+    public function getTotalByRoleAndGender()
     {
-        $femaleUsers = User::where('gender', 'female')
-            ->whereHas('roles', function ($query) {
-                $query->where('role', 1);
-            })
-            ->get();
-        return response()->json(['success' => true, 'data' => $femaleUsers], 200);
-        // dd($femaleUsers);
+        $maleCounts = [];
+        $femaleCounts = [];
+
+        $roles = [1, 2, 3]; // Set the roles for which you want to get the data
+
+        foreach ($roles as $roleId) {
+            $maleCount = User::where('role', $roleId)->where('gender', 'male')->count();
+            $femaleCount = User::where('role', $roleId)->where('gender', 'female')->count();
+
+            $maleCounts[$roleId] = $maleCount;
+            $femaleCounts[$roleId] = $femaleCount;
+        }
+
+        $results = [];
+        foreach ($roles as $roleId) {
+            $results[] = [
+                'role' => $roleId,
+                'total' => $maleCounts[$roleId] + $femaleCounts[$roleId],
+                'male' => $maleCounts[$roleId],
+                'female' => $femaleCounts[$roleId]
+            ];
+        }
+
+        return response()->json(['success' => true, 'data' => $results], 200);
     }
 }

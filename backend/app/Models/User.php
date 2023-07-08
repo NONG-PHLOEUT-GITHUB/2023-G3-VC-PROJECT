@@ -18,7 +18,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', 
+        'id', 
+        'role',
         'first_name',
         'last_name',
         'gender',
@@ -54,7 +55,8 @@ class User extends Authenticatable
     public static function store($request, $id = null)
     {
         $user = $request->only(
-            'user_id',
+            'id',
+            'role',
             'first_name',
             'last_name',
             'gender',
