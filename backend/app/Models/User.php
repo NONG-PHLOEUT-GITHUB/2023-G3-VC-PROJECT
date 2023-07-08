@@ -59,7 +59,6 @@ class User extends Authenticatable
     public static function store($request, $id = null)
     {
         $users = $request->only(
-            'user_id',
             'first_name',
             'last_name',
             'gender',
