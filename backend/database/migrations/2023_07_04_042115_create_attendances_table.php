@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->integer('attendace_id');
             $table->string('attendace_status', 255);
             $table->string('reason', 255);
             $table->date('date');
