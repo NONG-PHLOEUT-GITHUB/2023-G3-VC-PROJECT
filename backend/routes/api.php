@@ -28,4 +28,4 @@ Route::post('/login', 'LoginController@login');
 Route::resource("/users", UserController::class);
 Route::resource("/roles", RoleController::class);
 
-Route::get("/getTotal", [UserController::class, "getTotalByRole"]);
+Route::get("/getTotal", [UserController::class, "getUerTotalByRoleAndGender"]);

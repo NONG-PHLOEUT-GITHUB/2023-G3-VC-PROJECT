@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -16,7 +17,7 @@ class UserController extends Controller
     {
         $user = User::all();
 
-        return response()->json(['success'=>true, 'data'=>$user], 200);
+        return response()->json(['success' => true, 'data' => $user], 200);
     }
 
     /**
@@ -25,8 +26,8 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = User::store($request);
-      
-        return response()->json(['success'=>true, 'data'=>$user], 200);
+
+        return response()->json(['success' => true, 'data' => $user], 200);
     }
 
     /**
@@ -39,7 +40,7 @@ class UserController extends Controller
         if (!$user) {
             return response()->json(['success' => false, 'message' => 'User not found'], 404);
         }
-    
+
         return response()->json(['success' => true, 'data' => $user], 200);
     }
 
@@ -53,9 +54,9 @@ class UserController extends Controller
         if (!$user) {
             return response()->json(['success' => false, 'message' => 'User not found'], 404);
         }
-    
+
         $user = User::store($request, $id);
-    
+
         return response()->json(['success' => true, 'data' => $user], 200);
     }
 
@@ -74,14 +75,24 @@ class UserController extends Controller
 
         return response()->json(['success' => true, 'message' => 'User deleted successfully'], 200);
     }
-    
-    public function getTotalByRole()
-{
-    $totalByRole = [
-        'director' => Role::where('role', 1)->count(),
-        'teacher' => Role::where('role', 2)->count(),
-        'student' => Role::where('role', 3)->count()
-    ];
-    return $totalByRole;
-}
+
+    // public function getTotalByRole()
+    // {
+    //     $totalByRole = [
+    //         'director' => Role::where('role', 1)->count(),
+    //         'teacher' => Role::where('role', 2)->count(),
+    //         'student' => Role::where('role', 3)->count()
+    //     ];
+    //     return $totalByRole;
+    // }
+    public function getUerTotalByRoleAndGender()
+    {
+        $femaleUsers = User::where('gender', 'female')
+            ->whereHas('roles', function ($query) {
+                $query->where('role', 1);
+            })
+            ->get();
+        return response()->json(['success' => true, 'data' => $femaleUsers], 200);
+        // dd($femaleUsers);
+    }
 }

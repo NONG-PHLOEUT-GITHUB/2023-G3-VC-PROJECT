@@ -9,7 +9,7 @@
                             <div class="row">
                                 <div class="col">
                                     <span class="h6 font-semibold text-muted text-sm d-block mb-2">Students</span>
-                                    <span class="h3 font-bold mb-0">{{ studentCount }}</span>
+                                    <span class="h3 font-bold mb-0">{{ totalStudent }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
@@ -26,7 +26,7 @@
                             <div class="row">
                                 <div class="col">
                                     <span class="h6 font-semibold text-muted text-sm d-block mb-2">Teachers</span>
-                                    <span class="h3 font-bold mb-0">{{ teacherCount }}</span>
+                                    <span  class="h3 font-bold mb-0">{{totalTeacher}}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
@@ -133,44 +133,36 @@
         </div>
     </main>
 </template>
-
 <script>
 import axios from 'axios';
 
 export default {
+  name: 'MyComponent',
   data() {
     return {
-      roles: {}
+      totalByRoleAndGender: {},
     };
   },
-  computed: {
-    directorCount() {
-      return this.roles.director || 0;
-    },
-    teacherCount() {
-      return this.roles.teacher || 0;
-    },
-    studentCount() {
-      return this.roles.student || 0;
-    }
-  },
   created() {
-    this.fetchData();
-    setInterval(this.fetchData); 
+    axios.get('http://127.0.0.1:8000/api/getTotal')
+      .then(response => {
+        this.totalByRoleAndGender = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
-  methods: {
-    fetchData() {
-      axios.get('http://127.0.0.1:8000/api/getTotal')
-        .then(response => {
-          this.roles = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-  }
+  computed: {
+    totalTeacher() {
+      return this.totalByRoleAndGender.teacher.total || 0;
+    },
+    totalStudent() {
+      return this.totalByRoleAndGender.student.total || 0;
+    },
+  },
 };
 </script>
+
 <style>
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
 

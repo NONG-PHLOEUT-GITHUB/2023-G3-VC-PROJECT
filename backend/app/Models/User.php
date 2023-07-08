@@ -30,10 +30,7 @@ class User extends Authenticatable
         'email',
         'password'
     ];
-    public function role()
-    {
-        return $this->hasMany(Role::class, 'id');
-    } 
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -72,4 +69,9 @@ class User extends Authenticatable
         $user = self::updateOrCreate(['id' => $id], $user);
         return $user;
     }
+
+    public function roles()
+    {
+        return $this->hasMany(Role::class);
+    } 
 }
