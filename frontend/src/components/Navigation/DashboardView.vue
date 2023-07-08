@@ -18,7 +18,7 @@
                 <!-- Navigation -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link class="nav-link text-primary" href="#" :to="{ path: '/home' }" :class="{ 'active': $route.path === '/' }">
+                        <router-link class="nav-link text-primary" href="#" :to="{ path: '/' }" :class="{ 'active': $route.path === '/' }">
                             <i class="bi bi-house"></i> Dashboard
                         </router-link>
                     </li>
@@ -50,11 +50,11 @@
                 <!-- User (md) -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link class="nav-link text-primary" href="#" :to="{ path: '/user_info' }" :class="{ 'active': $route.path === '/user_info' }">
+                        <a class="nav-link text-primary" href="#">
                             <i class="bi bi-person-square"></i> Account
-                        </router-link>
+                        </a>
                     </li>
-                    <li class="nav-item" @click="logout">
+                    <li class="nav-item">
                         <a class="nav-link text-primary" href="#">
                             <i class="bi bi-box-arrow-left"></i> Logout
                         </a>
@@ -65,7 +65,7 @@
     </nav>
         <div class="h-screen flex-grow-1 overflow-y-lg-auto">
             <!-- Header -->
-            <header class="bg-surface-primary border-bottom pt-6 sticky-top">
+            <header class="bg-surface-primary border-bottom pt-6">
                 <div class="container-fluid">
                     <div class="mb-npx">
                         <div class="row align-items-center">
@@ -90,9 +90,7 @@
                                 <a href="#" class="nav-link active">Student List</a>
                             </li>
                             <li class="nav-item">
-                            <router-link class="nav-link text-primary" href="#" :to="{ path: '/student_list' }" :class="{ 'active': $route.path === '/student_list' }">
-                                <i class="bi bi-person"></i> Teacher management
-                            </router-link>
+                                <a href="#" class="nav-link font-regular">Shared</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link font-regular">File requests</a>
@@ -101,17 +99,16 @@
                     </div>
                 </div>
             </header>
-            <main class="p-5">
+            <main>
                 <slot></slot>
             </main>
         </div>
     </div>
 </template>
 <script>
-import http from '../../htpp.common';
+
 export default {
-    emits:['isLogin'],
-    data: () => ({
+     data:()=> ({
 
     }),
     computed: {
@@ -120,23 +117,7 @@ export default {
                 return this.$route.path === path
             }
         }
-    },
-
-    methods: {
-        logout() {
-            http.post('/api/logout')
-                .then(() => {
-                    sessionStorage.removeItem('email');
-                    this.$router.push("/");
-                    console.log('logout sess');
-                    this.$emit('isLogin', false,this.email);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        }
-
-    }
+    } 
 }
 
 </script>
@@ -159,20 +140,22 @@ header{
 
     color: red;
 }
-
 .my-link {
-    /* Define your custom styles here */
-    color: #000;
-    font-weight: bold;
-    text-decoration: none;
-    background: #000;
-    /* ... */
+  /* Define your custom styles here */
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+  background: #000;
+  /* ... */
 }
 
 .my-link.active {
-    /* Define your active styles here */
-    color: #fff;
-    background-color: #007bff;
-    /* ... */
+  /* Define your active styles here */
+  color: #fff;
+  background-color: #007bff;
+  /* ... */
 }
+
+
+
 </style>

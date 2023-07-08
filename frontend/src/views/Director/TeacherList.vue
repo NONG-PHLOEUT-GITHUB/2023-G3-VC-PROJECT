@@ -47,7 +47,7 @@
                             {{student.phone}}
                         </td>
                         <td class="text-end d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover">
+                            <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
                                 <i class="bi bi-person-circle"></i> View Profile
                             </button>
                             <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">

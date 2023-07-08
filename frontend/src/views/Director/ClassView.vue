@@ -42,13 +42,13 @@
                           {{student.students}}
                       </td>
                       <td class="text-end d-flex justify-content-end">
-                          <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover">
+                            <router-link :to="{ path: '/monthly_report' }"><button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
                               View Score List
-                          </button>
-                          <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2">
+                            </button></router-link>
+                            <router-link :to="{ path: '/monthly_report' }"><button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300">
                               View Attendance List
-                          </button>
-                      </td>
+                            </button></router-link>
+                        </td>
                   </tr>
               </tbody>
           </table>

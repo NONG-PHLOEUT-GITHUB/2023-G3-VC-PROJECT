@@ -58,7 +58,7 @@
                             {{user.phone_number}}
                         </td>
                         <td class="text-end d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-neutral  text-dark text-primary-hover">
+                            <button type="button" class="btn btn-sm btn-neutral bg-gray-300 text-dark text-primary-hover">
                                 <i class="bi bi-person-circle"></i> View Profile
                             </button>
                             <router-link  :to="{ path: '/createUser' }"><button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2" @click="editUser(id)">
