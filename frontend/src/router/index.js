@@ -15,6 +15,7 @@ import FormFogetPassword from '../components/HelloWorld.vue';
 
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
+import AttendanceList from '../views/Student/AttendanceList.vue'
 const routes = [
   {
     path: '/login',
@@ -82,12 +83,18 @@ const routes = [
     },
     component: TeacherDetail,
   },
-    {
+  {
 
-      path: '/monthly_report',
-      name: 'monthly_report',
-      component: MonthlyReport
-    }
+    path: '/monthly_report',
+    name: 'monthly_report',
+    component: MonthlyReport
+  },
+  {
+
+    path: '/attendance_list',
+    name: 'attendance_list',
+    component: AttendanceList
+  }
 
 ]
 
