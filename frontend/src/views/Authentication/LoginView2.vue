@@ -7,33 +7,24 @@
             </v-img>
         </div> -->
         <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8" elevation="10" max-width="448" rounded="lg">
-            <v-form ref="form" @submit.prevent="login" >
+            <v-form ref="form" @submit.prevent="login">
                 <v-title>
                     <h1>Login</h1>
                 </v-title>
                 <div class="text-subtitle-1 text-medium-emphasis mt-8">Email</div>
 
-                <v-text-field 
-                    ref="emailField" 
-                    density="compact" 
-                    placeholder="Email address" 
-                    prepend-inner-icon="mdi-email-outline"
-                    v-model="email" :rules="emailRules"
-                    variant="outlined" 
-                    no-validation
-                ></v-text-field>
+                <v-text-field ref="emailField" density="compact" placeholder="Email address"
+                    prepend-inner-icon="mdi-email-outline" v-model="email" :rules="emailRules" variant="outlined"
+                    no-validation></v-text-field>
                 <span :rules="emailRules"></span>
                 <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">Password</div>
 
-                <v-text-field 
-                :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" 
-                :type="visible ? 'text' : 'password'"
-                density="compact" placeholder="Enter your password" prepend-inner-icon="mdi-lock-outline"
-                v-model="password" :rules="passwordRules"
-                variant="outlined" @click:append-inner="visible = !visible"></v-text-field>
+                <v-text-field :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'"
+                    density="compact" placeholder="Enter your password" prepend-inner-icon="mdi-lock-outline"
+                    v-model="password" :rules="passwordRules" variant="outlined"
+                    @click:append-inner="visible = !visible"></v-text-field>
 
-                <a class="text-caption text-decoration-none text-blue mt-0" href="#" rel="noopener noreferrer"
-                    target="_blank">Forgot login password?</a>
+                <router-link :to="{ path: '/forgot_password' }">Forgot login password?</router-link>
 
                 <v-btn type="submit" color="primary" block class="mt-4">login</v-btn>
             </v-form>
@@ -44,11 +35,12 @@
 
 
 <script>
-
+// import Swal from 'sweetalert2'
 import http from '../../htpp.common';
 // recferences// https://vee-validate.logaretm.com/v4/tutorials/basics/
 
 export default {
+    emits: ['isLogin'],
     data: () => ({
         visible: false,
         loading: false,
@@ -75,15 +67,23 @@ export default {
                 })
                     .then(response => {
                         console.log('API response:', response.data.token);
-                        sessionStorage.setItem('email', this.email);
                         localStorage.setItem('access_token', response.data.token);
-                        this.$router.push('/student');
-                        alert('login successful');
+                        // alert('login successful');
+                        // Swal.fire({
+                        //     position: 'top-end',
+                        //     icon: 'success',
+                        //     title: 'Login successfully',
+                        //     showConfirmButton: false,
+                        //     timer: 1500
+                        // })
+                    }).then(()=>{
+                        sessionStorage.setItem('email', this.email);
+                        this.$emit('isLogin', true, this.email);
+                        this.$router.push('/home');
                     })
                     .catch(error => {
                         if (error.response.status === 401) {
-                            if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '')
-                            {
+                            if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '') {
                                 this.emailRules = ['Email or password is icorrect'];
                                 this.passwordRules = ['Email or password is icorrect'];
                             }
