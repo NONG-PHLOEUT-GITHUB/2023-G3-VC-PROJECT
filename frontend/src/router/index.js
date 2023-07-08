@@ -13,6 +13,7 @@ import DashboardView from '../components/Navigation/DashboardView.vue';
 import FormFogetPassword from '../components/HelloWorld.vue';
 
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
+import TeacherDetail from '../views/Student/StudentDetial.vue'
 const routes = [
   {
     path: '/login',
@@ -71,6 +72,14 @@ const routes = [
     path: '/student_list',
     name: 'student_list',
     component: SaveListStudent
+  },
+  {
+    path: '/student_detail/:id',
+    name: '/student_detail',
+    meta: {
+      auth: true
+    },
+    component: TeacherDetail
   },
 
 ]

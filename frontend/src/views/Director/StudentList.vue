@@ -59,7 +59,18 @@
                         </td>
                         <td class="text-end d-flex justify-content-end">
                             <button type="button" class="btn btn-sm btn-neutral  text-dark text-primary-hover">
-                                <i class="bi bi-person-circle"></i> View Profile
+                                <!-- <i class="bi bi-person-circle"></i> View Profile -->
+                                <!-- <router-link v-for="user in users" :key="user.id" class="bi bi-person-circle" :to="{ name: 'student_detail', query: { id: user.id } }">View Profile</router-link> -->
+                              
+                                    <!-- <li v-for="post in posts" key="post" :class="{ active: post.id === currentId }"> -->
+                                    <!-- <li :class="{ active: user.id === currentId }" :key="index"> -->
+                                        <router-link class="bi bi-person-circle" :to="{ path: '/student_detail/' + user.id }">
+  View Profile
+</router-link>
+                                    <!-- <a @click="setCurrentId(post.id)">${ post.title }</a> -->
+                                
+                                
+                                        
                             </button>
                             <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
                                 <i class="bi bi-pencil-square"></i> Edit
@@ -102,9 +113,11 @@ export default {
             console.log(this.listUser);
         });
         },
+        
+        
     },
         mounted() {
-        return this.getURL();
+            return this.getURL();
         },
         
     }
