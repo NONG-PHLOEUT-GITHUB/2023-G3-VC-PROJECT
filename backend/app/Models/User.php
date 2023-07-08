@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'id', 
+        'id',
         'role',
         'first_name',
         'last_name',
@@ -71,9 +71,8 @@ class User extends Authenticatable
         $user = self::updateOrCreate(['id' => $id], $user);
         return $user;
     }
-
-    public function roles()
+    public function roleAttendances()
     {
-        return $this->hasMany(Role::class);
-    } 
+        return $this->hasMany(Attendance::class, 'user_id');
+    }
 }

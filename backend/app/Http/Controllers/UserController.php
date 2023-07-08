@@ -76,15 +76,6 @@ class UserController extends Controller
         return response()->json(['success' => true, 'message' => 'User deleted successfully'], 200);
     }
 
-    // public function getTotalByRole()
-    // {
-    //     $totalByRole = [
-    //         'director' => Role::where('role', 1)->count(),
-    //         'teacher' => Role::where('role', 2)->count(),
-    //         'student' => Role::where('role', 3)->count()
-    //     ];
-    //     return $totalByRole;
-    // }
     public function getTotalByRoleAndGender()
     {
         $maleCounts = [];

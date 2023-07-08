@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +28,7 @@ Route::post('/login', 'LoginController@login');
 
 // ***Route***
 Route::resource("/users", UserController::class);
-Route::resource("/roles", RoleController::class);
+Route::resource("/attendances", AttendanceController::class);
 
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
+Route::get("/getAttendance", [AttendanceController::class, "getAttendanceByRole"]);
