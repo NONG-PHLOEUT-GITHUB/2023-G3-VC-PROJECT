@@ -34,7 +34,7 @@
                                     <span class="h6 font-semibold text-muted text-sm d-block mb-2">Teachers</span>
                                     <span  v-for="(result,index) in results" :key="index" class="h3 font-bold mb-0">
                                     <p class="h6 font-semibold text-muted text-sm d-block mb-2" v-if="result.role == 2">
-                                        Total : {{result.total}},
+                                        Total :{{result.total}},
                                         Male: {{result.male}},
                                         Female: {{result.female}}
                                         </p>
