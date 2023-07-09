@@ -1,4 +1,7 @@
 <template>
+  <!-- <table class="table table-bordered">
+  ...
+</table> -->
   <div class="table-container">
     <table id="my-table">
       <thead>
