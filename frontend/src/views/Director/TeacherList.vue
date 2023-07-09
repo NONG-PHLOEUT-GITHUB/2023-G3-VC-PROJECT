@@ -15,13 +15,14 @@
         <div class="table-responsive">
             <table class="table table-hover table-nowrap">
                 <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Gender</th>
-                        <th scope="col">age</th>
-                        <th scope="col">class</th>
-                        <th scope="col">phone number</th>
-                        <th></th>
+                    <tr >
+                        <th scope="col" class="fs-6">Name</th>
+                        <th scope="col" class="fs-6">Gender</th>
+                        <th scope="col" class="fs-6">age</th>
+                        <th scope="col" class="fs-6">class</th>
+                        <th scope="col" class="fs-6">Subject</th>
+                        <th scope="col" class="fs-6">phone number</th>
+                        <th scope="col " class="fs-6 text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +43,9 @@
                         </td>
                         <td>
                             {{student.class}}
+                        </td>
+                        <td>
+                            {{student.phone}}
                         </td>
                         <td>
                             {{student.phone}}
@@ -84,3 +88,10 @@ export default {
     }
 }
 </script>
+<style scoped>
+/* td{
+    font-size: 25px;
+    color: red;
+} */
+
+</style>

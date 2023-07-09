@@ -18,7 +18,7 @@ import DashboardView from './components/Navigation/DashboardView.vue';
 export default {
   components: {
     DashboardView,
-    FormLogin
+    FormLogin,
   },
 
   data: () => ({
@@ -45,6 +45,9 @@ export default {
 </script>
 
 <style>
+/* main{
+  background: #c1afaf;
+} */
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
 
 /* Bootstrap Icons */
