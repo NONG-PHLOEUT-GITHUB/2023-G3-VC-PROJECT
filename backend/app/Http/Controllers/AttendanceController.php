@@ -78,22 +78,42 @@ class AttendanceController extends Controller
     public static function getAttendanceByRole()
     {
         $roles = [1, 2, 3];
-        $users = User::withCount([
+        $users = User::with([
             'roleAttendances' => function ($query) use ($roles) {
                 $query->whereIn('user_id', function ($query) use ($roles) {
                     $query->select('id')
                         ->from('users')
                         ->whereIn('role', $roles);
-                });
+                })
+                ->select('user_id', 'date', 'attendace_status');
             }
         ])->get();
-
         $attendanceCount = [];
-
+    
         foreach ($users as $user) {
-            $attendanceCount[$user->id] = $user->role_attendances_count;
+            $attendance = [];
+            $totalAttendance = 0;
+            foreach ($user->roleAttendances as $attendanceItem) {
+                $attendance[] = [
+                    'date' => $attendanceItem->date,
+                    'attendace_status' => $attendanceItem->attendace_status
+                ];
+                $totalAttendance++;
+            }
+            $role = $user->role;
+            if (!isset($attendanceCount[$role])) {
+                $attendanceCount[$role] = [
+                    'attendance' => [],
+                    'total_attendance' => 0
+                ];
+            }
+            $attendanceCount[$role]['attendance'][] = [
+                'user_id' => $user->id,
+                'attendance' => $attendance
+            ];
+            $attendanceCount[$role]['total_attendance'] += $totalAttendance;
         }
-
+    
         return $attendanceCount;
     }
 }
