@@ -55,10 +55,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
     public static function store($request, $id = null)
     {
         $users = $request->only(
+            'user_id',
             'first_name',
             'last_name',
             'gender',
