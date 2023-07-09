@@ -16,10 +16,10 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card mb-4">
-                        <div class="card-body text-center">
+                        <div class="card-body text-center" >
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                                 alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                            <h5 class="my-3" >{{fullname}}</h5>
+                            <h5 class="my-3" >{{responseData.first_name}} {{responseData.last_name}}</h5>
                             <p class="text-muted mb-1">Full Stack Developer</p>
                             <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
                             <div class="d-flex justify-content-center mb-2">
@@ -60,10 +60,10 @@
                         <div class="card-body">
                             <div class="row" >
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Full Name </p>
+                                    <p class="mb-0">Name </p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{responseData.first_name}} {{responseData.last_name}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -72,7 +72,7 @@
                                     <p class="mb-0">Gender</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{responseData.gender}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -81,16 +81,16 @@
                                     <p class="mb-0">Age</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{responseData.age}}</p>
                                 </div>
                             </div>
                             <hr>
                              <div class="row" >
                                 <div class="col-sm-3">
-                                    <p class="mb-0">DateOfBirth</p>
+                                    <p class="mb-0">Email</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{responseData.email}}</p>
                                 </div>
                             </div>
                             <hr>
@@ -99,30 +99,10 @@
                                     <p class="mb-0">PhoneNumber</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{responseData.phone_number}}</p>
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Address</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Email</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <hr>
-                            
                         </div>
                     </div>
                     <div class="row">
@@ -201,33 +181,31 @@
     </section>
 </template>
 <script>
-
 import axios from 'axios';
 
-    
-export default ({
-      name: "UserDetails",
-  data() {
-    return {
-      fullname: "",
-      email: "",
-      url:"http://127.0.0.1:8000/api/users",
-    };
-  },
-  methods: {
-    fetchData() {
-      axios.get(this.url)
-        .then(response => {
-          // Process the response data
-          console.log(response);
-        });
+export default {
+    name: "App",
+    data() {
+        return {
+        responseData: [],
+        };
     },
-  },
-  
-  
-  
-    
-    
-    
-})
+    methods: {
+        fetchDataById(id) {
+        axios.get(`http://localhost:8000/api/users/${id}`)
+            .then(response => {
+            this.responseData = response.data.data;
+            console.log(this.responseData);
+            })
+            .catch(error => {
+            console.error(error);
+            });
+        },
+    },
+    mounted(){
+        const id = this.$route.params.id;
+        console.log(id);
+        this.fetchDataById(id);
+    }
+};
 </script>

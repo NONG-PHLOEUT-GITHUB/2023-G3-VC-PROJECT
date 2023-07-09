@@ -82,7 +82,6 @@ class User extends Authenticatable implements JWTSubject
     public static function store($request, $id = null)
     {
         $users = $request->only(
-            'user_id',
             'first_name',
             'last_name',
             'gender',

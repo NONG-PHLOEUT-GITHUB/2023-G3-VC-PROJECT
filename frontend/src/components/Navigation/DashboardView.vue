@@ -146,14 +146,14 @@
                     </div>
                 </div>
             </header>
-            <main class="p-5">
+            <main>
                 <slot></slot>
             </main>
         </div>
     </div>
 </template>
 <script>
-import http from '../../htpp.common';
+
 export default {
     emits: ['isLogin'],
     data: () => ({
@@ -220,7 +220,6 @@ header {
 .nav-link {
     color: red;
 }
-
 .my-link {
     color: #000;
     font-weight: bold;
@@ -291,4 +290,7 @@ header {
     background: var(--light);
  
 }
+
+
+
 </style>

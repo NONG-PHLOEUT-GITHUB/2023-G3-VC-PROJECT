@@ -16,7 +16,6 @@
     "jspdf": "^2.5.1",
     "roboto-fontface": "*",
     "sweetalert": "^2.1.2",
-    "sweetalert2": "^11.7.12",
     "vee-validate": "^4.10.5",
     "vue": "^3.2.13",
     "vue-chartjs": "^5.2.0",
