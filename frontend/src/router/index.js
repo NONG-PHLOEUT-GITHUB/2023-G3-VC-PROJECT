@@ -94,7 +94,8 @@ const routes = [
     path: '/attendance_list',
     name: 'attendance_list',
     component: AttendanceList
-  }
+  },
+  
 
 ]
 
