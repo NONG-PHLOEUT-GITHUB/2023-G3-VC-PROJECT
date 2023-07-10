@@ -5,8 +5,7 @@
       <p>This is Attendance of Today</p>
     </div>
     <div>
-        <button class="selectattendance" @click="SelectAttendace()">Attendance Today </button>
-        {{selectedDate}}
+        <input type="checkbox" class="selectattendance" @click="SelectAttendace()">Attendance Today 
       </div>
     <table>
       <thead>
@@ -22,33 +21,36 @@
           <td>{{ student.name }}</td>
           <td>{{ student.gender }}</td>
           <td>
-            <input type="checkbox" v-model="student.status"> Present
+            <input type="checkbox" v-model="attendance_status"> Present
           </td>
           <td>{{ student.reason }}</td>
         </tr>
       </tbody>
       
     </table>
-    <button class="save" @click="showAlert()">Save</button>
+    <button class="save" @click="saveListAttendence()">Save</button>
      
   </div>
 </template>
 
 <script>
 import swal from 'sweetalert2';
+import axios from "axios";
 export default {
   name:'SweetAlert2',
   data() {
     return {
       students: [
         { id: 1, name: 'John', gender: 'Male',  reason: 'Sick', status: false },
-        { id: 2, name: 'Jane', gender: 'Female',  reason: 'Sick', status: false },
-        { id: 3, name: 'Bob', gender: 'Male',  reason: 'Sick', status: false },
-        { id: 4, name: 'Sarah', gender: 'Female', reason: 'Sick', status: false }
+        // { id: 2, name: 'Jane', gender: 'Female',  reason: 'Sick', status: false },
+        // { id: 3, name: 'Bob', gender: 'Male',  reason: 'Sick', status: false },
+        // { id: 4, name: 'Sarah', gender: 'Female', reason: 'Sick', status: false }
       ],
-      selectedDate: null,
+      date: null,
       testButClicked: false,
-      isHidden: true
+      isHidden: true,
+      attendance_status: '',
+      URL: "http://127.0.0.1:8000/api/attendance",
     }
   },
   // copy by "https://stackoverflow.com/questions/57249466/getting-current-time-and-date-in-vue-js"
@@ -56,12 +58,30 @@ export default {
     SelectAttendace() {
       const today = new Date();
       const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      this.selectedDate = date;
-      console.log(this.selectedDate)
+      this.date = date;
+      console.log(this.date)
       this.students.forEach((student) => {
         student.status = false;
       });
     },
+    saveListAttendence(){
+      const newAttend={
+        attendance_status:this.attendance_status,
+        date: this.date
+      } 
+      axios.post(this.URL,newAttend)
+      .then((response) => {
+        swal.fire({
+            icon: 'success',
+            title: 'Save attendance successfully!',
+            text: 'you already save your attendance',
+            timer: 2000,
+          })
+            console.log(response);
+      });
+      
+    },
+
     created() {
       setInterval(this.getNow, 1000);
     },
@@ -74,6 +94,7 @@ export default {
     },
     mounted(){
       this.getStudentData()
+      this.saveListAttendence();
     }
 
    

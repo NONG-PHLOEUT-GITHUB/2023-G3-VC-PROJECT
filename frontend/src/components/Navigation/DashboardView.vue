@@ -153,11 +153,7 @@
     </div>
 </template>
 <script>
-<<<<<<< HEAD
 import http from '../../htpp.common.js'
-=======
-import http from "../../htpp.common"
->>>>>>> 6496832b7989b8c3b41bddfa92d61801317fea16
 export default {
     emits: ['isLogin'],
     data: () => ({
