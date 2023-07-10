@@ -18,15 +18,15 @@
     </div>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
-        <thead class="thead-light">
+        <thead class="bg-primary">
           <tr>
-            <th scope="col" class="fs-6">Name</th>
-            <th scope="col" class="fs-6">Gender</th>
-            <th scope="col" class="fs-6">age</th>
-            <th scope="col" class="fs-6">class</th>
-            <th scope="col" class="fs-6">Subject</th>
-            <th scope="col" class="fs-6">phone number</th>
-            <th scope="col" class="fs-6 text-center">Action</th>
+            <th scope="col" class="fs-6 text-light">Name</th>
+            <th scope="col" class="fs-6 text-light">Gender</th>
+            <th scope="col" class="fs-6 text-light">age</th>
+            <th scope="col" class="fs-6 text-light">class</th>
+            <th scope="col" class="fs-6 text-light">Subject</th>
+            <th scope="col" class="fs-6 text-light">phone number</th>
+            <th scope="col" class="fs-6 text-light">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -42,7 +42,7 @@
             <td>{{teacher.phone}}</td>
             <td class="text-end d-flex justify-content-end">
               <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
-                <i class="bi bi-person-circle"></i> View Profile
+                <i class="bi bi-person-circle text-warning"></i> View Profile
               </button>
               <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
                 <i class="bi bi-pencil-square"></i> Edit
