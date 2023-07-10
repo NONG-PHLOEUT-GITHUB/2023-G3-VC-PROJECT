@@ -59,11 +59,11 @@
               {{user.phone_number}}
             </td>
             <td class="text-end d-flex justify-content-end">
-              <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover">
-                <router-link class="bi bi-person-circle" :to="{ path: '/student_detail/' + user.id }">
-                  View Profile
+                <router-link  :to="{ path: '/student_detail/' + user.id }">
+                    <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover">
+                     <i class="bi bi-person-circle"></i> View Profile
+                    </button>
                 </router-link>           
-              </button>
               <router-link :to="{ path: '/edit/' + user.id }">
                 <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
                   <i class="bi bi-pencil-square"></i> Edit
@@ -95,18 +95,18 @@ export default {
 
     computed: {
     filteredStudentsList() {
-        if (this.searchQuery === "") {
-            return this.listUser;
+    if (this.searchQuery === "") {
+        return this.listUser;
+    } else {
+        const filtered = this.listUser.filter(student =>
+        (student.first_name + ' ' + student.last_name).toLowerCase().includes(this.searchQuery.trim().toLowerCase())
+        );
+        if (filtered.length === 0) {
+        return [{ first_name: "Student not found", last_name: "", email: "", phone_number: "", etc: "" }];
         } else {
-            const filtered = this.listUser.filter(student =>
-            (student.first_name + ' ' + student.last_name).toLowerCase().includes(this.searchQuery.trim().toLowerCase())
-            );
-            if (filtered.length === 0) {
-            return [{ first_name: "Student not found", last_name: "", email: "", phone_number: "", etc: "" }];
-            } else {
-            return filtered;
-            }
+        return filtered;
         }
+    }
     },
     },
     methods:{
