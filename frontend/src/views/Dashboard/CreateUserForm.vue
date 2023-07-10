@@ -63,6 +63,7 @@
                 <label for="formFileDisabled" class="form-label">Profile</label>
                 <input class="form-control" type="file" id="formFileDisabled" @change="getFile" >
               </div>
+              <img v-bind:src="profilePreview" >
               <div class="col-12 d-flex justify-content-end">
                 <router-link type="submit" class="btn btn-warning text-white mr-2" :to="{ path: '/student'}">Cancel</router-link>
                 <button type="submit" class="btn btn-primary text-white"  >Add User</button>
@@ -75,11 +76,9 @@
 <script>
 import axios from "axios";
 export default {
-  provide:{
-    listUser : 'listUser',
-  },
   data() {
     return {
+      profilePreview: null,
       first_name: "",
       last_name: "",
       email: "",
@@ -88,7 +87,7 @@ export default {
       address: "",
       date_of_birth: "",
       age: "",
-      profile: null,
+      profile: "",
       gender: "",
       URL: "http://127.0.0.1:8000/api/users",
       listUser:[]
@@ -96,10 +95,21 @@ export default {
   },
   methods: {
     getFile(event) {
-      this.profile = event.target.files[0]
+      this.profile = event.target.files[0];
+      const reader = new FileReader();
+      reader.addEventListener("load", function() {
+        this.profilePreview = reader.result;
+      }
+      .bind(this), false);
+      if(this.profile){
+        if( /\.(jpe?g|png|gif|jpg)$/i.test(this.profile.name)){
+          reader.readAsDataURL(this.profile);
+          // console.log(reader.readAsDataURL(this.profile));
+        }
+      }
     },
     createUser() {
-      if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address){
+      // if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address){
         const newUser =
         {
           first_name: this.first_name,
@@ -109,17 +119,15 @@ export default {
           date_of_birth: this.date_of_birth,
           phone_number: this.phone_number,
           address: this.address,
-          profile: this.profile.name,
+          profile:this.profile.name,
           email: this.email,
           password: this.password,
         };
-        const files = new FormData();
-        files.append('image', this.profile.name);
         axios.post(this.URL, newUser).then((response) => {
           this.listUser.push(response.data);
+          console.log(this.listUser);
         });
-          
-      }
+      // }
     },
   }
   }
@@ -131,5 +139,8 @@ export default {
     background: #f8f7f7;
     padding: 10px;
     border-radius: 5px;
+  }
+  img{
+    width: 100px;
   }
 </style>
