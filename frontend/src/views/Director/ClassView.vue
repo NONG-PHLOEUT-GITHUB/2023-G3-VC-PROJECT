@@ -86,10 +86,10 @@
           <table class="table table-hover table-nowrap">
               <thead class="bg-primary">
                   <tr>
-                      <th scope="col" class="fs-5  text-light">Class</th>
-                      <th scope="col" class="fs-5 text-light">Total students</th>
-                      <th scope="col" class="fs-5 text-light">Teacher</th>
-                      <th scope="col" class="text-center fs-5 text-light">Action</th>
+                      <th scope="col" class="fs-6 text-light">Class</th>
+                      <th scope="col" class="fs-6 text-light">Total students</th>
+                      <th scope="col" class="fs-6 text-light">Teacher</th>
+                      <th scope="col" class="fs-6 text-light">Action</th>
                   </tr>
               </thead>
               <tbody>
@@ -104,15 +104,15 @@
                       <td>
                           {{student.students}}
                       </td>
-                      <td class="text-end d-flex justify-content-end">
+                      <td class="text-start d-flex justify-content-start">
                             <router-link :to="{ path: '/monthly_report' }">
                               <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
-                                View Score List
+                                <i class="bi bi-table text-warning"></i> View Score List
                               </button>
                             </router-link>
                             <router-link :to="{ path: '/attendance_list' }">
                               <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300">
-                                View Attendance List
+                                <i class="bi bi-table text-warning"></i> Check Attendance today
                               </button>
                           </router-link>
                         </td>

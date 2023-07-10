@@ -24,13 +24,13 @@
         </div>
         <div class="table-responsive">
             <table class="table table-hover table-nowrap">
-                <thead class="thead-light">
+                <thead class="bg-primary">
                     <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Gender</th>
-                        <th scope="col">Age</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone Number</th>
+                        <th scope="col" class="fs-6 text-light">Name</th>
+                        <th scope="col" class="fs-6 text-light">Gender</th>
+                        <th scope="col" class="fs-6 text-light">Age</th>
+                        <th scope="col" class="fs-6 text-light">Email</th>
+                        <th scope="col" class="fs-6 text-light">Phone Number</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -57,12 +57,11 @@
                             {{user.phone_number}}
                         </td>
                         <td class="text-end d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-neutral  text-dark text-primary-hover">
-                                
-                                <router-link class="bi bi-person-circle" :to="{ path: '/student_detail/' + user.id }">
-                                View Profile
-                                </router-link>           
-                            </button>
+                            <router-link :to="{ path: '/student_detail/' + user.id }">
+                                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
+                                    <i  class="bi bi-person-circle text-warning" ></i> View Profile
+                                </button>
+                            </router-link>           
                             
                             <router-link  :to="{ path: '/edit/' + user.id }" >
                                 <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
