@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,10 +28,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{id}', [UserController::class,"show"]);
+Route::put('/users/{id}', [UserController::class,"update"]);
 Route::resource('users' , UserController::class);
 Route::post('/password/change', [ChangePasswordController::class,'change']);
 
 Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmail']);
+Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
+Route::post('/class_rooms', [ClassRoomController::class,"store"]);
+
+Route::resource('attendance' , AttendanceController::class);
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {

@@ -6,6 +6,7 @@ import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
 import StudentList from '../views/Director/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
+import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import LoginView from '../views/Authentication/LoginView2.vue';
@@ -19,6 +20,7 @@ import AttendanceList from '../views/Student/AttendanceList.vue'
 /// change password
 import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
+import EditUserForm from '../views/Dashboard/EditUserForm.vue'
 const routes = [
   {
     path: '/login',
@@ -103,7 +105,19 @@ const routes = [
     path: '/change_password',
     name: 'change_password',
     component: ChangePassword
+  },
+
+  {
+    name: 'edit',
+    path: '/edit/:id',
+    component: EditUserForm
+  },
+  {
+    path: '/report_view',
+    name: 'report_view',
+    component: ReportView
   }
+  
 
 ]
 

@@ -53,6 +53,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
     // Rest omitted for brevity
 
     /**
@@ -79,9 +80,11 @@ class User extends Authenticatable implements JWTSubject
 
 
     // model create 
+
     public static function store($request, $id = null)
     {
         $users = $request->only(
+            'user_id',
             'first_name',
             'last_name',
             'gender',
