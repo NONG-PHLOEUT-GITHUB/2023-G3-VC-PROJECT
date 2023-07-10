@@ -6,6 +6,7 @@ import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
 import StudentList from '../views/Director/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
+import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import LoginView from '../views/Authentication/LoginView2.vue';
@@ -97,10 +98,18 @@ const routes = [
     component: AttendanceList
   },
   {
+<<<<<<< HEAD
     name: 'edit',
     path: '/edit/:id',
     component: EditUserForm
   }
+=======
+
+    path: '/report_view',
+    name: 'report_view',
+    component: ReportView
+  },
+>>>>>>> 6496832b7989b8c3b41bddfa92d61801317fea16
   
 
 ]

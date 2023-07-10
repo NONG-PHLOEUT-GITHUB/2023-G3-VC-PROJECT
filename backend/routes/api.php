@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication;
+use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,8 @@ Route::get('/users/{id}', [UserController::class,"show"]);
 Route::put('/users/{id}', [UserController::class,"update"]);
 Route::resource('users' , UserController::class);
 
+Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
+Route::post('/class_rooms', [ClassRoomController::class,"store"]);
 
 
 Route::prefix('v1')->group(function () {
