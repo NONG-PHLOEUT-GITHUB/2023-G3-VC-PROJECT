@@ -6,7 +6,7 @@
                     <h3 class="fs-19 fw-bold text-center">CREATE USER</h3>
                 </div>
             </div>
-            <form class="row g-3 card-body p-5 pt-4 " @submit.prevent="createUser()">
+            <form class="row g-3 card-body p-5 pt-4 " @submit.prevent="createUser">
               <!-- firstname -->
               <div class="col-md-6">
                 <label for="validationCustom01" class="form-label">First name</label>
