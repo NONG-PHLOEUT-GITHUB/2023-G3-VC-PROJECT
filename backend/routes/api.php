@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Authentication;
+use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,8 +27,9 @@ Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{id}', [UserController::class,"show"]);
 Route::resource('users' , UserController::class);
+Route::post('/password/change', [ChangePasswordController::class,'change']);
 
-
+Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmail']);
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
@@ -49,6 +52,8 @@ Route::prefix('v1')->group(function () {
 
             // Logout user from application
             Route::post('/logout',[Authentication::class,'logout']);
+            // Change password user from application
+
         });
     });
 });
