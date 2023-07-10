@@ -1,6 +1,6 @@
 <template>
     <div class="card shadow border-0 m-4">
-        <h1>Monthly report</h1>
+        <h3 class="text-primary mb-4">MONTHLY REPORTS OF CLASS 12A</h3>
         <div class="row">
             <div v-for="month of monthsList" :key="month" class="col-sm-4 mt-4">
                 <div class="card bg-gray-300">
