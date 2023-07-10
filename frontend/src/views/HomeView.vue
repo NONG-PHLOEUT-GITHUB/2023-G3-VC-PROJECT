@@ -2,7 +2,6 @@
   <div class="about">
     <h1>This is an home page for file home view</h1>
   </div>
-  <HelloWorld />
 </template>
 
 <script>

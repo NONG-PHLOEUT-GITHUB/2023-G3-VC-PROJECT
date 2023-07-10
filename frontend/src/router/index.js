@@ -5,6 +5,7 @@ import TeacherView from '../views/Teacher/TeacherView.vue';
 import StudentList from '../views/Director/StudentList.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
+import AttendanceList from '../views/Student/AttendanceList.vue';
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     path: '/createUser',
     name: '/createUser',
     component: CreateUserForm
+  },
+  {
+    path: '/attendancelist',
+    name: '/attendancelist',
+    component: AttendanceList
   },
 
 ]

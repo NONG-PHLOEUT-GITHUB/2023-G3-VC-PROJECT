@@ -31,4 +31,4 @@ Route::resource("/users", UserController::class);
 Route::resource("/attendances", AttendanceController::class);
 
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
-Route::get("/getAttendance", [AttendanceController::class, "getAttendanceByRole"]);
+Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfStudents"]);

@@ -15,7 +15,6 @@ class AttendanceController extends Controller
     public function index()
     {
         $attendance = Attendance::all();
-
         return response()->json(['success' => true, 'data' => $attendance], 200);
     }
 
@@ -25,7 +24,6 @@ class AttendanceController extends Controller
     public function store(Request $request)
     {
         $attendance = Attendance::store($request);
-
         return response()->json(['success' => true, 'data' => $attendance], 200);
     }
 
@@ -35,11 +33,9 @@ class AttendanceController extends Controller
     public function show(string $id)
     {
         $attendance = Attendance::find($id);
-
         if (!$attendance) {
             return response()->json(['success' => false, 'message' => 'User not found'], 404);
         }
-
         return response()->json(['success' => true, 'data' => $attendance], 200);
     }
 
@@ -49,13 +45,10 @@ class AttendanceController extends Controller
     public function update(Request $request, string $id)
     {
         $attendance = Attendance::find($id);
-
         if (!$attendance) {
             return response()->json(['success' => false, 'message' => 'User not found'], 404);
         }
-
         $attendance = Attendance::store($request, $id);
-
         return response()->json(['success' => true, 'data' => $attendance], 200);
     }
 
@@ -65,55 +58,21 @@ class AttendanceController extends Controller
     public function destroy(string $id)
     {
         $attendance = Attendance::find($id);
-
         if (!$attendance) {
-            return response()->json(['success' => false, 'message' => 'User not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Attendance not found'], 404);
         }
-
         $attendance->delete();
-
-        return response()->json(['success' => true, 'message' => 'User deleted successfully'], 200);
+        return response()->json(['success' => true, 'message' => 'Attendance deleted successfully'], 200);
     }
-
-    public static function getAttendanceByRole()
+    /**
+     * Get attendance list of students.
+     */
+    public static function getAttendanceListOfStudents()
     {
-        $roles = [1, 2, 3];
-        $users = User::with([
-            'roleAttendances' => function ($query) use ($roles) {
-                $query->whereIn('user_id', function ($query) use ($roles) {
-                    $query->select('id')
-                        ->from('users')
-                        ->whereIn('role', $roles);
-                })
-                ->select('user_id', 'date', 'attendace_status');
-            }
-        ])->get();
-        $attendanceCount = [];
-    
-        foreach ($users as $user) {
-            $attendance = [];
-            $totalAttendance = 0;
-            foreach ($user->roleAttendances as $attendanceItem) {
-                $attendance[] = [
-                    'date' => $attendanceItem->date,
-                    'attendace_status' => $attendanceItem->attendace_status
-                ];
-                $totalAttendance++;
-            }
-            $role = $user->role;
-            if (!isset($attendanceCount[$role])) {
-                $attendanceCount[$role] = [
-                    'attendance' => [],
-                    'total_attendance' => 0
-                ];
-            }
-            $attendanceCount[$role]['attendance'][] = [
-                'user_id' => $user->id,
-                'attendance' => $attendance
-            ];
-            $attendanceCount[$role]['total_attendance'] += $totalAttendance;
-        }
-    
-        return $attendanceCount;
+        $users = User::where('role', 3)
+            ->select('id', 'first_name', 'last_name')
+            ->withCount('roleAttendances')
+            ->get();
+        return response()->json($users);
     }
 }
