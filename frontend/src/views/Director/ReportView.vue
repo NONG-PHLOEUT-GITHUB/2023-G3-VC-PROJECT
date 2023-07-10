@@ -43,7 +43,7 @@
                       <td class="text-end d-flex justify-content-start">
                             <router-link :to="{ path: '/home' }">
                               <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
-                                View Details
+                                <i  class="bi bi-calendar2-week-fill text-warning" ></i> View Details
                               </button>
                             </router-link>
                         </td>
