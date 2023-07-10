@@ -105,14 +105,19 @@ class User extends Authenticatable
         //     $user->profile = $file;
         // }
 
-
-        
-
-
-
         // ================token user password=================
         $token = null;
         $token = $user->createToken('TOKEN', ['select', 'create', 'update', 'delete']);
         return response()->json(['success' => true, 'data' => $user, 'token' => $token->plainTextToken], 201);
     }
+
+//     public function getProfileAttribute()
+// {
+//     $value = '1688952902.jpg'; // Replace with the actual image file name
+
+//     if ($value) {
+//         $imageUrl = asset('storage/app/public/' . $value);
+//         return $imageUrl;
+//     }
+// }
 }
