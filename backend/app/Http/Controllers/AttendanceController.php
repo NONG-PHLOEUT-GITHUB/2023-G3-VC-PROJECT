@@ -75,4 +75,15 @@ class AttendanceController extends Controller
             ->get();
         return response()->json($users);
     }
+    public static function getStudentMostAbsence()
+    {
+        $users = User::where('role', 3)
+            ->select('id', 'first_name', 'last_name')
+            ->withCount('roleAttendances')
+            ->orderByDesc('role_attendances_count')
+            ->limit(5)
+            ->get();
+
+        return response()->json($users);
+    }
 }
