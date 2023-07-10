@@ -19,7 +19,7 @@ class Authentication extends Controller
         $credentials = $request->only('email', 'password');
         if ($token = auth()->guard('api')->attempt($credentials)) {
             $user = auth()->user();
-            $attendances = $user->attendances;
+            // $attendances = $user->attendances;
             // $subjects = $user->subjects;
             // $scores = $user->scores;
             // $scores = $user->scores;
@@ -28,7 +28,7 @@ class Authentication extends Controller
                     'status' => 'success',
                     // 'data' => auth()->user(),
                     'data' => $user,
-                    'attendance' => $attendances,
+                    // 'attendance' => $attendances,
                     // 'subject' => $subjects,
                     // 'score' => $scores,
                     'access_token' => $token
