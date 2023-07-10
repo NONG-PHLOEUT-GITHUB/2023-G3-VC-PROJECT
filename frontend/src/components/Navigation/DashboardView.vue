@@ -12,7 +12,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Brand -->
-                <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0 " href="#" >
+                <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0 " href="#">
                     <!-- <img src="https://cdn-icons-png.flaticon.com/512/855/855601.png"  alt="..."> -->
                     <h3 class="text-dark text-center"><b>PRINAVISCHOOL</b></h3>
                 </a>
@@ -22,27 +22,27 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <router-link class="nav-link text-primary" href="#" :to="{ path: '/home' }"
-                                :class="{ 'active': $route.path === '/' }">
+                                :class="{ 'active': $route.path === '/home' }">
                                 <i class="bi bi-house my-icon"></i> Dashboard
                             </router-link>
 
                             <!-- //teacher management -->
 
-                            <router-link @click="toggleLinks('teacher')" class="nav-link text-primary" href="#"
-                                :to="{ path: '/home' }" :class="{ 'active': $route.path === '/' }">
-                                <i class="bi bi-person my-icon"></i> Teacher management <i
-                                    class="bi bi-sort-down my-icon ms-4"></i>
+                            <router-link @click="toggleLinks('teacher')" class="nav-link text-primary"
+                                :to="{ path: '/managementt' }" :class="{ 'active': $route.path === '/managementt' }">
+                                <i class="bi bi-person my-icon"></i> Teacher management 
+                                <i class="bi bi-sort-down my-icon "></i>
                             </router-link>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/student_list' }" :class="{ 'active': $route.path === '/student_list' }">
+                                :to="{ path: '/9' }" :class="{ 'active': $route.path === '/9' }">
                                 <i class="bi bi-list my-icon"></i> Teacher List
                             </router-link>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
                                 :to="{ path: '/teacher' }" :class="{ 'active': $route.path === '/teacher' }">
-                                <i class="bi bi-gear my-icon"></i> Teacher Sitting
+                                <i class="bi bi-gear my-icon"></i> Teacher Setting
                             </router-link>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/home' }" :class="{ 'active': $route.path === '/' }">
+                                :to="{ path: '/3' }" :class="{ 'active': $route.path === '/3' }">
                                 <i class="bi bi-check2-circle my-icon"></i>Teacher Attendance
                             </router-link>
                         </li>
@@ -50,25 +50,25 @@
                         <!-- //student management -->
 
                         <li class="nav-item">
-                            <router-link @click="toggleLinks('student')" class="nav-link text-primary" href="#"
-                                :to="{ path: '/student' }" :class="{ 'active': $route.path === '/student' }">
-                                <i class="bi bi-people my-icon"></i> Student management <i
-                                    class="bi bi-sort-down my-icon ms-4"></i>
+                            <router-link @click="toggleLinks('student')" class="nav-link text-primary"
+                                :to="{ path: '/management' }" :class="{ 'active': $route.path === '/management' }">
+                                <i class="bi bi-people my-icon"></i> Student management 
+                                <i class="bi bi-sort-down my-icon ms-4"></i>
                             </router-link>
                             <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
                                 :to="{ path: '/student_list' }" :class="{ 'active': $route.path === '/student_list' }">
                                 <i class="bi bi-list my-icon"></i> Student List
                             </router-link>
                             <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/teacher' }" :class="{ 'active': $route.path === '/teacher' }">
-                                <i class="bi bi-gear my-icon"></i>Student Sitting 
+                                :to="{ path: '/student' }" :class="{ 'active': $route.path === '/student' }">
+                                <i class="bi bi-gear my-icon"></i>Student Setting
                             </router-link>
                             <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/home' }" :class="{ 'active': $route.path === '/' }">
+                                :to="{ path: '/2' }" :class="{ 'active': $route.path === '/2' }">
                                 <i class="bi bi-clipboard-check my-icon"></i> Student Score
                             </router-link>
                             <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/schedule' }" :class="{ 'active': $route.path === '/schedule' }">
+                                :to="{ path: '/1' }" :class="{ 'active': $route.path === '/1' }">
                                 <i class="bi bi-check2-circle my-icon"></i>Student Attendance
                             </router-link>
                         </li>
@@ -95,7 +95,7 @@
             <!-- Header -->
             <header class="bg-surface-primary border-bottom pt-6 sticky-top">
                 <div class="container-fluid mt-3">
-                    <div class="mb-npx mb-7" >
+                    <div class="mb-npx mb-7">
                         <div class="row align-items-center">
                             <div class="col-sm-6 col-12 mb-4 mb-sm-0">
                                 <!-- Title -->
@@ -119,9 +119,9 @@
                                             <i class="bi bi-box-arrow-right my-icon"></i>Logout
                                         </router-link>
                                         <router-link @click="closeDropdown" class="nav-link text-primary" href="#"
-                                            :to="{ path: '/student_list' }"
-                                            :class="{ 'active': $route.path === '/student_list' }">
-                                            <i class="bi bi-gear my-icon"></i>Sitting
+                                            :to="{ path: '/change_password' }"
+                                            :class="{ 'active': $route.path === '/change_password' }">
+                                            <i class="bi bi-gear my-icon"></i>Setting
                                         </router-link>
                                     </div>
                                 </div>
@@ -153,8 +153,9 @@
     </div>
 </template>
 <script>
-
+import http from '../../htpp.common'
 export default {
+
     emits: ['isLogin'],
     data: () => ({
         isDropdownOpen: false,
@@ -172,33 +173,38 @@ export default {
 
     methods: {
         logout() {
-            console.log(localStorage.getItem('access_token'))
-            http.post('/api/v1/auth/logout')
+            http.post('/api/v1/auth/logout', {}, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                }
+            })
                 .then(() => {
+                    // Remove the access token from local storage
+                    localStorage.removeItem('access_token');
                     sessionStorage.removeItem('email');
-                    this.$router.push("/");
-                    console.log('logout sess');
+                    // Redirect to the login page
+                    // this.$router.push('/login');
                     this.$emit('isLogin', false, this.email);
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },
-
         toggleDropdown() {
             this.isDropdownOpen = !this.isDropdownOpen;
         },
         closeDropdown() {
             this.isDropdownOpen = false;
         },
-        toggleLinks(set) {
-            if (set === 'teacher') {
+        toggleLinks(link) {
+            if (link === 'teacher') {
                 this.isLinkActiveTeacher = !this.isLinkActiveTeacher;
-            } else if (set === 'student') {
+                // this.isLinkActiveStudent = false;
+            } else if (link === 'student') {
                 this.isLinkActiveStudent = !this.isLinkActiveStudent;
+                // this.isLinkActiveTeacher = false;
             }
         }
-
     }
 }
 
@@ -220,6 +226,7 @@ header {
 .nav-link {
     color: red;
 }
+
 .my-link {
     color: #000;
     font-weight: bold;
@@ -282,15 +289,13 @@ header {
 .my-icon {
     font-size: 20px;
 }
+
 /* .container-fluid{
  background: #000;
  background: #bab1b1;
 } */
-#sidebarCollapse{
+#sidebarCollapse {
     background: var(--light);
- 
+
 }
-
-
-
 </style>

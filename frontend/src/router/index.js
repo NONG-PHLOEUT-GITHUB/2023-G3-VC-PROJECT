@@ -16,6 +16,9 @@ import FormFogetPassword from '../components/HelloWorld.vue';
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
 import AttendanceList from '../views/Student/AttendanceList.vue'
+/// change password
+import ChangePassword from '../views/Authentication/ChangePassword.vue';
+
 const routes = [
   {
     path: '/login',
@@ -94,6 +97,12 @@ const routes = [
     path: '/attendance_list',
     name: 'attendance_list',
     component: AttendanceList
+  },
+  {
+
+    path: '/change_password',
+    name: 'change_password',
+    component: ChangePassword
   }
 
 ]

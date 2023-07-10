@@ -84,8 +84,8 @@ export default {
                     .catch(error => {
                         if (error.response.status === 401) {
                             if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '') {
-                                this.emailRules = ['Email or password is icorrect'];
-                                this.passwordRules = ['Email or password is icorrect'];
+                                this.emailRules = ['Email or password is incorrect'];
+                                this.passwordRules = ['Email or password is incorrect'];
                             }
 
                         } else {

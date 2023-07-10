@@ -1,7 +1,7 @@
 <template>
     <section style="background-color: #eee;">
         <div class="container py-5">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col">
                     <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
@@ -11,7 +11,7 @@
                         </ol>
                     </nav>
                 </div>
-            </div>
+            </div> -->
 
             <div class="row">
                 <div class="col-lg-4">
@@ -19,7 +19,7 @@
                         <div class="card-body text-center">
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                                 alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                            <h5 class="my-3" >{{fullname}}</h5>
+                            <h5 class="my-3">{{ users.first_name }} {{ users.last_name }}</h5>
                             <p class="text-muted mb-1">Full Stack Developer</p>
                             <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
                             <div class="d-flex justify-content-center mb-2">
@@ -57,40 +57,40 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="row" >
+                        <div  class="card-body">
+                            <div class="row">
                                 <div class="col-sm-3">
                                     <p class="mb-0">Full Name </p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{ users.first_name }} {{ users.last_name }}</p>
                                 </div>
                             </div>
                             <hr>
-                            <div class="row" >
+                            <div class="row">
                                 <div class="col-sm-3">
                                     <p class="mb-0">Gender</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{ users.gender }}</p>
                                 </div>
                             </div>
                             <hr>
-                             <div class="row">
+                            <div class="row">
                                 <div class="col-sm-3">
                                     <p class="mb-0">Age</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{ users.age }}</p>
                                 </div>
                             </div>
                             <hr>
-                             <div class="row" >
+                            <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">DateOfBirth</p>
+                                    <p class="mb-0">Date Of Birth</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{ users.date_of_birth }}</p>
                                 </div>
                             </div>
                             <hr>
@@ -99,7 +99,7 @@
                                     <p class="mb-0">PhoneNumber</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{ users.phone_number }}</p>
                                 </div>
                             </div>
                             <hr>
@@ -108,7 +108,7 @@
                                     <p class="mb-0">Address</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{ users.address }}</p>
                                 </div>
                             </div>
                             <hr>
@@ -117,12 +117,12 @@
                                     <p class="mb-0">Email</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{users}}</p>
+                                    <p class="text-muted mb-0">{{ users.email }}</p>
                                 </div>
                             </div>
                             <hr>
                             <hr>
-                            
+
                         </div>
                     </div>
                     <div class="row">
@@ -202,32 +202,31 @@
 </template>
 <script>
 
-import axios from 'axios';
+import http from '../../htpp.common'
 
-    
 export default ({
-      name: "UserDetails",
-  data() {
-    return {
-      fullname: "",
-      email: "",
-      url:"http://127.0.0.1:8000/api/users",
-    };
-  },
-  methods: {
-    fetchData() {
-      axios.get(this.url)
-        .then(response => {
-          // Process the response data
-          console.log(response);
-        });
+    name: "UserDetails",
+    data() {
+        return {
+            users:" ",
+        };
     },
-  },
-  
-  
-  
-    
-    
-    
+    methods: {
+        fetchData() {
+            http.get('/api/v1/auth/user')
+                .then(response => {
+                    this.users = response.data.data;
+                    console.log(response.data.data);
+                });
+        },
+    },
+
+    mounted(){
+        this.fetchData();
+    }
+
+
+
+
 })
 </script>
