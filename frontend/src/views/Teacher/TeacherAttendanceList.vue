@@ -1,6 +1,6 @@
 <template>
   <main class="table">
-    <h3>Student Most Absence List</h3>
+    <h3>Teacher Attendance List</h3>
     <table>
       <thead>
         <tr>
@@ -25,6 +25,7 @@
     </table>
   </main>
 </template>
+
 <script>
 import axios from "axios";
 
@@ -36,7 +37,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://127.0.0.1:8000/api/getMostAbsence")
+      .get("http://127.0.0.1:8000/api/getTeacherAttendance")
       .then((response) => {
         this.attendanceData = response.data;
       })

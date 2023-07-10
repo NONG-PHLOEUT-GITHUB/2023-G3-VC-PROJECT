@@ -75,9 +75,36 @@ class AttendanceController extends Controller
             ->get();
         return response()->json($users);
     }
+     /**
+     * Get five students that most absence.
+     */
     public static function getStudentMostAbsence()
     {
         $users = User::where('role', 3)
+            ->select('id', 'first_name', 'last_name')
+            ->withCount('roleAttendances')
+            ->orderByDesc('role_attendances_count')
+            ->limit(5)
+            ->get();
+        return response()->json($users);
+    }
+    /**
+     * Get attendance list of teachers.
+     */
+    public static function getAttendanceListOfTeachers()
+    {
+        $users = User::where('role', 2)
+            ->select('id', 'first_name', 'last_name')
+            ->withCount('roleAttendances')
+            ->get();
+        return response()->json($users);
+    }
+    /**
+     * Get five teacher that most absence.
+     */
+    public static function getTeacherMostAbsence()
+    {
+        $users = User::where('role', 2)
             ->select('id', 'first_name', 'last_name')
             ->withCount('roleAttendances')
             ->orderByDesc('role_attendances_count')

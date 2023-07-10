@@ -1,6 +1,6 @@
 <template>
   <main class="table">
-    <h3>Student Most Absence List</h3>
+    <h3>Teacher Most Absence List</h3>
     <table>
       <thead>
         <tr>
@@ -36,7 +36,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://127.0.0.1:8000/api/getMostAbsence")
+      .get("http://127.0.0.1:8000/api/getTeacherMostAbsence")
       .then((response) => {
         this.attendanceData = response.data;
       })
