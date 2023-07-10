@@ -35,7 +35,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- <tr v-for="student of studentsList" :key="student" class="border-2-dark"> -->
                     <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
                         <td>
                             <img alt=""
@@ -58,12 +57,21 @@
                             {{user.phone_number}}
                         </td>
                         <td class="text-end d-flex justify-content-end">
-                            <button type="button" class="btn btn-sm btn-neutral bg-gray-300 text-dark text-primary-hover">
-                                <i class="bi bi-person-circle"></i> View Profile
+                            <button type="button" class="btn btn-sm btn-neutral  text-dark text-primary-hover">
+                                
+                                        <router-link class="bi bi-person-circle" :to="{ path: '/student_detail/' + user.id }">
+                                        View Profile
+                                        </router-link>
+                                    
+                                
+                                
+                                        
                             </button>
-                            <router-link  :to="{ path: '/createUser' }"><button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2" @click="editUser(id)">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </button></router-link>
+                            
+                                <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
+                                    <i class="bi bi-pencil-square" @click="editUser(user.id)"></i> Edit
+                                </button>
+                       
                             <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2" @click="deleteUser(user.id)">
                                 <i class="bi bi-trash-fill"></i> Delete
                             </button>
@@ -81,20 +89,13 @@ export default {
     data() {
         
         return {
-            // studentsList: [
-            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-            //     {name: "Rien Leam", gender: "Male", age: 19, class: "12A", phone: "0977348624"},
-            // ]
             URL: "http://127.0.0.1:8000/api/users",
-            listUser:[]
+            listUser:[],
+            errorMessage:""
         }
     },
+
+
     methods:{
         //===================get data from Database =================
         getURL() {
@@ -102,17 +103,25 @@ export default {
                 this.listUser = response.data.data;
                 console.log(this.listUser);
             });
-        }, 
+        },
+        
         // ================== Edit a user ==================
-        // deleteUser(id) {
-        //     axios.put(this.URL + `/${id}`)
-        //     .then(() => {
-        //         this.getURL();
-        //     })
-        //     .catch(error => {
-        //         console.error(error);
-        //     });
-        // },
+        editUser(id) {
+      // Make an HTTP request to the API endpoint to get the user data
+            axios.get(`http://127.0.0.1:8000/api/users/${id}`).then((response) => {
+                // Set the user data on the Vue component
+                this.listUser = response.data.data;
+                console.log(this.listUser);
+            });
+        },
+        updateUser(id) {
+        // Make an HTTP request to the API endpoint to update the user data
+        axios.put(`http://127.0.0.1:8000/api/users/${id}`, this.user).then((response) => {
+            // Display a success message to the user
+            alert('User data updated successfully!');
+            console.log(response.data.data);
+        })
+        },
         //================== Delete a user =================
         deleteUser(id) {
             swal({

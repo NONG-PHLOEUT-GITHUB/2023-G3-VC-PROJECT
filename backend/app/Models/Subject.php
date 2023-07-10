@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Subject extends Model
 {
     use HasFactory;
+
+
+
+
+
+    public function teachers(){
+        return $this->belongsToMany(User::class,'subject_teacher')->withTimestamps();
+    }
+
+
+    public function schedule(){
+        return $this->belongsTo(Schedule::class);
+    }
 }

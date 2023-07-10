@@ -15,13 +15,14 @@
         <div class="table-responsive">
             <table class="table table-hover table-nowrap">
                 <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Gender</th>
-                        <th scope="col">age</th>
-                        <th scope="col">class</th>
-                        <th scope="col">phone number</th>
-                        <th></th>
+                    <tr >
+                        <th scope="col" class="fs-6">Name</th>
+                        <th scope="col" class="fs-6">Gender</th>
+                        <th scope="col" class="fs-6">age</th>
+                        <th scope="col" class="fs-6">class</th>
+                        <th scope="col" class="fs-6">Subject</th>
+                        <th scope="col" class="fs-6">phone number</th>
+                        <th scope="col " class="fs-6 text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,9 +47,13 @@
                         <td>
                             {{student.phone}}
                         </td>
+                        <td>
+                            {{student.phone}}
+                        </td>
                         <td class="text-end d-flex justify-content-end">
                             <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
                                 <i class="bi bi-person-circle"></i> View Profile
+                            
                             </button>
                             <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
                                 <i class="bi bi-pencil-square"></i> Edit
@@ -83,3 +88,10 @@ export default {
     }
 }
 </script>
+<style scoped>
+/* td{
+    font-size: 25px;
+    color: red;
+} */
+
+</style>

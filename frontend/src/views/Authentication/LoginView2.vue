@@ -1,11 +1,11 @@
 <template>
     <div class="container d-flex align-center justify-center" style="height: 100vh;">
-        <!-- <div class="w-800" style="background-color: rgb(203, 187, 12);">
-            <v-img
-                src="https://static.vecteezy.com/system/resources/previews/005/879/539/original/cloud-computing-modern-flat-concept-for-web-banner-design-man-enters-password-and-login-to-access-cloud-storage-for-uploading-and-processing-files-illustration-with-isolated-people-scene-free-vector.jpg"
-                width="100" height="300" contain>
-            </v-img>
-        </div> -->
+    <div class="ma-4">
+        <h2>SCHOOL MANAGEMENT</h2>
+        <v-img class="bg-white" width="300" :aspect-ratio="1"
+        src="https://media.istockphoto.com/id/1281150061/vector/register-account-submit-access-login-password-username-internet-online-website-concept.jpg?s=612x612&w=0&k=20&c=9HWSuA9IaU4o-CK6fALBS5eaO1ubnsM08EOYwgbwGBo="
+                 cover></v-img>
+        </div>
         <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8" elevation="10" max-width="448" rounded="lg">
             <v-form ref="form" @submit.prevent="login">
                 <v-title>
@@ -61,13 +61,13 @@ export default {
     methods: {
         login() {
             if (this.$refs.form.validate()) {
-                http.post('/api/login', {
+                http.post('/api/v1/auth/login', {
                     email: this.email,
                     password: this.password,
                 })
                     .then(response => {
-                        console.log('API response:', response.data.token);
-                        localStorage.setItem('access_token', response.data.token);
+                        console.log('API response:', response.data);
+                        localStorage.setItem('access_token', response.data.access_token);
                         // alert('login successful');
                         // Swal.fire({
                         //     position: 'top-end',
@@ -76,7 +76,7 @@ export default {
                         //     showConfirmButton: false,
                         //     timer: 1500
                         // })
-                    }).then(()=>{
+                    }).then(() => {
                         sessionStorage.setItem('email', this.email);
                         this.$emit('isLogin', true, this.email);
                         this.$router.push('/home');

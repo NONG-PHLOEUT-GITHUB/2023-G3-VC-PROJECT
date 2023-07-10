@@ -1,171 +1,138 @@
 <template>
-  <main class="table">
+  <div>
+    <h1>Attendance Check List</h1>
+    <div>
+      <p>This is Attendance of Today</p>
+    </div>
+    <div>
+        <button class="selectattendance" @click="SelectAttendace()">Attendance Today </button>
+        {{selectedDate}}
+      </div>
     <table>
       <thead>
         <tr>
-          <th>Id</th>
-          <th>Student_Name</th>
-          <th>Total_Absence</th>
-          <th>Date</th>
-          <th>See More</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Status</th>
+          <th>Reason</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td> <img :src="require('@/assets/Zinzu Chan Lee.jpg')" alt="">Zinzu Chan Lee</td>
-          <td>6</td>
-          <td>17 Dec, 2022</td>
+      <tbody >
+        <tr v-for="student in students" :key="student.id">
+          <td>{{ student.name }}</td>
+          <td>{{ student.gender }}</td>
           <td>
-            <p class="status detail">Detail</p>
+            <input type="checkbox" v-model="student.status"> Present
           </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td><img :src="require('@/assets/Jeet Saru.jpg')" alt=""> Jeet Saru</td>
-          <td>11</td>
-          <td>27 Aug, 2023</td>
-          <td>
-            <p class="status detail">Detail</p>
-          </td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td><img :src="require('@/assets/Sonal Gharti.jpg')" alt=""> Sonal Gharti</td>
-          <td>4</td>
-          <td>14 Mar, 2023</td>
-          <td>
-            <p class="status detail">Detail</p>
-          </td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td><img :src="require('@/assets/Alson GC.jpg')" alt=""> Alson GC</td>
-          <td>5</td>
-          <td>25 May, 2023</td>
-          <td>
-            <p class="status detail">Detail</p>
-          </td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td><img :src="require('@/assets/Sarita Limbu.jpg')" alt="">Sarita Limbu</td>
-          <td>0</td>
-          <td>23 Apr, 2023</td>
-          <td>
-            <p class="status detail">Detail</p>
-          </td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td><img :src="require('@/assets/Alex Gonley.jpg')" alt=""> Alex Gonley</td>
-          <td>10</td>
-          <td>23 Apr, 2023</td>
-          <td>
-            <p class="status detail">Detail</p>
-          </td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td><img :src="require('@/assets/Jeet Saru.jpg')" alt=""> Jeet Saru</td>
-          <td>6</td>
-          <td>20 May, 2023</td>
-          <td>
-            <p class="status detail">Detail</p>
-          </td>
-        </tr>
-        <tr>
-          <td>8</td>
-          <td><img :src="require('@/assets/Sonal Gharti.jpg')" alt=""> Aayat Ali Khan</td>
-          <td>5</td>
-          <td>30 Feb, 2023</td>
-          <td>
-            <p class="status detail">Detail</p>
-          </td>
-        </tr>
-        <tr>
-          <td>9</td>
-          <td><img :src="require('@/assets/Alson GC.jpg')" alt=""> Alson GC</td>
-          <td>2</td>
-          <td>22 Dec, 2023</td>
-          <td>
-            <p class="status detail">Detail</p>
-          </td>
+          <td>{{ student.reason }}</td>
         </tr>
       </tbody>
+      
     </table>
-  </main>
+    <button class="save" @click="showAlert()">Save</button>
+     
+  </div>
 </template>
 
 <script>
-export default {};
+import swal from 'sweetalert2';
+export default {
+  name:'SweetAlert2',
+  data() {
+    return {
+      students: [
+        { id: 1, name: 'John', gender: 'Male',  reason: 'Sick', status: false },
+        { id: 2, name: 'Jane', gender: 'Female',  reason: 'Sick', status: false },
+        { id: 3, name: 'Bob', gender: 'Male',  reason: 'Sick', status: false },
+        { id: 4, name: 'Sarah', gender: 'Female', reason: 'Sick', status: false }
+      ],
+      selectedDate: null,
+      testButClicked: false,
+      isHidden: true
+    }
+  },
+  // copy by "https://stackoverflow.com/questions/57249466/getting-current-time-and-date-in-vue-js"
+  methods: {
+    SelectAttendace() {
+      const today = new Date();
+      const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+      this.selectedDate = date;
+      console.log(this.selectedDate)
+      this.students.forEach((student) => {
+        student.status = false;
+      });
+    },
+    created() {
+      setInterval(this.getNow, 1000);
+    },
+    showAlert() {
+    // Use sweetalert2
+      swal.fire({
+        icon:'success',
+        title:'Successfully',
+      });
+    },
+    mounted(){
+      this.getStudentData()
+    }
+
+   
+  },
+  
+  
+  
+}
 </script>
 
+
+
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: sans-serif;
-}
-body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-main.table {
-  margin: auto;
-  width: 65vw;
-  background-color: #fff5;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-}
 table {
-  width: 100%;
+border-collapse: collapse;
+width: 90%;
+margin-top: 20px;
+margin-bottom: 20px;
+margin-left:5% ;
 }
 
-td img {
-  width: 36px;
-  height: 36px;
-  margin-right: 0.5rem;
-  border-radius: 50%;
+th, td {
+border: 1px solid #ddd;
+padding: 8px;
+text-align: center;
 
-  vertical-align: middle;
 }
 
-table,
-th,
-td {
-  border-collapse: collapse;
-  padding: 1rem;
-  text-align: left;
+th {
+background-color: #cec9c9;
+text-align: center;
+
 }
 
-thead th {
-  position: sticky;
-  top: 0;
-  left: 0;
-  background-color: #d5d1defe;
-  cursor: pointer;
-  text-transform: capitalize;
-}
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
-}
-tbody tr:hover {
-  background-color: #fff6 !important;
+td:first-child {
+font-weight: bold;
 }
 
-.status.detail {
-  padding: 0.4rem 0;
-  border-radius: 2rem;
-  text-align: center;
-  background-color: #50ded9;
-  color: #006b21;
+
+td.status {
+position: relative;
+padding-left: 30px;
 }
 
-thead th:hover {
-  color: #5cd2c6;
+h1,p{
+    margin-left: 5%;
+}
+.save{
+  padding: 10px;
+  background: lightblue;
+  border: 1px solid lightblue;
+  width: 10%;
+  margin-top: 10px;
+  margin-left: 85%;
+}
+.selectattendance{
+    padding: 10px;
+    background: lightblue;
+    border: 1px solid lightblue;
+    margin-left: 65px;
 }
 </style>
