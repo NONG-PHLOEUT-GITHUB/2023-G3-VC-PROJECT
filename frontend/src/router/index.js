@@ -98,18 +98,15 @@ const routes = [
     component: AttendanceList
   },
   {
-<<<<<<< HEAD
     name: 'edit',
     path: '/edit/:id',
     component: EditUserForm
-  }
-=======
-
+  },
+  {
     path: '/report_view',
     name: 'report_view',
     component: ReportView
-  },
->>>>>>> 6496832b7989b8c3b41bddfa92d61801317fea16
+  }
   
 
 ]
