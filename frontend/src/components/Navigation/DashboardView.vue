@@ -68,7 +68,7 @@
                                 <i class="bi bi-clipboard-check my-icon"></i> Student Score
                             </router-link>
                             <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/schedule' }" :class="{ 'active': $route.path === '/schedule' }">
+                                :to="{ path: '/report_view' }" :class="{ 'active': $route.path === '/report_view' }">
                                 <i class="bi bi-check2-circle my-icon"></i>Student Attendance
                             </router-link>
                         </li>

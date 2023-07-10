@@ -6,6 +6,7 @@ import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
 import StudentList from '../views/Director/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
+import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import LoginView from '../views/Authentication/LoginView2.vue';
@@ -94,6 +95,12 @@ const routes = [
     path: '/attendance_list',
     name: 'attendance_list',
     component: AttendanceList
+  },
+  {
+
+    path: '/report_view',
+    name: 'report_view',
+    component: ReportView
   },
   
 
