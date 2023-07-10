@@ -83,7 +83,6 @@ class AttendanceController extends Controller
             ->orderByDesc('role_attendances_count')
             ->limit(5)
             ->get();
-
         return response()->json($users);
     }
 }
