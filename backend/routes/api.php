@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\UserController;
@@ -25,11 +26,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{id}', [UserController::class,"show"]);
+Route::put('/users/{id}', [UserController::class,"update"]);
 Route::resource('users' , UserController::class);
 
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
 Route::post('/class_rooms', [ClassRoomController::class,"store"]);
 
+Route::resource('attendance' , AttendanceController::class);
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {

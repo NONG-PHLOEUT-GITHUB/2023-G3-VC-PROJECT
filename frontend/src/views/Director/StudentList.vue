@@ -59,18 +59,17 @@
                         <td class="text-end d-flex justify-content-end">
                             <button type="button" class="btn btn-sm btn-neutral  text-dark text-primary-hover">
                                 
-                                        <router-link class="bi bi-person-circle" :to="{ path: '/student_detail/' + user.id }">
-                                        View Profile
-                                        </router-link>
-                                    
-                                
-                                
-                                        
+                                <router-link class="bi bi-person-circle" :to="{ path: '/student_detail/' + user.id }">
+                                View Profile
+                                </router-link>           
                             </button>
                             
+                            <router-link  :to="{ path: '/edit/' + user.id }" >
                                 <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
-                                    <i class="bi bi-pencil-square" @click="editUser(user.id)"></i> Edit
+                                    <i  class="bi bi-pencil-square" ></i> Edit
                                 </button>
+                            </router-link>
+                                   
                        
                             <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2" @click="deleteUser(user.id)">
                                 <i class="bi bi-trash-fill"></i> Delete
@@ -91,7 +90,7 @@ export default {
         return {
             URL: "http://127.0.0.1:8000/api/users",
             listUser:[],
-            errorMessage:""
+            errorMessage:"",
         }
     },
 
@@ -105,23 +104,9 @@ export default {
             });
         },
         
-        // ================== Edit a user ==================
-        editUser(id) {
-      // Make an HTTP request to the API endpoint to get the user data
-            axios.get(`http://127.0.0.1:8000/api/users/${id}`).then((response) => {
-                // Set the user data on the Vue component
-                this.listUser = response.data.data;
-                console.log(this.listUser);
-            });
-        },
-        updateUser(id) {
-        // Make an HTTP request to the API endpoint to update the user data
-        axios.put(`http://127.0.0.1:8000/api/users/${id}`, this.user).then((response) => {
-            // Display a success message to the user
-            alert('User data updated successfully!');
-            console.log(response.data.data);
-        })
-        },
+        
+    
+    
         //================== Delete a user =================
         deleteUser(id) {
             swal({

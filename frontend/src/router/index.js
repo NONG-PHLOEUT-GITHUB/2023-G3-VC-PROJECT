@@ -17,6 +17,7 @@ import FormFogetPassword from '../components/HelloWorld.vue';
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
 import AttendanceList from '../views/Student/AttendanceList.vue'
+import EditUserForm from '../views/Dashboard/EditUserForm.vue'
 const routes = [
   {
     path: '/login',
@@ -97,11 +98,15 @@ const routes = [
     component: AttendanceList
   },
   {
-
+    name: 'edit',
+    path: '/edit/:id',
+    component: EditUserForm
+  },
+  {
     path: '/report_view',
     name: 'report_view',
     component: ReportView
-  },
+  }
   
 
 ]
