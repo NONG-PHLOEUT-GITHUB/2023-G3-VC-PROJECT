@@ -1,18 +1,6 @@
-<template>
+<!-- <template>
     <section style="background-color: #eee;">
         <div class="container py-5">
-            <!-- <div class="row">
-                <div class="col">
-                    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
-                        <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">User</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div> -->
-
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card mb-4">
@@ -229,4 +217,44 @@ export default ({
 
 
 })
-</script>
+</script> -->
+
+
+<template>
+<div class="container ">
+  <div class="col">
+    <div class="row">
+      <div class="col mb-3">
+        <div class="card">
+          <div class="card-body shadow-lg p-3 mb-5 bg-body rounded">
+            <div class="e-profile">
+              <div class="row">
+                <div class="col-12 col-sm-auto mb-3">
+                  <div class="mx-auto" style="width: 140px;">
+                    <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+                      <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                  <div class="text-center text-sm-left mb-2 mb-sm-0">
+                    <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">John Smith</h4>
+                    <p class="mb-0">@johnny.s</p>
+                    <div class="text-muted"><small>Last seen 2 hours ago</small></div>
+                    <div class="mt-2">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fa fa-fw fa-camera"></i>
+                        <span>Change Photo</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>

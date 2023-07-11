@@ -10,6 +10,7 @@ import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
+import CheckAttendance from '../views/Student/CheckAttendance.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
 import StudentDetail from '../views/Student/StudentDetail.vue';
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
@@ -25,6 +26,7 @@ import TeacherDetail from '../views/Student/StudentDetial.vue'
 import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
+
 const routes = [
   {
     path: '/login',
@@ -128,6 +130,12 @@ const routes = [
     path: '/attendance_list',
     name: 'attendance_list',
     component: AttendanceList
+  },
+  {
+
+    path: '/check_attendance',
+    name: 'check_attendance',
+    component: CheckAttendance
   },
   {
 
