@@ -1,6 +1,6 @@
 <template>
   <main class="table">
-    <h3>Student Attendance List</h3>
+    <h3>Teacher Most Absence List</h3>
     <table>
       <thead>
         <tr>
@@ -18,14 +18,13 @@
           <td>{{ attendanceItem.last_name }}</td>
           <td>{{ attendanceItem.role_attendances_count }}</td>
           <td>
-            <router-link class="status detail" to="/studentdetail">Detail</router-link>
+            <p class="status detail">Detail</p>
           </td>
         </tr>
       </tbody>
     </table>
   </main>
 </template>
-
 <script>
 import axios from "axios";
 
@@ -37,7 +36,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://127.0.0.1:8000/api/getAttendance")
+      .get("http://127.0.0.1:8000/api/getTeacherMostAbsence")
       .then((response) => {
         this.attendanceData = response.data;
       })
@@ -79,6 +78,15 @@ table {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
+td img {
+  width: 36px;
+  height: 36px;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+
+  vertical-align: middle;
+}
+
 table,
 th,
 td {
@@ -103,7 +111,7 @@ tbody tr:hover {
 }
 
 .status.detail {
-  padding: 0.5rem 1.5rem;
+  padding: 0.4rem 0;
   border-radius: 2rem;
   text-align: center;
   background-color: #50ded9;
