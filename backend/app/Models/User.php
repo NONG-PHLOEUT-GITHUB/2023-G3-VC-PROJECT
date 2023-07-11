@@ -21,7 +21,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
+        'id',
+        'role',
         'first_name',
         'last_name',
         'gender',
@@ -84,7 +85,8 @@ class User extends Authenticatable implements JWTSubject
     public static function store($request, $id = null)
     {
         $users = $request->only(
-            'user_id',
+            'id',
+            'role',
             'first_name',
             'last_name',
             'gender',
@@ -107,8 +109,32 @@ class User extends Authenticatable implements JWTSubject
         } else {
             $user = self::create($users);
             $id = $user->$id;
+            
+            // =============image====================
+            if ($request->hasFile('profile')) {
+                $profile = $request->file('profile');    
+                // Generate a unique filename
+                $filename = time() . '.' . $profile->getClientOriginalExtension();        
+                {
+                    // Store the file in the "src/assets" directory
+                    $profile->storeAs('/public/', $filename);
+                    // Update the user's profile image
+                    $user->profile = $filename;
+                    $user->save();
+                } 
+            }
         }
+        
+        // ==================upload image==================  
+        // if($request->hash_file('profile')){
+        //     $profile = $request->file('profile');
+        //     $ext = $profile->extension();
+        //     $file = time().'.'.$ext;
+        //     $profile->storeAs('src/assets' , $file);
+        //     $user->profile = $file;
+        // }
 
+        // ================token user password=================
         $token = null;
         $token = $user->createToken('TOKEN', ['select', 'create', 'update', 'delete']);
         return response()->json(['success' => true, 'data' => $user, 'token' => $token->plainTextToken], 201);
@@ -155,5 +181,9 @@ class User extends Authenticatable implements JWTSubject
     public function guardian()
     {
         return $this->belongsTo(Guardian::class);
+    }
+    public function roleAttendances()
+    {
+        return $this->hasMany(Attendance::class, 'user_id');
     }
 }
