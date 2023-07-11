@@ -26,6 +26,7 @@ import TeacherDetail from '../views/Student/StudentDetial.vue'
 import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
+
 const routes = [
   {
     path: '/login',
