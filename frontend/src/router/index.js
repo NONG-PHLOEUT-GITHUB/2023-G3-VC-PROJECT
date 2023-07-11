@@ -21,6 +21,7 @@ import AttendanceList from '../views/Student/AttendanceList.vue'
 import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
+
 const routes = [
   {
     path: '/login',

@@ -15,6 +15,8 @@
                     <input class="form-control mr-sm-2" type="search" placeholder="Search student" aria-label="Search" style="width: 78%;">
                     <button class="btn btn-outline-warning my-2 my-sm-0 " type="button"><i class="bi bi-search"></i> Search</button>
                 </form>
+                <!-- <i class="bi bi-filetype-xlsx"></i> -->
+                <button class="btn btn-primary">Import Excel file<i class="bi bi-file-earmark-arrow-down ms-4"></i></button>
                 <router-link :to="{ path: '/createUser' }" class="text-white" style="width: 20%;"><button type="button" class="btn btn-primary align-self-end" style="width: 100%;"><i class="bi bi-person-plus-fill"></i> Add new student</button></router-link>
             </div>
         </div>
