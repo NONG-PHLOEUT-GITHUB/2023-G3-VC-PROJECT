@@ -18,7 +18,7 @@
           <td>{{ attendanceItem.last_name }}</td>
           <td>{{ attendanceItem.role_attendances_count }}</td>
           <td>
-            <p class="status detail">Detail</p>
+            <router-link class="status detail" to="/studentdetail">Detail</router-link>
           </td>
         </tr>
       </tbody>
@@ -79,15 +79,6 @@ table {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-td img {
-  width: 36px;
-  height: 36px;
-  margin-right: 0.5rem;
-  border-radius: 50%;
-
-  vertical-align: middle;
-}
-
 table,
 th,
 td {
@@ -112,7 +103,7 @@ tbody tr:hover {
 }
 
 .status.detail {
-  padding: 0.4rem 0;
+  padding: 0.5rem 1.5rem;
   border-radius: 2rem;
   text-align: center;
   background-color: #50ded9;

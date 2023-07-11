@@ -28,7 +28,6 @@
 
 <script>
 import axios from "axios";
-
 export default {
   data() {
     return {
@@ -63,7 +62,6 @@ body {
 }
 main.table {
   margin: auto;
-  width: 65vw;
   background-color: #fff5;
   border-radius: 10px;
   padding: 2%;

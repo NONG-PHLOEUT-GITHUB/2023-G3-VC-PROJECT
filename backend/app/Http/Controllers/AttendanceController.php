@@ -75,7 +75,7 @@ class AttendanceController extends Controller
             ->get();
         return response()->json($users);
     }
-     /**
+    /**
      * Get five students that most absence.
      */
     public static function getStudentMostAbsence()
@@ -111,5 +111,18 @@ class AttendanceController extends Controller
             ->limit(5)
             ->get();
         return response()->json($users);
+    }
+    /**
+     * show attendance of student detail .
+     */
+    public function showAttendanceDetail($id)
+    {
+        $attendance = Attendance::findOrFail($id);
+
+        return response()->json([
+            'date' => $attendance->date,
+            'reason' => $attendance->reason,
+            'attendace_status' => $attendance->attendace_status,
+        ]);
     }
 }

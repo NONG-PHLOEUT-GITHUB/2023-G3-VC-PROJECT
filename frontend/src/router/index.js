@@ -7,6 +7,7 @@ import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
+import StudentDetail from '../views/Student/StudentDetail.vue';
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
 
@@ -45,6 +46,11 @@ const routes = [
     path: '/studentmostabsence',
     name: '/studentmostabsence',
     component: StudentMostAbsence
+  },
+  {
+    path: '/studentdetail',
+    name: '/tudentdetail',
+    component: StudentDetail
   },
   {
     path: '/teacherattendancelist',

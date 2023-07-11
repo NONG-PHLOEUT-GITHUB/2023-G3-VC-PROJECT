@@ -34,6 +34,7 @@ Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
 // ***Student***
 Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfStudents"]);
 Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsence"]);
+Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
 // ***Teacher***
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
 Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
