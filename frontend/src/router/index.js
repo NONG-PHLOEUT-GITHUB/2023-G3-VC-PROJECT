@@ -9,6 +9,11 @@ import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
+import AttendanceList from '../views/Student/AttendanceList.vue';
+import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
+import StudentDetail from '../views/Student/StudentDetail.vue';
+import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
+import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
 import LoginView from '../views/Authentication/LoginView2.vue';
 import DashboardView from '../components/Navigation/DashboardView.vue';
 // import FormFogetPassword from '../views/Authentication/ForgotPassword.vue';
@@ -16,7 +21,6 @@ import FormFogetPassword from '../components/HelloWorld.vue';
 
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
-import AttendanceList from '../views/Student/AttendanceList.vue'
 /// change password
 import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
@@ -70,6 +74,31 @@ const routes = [
     path: '/user_info',
     name: '/user_info',
     component: UserInfo
+  },
+  {
+    path: '/attendancelist',
+    name: '/attendancelist',
+    component: AttendanceList
+  },
+  {
+    path: '/studentmostabsence',
+    name: '/studentmostabsence',
+    component: StudentMostAbsence
+  },
+  {
+    path: '/studentdetail',
+    name: '/tudentdetail',
+    component: StudentDetail
+  },
+  {
+    path: '/teacherattendancelist',
+    name: '/teacherattendancelist',
+    component: TeacherAttendanceList
+  },
+  {
+    path: '/teachermostabsence',
+    name: '/teachermostabsence',
+    component: TeacherMostAbsence
   },
   {
     path: '/forgot_password',

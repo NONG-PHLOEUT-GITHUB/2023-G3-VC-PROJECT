@@ -9,14 +9,17 @@ class Attendance extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id',
-        'attendance_status',
+        'id', 
+        'attendace_status',
         'reason',
         'date',
-        'teacher_id',
-        'student_id',
-        
+        'user_id',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
     public static function store($request, $id = null)
     {
         $attendances = $request->only(
