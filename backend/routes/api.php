@@ -50,7 +50,7 @@ Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmai
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
 Route::post('/class_rooms', [ClassRoomController::class,"store"]);
 
-Route::resource('attendance' , AttendanceController::class);
+// Route::resource('attendance' , AttendanceController::class);
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {

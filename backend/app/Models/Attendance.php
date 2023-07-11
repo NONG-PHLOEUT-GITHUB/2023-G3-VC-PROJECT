@@ -27,8 +27,7 @@ class Attendance extends Model
             'attendance_status',
             'reason',
             'date',
-            'teacher_id',
-            'student_id',
+            'user_id',
         );
 
         if ($id) {
