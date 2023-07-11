@@ -2,9 +2,9 @@
     <!-- Dashboard -->
     <div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
         <!-- Vertical Navbar -->
-        <nav class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg"
+        <nav class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light border-bottom border-bottom-lg-0 border-end-lg bg-gray-300"
             id="navbarVertical">
-            <div class="container-fluid">
+            <div class="container-fluid" id="sidebarCollapse">
                 <!-- Toggler -->
                 <button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse"
                     data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false"
@@ -12,68 +12,90 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Brand -->
-                <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" href="#">
-                    <img src="https://static.vecteezy.com/system/resources/previews/004/641/880/original/illustration-of-high-school-building-school-building-free-vector.jpg"
-                        alt="...">
+                <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0 " href="#">
+                    <!-- <img src="https://cdn-icons-png.flaticon.com/512/855/855601.png"  alt="..."> -->
+                    <h3 class="text-dark text-center"><b>PRINAVISCHOOL</b></h3>
                 </a>
                 <!-- Collapse -->
-                <div class="collapse navbar-collapse" id="sidebarCollapse">
+                <div class="collapse navbar-collapse">
                     <!-- Navigation -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <router-link class="nav-link" href="#" :to="{ path: '/' }"
-                                :class="{ 'active': $route.path === '/' }">
-                                <i class="bi bi-house"></i> Dashboard
+                            <router-link class="nav-link text-primary" href="#" :to="{ path: '/home' }"
+                                :class="{ 'active': $route.path === '/home' }">
+                                <i class="bi bi-house my-icon"></i> Dashboard
+                            </router-link>
+
+                            <!-- //teacher management -->
+
+                            <router-link @click="toggleLinks('teacher')" class="nav-link text-primary"
+                                :to="{ path: '/managementt' }" :class="{ 'active': $route.path === '/managementt' }">
+                                <i class="bi bi-person my-icon"></i> Teacher management 
+                                <i class="bi bi-sort-down my-icon "></i>
+                            </router-link>
+                            <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/9' }" :class="{ 'active': $route.path === '/9' }">
+                                <i class="bi bi-list my-icon"></i> Teacher List
+                            </router-link>
+                            <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/teacher' }" :class="{ 'active': $route.path === '/teacher' }">
+                                <i class="bi bi-gear my-icon"></i> Teacher Setting
+                            </router-link>
+                            <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/3' }" :class="{ 'active': $route.path === '/3' }">
+                                <i class="bi bi-check2-circle my-icon"></i>Teacher Attendance
+                            </router-link>
+                        </li>
+
+                        <!-- //student management -->
+
+                        <li class="nav-item">
+                            <router-link @click="toggleLinks('student')" class="nav-link text-primary"
+                                :to="{ path: '/management' }" :class="{ 'active': $route.path === '/management' }">
+                                <i class="bi bi-people my-icon"></i> Student management 
+                                <i class="bi bi-sort-down my-icon ms-4"></i>
+                            </router-link>
+                            <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/student_list' }" :class="{ 'active': $route.path === '/student_list' }">
+                                <i class="bi bi-list my-icon"></i> Student List
+                            </router-link>
+                            <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/student' }" :class="{ 'active': $route.path === '/student' }">
+                                <i class="bi bi-gear my-icon"></i>Student Setting
+                            </router-link>
+                            <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/2' }" :class="{ 'active': $route.path === '/2' }">
+                                <i class="bi bi-clipboard-check my-icon"></i> Student Score
+                            </router-link>
+                            <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/1' }" :class="{ 'active': $route.path === '/1' }">
+                                <i class="bi bi-check2-circle my-icon"></i>Student Attendance
                             </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" href="#" :to="{ path: '/teacher' }">
-                                <i class="bi bi-people"></i> Teacher management
+                            <router-link class="nav-link text-primary" href="#" :to="{ path: '/class' }"
+                                :class="{ 'active': $route.path === '/class' }">
+                                <i class="bi bi-building my-icon"></i> Class management
                             </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link" href="#" :to="{ path: '/student' }">
-                                <i class="bi bi-people"></i> Student management
+                            <router-link class="nav-link text-primary" href="#" :to="{ path: '/schedule' }"
+                                :class="{ 'active': $route.path === '/schedule' }">
+                                <i class="bi bi-table"></i> Schedule
                             </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" href="#" :to="{ path: '/class' }">
-                                <i class="bi bi-building"></i> Class management
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="bi bi-book"></i> Library management
-                            </a>
                         </li>
                     </ul>
                     <!-- Divider -->
                     <hr class="navbar-divider my-5 opacity-20">
                     <div class="mt-auto"></div>
-                    <!-- User (md) -->
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <!-- <router-link class="nav-link" href="#" :to="{ path: '/user_info' }"> -->
-                            <router-link class="nav-link" href="#" :to="{ path: '/user_info' }" :class="{ 'active': isActive('/user_info') }">
-                                <i class="bi bi-person-square"></i> Account
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="bi bi-box-arrow-left"></i> Logout
-                            </a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </nav>
-
-
-        <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+        <div class="h-screen flex-grow-1 overflow-y-lg-auto ">
             <!-- Header -->
-            <header class="bg-surface-primary border-bottom pt-6">
-                <div class="container-fluid">
-                    <div class="mb-npx">
+            <header class="bg-surface-primary border-bottom pt-6 sticky-top">
+                <div class="container-fluid mt-3">
+                    <div class="mb-npx mb-7">
                         <div class="row align-items-center">
                             <div class="col-sm-6 col-12 mb-4 mb-sm-0">
                                 <!-- Title -->
@@ -81,27 +103,46 @@
                             </div>
                             <!-- profile -->
                             <div class="col-sm-6 col-12 text-sm-end">
-                                <div class="mx-n1">
-                                    <img alt="..."
-                                        src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-                                        class="avatar avatar-sm rounded-circle me-2">
-                                    <p class="d-none d-md-inline-block mb-0 ms-4 me-3">Logan Lerman</p>
+                                <div class="profile">
+                                    <img src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                                        @click="toggleDropdown">
+                                    <p class="d-none d-md-inline-block mb-0 ms-4 me-3">NONG PHLOEUT</p>
+                                    <div class="profile-link" :class="{ show: isDropdownOpen }">
+                                        <router-link @click="closeDropdown" class="nav-link text-primary mt-0" href="#"
+                                            :to="{ path: '/user_info' }"
+                                            :class="{ 'active': $route.path === '/user_info' }">
+                                            <i class="bi bi-person my-icon"></i>Profile
+                                        </router-link>
+                                        <router-link @click="logout" class="nav-link text-primary mt-0" href="#"
+                                            :to="{ path: '/student_list' }"
+                                            :class="{ 'active': $route.path === '/student_list' }">
+                                            <i class="bi bi-box-arrow-right my-icon"></i>Logout
+                                        </router-link>
+                                        <router-link @click="closeDropdown" class="nav-link text-primary" href="#"
+                                            :to="{ path: '/change_password' }"
+                                            :class="{ 'active': $route.path === '/change_password' }">
+                                            <i class="bi bi-gear my-icon"></i>Setting
+                                        </router-link>
+                                    </div>
                                 </div>
                             </div>
                             <!-- profile -->
                         </div>
                         <!-- Nav -->
-                        <ul class="nav nav-tabs mt-4 overflow-x border-0">
+                        <!-- <ul class="nav nav-tabs mt-4 overflow-x border-0">
                             <li class="nav-item ">
                                 <a href="#" class="nav-link active">Student List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link font-regular">Shared</a>
+                                <router-link class="nav-link text-primary" href="#" :to="{ path: '/student_list' }"
+                                    :class="{ 'active': $route.path === '/student_list' }">
+                                    <i class="bi bi-person"></i> Teacher management
+                                </router-link>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link font-regular">File requests</a>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
             </header>
@@ -112,9 +153,14 @@
     </div>
 </template>
 <script>
-
+import http from '../../htpp.common'
 export default {
-     data:()=> ({
+
+    emits: ['isLogin'],
+    data: () => ({
+        isDropdownOpen: false,
+        isLinkActiveTeacher: false,
+        isLinkActiveStudent: false,
 
     }),
     computed: {
@@ -123,7 +169,43 @@ export default {
                 return this.$route.path === path
             }
         }
-    } 
+    },
+
+    methods: {
+        logout() {
+            http.post('/api/v1/auth/logout', {}, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                }
+            })
+                .then(() => {
+                    // Remove the access token from local storage
+                    localStorage.removeItem('access_token');
+                    sessionStorage.removeItem('email');
+                    // Redirect to the login page
+                    // this.$router.push('/login');
+                    this.$emit('isLogin', false, this.email);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        toggleDropdown() {
+            this.isDropdownOpen = !this.isDropdownOpen;
+        },
+        closeDropdown() {
+            this.isDropdownOpen = false;
+        },
+        toggleLinks(link) {
+            if (link === 'teacher') {
+                this.isLinkActiveTeacher = !this.isLinkActiveTeacher;
+                // this.isLinkActiveStudent = false;
+            } else if (link === 'student') {
+                this.isLinkActiveStudent = !this.isLinkActiveStudent;
+                // this.isLinkActiveTeacher = false;
+            }
+        }
+    }
 }
 
 </script>
@@ -132,7 +214,6 @@ export default {
 
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
-
 
 header {
     background: #000;
@@ -143,27 +224,78 @@ header {
 }
 
 .nav-link {
-    /* Your default link styles */
-    /* background: #000; */
-
     color: red;
 }
+
 .my-link {
-  /* Define your custom styles here */
-  color: #000;
-  font-weight: bold;
-  text-decoration: none;
-  background: #000;
-  /* ... */
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+    background: #000;
 }
 
 .my-link.active {
-  /* Define your active styles here */
-  color: #fff;
-  background-color: #007bff;
-  /* ... */
+    color: #fff;
+    background-color: #007bff;
 }
 
+.profile {
+    position: relative;
+}
 
+.profile img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
 
+.profile .profile-link {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--light);
+    padding: 10px 0;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    width: 160px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s ease;
+    background: #bab1b1;
+}
+
+.profile .profile-link.show {
+    opacity: 1;
+    pointer-events: visible;
+    top: 100%;
+}
+
+.profile .profile-link a {
+    padding: 10px 16px;
+    display: flex;
+    grid-gap: 10px;
+    font-size: 14px;
+    color: var(--dark);
+    align-items: center;
+    transition: all .3s ease;
+}
+
+.profile .profile-link a:hover {
+    background: var(--grey);
+}
+
+.my-icon {
+    font-size: 20px;
+}
+
+/* .container-fluid{
+ background: #000;
+ background: #bab1b1;
+} */
+#sidebarCollapse {
+    background: var(--light);
+
+}
 </style>

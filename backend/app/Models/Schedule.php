@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
     use HasFactory;
+
+
+    public function classRoom()
+    {
+        return $this->hasOne(User::class);
+    }
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
+    }
 }

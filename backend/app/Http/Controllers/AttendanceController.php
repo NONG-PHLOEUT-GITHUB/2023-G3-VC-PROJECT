@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAttendanceRequest;
 use App\Models\Attendance;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,22 +22,19 @@ class AttendanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAttendanceRequest $request)
     {
+        //
         $attendance = Attendance::store($request);
-        return response()->json(['success' => true, 'data' => $attendance], 200);
+        return $attendance;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Attendance $attendance)
     {
-        $attendance = Attendance::find($id);
-        if (!$attendance) {
-            return response()->json(['success' => false, 'message' => 'User not found'], 404);
-        }
-        return response()->json(['success' => true, 'data' => $attendance], 200);
+        //
     }
 
     /**
@@ -55,6 +53,7 @@ class AttendanceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
     public function destroy(string $id)
     {
         $attendance = Attendance::find($id);
@@ -126,3 +125,4 @@ class AttendanceController extends Controller
         ]);
     }
 }
+
