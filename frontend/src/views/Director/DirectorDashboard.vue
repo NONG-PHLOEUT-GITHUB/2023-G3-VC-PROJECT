@@ -118,8 +118,6 @@
   </main>
 </template>
 
-
-
 <script>
 import axios from "axios";
 import { Bar } from "vue-chartjs";
@@ -165,7 +163,6 @@ export default {
   data() {
     return {
       results: "",
-
       chartData: {
         labels: [
           "January",
