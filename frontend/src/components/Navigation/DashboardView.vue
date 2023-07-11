@@ -23,18 +23,17 @@
                         <li class="nav-item">
                             <router-link class="nav-link text-primary" href="#" :to="{ path: '/home' }"
                                 :class="{ 'active': $route.path === '/home' }">
-                                <i class="bi bi-house my-icon"></i> Dashboard
+                                <i class="bi bi-house my-icon "></i> Dashboard
                             </router-link>
 
                             <!-- //teacher management -->
 
-                            <router-link @click="toggleLinks('teacher')" class="nav-link text-primary"
-                                :to="{ path: '/managementt' }" :class="{ 'active': $route.path === '/managementt' }">
+                            <a @click="toggleLinks('teacher')" class="nav-link text-primary">
                                 <i class="bi bi-person my-icon"></i> Teacher management 
-                                <i class="bi bi-sort-down my-icon "></i>
-                            </router-link>
+                                <i class="bi bi-sort-down my-icon ms-4"></i>
+                            </a>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/9' }" :class="{ 'active': $route.path === '/9' }">
+                                :to="{ path: '/student_list' }" :class="{ 'active': $route.path === '/student_list' }">
                                 <i class="bi bi-list my-icon"></i> Teacher List
                             </router-link>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
@@ -50,11 +49,10 @@
                         <!-- //student management -->
 
                         <li class="nav-item">
-                            <router-link @click="toggleLinks('student')" class="nav-link text-primary"
-                                :to="{ path: '/management' }" :class="{ 'active': $route.path === '/management' }">
+                            <a @click="toggleLinks('student')" class="nav-link text-primary">
                                 <i class="bi bi-people my-icon"></i> Student management 
                                 <i class="bi bi-sort-down my-icon ms-4"></i>
-                            </router-link>
+                            </a>
                             <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
                                 :to="{ path: '/student_list' }" :class="{ 'active': $route.path === '/student_list' }">
                                 <i class="bi bi-list my-icon"></i> Student List
@@ -68,7 +66,7 @@
                                 <i class="bi bi-clipboard-check my-icon"></i> Student Score
                             </router-link>
                             <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/1' }" :class="{ 'active': $route.path === '/1' }">
+                                :to="{ path: '/attendance_list' }" :class="{ 'active': $route.path === '/attendance_list' }">
                                 <i class="bi bi-check2-circle my-icon"></i>Student Attendance
                             </router-link>
                         </li>
@@ -146,7 +144,7 @@
                     </div>
                 </div>
             </header>
-            <main>
+            <main class="p-4">
                 <slot></slot>
             </main>
         </div>
