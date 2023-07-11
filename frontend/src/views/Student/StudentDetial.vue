@@ -17,8 +17,14 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center" >
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                                alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                            <div class="user-profile">
+                                <img v-if="this.profileUser != '' " :src="userProfilePreview"
+                                  class="rounded-circle img-fluid image-pf" >
+                                <img v-else src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEczTcVOGPs9JFtQTR0VwzAT7jOxyKUmXmJVTnozJGqsQgx73NeFsHBXezaGWsq4xNW6E&usqp=CAU"
+                                  class="rounded-circle img-fluid image-pf" >
+                                <input type="file" class="img-detail" @change="getFile">
+                            </div>
+                            
                             <h5 class="my-3" >{{responseData.first_name}} {{responseData.last_name}}</h5>
                             <p class="text-muted mb-1">Full Stack Developer</p>
                             <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
@@ -188,6 +194,8 @@ export default {
     data() {
         return {
         responseData: [],
+        userProfilePreview : null,
+        profileUser : '',
         };
     },
     methods: {
@@ -201,6 +209,20 @@ export default {
             console.error(error);
             });
         },
+        // upload image 
+        getFile(event) {
+        this.profileUser = event.target.files[0];
+        const reader = new FileReader();
+        reader.addEventListener("load", function() {
+            this.userProfilePreview = reader.result;
+        }
+        .bind(this), false);
+        if(this.profileUser){
+            if( /\.(jpe?g|png|gif|jpg)$/i.test(this.profileUser.name)){
+            reader.readAsDataURL(this.profileUser);
+            }
+        }
+        },
     },
     mounted(){
         const id = this.$route.params.id;
@@ -209,3 +231,40 @@ export default {
     }
 };
 </script>
+<style scoped>
+    .image-pf{
+        position: relative;
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        margin: auto;
+        overflow: hidden;
+
+    }
+    .img-detail{
+        position: absolute;
+        outline: none;
+        color: transparent;
+        margin: 100px 100px 0 -86px;
+        transition: 0.5s;
+        cursor: pointer;
+        box-sizing: border-box;
+        opacity: 0;
+        
+    }
+    .img-detail::-webkit-file-upload-button{
+        visibility: hidden;
+    }
+    .img-detail::before{
+        content: '\f030';
+        font-family: fontAwesome;
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.966);
+    }
+    
+    .img-detail:hover{
+        opacity: 1;
+    }
+    
+    
+</style>
