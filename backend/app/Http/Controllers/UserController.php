@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -40,7 +42,7 @@ class UserController extends Controller
         if (!$user) {
             return response()->json(['message' => 'The record with ID ' . $id . ' was not found.'], 404);
         }
-    
+
         return response()->json(['success' => true, 'data' => $user], 200);
     }
 
@@ -68,5 +70,33 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['success' => true, 'message' => 'User deleted successfully'], 200);
+    }
+
+    public function getTotalByRoleAndGender()
+    {
+        $maleCounts = [];
+        $femaleCounts = [];
+
+        $roles = [1, 2, 3]; // Set the roles for which you want to get the data
+
+        foreach ($roles as $roleId) {
+            $maleCount = User::where('role', $roleId)->where('gender', 'male')->count();
+            $femaleCount = User::where('role', $roleId)->where('gender', 'female')->count();
+
+            $maleCounts[$roleId] = $maleCount;
+            $femaleCounts[$roleId] = $femaleCount;
+        }
+
+        $results = [];
+        foreach ($roles as $roleId) {
+            $results[] = [
+                'role' => $roleId,
+                'total' => $maleCounts[$roleId] + $femaleCounts[$roleId],
+                'male' => $maleCounts[$roleId],
+                'female' => $femaleCounts[$roleId]
+            ];
+        }
+
+        return response()->json(['success' => true, 'data' => $results], 200);
     }
 }
