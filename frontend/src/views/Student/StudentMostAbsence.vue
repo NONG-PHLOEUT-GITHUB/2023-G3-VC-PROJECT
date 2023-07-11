@@ -1,6 +1,6 @@
 <template>
   <main class="table">
-    <h3>Student Attendance List</h3>
+    <h3>Student Most Absence List</h3>
     <table>
       <thead>
         <tr>
@@ -18,7 +18,7 @@
           <td>{{ attendanceItem.last_name }}</td>
           <td>{{ attendanceItem.role_attendances_count }}</td>
           <td>
-            <router-link class="status detail" to="/studentdetail">Detail</router-link>
+            <p class="status detail">Detail</p>
           </td>
         </tr>
       </tbody>
@@ -36,7 +36,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://127.0.0.1:8000/api/getAttendance")
+      .get("http://127.0.0.1:8000/api/getMostAbsence")
       .then((response) => {
         this.attendanceData = response.data;
       })
@@ -109,13 +109,15 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
   background-color: #fff6 !important;
 }
+
 .status.detail {
-  padding: 0.4rem 1.5rem;
+  padding: 0.4rem 0;
   border-radius: 2rem;
   text-align: center;
   background-color: #50ded9;
   color: #006b21;
 }
+
 thead th:hover {
   color: #5cd2c6;
 }

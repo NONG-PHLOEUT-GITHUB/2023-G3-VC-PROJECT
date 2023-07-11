@@ -21,7 +21,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
+        'id',
+        'role',
         'first_name',
         'last_name',
         'gender',
@@ -84,7 +85,8 @@ class User extends Authenticatable implements JWTSubject
     public static function store($request, $id = null)
     {
         $users = $request->only(
-            'user_id',
+            'id',
+            'role',
             'first_name',
             'last_name',
             'gender',
@@ -179,5 +181,9 @@ class User extends Authenticatable implements JWTSubject
     public function guardian()
     {
         return $this->belongsTo(Guardian::class);
+    }
+    public function roleAttendances()
+    {
+        return $this->hasMany(Attendance::class, 'user_id');
     }
 }

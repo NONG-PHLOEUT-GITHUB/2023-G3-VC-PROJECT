@@ -52,7 +52,12 @@
               </router-link>
               <router-link :to="{ path: '/attendance_list' }">
                 <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300">
-                  <i  class="bi bi-calendar2-week-fill text-warning" ></i> Check Attendance today
+                  <i  class="bi bi-calendar2-week-fill text-warning" ></i> Show list Attendace
+                </button>
+              </router-link>
+              <router-link :to="{ path: '/check_attendance' }">
+                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300">
+                  <i  class="bi bi-calendar2-week-fill text-warning" ></i> Check Attendance
                 </button>
               </router-link>
             </td>
