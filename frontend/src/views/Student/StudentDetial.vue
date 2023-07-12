@@ -17,17 +17,9 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center" >
-                            <img 
-                                :src="responseData.profile"
-                                  class="rounded-circle img-fluid " >
-                               
-                            <!-- <div class="user-profile">
-                                <img v-if="this.profileUser != '' " :src="userProfilePreview"
-                                  class="rounded-circle img-fluid image-pf" >
-                                <img v-else src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEczTcVOGPs9JFtQTR0VwzAT7jOxyKUmXmJVTnozJGqsQgx73NeFsHBXezaGWsq4xNW6E&usqp=CAU"
-                                  class="rounded-circle img-fluid image-pf" >
-                                <input type="file" class="img-detail" @change="getFile">
-                            </div> -->
+                            <img v-if="this.profile ==false " :src="responseData.profile" class="rounded-circle img-fluid image-pf" >
+                            <!-- <input type="file" class="img-detail" @change="getImage" >
+                            <img v-if ="this.profile" :src="this.profile" alt="" class="rounded-circle img-fluid -pf">  -->
                             
                             <h5 class="my-3" >{{responseData.first_name}} {{responseData.last_name}}</h5>
                             <p class="text-muted mb-1">Full Stack Developer</p>
@@ -199,7 +191,7 @@ export default {
         return {
         responseData: [],
         userProfilePreview : null,
-        profileUser : '',
+        profile: '',
         };
     },
     methods: {
@@ -214,20 +206,30 @@ export default {
             });
         },
         // upload image 
-        getFile(event) {
-        this.profileUser = event.target.files[0];
-        const reader = new FileReader();
-        reader.addEventListener("load", function() {
-            this.userProfilePreview = reader.result;
-        }
-        .bind(this), false);
-        if(this.profileUser){
-            if( /\.(jpe?g|png|gif|jpg)$/i.test(this.profileUser.name)){
-            reader.readAsDataURL(this.profileUser);
-            }
-        }
-        },
+        // getImage(event) {
+        // this.profile = event.target.files[0];
+        // const reader = new FileReader();
+        // reader.addEventListener("load", function() {
+        //     this.userProfilePreview = reader.result;
+        //     console.log(reader);
+        // }
+        // .bind(this), false);
+        // if(this.profile){
+        //     if( /\.(jpe?g|png|gif|jpg)$/i.test(this.profile.name)){
+        //     reader.readAsDataURL(this.profile);
+        //     }
+        // }
+        // },
+        getImage(event) {
+        var file = event.target.files[0]; 
+        var form = new FormData();
+        form.append('profile', file);
+        axios.post('http://127.0.0.1:8000/api/getImage', form).then((response) => 
+        {
+            this.profile =response.data;
+        });
     },
+},
     mounted(){
         const id = this.$route.params.id;
         console.log(id);

@@ -39,9 +39,10 @@
                 <tbody>
                     <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
                         <td>
-                            <img alt=""
-                                :src="user.profile"
-                                class="avatar avatar-sm rounded-circle me-2">
+                            <img v-if="user.profile" alt=""
+                            :src="user.profile"
+                            class="avatar avatar-sm rounded-circle me-2">
+                            <img v-else src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="" class="avatar avatar-sm rounded-circle me-2">
                             <a class="text-heading font-semibold" href="#">
                                 {{user.first_name}} {{user.last_name}} 
                             </a>

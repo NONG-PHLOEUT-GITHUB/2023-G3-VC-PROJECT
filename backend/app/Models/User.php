@@ -107,6 +107,7 @@ class User extends Authenticatable implements JWTSubject
         } else {
             $user = self::create($users);
             $id = $user->$id;
+            
             // // =============image====================
             // $image = $request->file('profile');
             // $new_name =  rand() . '.' . $image->getClientOriginalExtension();
