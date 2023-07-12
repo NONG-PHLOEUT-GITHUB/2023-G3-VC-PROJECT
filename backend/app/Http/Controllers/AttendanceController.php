@@ -25,17 +25,20 @@ class AttendanceController extends Controller
      */
     public function store(StoreAttendanceRequest $request)
     {
-        //
         $attendance = Attendance::store($request);
-        return $attendance;
+        return response()->json(['success' => true, 'data' => $attendance], 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Attendance $attendance)
+    public function show(Attendance $id)
     {
-        //
+        $attendance = Attendance::find($id);
+        if (!$attendance) {
+            return response()->json(['success' => false, 'message' => 'User not found'], 404);
+        }
+        return response()->json(['success' => true, 'data' => $attendance], 200);
     }
 
     /**
@@ -50,7 +53,6 @@ class AttendanceController extends Controller
         $attendance = Attendance::store($request, $id);
         return response()->json(['success' => true, 'data' => $attendance], 200);
     }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -115,15 +117,24 @@ class AttendanceController extends Controller
     /**
      * show attendance of student detail .
      */
-    public function showAttendanceDetail($id)
+    public static function getAttendanceOfRole3ByUserId($id)
     {
-        $attendance = Attendance::findOrFail($id);
+        $user = User::where('role', 3)
+            ->find($id);
 
-        return response()->json([
-            'date' => $attendance->date,
-            'reason' => $attendance->reason,
-            'attendace_status' => $attendance->attendace_status,
-        ]);
+        if ($user) {
+            $attendanceRecords = $user->roleAttendances;
+            return response()->json([
+                'user' => [
+                    'id' => $user->id,
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                ],
+                'attendanceRecords' => $attendanceRecords,
+            ]);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
     }
     /**
      * show average of student attendance of each month.

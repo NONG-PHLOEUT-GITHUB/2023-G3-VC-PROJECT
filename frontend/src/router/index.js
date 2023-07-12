@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Director/DirectorDashboard.vue';
-// import StudentView from '../views/Student/StudentView.vue';
 import TeacherList from '../views/Director/TeacherList.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
+
 import StudentList from '../views/Director/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
@@ -12,7 +12,8 @@ import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
 import CheckAttendance from '../views/Student/CheckAttendance.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
-import StudentDetail from '../views/Student/StudentDetail.vue';
+import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vue';
+// import StudentDetail from '../views/Student/StudentDetail.vue';
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
 import LoginView from '../views/Authentication/LoginView2.vue';
@@ -88,14 +89,16 @@ const routes = [
     component: StudentMostAbsence
   },
   {
-    path: '/studentdetail',
-    name: '/tudentdetail',
-    component: StudentDetail
+    path: '/studentattendancedetail/:id',
+    name: '/studentattendancedetail',
+    component: StudentAttendanceDetail
   },
   {
-    path: '/teacherattendancelist',
+    path: '/teacherattendancelist/:id',
     name: '/teacherattendancelist',
-    component: TeacherAttendanceList
+    component: TeacherAttendanceList,
+    props:true
+
   },
   {
     path: '/teachermostabsence',
@@ -116,7 +119,6 @@ const routes = [
     component: TeacherDetail,
   },
   {
-
     path: '/monthly_report',
     name: 'monthly_report',
     component: MonthlyReport
@@ -160,8 +162,6 @@ const routes = [
     name: 'reset_new_password',
     component: FormResetNewPassword
   }
-  
-
 ]
 
 const router = createRouter({
