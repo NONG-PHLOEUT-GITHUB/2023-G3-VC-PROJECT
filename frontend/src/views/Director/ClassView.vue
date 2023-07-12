@@ -88,7 +88,7 @@
                   list Attendace
                 </button>
               </router-link>
-              <router-link :to="{ path: '/check_attendance' }">
+              <router-link :to="{ path: '/checkAttendance' }">
                 <button
                   type="button"
                   class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300"
@@ -105,16 +105,16 @@
     </div>
   </div>
 
-<div class="card-header">
-      <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
-        <form class="form-inline my-2 my-lg-0 d-flex" style="width: 100%;">
-           <div v-if="selectedClass">
-            <student-list :selectedClass="selectedClass" />
+  <div class="card-header">
+        <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
+          <form class="form-inline my-2 my-lg-0 d-flex" style="width: 100%;">
+            <div v-if="selectedClass">
+              <student-list :selectedClass="selectedClass" />
 
-          </div>
-        </form>
-    </div>
-</div>
+            </div>
+          </form>
+      </div>
+  </div>
 </template>
 
 <script>

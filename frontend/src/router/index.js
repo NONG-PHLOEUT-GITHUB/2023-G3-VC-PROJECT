@@ -12,6 +12,7 @@ import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
 import StudentDetail from '../views/Student/StudentDetial.vue';
+import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
 import LoginView from '../views/Authentication/LoginView2.vue';
@@ -87,8 +88,13 @@ const routes = [
   },
   {
     path: '/studentdetail',
-    name: '/tudentdetail',
+    name: '/studentdetail',
     component: StudentDetail
+  },
+  {
+    path: '/checkAttendance',
+    name: '/checkAttendance',
+    component: CheckAttendance
   },
   {
     path: '/teacherattendancelist',
