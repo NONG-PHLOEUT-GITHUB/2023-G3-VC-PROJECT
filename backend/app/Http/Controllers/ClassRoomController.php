@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClassRoom;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ClassRoomController extends Controller
@@ -10,10 +11,17 @@ class ClassRoomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = ClassRoom::all();
-        return response()->json(['success'=>true, 'data'=>$user], 200);
+        $class = $request->query('class_name');
+
+        if ($class) {
+            $students = ClassRoom::where('class_name', $class)->get();
+        } else {
+            $students = ClassRoom::all();
+        }
+
+        return $students;
     }
 
     /**
@@ -60,5 +68,13 @@ class ClassRoomController extends Controller
         $classroom->delete();
 
         return response()->json(['success' => true, 'message' => 'classroom deleted successfully'], 200);
+    }
+
+    public function getClassStudent()
+    {
+        $users = User::where('role', 3)
+            ->select('id', 'first_name', 'last_name','gender','age','date_of_birth','phone_number','address','email')
+            ->get();
+        return response()->json($users);
     }
 }

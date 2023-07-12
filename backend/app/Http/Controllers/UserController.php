@@ -99,4 +99,13 @@ class UserController extends Controller
 
         return response()->json(['success' => true, 'data' => $results], 200);
     }
+
+    
+    public function getStudent()
+    {
+        $users = User::where('role', 3)
+            ->select('id', 'first_name', 'last_name','gender','age','date_of_birth','phone_number','address','email')
+            ->get();
+        return response()->json($users);
+    }
 }

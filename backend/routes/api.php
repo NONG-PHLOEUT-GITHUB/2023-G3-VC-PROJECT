@@ -48,7 +48,12 @@ Route::post('/password/change', [ChangePasswordController::class,'change']);
 
 Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmail']);
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
-Route::post('/class_rooms', [ClassRoomController::class,"store"]);
+
+Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
+Route::get('/getClassStudents', [ClassRoomController::class,"getClassStudent"]);
+// get student
+Route::get('/getStudents', [UserController::class,"getStudent"]);
+
 
 Route::resource('attendance' , AttendanceController::class);
 
