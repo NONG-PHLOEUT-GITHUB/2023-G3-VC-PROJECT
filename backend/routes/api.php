@@ -36,11 +36,13 @@ Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
 Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfStudents"]);
 Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsence"]);
 Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
+Route::post('/checkStudentAttendance' , [AttendanceController::class, "store"]);
 // ***Teacher***
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
 Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
+Route::post('/getImage', [UserController::class, 'getImage']);
 Route::get('/users/{id}', [UserController::class,"show"]);
 Route::put('/users/{id}', [UserController::class,"update"]);
 Route::resource('users' , UserController::class);
@@ -50,7 +52,6 @@ Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmai
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
 Route::post('/class_rooms', [ClassRoomController::class,"store"]);
 
-// Route::resource('attendance' , AttendanceController::class);
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {

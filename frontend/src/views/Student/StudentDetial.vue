@@ -17,13 +17,17 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center" >
-                            <div class="user-profile">
+                            <img 
+                                :src="responseData.profile"
+                                  class="rounded-circle img-fluid " >
+                               
+                            <!-- <div class="user-profile">
                                 <img v-if="this.profileUser != '' " :src="userProfilePreview"
                                   class="rounded-circle img-fluid image-pf" >
                                 <img v-else src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEczTcVOGPs9JFtQTR0VwzAT7jOxyKUmXmJVTnozJGqsQgx73NeFsHBXezaGWsq4xNW6E&usqp=CAU"
                                   class="rounded-circle img-fluid image-pf" >
                                 <input type="file" class="img-detail" @change="getFile">
-                            </div>
+                            </div> -->
                             
                             <h5 class="my-3" >{{responseData.first_name}} {{responseData.last_name}}</h5>
                             <p class="text-muted mb-1">Full Stack Developer</p>
