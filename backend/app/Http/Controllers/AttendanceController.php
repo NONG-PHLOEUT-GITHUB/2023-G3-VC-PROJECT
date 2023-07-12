@@ -25,20 +25,17 @@ class AttendanceController extends Controller
      */
     public function store(StoreAttendanceRequest $request)
     {
+        //
         $attendance = Attendance::store($request);
-        return response()->json(['success' => true, 'data' => $attendance], 200);
+        return $attendance;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Attendance $id)
+    public function show(Attendance $attendance)
     {
-        $attendance = Attendance::find($id);
-        if (!$attendance) {
-            return response()->json(['success' => false, 'message' => 'User not found'], 404);
-        }
-        return response()->json(['success' => true, 'data' => $attendance], 200);
+        //
     }
 
     /**
@@ -53,6 +50,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::store($request, $id);
         return response()->json(['success' => true, 'data' => $attendance], 200);
     }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -117,24 +115,15 @@ class AttendanceController extends Controller
     /**
      * show attendance of student detail .
      */
-    public static function getAttendanceOfRole3ByUserId($id)
+    public function showAttendanceDetail($id)
     {
-        $user = User::where('role', 3)
-            ->find($id);
+        $attendance = Attendance::findOrFail($id);
 
-        if ($user) {
-            $attendanceRecords = $user->roleAttendances;
-            return response()->json([
-                'user' => [
-                    'id' => $user->id,
-                    'first_name' => $user->first_name,
-                    'last_name' => $user->last_name,
-                ],
-                'attendanceRecords' => $attendanceRecords,
-            ]);
-        } else {
-            return response()->json(['message' => 'User not found'], 404);
-        }
+        return response()->json([
+            'date' => $attendance->date,
+            'reason' => $attendance->reason,
+            'attendace_status' => $attendance->attendace_status,
+        ]);
     }
     /**
      * show average of student attendance of each month.
