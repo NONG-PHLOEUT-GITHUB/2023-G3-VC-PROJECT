@@ -15,7 +15,7 @@ class Attendance extends Model
         'date',
         'user_id',
     ];
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class);
     }
