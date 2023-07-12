@@ -1,14 +1,46 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ImportUsers;
+use Illuminate\Support\Facades\Storage;
 
 class ImportExelFileController extends Controller
 {
-    // Excel::import(new UsersImport, $request->file('file')->store('files'));
+    // dd($request->file);
+    // echo $request->file;
+    // Excel::import(new ImportUsers, $request->file('file')->store('files'));
+
     // return response()->json([
     //     'message' => 'import successfully'
     // ]);
+    // $file = $request->file('file');
+
+    // if (!$file) {
+    //     return response()->json([
+    //         'message' => 'No file uploaded'
+    //     ], 400);
+    // }
+    public function import(Request $request)
+    {
+
+        $file = $request->file('file');
+
+        if (!$file) {
+            return response()->json([
+                'message' => 'No file uploaded'
+            ], 400);
+        }
+
+        $filePath = Storage::putFile('files', $file);
+
+        Excel::import(new ImportUsers, storage_path('app/' . $filePath));
+
+        Storage::delete($filePath);
+
+        return response()->json([
+            'message' => 'import successfully'
+        ]);
+    }
 }

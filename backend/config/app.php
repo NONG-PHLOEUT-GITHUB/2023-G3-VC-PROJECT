@@ -31,6 +31,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+
+    'admin_url' => env('APP_ADMIN_URL', 'http://localhost:8080/reset_new_password'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

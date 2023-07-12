@@ -7,6 +7,7 @@ use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\ImportExelFileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -54,8 +55,9 @@ Route::post('/class_rooms', [ClassRoomController::class,"store"]);
 
 // Route::resource('attendance' , AttendanceController::class);
 
+Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
 Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
-Route::post('/forgot-password', [ForgotPasswordController::class,'forgotPassword']);
+
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
@@ -85,3 +87,7 @@ Route::prefix('v1')->group(function () {
 });
 
 
+Route::get('/classroom', [ClassRoomController::class, 'index']);
+Route::post('/classroom', [ClassRoomController::class, 'store']);
+
+Route::post('/users-import', [ImportExelFileController::class, 'import']);

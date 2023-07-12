@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ClassResource;
 use App\Models\ClassRoom;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,9 @@ class ClassRoomController extends Controller
      */
     public function index()
     {
-        $user = ClassRoom::all();
-        return response()->json(['success'=>true, 'data'=>$user], 200);
+        $classroom = ClassRoom::all();
+        $classroom = ClassResource::collection($classroom);
+        return response()->json(['success'=>true, 'data'=>$classroom], 200);
     }
 
     /**
