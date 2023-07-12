@@ -8,7 +8,7 @@
               <div class="row">
                 <div class="col">
                   <span class="h6 font-semibold text-muted text-sm d-block mb-2"
-                    >Studnets</span
+                    >Students</span
                   >
                   <span
                     v-for="(result, index) in results"

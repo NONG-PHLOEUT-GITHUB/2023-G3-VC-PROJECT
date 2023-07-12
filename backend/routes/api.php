@@ -35,7 +35,7 @@ Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
 // ***Student***
 Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfStudents"]);
 Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsence"]);
-Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
+Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOfRole3ByUserId"]);
 // ***Teacher***
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
 Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
@@ -44,6 +44,7 @@ Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{id}', [UserController::class,"show"]);
 Route::put('/users/{id}', [UserController::class,"update"]);
 Route::resource('users' , UserController::class);
+Route::get('/studentattendancedetail/{user_id}', [AttendanceController::class, 'showDetail']);
 Route::post('/password/change', [ChangePasswordController::class,'change']);
 
 Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmail']);
