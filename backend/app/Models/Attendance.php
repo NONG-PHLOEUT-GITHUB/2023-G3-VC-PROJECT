@@ -15,7 +15,7 @@ class Attendance extends Model
         'date',
         'user_id',
     ];
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class);
     }
@@ -24,7 +24,7 @@ class Attendance extends Model
     {
         $attendances = $request->only(
             'id',
-            'attendance_status',
+            'attendace_status',
             'reason',
             'date',
             'user_id',
@@ -41,6 +41,6 @@ class Attendance extends Model
             $id = $attendance->$id;
         }
 
-        return response()->json(['success' => true, 'data' => $attendance], 201);
+        return response()->json(['success' => true, 'data' => $attendances], 201);
     }
 }
