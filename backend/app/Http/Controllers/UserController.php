@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,8 +28,19 @@ class UserController extends Controller
         $user = User::store($request);
         return response()->json(['success' => true, 'data' => $user], 200);
     }
+    public function getImage(StoreUserRequest $request)
+    {
 
-    /**
+        // $user = User::store($request);
+        $image = $request->file('profile');
+        $new_name =  rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'),$new_name);
+        $path = asset('images/' . $new_name);
+      return $path;
+        // $user->$image = $path;
+        // $user->save();
+
+    }    /**
      * Display the specified resource.
      */
     public function getEmails($id)
