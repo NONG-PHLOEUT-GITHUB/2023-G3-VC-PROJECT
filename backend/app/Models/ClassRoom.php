@@ -10,17 +10,16 @@ class ClassRoom extends Model
     use HasFactory;
     protected $fillable = [
         'class_id',
+        'user_id',
         'class_name',
-        'teacher_id',
-        'school_id',
+        
     ];
     public static function store($request, $id = null)
     {
         $class_rooms = $request->only(
             'class_id',
+            'user_id',
             'class_name',
-            'teacher_id',
-            'school_id',
         );
         if ($id) {
             $class_room = self::find($id);

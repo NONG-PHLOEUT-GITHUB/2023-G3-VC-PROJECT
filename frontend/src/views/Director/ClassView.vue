@@ -1,7 +1,10 @@
 <template>
+<<<<<<< HEAD
+=======
   <!-- <main class="py-6 bg-surface-secondary rounded-3 mb-4">
     <h1>hello</h1>
   </main> -->
+>>>>>>> 26d5e816f28e27e68904f5ed61ccd8274ca0cae5
   <div class="card shadow border-0 mb-7">
     <div class="card-header">
       <h3 class="mb-0 text-primary">CLASSES LIST</h3>
@@ -42,6 +45,7 @@
           </button>
         </router-link>
       </div>
+      
     </div>
     <div class="card-header">
       <h3 class="mb-0 p-0 text-primary">GRADE 10</h3>
@@ -57,6 +61,17 @@
           </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
+          <tr @click="showStudents(classRoom.name)" v-for="classRoom in classesList" :key="classRoom.name" class="border-2-dark">
+            <!-- <div v-if="selectedClass">
+              <student-list :selectedClass="selectedClass" />
+          </div> -->
+            <td>
+              <i class="bi bi-building"></i>
+              {{classRoom.name}}
+              
+            </td>  
+=======
           <tr
             v-for="classRoom in filteredClassesList"
             :key="classRoom.name"
@@ -66,13 +81,14 @@
               <i class="bi bi-building"></i>
               {{ classRoom.name }}
             </td>
+>>>>>>> 26d5e816f28e27e68904f5ed61ccd8274ca0cae5
             <td>
               {{ classRoom.students }}
             </td>
             <td>
               {{ classRoom.teacher }}
             </td>
-            <td class="text-end d-flex justify-content-start">
+            <td  class="text-end d-flex justify-content-start">
               <router-link :to="{ path: '/monthly_report' }">
                 <button
                   type="button"
@@ -100,57 +116,79 @@
                 </button>
               </router-link>
             </td>
-          </tr>
-        </tbody>
+          </tr>      
+        </tbody>          
+        
       </table>
     </div>
   </div>
+
+<div class="card-header">
+      <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
+        <form class="form-inline my-2 my-lg-0 d-flex" style="width: 100%;">
+           <div v-if="selectedClass">
+            <student-list :selectedClass="selectedClass" />
+
+          </div>
+        </form>
+    </div>
+</div>
 </template>
 
 <script>
+import axios from 'axios';
+import StudentList from '../Director/StudentList.vue'; // Import the StudentList component
+
 export default {
+  components: {
+    StudentList, // Register the StudentList component
+  },
   data() {
     return {
+      students:[],
       classesList: [
-        { name: "Class 10A", students: 53, teacher: "Sreypok Doem" },
-        { name: "Class 10B", students: 53, teacher: "Sreypok Doem" },
-        { name: "Class 10C", students: 53, teacher: "Sreypok Doem" },
-        { name: "Class 10D", students: 53, teacher: "Sreypok Doem" },
-        { name: "Class 10E", students: 53, teacher: "Sreypok Doem" },
-        { name: "Class 11A", students: 50, teacher: "Sokunthea Kim" },
-        { name: "Class 11B", students: 50, teacher: "Sokunthea Kim" },
-        { name: "Class 11C", students: 50, teacher: "Sokunthea Kim" },
-        { name: "Class 11D", students: 50, teacher: "Sokunthea Kim" },
-        { name: "Class 11E", students: 50, teacher: "Sokunthea Kim" },
-        { name: "Class 12A", students: 47, teacher: "Sokly Chan" },
-        { name: "Class 12B", students: 47, teacher: "Sokly Chan" },
-        { name: "Class 12C", students: 47, teacher: "Sokly Chan" },
-        { name: "Class 12D", students: 47, teacher: "Sokly Chan" },
-        { name: "Class 12E", students: 47, teacher: "Sokly Chan" },
+        { name: " 10A", students: 53, teacher: "Sreypok Doem" },
+        { name: " 10B", students: 53, teacher: "Sreypok Doem" },
+        { name: " 10C", students: 53, teacher: "Sreypok Doem" },
+        { name: " 10D", students: 53, teacher: "Sreypok Doem" },
+        { name: " 10E", students: 53, teacher: "Sreypok Doem" },
+        { name: " 11A", students: 50, teacher: "Sokunthea Kim" },
+        { name: " 11B", students: 50, teacher: "Sokunthea Kim" },
+        { name: " 11C", students: 50, teacher: "Sokunthea Kim" },
+        { name: " 11D", students: 50, teacher: "Sokunthea Kim" },
+        { name: " 11E", students: 50, teacher: "Sokunthea Kim" },
+        { name: " 12A", students: 48, teacher: "Ratana Lim" },
+        { name: "12B", students: 48, teacher: "Ratana Lim" },
+        { name: " 12C", students: 48, teacher: "Ratana Lim" },
+        { name: " 12D", students: 48, teacher: "Ratana Lim" },
+        { name: " 12E", students: 48, teacher: "Ratana Lim" }
       ],
-      searchQuery: "",
+      searchQuery: '',
+      selectedClass: '',
     };
   },
   computed: {
     filteredClassesList() {
-      if (this.searchQuery) {
-        const filtered = this.classesList.filter((classRoom) =>
-          classRoom.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-        );
-        if (filtered.length === 0) {
-          return [{ name: "Class not found", students: 0, teacher: "" }];
-        } else {
-          return filtered;
-        }
-      } else {
-        return this.classesList;
-      }
+      // Filter the classes list based on the search query
+      return this.classesList.filter(classRoom => classRoom.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
   },
   methods: {
-    searchClasses() {
-      // do nothing, the filtering is done in the computed property
-    },
+    showStudents(className) {
+  // Set the selected class to the class name that was clicked
+  this.selectedClass = className;
+
+  axios.get(`http://127.0.0.1:8000/api/getClassStudents?class_name=${className}`)
+    .then(response => {
+      console.log(response.data.data);
+      // Set the students list to the response data
+      this.classesList = response.data.data;
+    })
+    .catch(error => {
+      // Handle the error here
+      console.log(error);
+    });
+},
   },
 };
 </script>

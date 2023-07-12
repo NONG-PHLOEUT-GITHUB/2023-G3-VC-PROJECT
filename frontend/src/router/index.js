@@ -152,6 +152,12 @@ const routes = [
     name: 'report_view',
     component: ReportView
   },
+<<<<<<< HEAD
+  
+  
+  
+
+=======
   {
     path: '/forgot_password',
     name: '/forgot_password',
@@ -162,6 +168,7 @@ const routes = [
     name: 'reset_new_password',
     component: FormResetNewPassword
   }
+>>>>>>> 26d5e816f28e27e68904f5ed61ccd8274ca0cae5
 ]
 
 const router = createRouter({
