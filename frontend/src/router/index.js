@@ -146,7 +146,9 @@ const routes = [
     path: '/report_view',
     name: 'report_view',
     component: ReportView
-  }
+  },
+  
+  
   
 
 ]
