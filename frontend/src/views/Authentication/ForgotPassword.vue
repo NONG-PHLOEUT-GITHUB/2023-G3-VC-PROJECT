@@ -17,7 +17,7 @@
       <v-flex xs14 md6>
 
         <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8 mt-9" elevation="10" max-width="448" rounded="lg">
-          <v-form ref="form" @submit.prevent="login">
+          <v-form ref="form" @submit.prevent="forgotPassword">
             <v-title class="text-h6 text-md-h5 text-lg-h4 text-center">
               Forgot Password
             </v-title>
@@ -51,52 +51,32 @@ import http from '../../htpp.common';
 // recferences// https://vee-validate.logaretm.com/v4/tutorials/basics/
 
 export default {
-  emits: ['isLogin'],
+  // emits: ['isResetPassword'],
   data: () => ({
     visible: false,
-    loading: false,
-    snackbar: false,
-    passwordShow: false,
     email: '',
-    password: '',
     emailRules: [
-      // v => !!v  'E-mail is required',
-      // v => /.+@.+\..+/.test(v)  'E-mail must be valid',
-    ],
-    passwordRules: [
-      // v => !!v  'Password is required',
-      // v => (v && v.length >= 6)  'Password must be 6  characters or more!',
+      v => !!v || 'E-mail is required',
+      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
     ],
   }),
 
   methods: {
-    login() {
+    forgotPassword() {
       if (this.$refs.form.validate()) {
-        http.post('/api/login', {
+        http.post('/api/forgot-password', {
           email: this.email,
-          password: this.password,
         })
-          .then(response => {
-            console.log('API response:', response.data.token);
-            localStorage.setItem('access_token', response.data.token);
-            // alert('login successful');
-            // Swal.fire({
-            //     position: 'top-end',
-            //     icon: 'success',
-            //     title: 'Login successfully',
-            //     showConfirmButton: false,
-            //     timer: 1500
-            // })
-          }).then(() => {
-            sessionStorage.setItem('email', this.email);
-            this.$emit('isLogin', true, this.email);
-            this.$router.push('/home');
+          .then(() => {
+            // sessionStorage.setItem('email', this.email);
+            // this.$emit('isResetPassword', true);
+            // this.$router.push('/reset_new_password');
+            console.log(this.email);
           })
           .catch(error => {
             if (error.response.status === 401) {
-              if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '') {
+              if (this.emailRules !== '') {
                 this.emailRules = ['Email or password is icorrect'];
-                this.passwordRules = ['Email or password is icorrect'];
               }
 
             } else {

@@ -8,6 +8,9 @@
     <template v-else-if="forgotPassword">
       <form-forgot-password></form-forgot-password>
     </template>
+    <!-- <template v-else-if="resetPassword">
+      <form-reset-password @isResetPassword="handleResetPassword"></form-reset-password>
+    </template> -->
     <template v-else>
       <form-login @isLogin="handleLogin" @isForgotPassword="handleforgotPassword"></form-login>
     </template>
@@ -17,6 +20,7 @@
 <script>
 import FormLogin from './views/Authentication/LoginView2.vue';
 import FormForgotPassword from './views/Authentication/ForgotPassword.vue';
+// import FormResetPassword from './views/Authentication/ResetNewPassword.vue';
 import DashboardView from './components/Navigation/DashboardView.vue';
 
 export default {
@@ -24,12 +28,14 @@ export default {
     DashboardView,
     FormLogin,
     FormForgotPassword,
+    // FormResetPassword
   },
 
   data: () => ({
       isLogged:false,
       userEmail: null,
-      forgotPassword:false
+      forgotPassword:false,
+      resetPassword: false,
   }),
   created() {
     const email = sessionStorage.getItem('email');
@@ -50,7 +56,12 @@ export default {
     handleforgotPassword(){
       this.forgotPassword = true;
       console.log(this.forgotPassword);
-    }
+    },
+    // handleResetPassword(){
+    //   this.resetPassword = true;
+    //   this.forgotPassword = false;
+    //   console.log(this.forgotPassword);
+    // }
   }
 }
 </script>

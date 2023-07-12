@@ -7,18 +7,17 @@
                 cover></v-img>
         </div>
         <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8" elevation="10" max-width="448" rounded="lg">
-            <v-form ref="form" @submit.prevent="changePassword">
+            <v-form ref="form" @submit.prevent="resetPassword">
                 <v-title class="text-h6 text-md-h5 text-lg-h4">
                     Reset your password
                 </v-title>
                 <div class="text-subtitle-1 text-medium-emphasis mt-8">
-                    Current password
+                    Email
                 </div>
 
                 <v-text-field :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'"
                     density="compact" placeholder="Enter current password" prepend-inner-icon="mdi-lock-outline"
-                    v-model="currentPassword" :rules="passwordRules" variant="outlined"
-                    @click:append-inner="visible = !visible">
+                    v-model="email" :rules="passwordRules" variant="outlined" @click:append-inner="visible = !visible">
                 </v-text-field>
                 <span :rules="emailRules"></span>
 
@@ -64,9 +63,11 @@ export default {
             visibleConfirm: false,
             passwordShow: false,
 
-            currentPassword: '',
+            email: '',
             newPassword: '',
             confirmPassword: '',
+            token: '',
+
             successMessage: '',
             errorMessage: '',
 
@@ -84,40 +85,41 @@ export default {
             ],
         };
     },
+
     methods: {
-        changePassword() {
+        resetPassword() {
             const data = {
-                current_password: this.currentPassword,
+                email: this.email,
                 new_password: this.newPassword,
                 new_password_confirmation: this.confirmPassword,
+                token: this.token
             };
-            http.post('/api/password/change', data, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                },
-            })
-                .then(response => {
-                    this.successMessage = response.data.message;
-                    this.errorMessage = '';
-                    this.currentPassword = '';
-                    this.newPassword = '';
-                    this.confirmPassword = '';
-                    console.log(this.successMessage);
-                })
-                .catch(error => {
-                    this.errorMessage = error.response.data.error;
-                    this.successMessage = '';
-                    if (error.response.status === 401) {
-                        if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '') {
-                            this.emailRules = ['Email or password is icorrect'];
-                            this.passwordRules = ['Email or password is icorrect'];
-                        }
+            http.post('/api/reset-password', data, {
 
-                    } else {
-                        console.log(error);
+            }).then(response => {
+                this.successMessage = response.data.message;
+                this.errorMessage = '';
+                this.currentPassword = '';
+                this.newPassword = '';
+                this.confirmPassword = '';
+                console.log(this.successMessage);
+            }).catch(error => {
+                this.errorMessage = error.response.data.error;
+                this.successMessage = '';
+                if (error.response.status === 401) {
+                    if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '') {
+                        this.emailRules = ['Email or password is icorrect'];
+                        this.passwordRules = ['Email or password is icorrect'];
                     }
-                });
+
+                } else {
+                    console.log(error);
+                }
+            });
         },
     },
+    created() {
+        this.token = this.$route.params.token;
+    }
 };
 </script>
