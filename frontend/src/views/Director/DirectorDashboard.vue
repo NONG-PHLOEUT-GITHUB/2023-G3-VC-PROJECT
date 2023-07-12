@@ -109,17 +109,34 @@
               </div>
             </div>
           </div>
-          <div class="chart">
-            <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
-          </div>
         </div>
       </div>
     </div>
+    <h3>REPORTS</h3>
+    <div class="charts d-flex" style="width: 100%;">
+      <div class="chart" style="width: 50%;">
+        <Bar
+        id="my-chart-id"
+        :options="chartOptions"
+        :data="chartData"
+        />
+        <h5 class="text-center">STUDENT ATTENDANCE</h5>
+      </div>
+      <div class="chart" style="width: 50%;">
+        <Bar
+        id="my-chart-id"
+        :options="chartOptions"
+        :data="chartData1"
+        />
+        <h5 class="text-center">FAILED STUDENT</h5>
+      </div>
+    </div>
+
   </main>
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -164,39 +181,24 @@ export default {
     return {
       results: "",
       chartData: {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December",
-        ],
-        datasets: [{ data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 98, 55, 43] }],
-      },
-      chartOptions: {
-        backgroundColor: "#3388FF",
-        responsive: true,
-      },
-    };
-  },
-  mounted() {
-    axios
-      .get("http://127.0.0.1:8000/api/getTotal")
-      .then((response) => {
-        this.results = response.data.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-};
+        labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [ { 
+          label: "Attendance average", 
+          data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 58, 55, 43] } ],
+    },
+      chartData1: {
+        labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [ { 
+          label: "Average of failed students",
+          data: [10, 20, 12, 45, 32, 22, 11, 33, 44, 69, 55, 43] } ],
+    },
+    chartOptions: {
+        backgroundColor: '#FFA500',
+        responsive: true
+      }
+    }
+  }
+}
 </script>
 <style>
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);

@@ -135,4 +135,24 @@ class AttendanceController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
     }
+    /**
+     * show average of student attendance of each month.
+     */
+    public function averageAbsentAttendanceByMonth()
+    {
+        $absentAttendance = Attendance::join('users', 'attendances.user_id', '=', 'users.id')
+                        ->selectRaw('DATE_FORMAT(attendances.date, "%Y-%m") as month, COUNT(*) as absent_count')
+                        ->where('attendances.attendance_status', '=', 'absent')
+                        ->where('users.role', '=', 3)
+                        ->groupBy('month')
+                        ->get();
+    
+        $averageAbsentAttendanceByMonth = array();
+        
+        foreach ($absentAttendance as $attendance) {
+            $averageAbsentAttendanceByMonth[$attendance->month] = $attendance->absent_count;
+        }
+        return response()->json(['average_absent_attendance_by_month' => $averageAbsentAttendanceByMonth]);
+    }
 }
+

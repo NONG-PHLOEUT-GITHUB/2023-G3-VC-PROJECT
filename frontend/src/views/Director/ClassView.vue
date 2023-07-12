@@ -1,7 +1,7 @@
 <template>
-  <main class="py-6 bg-surface-secondary rounded-3 mb-4">
-    <!-- Grade cards here -->
-  </main>
+  <!-- <main class="py-6 bg-surface-secondary rounded-3 mb-4">
+    <h1>hello</h1>
+  </main> -->
   <div class="card shadow border-0 mb-7">
     <div class="card-header">
       <h3 class="mb-0 text-primary">CLASSES LIST</h3>
