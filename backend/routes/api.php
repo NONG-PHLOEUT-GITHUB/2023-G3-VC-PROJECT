@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +54,9 @@ Route::post('/class_rooms', [ClassRoomController::class,"store"]);
 
 Route::resource('attendance' , AttendanceController::class);
 
+Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
+Route::post('/forgot-password', [ForgotPasswordController::class,'forgotPassword']);
+
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
 
@@ -78,3 +83,5 @@ Route::prefix('v1')->group(function () {
         });
     });
 });
+
+

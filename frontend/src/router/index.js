@@ -18,6 +18,7 @@ import LoginView from '../views/Authentication/LoginView2.vue';
 import DashboardView from '../components/Navigation/DashboardView.vue';
 // import FormFogetPassword from '../views/Authentication/ForgotPassword.vue';
 import FormFogetPassword from '../components/HelloWorld.vue';
+import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
 
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
@@ -101,11 +102,6 @@ const routes = [
     component: TeacherMostAbsence
   },
   {
-    path: '/forgot_password',
-    name: '/forgot_password',
-    component: FormFogetPassword
-  },
-  {
     path: '/student_list',
     name: 'student_list',
     component: SaveListStudent
@@ -146,6 +142,16 @@ const routes = [
     path: '/report_view',
     name: 'report_view',
     component: ReportView
+  },
+  {
+    path: '/forgot_password',
+    name: '/forgot_password',
+    component: FormFogetPassword
+  },
+  {
+    path: '/reset_new_password',
+    name: 'reset_new_password',
+    component: FormResetNewPassword
   }
   
 
