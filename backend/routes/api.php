@@ -52,7 +52,7 @@ Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmai
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
 Route::post('/class_rooms', [ClassRoomController::class,"store"]);
 
-Route::resource('attendance' , AttendanceController::class);
+// Route::resource('attendance' , AttendanceController::class);
 
 Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
 Route::post('/forgot-password', [ForgotPasswordController::class,'forgotPassword']);
