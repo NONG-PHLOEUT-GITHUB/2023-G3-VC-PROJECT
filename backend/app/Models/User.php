@@ -186,4 +186,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Attendance::class, 'user_id');
     }
+
+    public function ClassRooms()
+    {
+        return $this->belongsTo(ClassRoom::class);
+    }
 }

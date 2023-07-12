@@ -11,17 +11,18 @@ class ClassRoomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function getClassStudents(Request $request)
     {
-        $class = $request->query('class_name');
+        $role = $request->query(3);
+        $class = $request->query('10A');
 
-        if ($class) {
-            $students = ClassRoom::where('class_name', $class)->get();
-        } else {
-            $students = ClassRoom::all();
-        }
+        $class = ClassRoom::where('class_name', $class)
+            ->whereHas('user_id', function ($query) use ($role) {
+                $query->where('role', $role);
+            })
+            ->get();
 
-        return $students;
+        return $class;
     }
 
     /**
@@ -50,7 +51,7 @@ class ClassRoomController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $classroom = ClassRoom::store($request,$id);
+        $classroom = ClassRoom::store($request, $id);
         return response()->json(['success' => true, 'message' => 'classroom update successfully', 'data' => $classroom], 200);
     }
 
@@ -68,13 +69,5 @@ class ClassRoomController extends Controller
         $classroom->delete();
 
         return response()->json(['success' => true, 'message' => 'classroom deleted successfully'], 200);
-    }
-
-    public function getClassStudent()
-    {
-        $users = User::where('role', 3)
-            ->select('id', 'first_name', 'last_name','gender','age','date_of_birth','phone_number','address','email')
-            ->get();
-        return response()->json($users);
     }
 }
