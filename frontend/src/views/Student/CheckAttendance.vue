@@ -45,7 +45,7 @@ export default {
       ],
       date: null,
       attendance_status: "",
-      URL: "http://127.0.0.1:8000/api/attendance",
+      URL: "http://127.0.0.1:8000/api/checkStudentAttendance",
     };
   },
   // copy by "https://stackoverflow.com/questions/57249466/getting-current-time-and-date-in-vue-js"
@@ -65,19 +65,27 @@ export default {
       });
     },
     saveListAttendence() {
-      const newAttend = {
-        attendance_status: this.attendance_status,
-        date: this.date,
-      };
-      axios.post(this.URL, newAttend).then((response) => {
-        swal.fire({
-          icon: "success",
-          title: "Save attendance successfully!",
-          text: "you already save your attendance",
-          timer: 2000,
+      if(this.attendance_status != '' && this.date != ''){
+        const newAttend = {
+          attendance_status: this.attendance_status,
+          date: this.date,
+        };
+        axios.post(this.URL, newAttend).then((response) => {
+          swal.fire({
+            icon: "success",
+            title: "Save attendance successfully!",
+            text: "you already save your attendance",
+            timer: 2000,
+          });
+          console.log(response);
         });
-        console.log(response);
-      });
+      }else{
+        swal.fire(
+        'Complete first',
+        'complete all input',
+        'info'
+      )  
+      }
     },
 
     created() {
