@@ -86,7 +86,6 @@
                 <router-link type="submit" class="btn btn-warning text-white mr-2" :to="{ path: '/student'}">Cancel</router-link>
                 <button type="submit" class="btn btn-primary text-white"  >Add User</button>
               </div>
-
             </form>
         </div>
     </section>
