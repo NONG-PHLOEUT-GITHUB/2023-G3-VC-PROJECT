@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="card shadow border-0 mb-7">
     <div class="card-header">
       <h3 class="mb-0 text-primary">STUDENTS LIST</h3>
@@ -79,6 +80,91 @@
       </table>
     </div>
   </div>
+=======
+    <div class="card shadow border-0 mb-7">
+        <div class="card-header">
+            <h3 class="mb-0 text-primary">STUDENTS LIST</h3>
+        </div>
+        <div class="card-header">
+            <select class="form-select mb-3" aria-label="Default select example" style="width: 30%;">
+                <option selected disabled>Select grade</option>
+                <option value="10">Grade 10</option>
+                <option value="11">Grade 11</option>
+                <option value="12">Grade 12</option>
+            </select>
+            <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
+                <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%;">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search student" aria-label="Search" style="width: 78%;">
+                    <button class="btn btn-outline-warning my-2 my-sm-0 " type="button"><i class="bi bi-search"></i> Search</button>
+                </form>
+                <!-- <i class="bi bi-filetype-xlsx"></i> -->
+                <button class="btn btn-primary">Import Excel file<i class="bi bi-file-earmark-arrow-down ms-4"></i></button>
+                <router-link :to="{ path: '/createUser' }" class="text-white" style="width: 20%;"><button type="button" class="btn btn-primary align-self-end" style="width: 100%;"><i class="bi bi-person-plus-fill"></i> Add new student</button></router-link>
+            </div>
+        </div>
+        <!-- get data form database to display -->
+        <div class="card-header">
+            <h5 class="mb-0 p-0 text-primary">STUDENT LIST CLASS 12A</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-nowrap">
+                <thead class="bg-primary">
+                    <tr>
+                        <th scope="col" class="fs-6 text-light">Name</th>
+                        <th scope="col" class="fs-6 text-light">Gender</th>
+                        <th scope="col" class="fs-6 text-light">Age</th>
+                        <th scope="col" class="fs-6 text-light">Email</th>
+                        <th scope="col" class="fs-6 text-light">Phone Number</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
+                        <td>
+                            <img v-if="user.profile" alt=""
+                            :src="user.profile"
+                            class="avatar avatar-sm rounded-circle me-2">
+                            <img v-else src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="" class="avatar avatar-sm rounded-circle me-2">
+                            <a class="text-heading font-semibold" href="#">
+                                {{user.first_name}} {{user.last_name}} 
+                            </a>
+                        </td>
+                        <td>
+                            {{user.gender}}
+                        </td>
+                        <td>
+                            {{user.age}}
+                        </td>
+                        <td>
+                            {{user.email}}
+                        </td>
+                        <td>
+                            {{user.phone_number}}
+                        </td>
+                        <td class="text-end d-flex justify-content-end">
+                            <router-link :to="{ path: '/student_detail/' + user.id }">
+                                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
+                                    <i  class="bi bi-person-circle text-warning" ></i> View Profile
+                                </button>
+                            </router-link>           
+                            
+                            <router-link  :to="{ path: '/edit/' + user.id }" >
+                                <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
+                                    <i  class="bi bi-pencil-square" ></i> Edit
+                                </button>
+                            </router-link>
+                                   
+                       
+                            <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2" @click="deleteUser(user.id)">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+>>>>>>> fe7abb50c575c377537c681cca9320aed136b624
 </template>
 <script>
 import axios from "axios";
