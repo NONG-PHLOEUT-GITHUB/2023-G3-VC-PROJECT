@@ -1,10 +1,4 @@
 <template>
-<<<<<<< HEAD
-=======
-  <!-- <main class="py-6 bg-surface-secondary rounded-3 mb-4">
-    <h1>hello</h1>
-  </main> -->
->>>>>>> 26d5e816f28e27e68904f5ed61ccd8274ca0cae5
   <div class="card shadow border-0 mb-7">
     <div class="card-header">
       <h3 class="mb-0 text-primary">CLASSES LIST</h3>
@@ -61,7 +55,6 @@
           </tr>
         </thead>
         <tbody>
-<<<<<<< HEAD
           <tr @click="showStudents(classRoom.name)" v-for="classRoom in classesList" :key="classRoom.name" class="border-2-dark">
             <!-- <div v-if="selectedClass">
               <student-list :selectedClass="selectedClass" />
@@ -71,17 +64,6 @@
               {{classRoom.name}}
               
             </td>  
-=======
-          <tr
-            v-for="classRoom in filteredClassesList"
-            :key="classRoom.name"
-            class="border-2-dark"
-          >
-            <td>
-              <i class="bi bi-building"></i>
-              {{ classRoom.name }}
-            </td>
->>>>>>> 26d5e816f28e27e68904f5ed61ccd8274ca0cae5
             <td>
               {{ classRoom.students }}
             </td>
