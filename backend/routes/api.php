@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,15 +37,22 @@ Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
 // ***Student***
 Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfStudents"]);
 Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsence"]);
+Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOfRole3ByUserId"]);
 Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
+Route::post('/checkStudentAttendance' , [AttendanceController::class, "store"]);
+Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
+Route::get("/getAverageAbsentAttendanceByMonth", [AttendanceController::class, "averageAbsentAttendanceByMonth"]);
+
 // ***Teacher***
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
 Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
+Route::post('/getImage', [UserController::class, 'getImage']);
 Route::get('/users/{id}', [UserController::class,"show"]);
 Route::put('/users/{id}', [UserController::class,"update"]);
 Route::resource('users' , UserController::class);
+Route::get('/studentattendancedetail/{user_id}', [AttendanceController::class, 'showDetail']);
 Route::post('/password/change', [ChangePasswordController::class,'change']);
 
 Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmail']);
@@ -58,7 +67,9 @@ Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']
 Route::get('/getStudents', [UserController::class,"getStudent"]);
 
 
-Route::resource('attendance' , AttendanceController::class);
+
+Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
+Route::post('/forgot-password', [ForgotPasswordController::class,'forgotPassword']);
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
@@ -86,3 +97,5 @@ Route::prefix('v1')->group(function () {
         });
     });
 });
+
+

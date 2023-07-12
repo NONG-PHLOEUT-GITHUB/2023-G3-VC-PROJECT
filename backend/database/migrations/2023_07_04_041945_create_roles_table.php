@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('attendace_status', 255)->nullable();
-            $table->string('reason', 255)->nullable();
-            $table->date('date')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->integer('role_id');
+            $table->integer('admin');
+            $table->integer('director');
+            $table->integer('teacher');
+            $table->integer('student');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::dropIfExists('roles');
     }
 };

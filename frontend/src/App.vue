@@ -5,25 +5,31 @@
         <router-view></router-view>
       </dashboard-view>
     </template>
+    <template v-else-if="forgotPassword">
+      <form-forgot-password></form-forgot-password>
+    </template>
     <template v-else>
-      <form-login @isLogin="handleLogin"></form-login>
+      <form-login @isLogin="handleLogin" @isForgotPassword="handleforgotPassword"></form-login>
     </template>
   </main>
 </template>
 
 <script>
 import FormLogin from './views/Authentication/LoginView2.vue';
+import FormForgotPassword from './views/Authentication/ForgotPassword.vue';
 import DashboardView from './components/Navigation/DashboardView.vue';
 
 export default {
   components: {
     DashboardView,
     FormLogin,
+    FormForgotPassword,
   },
 
   data: () => ({
       isLogged:false,
-      userEmail: null
+      userEmail: null,
+      forgotPassword:false
   }),
   created() {
     const email = sessionStorage.getItem('email');
@@ -39,6 +45,11 @@ export default {
     handleLogin(isLogged,email) {
       this.isLogged = isLogged;
       this.userEmail = email;
+    },
+
+    handleforgotPassword(){
+      this.forgotPassword = true;
+      console.log(this.forgotPassword);
     }
   }
 }

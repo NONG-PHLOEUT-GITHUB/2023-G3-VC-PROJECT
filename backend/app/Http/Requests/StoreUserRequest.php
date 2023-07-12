@@ -28,16 +28,16 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'gender' => 'required|in:male,female',
-            'age' => 'required|integer|min:10|max:100',
-            'date_of_birth' => 'required|date',
-            'phone_number' => 'required|string|max:20',
-            'address' => 'required|string|max:255',
-            // 'profile' => 'nullable|image|max:2048',
-            'email' => 'required|email',
-            'password' => 'required|string|min:8|max:255',
+            // 'first_name' => 'required|string|max:255',
+            // 'last_name' => 'required|string|max:255',
+            // 'gender' => 'required|in:male,female',
+            // 'age' => 'required|integer|min:10|max:100',
+            // 'date_of_birth' => 'required|date',
+            // 'phone_number' => 'required|string|max:20',
+            // 'address' => 'required|string|max:255',
+            // // 'profile' => 'nullable|image|max:2048',
+            // 'email' => 'required|email',
+            // 'password' => 'required|string|min:8|max:255',
         ];
     }
 }

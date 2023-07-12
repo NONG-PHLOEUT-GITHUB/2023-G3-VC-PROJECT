@@ -1,25 +1,22 @@
 <template>
   <main class="table">
-    <h3>Student Attendance List</h3>
+    <h4>
+      Attendance Records for
+      <span> {{ user.first_name }} {{ user.last_name }}</span>
+    </h4>
     <table>
       <thead>
         <tr>
-          <th>Id</th>
-          <th>First_Name</th>
-          <th>Last_Name</th>
-          <th>Total_Absence</th>
-          <th>See More</th>
+          <th>date</th>
+          <th>reason</th>
+          <th>attendance_status</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="attendanceItem in attendanceData" :key="attendanceItem.id">
-          <td>{{ attendanceItem.id }}</td>
-          <td>{{ attendanceItem.first_name }}</td>
-          <td>{{ attendanceItem.last_name }}</td>
-          <td>{{ attendanceItem.role_attendances_count }}</td>
-          <td>
-            <router-link class="status detail" :to="{ path: '/studentattendancedetail/'+ attendanceItem.id }">Detail</router-link>
-          </td>
+        <tr v-for="record in attendanceRecords" :key="record.id">
+          <td>{{ record.date }}</td>
+          <td>{{ record.reason }}</td>
+          <td>{{ record.attendace_status }}</td>
         </tr>
       </tbody>
     </table>
@@ -31,19 +28,26 @@ import axios from "axios";
 export default {
   data() {
     return {
-      attendanceData: [],
+      user: {},
+      attendanceRecords: [],
     };
   },
+  methods: {
+    listattendance(id) {
+      axios
+        .get(`http://127.0.0.1:8000/api/getAttendance/${id}`)
+        .then((response) => {
+          this.user = response.data.user;
+          this.attendanceRecords = response.data.attendanceRecords;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
   mounted() {
-    axios
-      .get("http://127.0.0.1:8000/api/getAttendance")
-      .then((response) => {
-        this.attendanceData = response.data;
-        console.log(this.attendanceData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const id = this.$route.params.id;
+    this.listattendance(id);
   },
 };
 </script>
@@ -68,10 +72,15 @@ main.table {
   border-radius: 10px;
   padding: 2%;
 }
-h3 {
+h4 {
   padding: 2%;
   text-transform: uppercase;
   color: #5cd2c6;
+}
+span {
+  padding: 2%;
+  text-transform: uppercase;
+  color: #1b1e1d;
 }
 table {
   padding: 2%;
