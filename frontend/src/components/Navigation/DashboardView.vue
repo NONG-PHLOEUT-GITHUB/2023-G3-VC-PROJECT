@@ -170,7 +170,11 @@ export default {
             }
         }
     },
-   
+    created(){
+        this.fetchData();
+
+    },
+    
     methods: {
         logout() {
             http.post('/api/v1/auth/logout', {}, {
@@ -196,7 +200,7 @@ export default {
                 .then(response => {
                     this.users = response.data.data;
                     console.log(response.data.data);
-                });
+            });
         },
         toggleDropdown() {
             this.isDropdownOpen = !this.isDropdownOpen;
@@ -213,9 +217,6 @@ export default {
                 // this.isLinkActiveTeacher = false;
             }
         }
-    },
-    mounted(){
-        this.fetchData()
     },
     
 }
