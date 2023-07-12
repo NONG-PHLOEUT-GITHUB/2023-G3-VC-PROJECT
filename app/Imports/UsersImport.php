@@ -19,11 +19,11 @@ class UsersImport implements ToModel, WithHeadingRow
             'first_name' => $row['First Name'],
             'last_name'=> $row['Last Name'],
             'email'=> $row['Email'],
-            // 'gender'=> $row['gender'],
-            // 'date_of_birth'=> date('Y-m-d H:i:s', strtotime($row['date_of_birth'])),
-            // 'phone_number'=> $row['phone_number'],
-            // 'address'=> $row['address'],
-            // 'role'=>3,
+            'gender'=> $row['gender'],
+            'date_of_birth'=> date('Y-m-d H:i:s', strtotime($row['date_of_birth'])),
+            'phone_number'=> $row['phone_number'],
+            'address'=> $row['address'],
+            'role'=>3,
         ]);
     }
 }
