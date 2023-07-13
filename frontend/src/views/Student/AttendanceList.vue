@@ -5,9 +5,9 @@
       <thead>
         <tr>
           <th>Id</th>
-          <th>First_Name</th>
-          <th>Last_Name</th>
-          <th>Total_Absence</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Total Absence</th>
           <th>See More</th>
         </tr>
       </thead>
@@ -101,7 +101,7 @@ thead th {
   left: 0;
   background-color: #0000FF;
   cursor: pointer;
-  text-transform: capitalize;
+  text-transform: uppercase;
   color: white;
   font-size: 15px;
   font-weight: bold;

@@ -1,15 +1,15 @@
 <template>
   <main class="table">
-    <h4>
+    <h3>
       Attendance Records for
       <span> {{ user.first_name }} {{ user.last_name }}</span>
-    </h4>
+    </h3>
     <table>
       <thead>
         <tr>
           <th>date</th>
           <th>reason</th>
-          <th>attendance_status</th>
+          <th>attendance status</th>
         </tr>
       </thead>
       <tbody>
@@ -67,15 +67,14 @@ body {
 }
 main.table {
   margin: auto;
-  width: 65vw;
-  background-color: #fff5;
   border-radius: 10px;
   padding: 2%;
 }
-h4 {
-  padding: 2%;
+h3 {
+  
+  margin-bottom: 20px;
   text-transform: uppercase;
-  color: #5cd2c6;
+  color:  #0000FF;
 }
 span {
   padding: 2%;
@@ -93,7 +92,6 @@ td img {
   height: 36px;
   margin-right: 0.5rem;
   border-radius: 50%;
-
   vertical-align: middle;
 }
 
@@ -109,24 +107,14 @@ thead th {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #d5d1defe;
+  background-color: #0000FF;
   cursor: pointer;
-  text-transform: capitalize;
-}
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
-}
-tbody tr:hover {
-  background-color: #fff6 !important;
-}
-.status.detail {
-  padding: 0.4rem 1.5rem;
-  border-radius: 2rem;
-  text-align: center;
-  background-color: #50ded9;
-  color: #006b21;
+  text-transform: uppercase;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
 }
 thead th:hover {
-  color: #5cd2c6;
+  color: #e2f0ee;
 }
 </style>
