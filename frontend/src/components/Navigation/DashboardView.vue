@@ -40,38 +40,23 @@
 
               <!-- //teacher management -->
 
-              <a @click="toggleLinks('teacher')" class="nav-link text-primary">
-                <i class="bi bi-person my-icon"></i> Teacher management
-                <i class="bi bi-sort-down my-icon ms-4"></i>
-              </a>
-              <router-link
-                v-show="isLinkActiveTeacher"
-                class="nav-link text-primary ms-4"
-                href="#"
-                :to="{ path: '/student_list' }"
-                :class="{ active: $route.path === '/student_list' }"
-              >
-                <i class="bi bi-list my-icon"></i> Teacher List
-              </router-link>
-              <router-link
-                v-show="isLinkActiveTeacher"
-                class="nav-link text-primary ms-4"
-                href="#"
-                :to="{ path: '/teacher' }"
-                :class="{ active: $route.path === '/teacher' }"
-              >
-                <i class="bi bi-gear my-icon"></i> Teacher Setting
-              </router-link>
-              <router-link
-                v-show="isLinkActiveTeacher"
-                class="nav-link text-primary ms-4"
-                href="#"
-                :to="{ path: '/3' }"
-                :class="{ active: $route.path === '/3' }"
-              >
-                <i class="bi bi-check2-circle my-icon"></i>Teacher Attendance
-              </router-link>
-            </li>
+                            <a @click="toggleLinks('teacher')" class="nav-link text-primary">
+                                <i class="bi bi-person my-icon"></i> Teacher management 
+                                <i class="bi bi-sort-down my-icon ms-4"></i>
+                            </a>
+                            <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/student_list' }" :class="{ 'active': $route.path === '/student_list' }">
+                                <i class="bi bi-list my-icon"></i> Teacher List
+                            </router-link>
+                            <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/teacher' }" :class="{ 'active': $route.path === '/teacher' }">
+                                <i class="bi bi-gear my-icon"></i> Teacher Setting
+                            </router-link>
+                            <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/teacherattendancelist' }" :class="{ 'active': $route.path === '/teacherattendancelist' }">
+                                <i class="bi bi-check2-circle my-icon"></i>Teacher Attendance
+                            </router-link>
+                        </li>
 
             <!-- //student management -->
 

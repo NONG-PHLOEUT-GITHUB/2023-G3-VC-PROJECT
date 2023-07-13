@@ -128,11 +128,33 @@ class AttendanceController extends Controller
         ]);
     }
     /**
-     * show attendance of student detail .
+     * get attendance of student detail .
      */
     public static function getAttendanceOfRole3ByUserId($id)
     {
         $user = User::where('role', 3)
+            ->find($id);
+
+        if ($user) {
+            $attendanceRecords = $user->roleAttendances;
+            return response()->json([
+                'user' => [
+                    'id' => $user->id,
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                ],
+                'attendanceRecords' => $attendanceRecords,
+            ]);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
+    /**
+     * get attendance of teacher detail .
+     */
+    public static function getAttendanceOfRole2ByUserId($id)
+    {
+        $user = User::where('role', 2)
             ->find($id);
 
         if ($user) {
