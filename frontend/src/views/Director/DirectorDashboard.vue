@@ -140,14 +140,12 @@
           </div>
         </div>
       </div>
-
     </div>
-
   </main>
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -211,10 +209,19 @@ export default {
       }
     }
   },
+  mounted() {
+    axios.get('http://127.0.0.1:8000/api/getTotal')
+      .then(response => {
+       this.results = response.data.data
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
   // mounted() {
-  //   axios.get(this.URL + "/getAverageAbsentAttendanceByMonth")
+  //   axios.get(this.URL + "/getAbsentPercentageByMonth")
   //     .then(response => {
-  //       this.attendance = response.data.averageAbsentAttendanceByMonth;
+  //       this.attendance = response.data.absentPercentage;
   //       this.chartData.datasets[0].data = Object.values(this.attendance);
   //     })
   //     .catch(error => {

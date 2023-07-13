@@ -26,7 +26,7 @@
           </button>
         </form>
         <router-link
-          :to="{ path: '/createUser' }"
+          :to="{ path: '/createClass' }"
           class="text-white"
           style="width: 20%"
         >
@@ -48,27 +48,27 @@
       <table class="table table-hover table-nowrap">
         <thead class="bg-primary">
           <tr>
-            <th scope="col" class="fs-5 text-light">Class</th>
-            <th scope="col" class="fs-5 text-light">Total students</th>
-            <th scope="col" class="fs-5 text-light">Teacher</th>
-            <th scope="col" class="fs-5 text-light">Action</th>
+            <th scope="col" class="fs-6 text-light">Class</th>
+            <th scope="col" class="fs-6 text-light">Teacher</th>
+            <th scope="col" class="fs-6 text-light">Total students</th>
+            <th scope="col" class="fs-6 text-light">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr @click="showStudents(classRoom.name)" v-for="classRoom in classesList" :key="classRoom.name" class="border-2-dark">
+          <tr @click="showStudents(classRoom.name)" v-for="classRoom in listClasses" :key="classRoom.name" class="border-2-dark">
             <!-- <div v-if="selectedClass">
               <student-list :selectedClass="selectedClass" />
           </div> -->
             <td>
               <i class="bi bi-building"></i>
-              {{classRoom.name}}
+              {{classRoom.class_name}}
               
             </td>  
             <td>
-              {{ classRoom.students }}
+              {{ classRoom.user_id }}
             </td>
             <td>
-              {{ classRoom.teacher }}
+              {{ numberStudent }}
             </td>
             <td  class="text-end d-flex justify-content-start">
               <router-link :to="{ path: '/monthly_report' }">
@@ -128,23 +128,26 @@ export default {
   data() {
     return {
       students:[],
-      classesList: [
-        { name: " 10A", students: 53, teacher: "Sreypok Doem" },
-        { name: " 10B", students: 53, teacher: "Sreypok Doem" },
-        { name: " 10C", students: 53, teacher: "Sreypok Doem" },
-        { name: " 10D", students: 53, teacher: "Sreypok Doem" },
-        { name: " 10E", students: 53, teacher: "Sreypok Doem" },
-        { name: " 11A", students: 50, teacher: "Sokunthea Kim" },
-        { name: " 11B", students: 50, teacher: "Sokunthea Kim" },
-        { name: " 11C", students: 50, teacher: "Sokunthea Kim" },
-        { name: " 11D", students: 50, teacher: "Sokunthea Kim" },
-        { name: " 11E", students: 50, teacher: "Sokunthea Kim" },
-        { name: " 12A", students: 48, teacher: "Ratana Lim" },
-        { name: "12B", students: 48, teacher: "Ratana Lim" },
-        { name: " 12C", students: 48, teacher: "Ratana Lim" },
-        { name: " 12D", students: 48, teacher: "Ratana Lim" },
-        { name: " 12E", students: 48, teacher: "Ratana Lim" }
-      ],
+      // classesList: [
+      //   { name: " 10A", students: 53, teacher: "Sreypok Doem" },
+      //   { name: " 10B", students: 53, teacher: "Sreypok Doem" },
+      //   { name: " 10C", students: 53, teacher: "Sreypok Doem" },
+      //   { name: " 10D", students: 53, teacher: "Sreypok Doem" },
+      //   { name: " 10E", students: 53, teacher: "Sreypok Doem" },
+      //   { name: " 11A", students: 50, teacher: "Sokunthea Kim" },
+      //   { name: " 11B", students: 50, teacher: "Sokunthea Kim" },
+      //   { name: " 11C", students: 50, teacher: "Sokunthea Kim" },
+      //   { name: " 11D", students: 50, teacher: "Sokunthea Kim" },
+      //   { name: " 11E", students: 50, teacher: "Sokunthea Kim" },
+      //   { name: " 12A", students: 48, teacher: "Ratana Lim" },
+      //   { name: "12B", students: 48, teacher: "Ratana Lim" },
+      //   { name: " 12C", students: 48, teacher: "Ratana Lim" },
+      //   { name: " 12D", students: 48, teacher: "Ratana Lim" },
+      //   { name: " 12E", students: 48, teacher: "Ratana Lim" }
+      // ],
+      listClasses: [],
+      numberStudent: 0,
+      URL: "http://127.0.0.1:8000/api/classes",
       searchQuery: '',
       selectedClass: '',
     };
@@ -152,25 +155,34 @@ export default {
   computed: {
     filteredClassesList() {
       // Filter the classes list based on the search query
-      return this.classesList.filter(classRoom => classRoom.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+      return this.listClasses.filter(classRoom => classRoom.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
   },
   methods: {
+    getURL() {
+      axios.get(this.URL).then((response) => {
+          this.listClasses = response.data.data;
+          console.log(this.listClasses);
+      });
+    },
     showStudents(className) {
-  // Set the selected class to the class name that was clicked
-  this.selectedClass = className;
+    // Set the selected class to the class name that was clicked
+    this.selectedClass = className;
 
-  axios.get(`http://127.0.0.1:8000/api/getClassStudents?class_name=${className}`)
-    .then(response => {
-      console.log(response.data.data);
-      // Set the students list to the response data
-      this.classesList = response.data.data;
-    })
-    .catch(error => {
-      // Handle the error here
-      console.log(error);
-    });
-},
+    axios.get(`http://127.0.0.1:8000/api/getClassStudents?class_name=${className}`)
+      .then(response => {
+        console.log(response.data.data);
+        // Set the students list to the response data
+        this.listClasses = response.data.data;
+      })
+      .catch(error => {
+        // Handle the error here
+        console.log(error);
+      });
+    },
+  },
+  mounted() {
+    return this.getURL();
   },
 };
 </script>
