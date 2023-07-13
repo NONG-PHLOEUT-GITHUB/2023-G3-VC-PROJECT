@@ -1,9 +1,9 @@
 <template>
   <div>
     <h3>STUDENT LIST</h3>
-    <div class="table-container">
+    <div class="table-container ">
       <table id="my-table">
-        <thead>
+        <thead class="bg-primary">
           <tr>
             <th>No</th>
             <th>FirstName</th>
@@ -31,7 +31,7 @@
         </tbody>
       </table>
       <button class="button" v-if="!isDownloading" @click="downloadPDF()">
-        <i class="bi bi-download"></i>Download PDF
+        <i class="bi bi-download"></i> Download PDF
       </button>
       <div v-else>
         <p>Generating PDF...</p>
@@ -125,7 +125,6 @@ export default {
 }
 
 #my-table th {
-  background-color: #58c3e7;
   border-bottom: 2px solid #fff;
   color: #fff;
   font-weight: 600;
@@ -190,17 +189,17 @@ export default {
 }
 
 .button {
-  background: #58c3e7;
+  background: blue;
   border: none;
   border-radius: 20px;
   color: #fff;
   cursor: pointer;
   font-weight: 600;
-  padding: 8px 20px;
+  padding: 10px 22px;
   text-transform: uppercase;
   transition: all 0.3s ease-in-out;
   margin-top: 10px;
-  margin-left: 84%;
+  margin-left: 83%;
 }
 
 .button:hover {
