@@ -31,7 +31,8 @@ Route::post('/login', 'LoginController@login');
 
 // ***Route***
 Route::resource("/users", UserController::class);
-Route::resource("/classes", ClassRoomController::class);
+Route::get("/classes", [ClassRoomController::class, 'index']);
+Route::post("/classes", [ClassRoomController::class, 'store']);
 Route::resource("/attendances", AttendanceController::class);
 
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);

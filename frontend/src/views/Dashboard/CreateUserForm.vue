@@ -148,7 +148,12 @@ export default {
           title: "Save attendance successfully!",
           text: "you already save your attendance",
           timer: 2000,
-        });
+        })
+        .then(() => {
+            this.$router.push({ path: '/student' });
+        }).catch(error=>{
+          console.log(error)
+        })
       }else{
         swal.fire(
         'Complete first',
