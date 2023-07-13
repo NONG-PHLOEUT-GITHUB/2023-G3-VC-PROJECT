@@ -1,22 +1,22 @@
 <template>
   <main class="table">
-    <h4>
+    <h3>
       Attendance Records for
       <span> {{ user.first_name }} {{ user.last_name }}</span>
-    </h4>
+    </h3>
     <table>
       <thead>
         <tr>
           <th>date</th>
-          <th>reason</th>
           <th>attendance_status</th>
+          <th>reason</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="record in attendanceRecords" :key="record.id">
           <td>{{ record.date }}</td>
-          <td>{{ record.reason }}</td>
           <td>{{ record.attendace_status }}</td>
+          <td>{{ record.reason }}</td>
         </tr>
       </tbody>
     </table>
@@ -67,15 +67,13 @@ body {
 }
 main.table {
   margin: auto;
-  width: 65vw;
-  background-color: #fff5;
   border-radius: 10px;
   padding: 2%;
 }
-h4 {
-  padding: 2%;
+h3 {
+  margin-bottom: 10px;
   text-transform: uppercase;
-  color: #5cd2c6;
+  color:  #0000FF;
 }
 span {
   padding: 2%;
@@ -93,7 +91,6 @@ td img {
   height: 36px;
   margin-right: 0.5rem;
   border-radius: 50%;
-
   vertical-align: middle;
 }
 
@@ -109,16 +106,14 @@ thead th {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #d5d1defe;
+  background-color: #0000FF;
   cursor: pointer;
   text-transform: capitalize;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
 }
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
-}
-tbody tr:hover {
-  background-color: #fff6 !important;
-}
+
 .status.detail {
   padding: 0.4rem 1.5rem;
   border-radius: 2rem;
@@ -127,6 +122,6 @@ tbody tr:hover {
   color: #006b21;
 }
 thead th:hover {
-  color: #5cd2c6;
+  color: #e2f0ee;
 }
 </style>

@@ -41,9 +41,6 @@
       </div>
       
     </div>
-    <div class="card-header">
-      <h3 class="mb-0 p-0 text-primary">GRADE 10</h3>
-    </div>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="bg-primary">
@@ -103,16 +100,16 @@
         
       </table>
     </div>
-  </div>
-
-  <div class="card-header">
-        <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
-          <form class="form-inline my-2 my-lg-0 d-flex" style="width: 100%;">
-            <div v-if="selectedClass">
-              <student-list :selectedClass="selectedClass" />
-
-            </div>
-          </form>
+    
+      <div class="card-header">
+            <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
+              <form class="form-inline my-2 my-lg-0 d-flex" style="width: 100%;">
+                <div v-if="selectedClass">
+                  <student-list :selectedClass="selectedClass" />
+    
+                </div>
+              </form>
+          </div>
       </div>
   </div>
 </template>
