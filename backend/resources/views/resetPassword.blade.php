@@ -97,6 +97,9 @@
 			border-top: 1px solid #DDDDDD;
 			color: #AAAAAA;
 		}
+		span{
+			color:white;
+		}
 	</style>
 </head>
 <body>
@@ -104,7 +107,7 @@
 		<h1>Password Reset</h1>
 		<p>You are receiving this email because we received a password reset request for your account.</p>
 		{{-- <a href="http://127.0.0.1:3000/api/forgot-password/{{}}">Reset Password</a> --}}
-		<a href="{{ config('app.admin_url') }}/{{$token}}">Reset Password</a>
+		<a href="{{ config('app.admin_url') }}/{{$token}}"><span>Reset Password</span></a>
 		<p>If you did not request a password reset, no further action is required.</p>
 		<div class="footer">
 			<p>This email was sent from our website.</p>

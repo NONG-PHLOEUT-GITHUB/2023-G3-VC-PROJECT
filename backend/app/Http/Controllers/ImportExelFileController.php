@@ -8,20 +8,8 @@ use Illuminate\Support\Facades\Storage;
 
 class ImportExelFileController extends Controller
 {
-    // dd($request->file);
-    // echo $request->file;
-    // Excel::import(new ImportUsers, $request->file('file')->store('files'));
-
-    // return response()->json([
-    //     'message' => 'import successfully'
-    // ]);
-    // $file = $request->file('file');
-
-    // if (!$file) {
-    //     return response()->json([
-    //         'message' => 'No file uploaded'
-    //     ], 400);
-    // }
+  
+    ///https://larachamp.com/how-to-import-excel-file-to-database-in-laravel/
     public function import(Request $request)
     {
 
@@ -34,13 +22,21 @@ class ImportExelFileController extends Controller
         }
 
         $filePath = Storage::putFile('files', $file);
-
+        // $import = new ImportUsers();
         Excel::import(new ImportUsers, storage_path('app/' . $filePath));
 
         Storage::delete($filePath);
 
+        // $importCount = $import->getImportCount();
+        // dd($importCount);
+        // return response()->json([
+        //     'message' => 'Import successful',
+        //     'imported' => $importCount['imported'],
+        //     'skipped' => $importCount['skipped'],
+        // ]);
         return response()->json([
-            'message' => 'import successfully'
+            'message' => 'import successfully',
+            'data' => $filePath
         ]);
     }
 }
