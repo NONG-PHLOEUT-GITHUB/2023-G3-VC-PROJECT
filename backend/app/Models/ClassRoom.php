@@ -9,7 +9,7 @@ class ClassRoom extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'class_id',
+        // 'class_id',
         'user_id',
         'class_name',
         
@@ -17,7 +17,7 @@ class ClassRoom extends Model
     public static function store($request, $id = null)
     {
         $class_rooms = $request->only(
-            'class_id',
+            // 'class_id',
             'user_id',
             'class_name',
         );
@@ -31,7 +31,7 @@ class ClassRoom extends Model
             $user = self::create($class_rooms);
             $id = $user->$id;
         }
-        return response()->json(['success' => true, 'data' => $class_room], 201);
+        return response()->json(['success' => true, 'data' => $class_rooms], 201);
     }
 
     public function users(){

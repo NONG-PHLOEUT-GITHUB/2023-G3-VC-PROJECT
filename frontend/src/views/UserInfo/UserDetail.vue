@@ -270,10 +270,10 @@ export default ({
           "
         >
           <img
-            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+            :src="users.profile"
             alt="Avatar"
-            class="img-fluid my-5"
-            style="width: 150px"
+            class="img-fluid my-7"
+            style="width: 150px; border-radius: 50%;"
           />
           <h3 class="text-warning">
             {{ users.first_name + " " + users.last_name }}

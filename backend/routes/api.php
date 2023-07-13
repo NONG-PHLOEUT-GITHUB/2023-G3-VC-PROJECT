@@ -31,6 +31,7 @@ Route::post('/login', 'LoginController@login');
 
 // ***Route***
 Route::resource("/users", UserController::class);
+Route::resource("/classes", ClassRoomController::class);
 Route::resource("/attendances", AttendanceController::class);
 
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
@@ -41,7 +42,7 @@ Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOf
 Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
 Route::post('/checkStudentAttendance' , [AttendanceController::class, "store"]);
 Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
-Route::get("/getAverageAbsentAttendanceByMonth", [AttendanceController::class, "averageAbsentAttendanceByMonth"]);
+Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
 
 // ***Teacher***
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);

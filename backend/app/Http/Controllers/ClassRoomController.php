@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class ClassRoomController extends Controller
 {
+        /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $classrooms = ClassRoom::all();
+        return response()->json(['success' => true, 'data' => $classrooms], 200);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -30,8 +38,9 @@ class ClassRoomController extends Controller
      */
     public function store(Request $request)
     {
-        $user = ClassRoom::store($request);
-        return $user;
+        $classrooms = ClassRoom::store($request);
+        return response()->json(['success' => true, 'data' => $classrooms], 200);
+
     }
 
     /**
