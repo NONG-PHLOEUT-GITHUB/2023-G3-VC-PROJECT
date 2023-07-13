@@ -1,45 +1,44 @@
 <template>
-  <!-- <table class="table table-bordered">
-  ...
-</table> -->
-  <h3>STUDENT LIST</h3>
-  <div class="table-container">
-    <table id="my-table">
-      <thead>
-        <tr>
-          <th>FirstName</th>
-          <th>LastName</th>
-          <th>Gender</th>
-          <th>Age</th>
-          <th>DateofBirth</th>
-          <th>PhoneNumber</th>
-          <th>Address</th>
-          <th>Email</th>
-          <th v-if="!isDetail">Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(student, index) in students" :key="index">
-          <td>{{ student.first_name }}</td>
-          <td>{{ student.last_name }}</td>
-          <td>{{ student.gender }}</td>
-          <td>{{ student.age }}</td>
-          <td>{{ student.date_of_birth }}</td>
-          <td>{{ student.phone_number }}</td>
-          <td>{{ student.address }}</td>
-          <td>{{ student.email }}</td>
-          <td><button v-if="!isDetail" class="detail">Details</button></td>
-        </tr>
-      </tbody>
-    </table>
-    <button class="button" v-if="!isDownloading" @click="downloadPDF()">
-      <i class="bi bi-download"></i>Download PDF
-    </button>
-    <div v-else>
-      <p>Generating PDF...</p>
-      <i class="fa fa-spinner fa-spin"></i>
+  <div>
+    <h3>STUDENT LIST</h3>
+    <div class="table-container">
+      <table id="my-table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>DateofBirth</th>
+            <th>PhoneNumber</th>
+            <th>Address</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(student, index) in students" :key="index">
+            <td>{{index +1}}</td>
+            <td>{{ student.first_name }}</td>
+            <td>{{ student.last_name }}</td>
+            <td>{{ student.gender }}</td>
+            <td>{{ student.age }}</td>
+            <td>{{ student.date_of_birth }}</td>
+            <td>{{ student.phone_number }}</td>
+            <td>{{ student.address }}</td>
+            <td>{{ student.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="button" v-if="!isDownloading" @click="downloadPDF()">
+        <i class="bi bi-download"></i>Download PDF
+      </button>
+      <div v-else>
+        <p>Generating PDF...</p>
+        <i class="fa fa-spinner fa-spin"></i>
+      </div>
+      <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
     </div>
-    <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
   </div>
 </template>
 
@@ -58,11 +57,6 @@ export default {
     };
   },
   methods: {
-    fetchData() {
-      axios.get(this.url).then((response) => {
-        console.log(response.data);
-      });
-    },
     // download pdf ==================================
     downloadPDF() {
       this.isDetail = true;
@@ -82,29 +76,27 @@ export default {
             pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
             pdf.save("download.pdf");
             this.isDetail = false;
-            this.fetchData()
+            this.fetchData();
           });
         })
         .catch((error) => {
           console.error(error);
         });
     },
-    
+    fetchData() {
+      axios
+        .get("http://127.0.0.1:8000/api/getStudents")
+        .then((response) => {
+          this.students = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   mounted() {
     this.fetchData();
   },
-  created() {
-    axios
-      .get("http://127.0.0.1:8000/api/getStudents")
-      .then((response) => {
-        this.students = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-  
 };
 </script>
 
