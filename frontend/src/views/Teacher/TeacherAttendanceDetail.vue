@@ -1,48 +1,53 @@
 <template>
   <main class="table">
-    <h3>Teacher Attendance List</h3>
+    <h3>
+      Attendance Records for
+      <span> {{ user.first_name }} {{ user.last_name }}</span>
+    </h3>
     <table>
       <thead>
         <tr>
-          <th>Id</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Total Absence</th>
-          <th>See More</th>
+          <th>date</th>
+          <th>reason</th>
+          <th>attendance status</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="attendanceItem in attendanceData" :key="attendanceItem.id">
-          <td>{{ attendanceItem.id }}</td>
-          <td>{{ attendanceItem.first_name }}</td>
-          <td>{{ attendanceItem.last_name }}</td>
-          <td>{{ attendanceItem.role_attendances_count }}</td>
-          <td>
-            <router-link class="status detail" :to="{ path: '/teacherattendancedetail/'+ attendanceItem.id }">Detail</router-link>
-          </td>
+        <tr v-for="record in attendanceRecords" :key="record.id">
+          <td>{{ record.date }}</td>
+          <td>{{ record.reason }}</td>
+          <td>{{ record.attendace_status }}</td>
         </tr>
       </tbody>
     </table>
   </main>
 </template>
-
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
-      attendanceData: [],
+      user: {},
+      attendanceRecords: [],
     };
   },
+  methods: {
+    listattendance(id) {
+      axios
+        .get(`http://127.0.0.1:8000/api/getteacherDetail/${id}`)
+        .then((response) => {
+          this.user = response.data.user;
+          this.attendanceRecords = response.data.attendanceRecords;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
   mounted() {
-    axios
-      .get("http://127.0.0.1:8000/api/getTeacherAttendance")
-      .then((response) => {
-        this.attendanceData = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const id = this.$route.params.id;
+    this.listattendance(id);
   },
 };
 </script>
@@ -66,7 +71,8 @@ main.table {
   padding: 2%;
 }
 h3 {
-  margin-bottom: 10px;
+  
+  margin-bottom: 20px;
   text-transform: uppercase;
   color:  #0000FF;
 }
@@ -106,15 +112,6 @@ thead th {
   text-transform: uppercase;
   color: white;
   font-size: 15px;
-  font-weight: bold;
-}
-
-.status.detail {
-  padding: 10px;
-  margin-left: 10px;
-  border-radius: 3px;
-  background-color: #0000FF;
-  color: white;
   font-weight: bold;
 }
 thead th:hover {

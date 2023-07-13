@@ -14,6 +14,7 @@ import AttendanceList from '../views/Student/AttendanceList.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
 import StudentDetail from '../views/Student/StudentDetial.vue';
 import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vue';
+import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vue';
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
@@ -104,6 +105,11 @@ const routes = [
     path: '/studentattendancedetail/:id',
     name: '/studentattendancedetail',
     component: StudentAttendanceDetail
+  },
+  {
+    path: '/teacherattendancedetail/:id',
+    name: '/teacherattendancedetail',
+    component: TeacherAttendanceDetail
   },
   {
     path: '/checkAttendance',
