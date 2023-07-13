@@ -9,9 +9,11 @@ import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
+import CreateClassForm from '../views/Dashboard/CreateClassForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
 import StudentDetail from '../views/Student/StudentDetial.vue';
+import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vue';
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
@@ -72,6 +74,11 @@ const routes = [
     component: CreateUserForm
   },
   {
+    path: '/createClass',
+    name: '/createClass',
+    component: CreateClassForm
+  },
+  {
     path: '/user_info',
     name: '/user_info',
     component: UserInfo
@@ -90,6 +97,11 @@ const routes = [
     path: '/studentdetail',
     name: '/studentdetail',
     component: StudentDetail
+  },
+  {
+    path: '/studentattendancedetail/:id',
+    name: '/studentattendancedetail',
+    component: StudentAttendanceDetail
   },
   {
     path: '/checkAttendance',
