@@ -124,7 +124,7 @@ class AttendanceController extends Controller
         return response()->json([
             'date' => $attendance->date,
             'reason' => $attendance->reason,
-            'attendace_status' => $attendance->attendace_status,
+            'attendance_status' => $attendance->attendace_status,
         ]);
     }
     /**
