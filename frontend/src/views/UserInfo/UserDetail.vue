@@ -219,8 +219,7 @@ export default ({
 })
 </script> -->
 
-
-<template>
+<!-- <template>
 <div class="container ">
   <div class="col">
     <div class="row">
@@ -257,4 +256,157 @@ export default ({
     </div>
   </div>
 </div>
+</template> -->
+
+<template>
+  <section>
+    <div class="card mb-3 bg-gray-300">
+      <div class="row">
+        <div
+          class="col-md-3 gradient-custom text-center text-white align-items-center"
+          style="
+            border-top-left-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
+          "
+        >
+          <img
+            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+            alt="Avatar"
+            class="img-fluid my-5"
+            style="width: 150px"
+          />
+          <h3 class="text-warning">
+            {{ users.first_name + " " + users.last_name }}
+          </h3>
+          <p class="text-dark">Class 12A</p>
+        </div>
+
+        <div class="col-md-9">
+          <div class="card-body">
+            <h4 class="text-primary">Personal Information</h4>
+            <hr class="mt-1 mb-4" />
+            <div class="row pt-1">
+              <div class="col-4 mb-2">
+                <h6 class="text-muted">First Name</h6>
+                <p class="text-dark">{{ users.first_name }}</p>
+              </div>
+              <div class="col-4 mb-2">
+                <h6 class="text-muted">Last Name</h6>
+                <p class="text-dark">{{ users.last_name }}</p>
+              </div>
+              <div class="col-4 mb-2">
+                <h6 class="text-muted">Gender</h6>
+                <p class="text-dark">{{ users.gender }}</p>
+              </div>
+              <div class="col-4 mb-2">
+                <h6 class="text-muted">Role</h6>
+                <p class="text-dark">{{ users.role }} student</p>
+              </div>
+              <div class="col-4 mb-2">
+                <h6 class="text-muted">Age</h6>
+                <p class="text-dark">{{ users.age }} years old</p>
+              </div>
+              <div class="col-4 mb-2">
+                <h6 class="text-muted">Date of birth</h6>
+                <p class="text-dark">{{ users.date_of_birth }}</p>
+              </div>
+            </div>
+            <h4 class="text-primary">Contact Information</h4>
+            <hr class="mt-1 mb-4" />
+            <div class="row pt-1">
+              <div class="col-4 mb-2">
+                <h6 class="text-muted">Phone</h6>
+                <p class="text-dark">{{ users.phone_number }}</p>
+              </div>
+              <div class="col-4 mb-2">
+                <h6 class="text-muted">Email</h6>
+                <p class="text-dark">{{ users.email }}</p>
+              </div>
+              <div class="col-4 mb-2">
+                <h6 class="text-muted">Address</h6>
+                <p class="text-dark">{{ users.address }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-sm-4">
+        <div class="card bg-gray-300">
+          <div class="card-body">
+            <h4 class="card-title m-0">My Score list Reports</h4>
+            <!-- <p class="card-text small mt-2 text-justify">
+              As a student, keeping track of your score reports is crucial for your academic success. Score reports provide a record of your performance on assignments.
+            </p> -->
+            <router-link :to="{ path: '/monthly_report' }">
+              <button type="button" class="btn btn-sm btn-neutral text-light text-dark-hover bg-primary mt-2">
+                View Details
+              </button>
+            </router-link>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-sm-4">
+        <div class="card bg-gray-300">
+          <div class="card-body">
+            <h4 class="card-title m-0">My Score list Reports</h4>
+            <!-- <p class="card-text small mt-2 text-justify">
+              As a student, keeping track of your score reports is crucial for your academic success. Score reports provide a record of your performance on assignments.
+            </p> -->
+            <router-link :to="{ path: '/monthly_report' }">
+              <button type="button" class="btn btn-sm btn-neutral text-light text-dark-hover bg-primary mt-2">
+                View Details
+              </button>
+            </router-link>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="card bg-gray-300">
+          <div class="card-body">
+            <h4 class="card-title m-0">My Attendance Reports</h4>
+            <!-- <p class="card-text small mt-2 text-justify">
+              As a student, keeping track of your attendance reports is essential for your academic success that provide a record of your attendance in each class/subject.
+            </p> -->
+            <router-link :to="{ path: '/monthly_report' }">
+              <button type="button" class="btn btn-sm btn-neutral text-light text-dark-hover bg-primary mt-2">
+                View Details
+              </button>
+            </router-link>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
 </template>
+<script>
+import http from "../../htpp.common";
+
+export default {
+  name: "UserDetails",
+  data() {
+    return {
+      users: "",
+    };
+  },
+  methods: {
+    fetchData() {
+      http.get("/api/v1/auth/user").then((response) => {
+        this.users = response.data.data;
+        console.log(response.data.data);
+      });
+    },
+  },
+
+  mounted() {
+    this.fetchData();
+  },
+};
+</script>
