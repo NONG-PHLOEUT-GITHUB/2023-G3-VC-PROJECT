@@ -35,7 +35,7 @@
 
 
 <script>
-// import Swal from 'sweetalert2'
+import Swal from 'sweetalert2'
 import http from '../../htpp.common';
 // import { sha256 } from 'js-sha256';
 // recferences// https://vee-validate.logaretm.com/v4/tutorials/basics/
@@ -69,15 +69,27 @@ export default {
                     .then(response => {
                         console.log('API response:', response.data);
                         localStorage.setItem('access_token', response.data.access_token);
-                        // alert('login successful');
-                        // Swal.fire({
-                        //     position: 'top-end',
-                        //     icon: 'success',
-                        //     title: 'Login successfully',
-                        //     showConfirmButton: false,
-                        //     timer: 1500
-                        // })
-                    }).then(() => {
+                        // alert
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 500,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Signed in successfully'
+                        }) 
+                        // sessionStorage.setItem('email', this.email);
+                        // this.$emit('isLogin', true, this.email);
+                    })
+                    .then(() => {
                         // const value = this.email;
 
                         // // Hash the value using SHA-256
@@ -93,7 +105,7 @@ export default {
                     .catch(error => {
                         if (error.response.status === 401) {
                             if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '') {
-                                this.emailRules = ['Email or password is incorrect'];
+                                this.emailRules = [''];
                                 this.passwordRules = ['Email or password is incorrect'];
                             }
 

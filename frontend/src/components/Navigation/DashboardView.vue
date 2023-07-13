@@ -29,20 +29,16 @@
                             <!-- //teacher management -->
 
                             <a @click="toggleLinks('teacher')" class="nav-link text-primary">
-                                <i class="bi bi-person my-icon"></i> Teacher management 
+                                <i class="bi bi-person my-icon"></i> Teacher management
                                 <i class="bi bi-sort-down my-icon ms-4"></i>
                             </a>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/student_list' }" :class="{ 'active': $route.path === '/student_list' }">
+                                :to="{ path: '/teacher_list' }" :class="{ 'active': $route.path === '/teacher_list' }">
                                 <i class="bi bi-list my-icon"></i> Teacher List
                             </router-link>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
                                 :to="{ path: '/teacher' }" :class="{ 'active': $route.path === '/teacher' }">
-                                <i class="bi bi-gear my-icon"></i> Teacher Setting
-                            </router-link>
-                            <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/3' }" :class="{ 'active': $route.path === '/3' }">
-                                <i class="bi bi-check2-circle my-icon"></i>Teacher Attendance
+                                <i class="bi bi-gear my-icon"></i>Add Teacher
                             </router-link>
                         </li>
 
@@ -50,7 +46,7 @@
 
                         <li class="nav-item">
                             <a @click="toggleLinks('student')" class="nav-link text-primary">
-                                <i class="bi bi-people my-icon"></i> Student management 
+                                <i class="bi bi-people my-icon"></i> Student management
                                 <i class="bi bi-sort-down my-icon ms-4"></i>
                             </a>
                             <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
@@ -59,21 +55,33 @@
                             </router-link>
                             <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
                                 :to="{ path: '/student' }" :class="{ 'active': $route.path === '/student' }">
-                                <i class="bi bi-gear my-icon"></i>Student Setting
-                            </router-link>
-                            <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/2' }" :class="{ 'active': $route.path === '/2' }">
-                                <i class="bi bi-clipboard-check my-icon"></i> Student Score
-                            </router-link>
-                            <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/attendance_list' }" :class="{ 'active': $route.path === '/attendance_list' }">
-                                <i class="bi bi-check2-circle my-icon"></i>Student Attendance
+                                <i class="bi bi-gear my-icon"></i>Add student
                             </router-link>
                         </li>
                         <li class="nav-item">
                             <router-link class="nav-link text-primary" href="#" :to="{ path: '/class' }"
                                 :class="{ 'active': $route.path === '/class' }">
                                 <i class="bi bi-building my-icon"></i> Class management
+                            </router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link text-primary" href="#" :to="{ path: '/attendance_list' }"
+                                :class="{ 'active': $route.path === '/attendance_list' }">
+                                    <i class="bi bi-check-circle my-icon"></i>Attendance management
+                            </router-link>
+                            <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/3' }" :class="{ 'active': $route.path === '/3' }">
+                                <i class="bi bi-check2-circle my-icon"></i>Teacher Attendance
+                            </router-link>
+                            <!-- <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/3' }" :class="{ 'active': $route.path === '/3' }">
+                                <i class="bi bi-check2-circle my-icon"></i>Student Attendance
+                            </router-link> -->
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link text-primary" href="#" :to="{ path: '/score' }"
+                                :class="{ 'active': $route.path === '/score' }">
+                                <i class="bi bi-clipboard-check my-icon"></i> Score management
                             </router-link>
                         </li>
                         <li class="nav-item">
@@ -111,16 +119,13 @@
                                             :class="{ 'active': $route.path === '/user_info' }">
                                             <i class="bi bi-person my-icon"></i>Profile
                                         </router-link>
-                                        <router-link @click="logout" class="nav-link text-primary mt-0" href="#"
-                                            :to="{ path: '/student_list' }"
-                                            :class="{ 'active': $route.path === '/student_list' }">
+                                        <a @click="logout" class="nav-link text-primary mt-0" href="#">
                                             <i class="bi bi-box-arrow-right my-icon"></i>Logout
-                                        </router-link>
-                                        <router-link @click="closeDropdown" class="nav-link text-primary" href="#"
-                                            :to="{ path: '/change_password' }"
-                                            :class="{ 'active': $route.path === '/change_password' }">
-                                            <i class="bi bi-gear my-icon"></i>Setting
-                                        </router-link>
+                                        </a>
+                                        <!-- @click="closeDropdown" -->
+                                        <a @click="changePassword" class="nav-link text-primary" href="#">
+                                            <i class="bi bi-gear my-icon"></i>Change Password
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -154,12 +159,12 @@
 import http from '../../htpp.common'
 export default {
 
-    emits: ['isLogin'],
+    emits: ['isLogin','isChangePassword'],
     data: () => ({
         isDropdownOpen: false,
         isLinkActiveTeacher: false,
         isLinkActiveStudent: false,
-
+        isOnChangePassword:false,
     }),
     computed: {
         isActive() {
@@ -202,6 +207,9 @@ export default {
                 this.isLinkActiveStudent = !this.isLinkActiveStudent;
                 // this.isLinkActiveTeacher = false;
             }
+        },
+        changePassword(){
+            this.$emit('isChangePassword',this.isOnChangePassword = true);
         }
     }
 }
@@ -257,7 +265,7 @@ header {
     padding: 10px 0;
     box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
     border-radius: 10px;
-    width: 160px;
+    width: 185px;
     opacity: 0;
     pointer-events: none;
     transition: all .3s ease;

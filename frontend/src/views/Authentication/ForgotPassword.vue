@@ -29,7 +29,7 @@
             <span :rules="emailRules"></span>
             <v-row no-gutters>
               <v-col>
-                <v-btn class="text-none mt-4" color="blue-darken-4" block variant="outlined">Cancel</v-btn>
+                <v-btn @Click="cancel" class="text-none mt-4" color="blue-darken-4" block variant="outlined">Cancel</v-btn>
               </v-col>
               <v-col>
                 <v-btn type="submit" color="primary" block class="mt-4 ms-1">Next</v-btn>
@@ -52,6 +52,7 @@ import http from '../../htpp.common';
 
 export default {
   // emits: ['isResetPassword'],
+  emits: ['isCancel'],
   data: () => ({
     visible: false,
     email: '',
@@ -85,6 +86,10 @@ export default {
           });
       }
     },
+    cancel(){
+      this.$emit('isCancel',true);
+      this.$router.push('/login');
+    }
   }
 
 }
