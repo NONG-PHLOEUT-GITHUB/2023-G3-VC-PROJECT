@@ -1,26 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Director/DirectorDashboard.vue';
+// import StudentView from '../views/Student/StudentView.vue';
 import TeacherList from '../views/Director/TeacherList.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
-
 import StudentList from '../views/Director/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
-import CheckAttendance from '../views/Student/CheckAttendance.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
+import StudentDetail from '../views/Student/StudentDetial.vue';
 import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vue';
-// import StudentDetail from '../views/Student/StudentDetail.vue';
+import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
 import LoginView from '../views/Authentication/LoginView2.vue';
 import DashboardView from '../components/Navigation/DashboardView.vue';
 // import FormFogetPassword from '../views/Authentication/ForgotPassword.vue';
 import FormFogetPassword from '../components/HelloWorld.vue';
-import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
 
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
@@ -89,21 +88,34 @@ const routes = [
     component: StudentMostAbsence
   },
   {
+    path: '/studentdetail',
+    name: '/studentdetail',
+    component: StudentDetail
+  },
+  {
     path: '/studentattendancedetail/:id',
     name: '/studentattendancedetail',
     component: StudentAttendanceDetail
   },
   {
-    path: '/teacherattendancelist/:id',
+    path: '/checkAttendance',
+    name: '/checkAttendance',
+    component: CheckAttendance
+  },
+  {
+    path: '/teacherattendancelist',
     name: '/teacherattendancelist',
-    component: TeacherAttendanceList,
-    props:true
-
+    component: TeacherAttendanceList
   },
   {
     path: '/teachermostabsence',
     name: '/teachermostabsence',
     component: TeacherMostAbsence
+  },
+  {
+    path: '/forgot_password',
+    name: '/forgot_password',
+    component: FormFogetPassword
   },
   {
     path: '/student_list',
@@ -119,6 +131,7 @@ const routes = [
     component: TeacherDetail,
   },
   {
+
     path: '/monthly_report',
     name: 'monthly_report',
     component: MonthlyReport
@@ -128,12 +141,6 @@ const routes = [
     path: '/attendance_list',
     name: 'attendance_list',
     component: AttendanceList
-  },
-  {
-
-    path: '/check_attendance',
-    name: 'check_attendance',
-    component: CheckAttendance
   },
   {
 
@@ -153,15 +160,16 @@ const routes = [
     component: ReportView
   },
   {
-    path: '/forgot_password',
-    name: '/forgot_password',
-    component: FormFogetPassword
+    path: '/class_rooms/:id',
+    name: 'class_rooms',
+    meta: {
+      auth: true
+    },
+    component: StudentList
   },
-  {
-    path: '/reset_new_password',
-    name: 'reset_new_password',
-    component: FormResetNewPassword
-  }
+  
+  
+
 ]
 
 const router = createRouter({

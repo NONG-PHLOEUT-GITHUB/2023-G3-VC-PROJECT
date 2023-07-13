@@ -57,7 +57,15 @@ Route::post('/password/change', [ChangePasswordController::class,'change']);
 
 Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmail']);
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
-Route::post('/class_rooms', [ClassRoomController::class,"store"]);
+
+
+Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
+// ->where('class_name', '[a-zA-Z0-10]+')->where('user_id', '[0-10]+');
+
+// Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
+// get student
+Route::get('/getStudents', [UserController::class,"getStudent"]);
+
 
 
 Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);

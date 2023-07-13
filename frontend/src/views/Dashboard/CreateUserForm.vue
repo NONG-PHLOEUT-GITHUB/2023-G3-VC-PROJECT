@@ -86,7 +86,6 @@
                 <router-link type="submit" class="btn btn-warning text-white mr-2" :to="{ path: '/student'}">Cancel</router-link>
                 <button type="submit" class="btn btn-primary text-white"  >Add User</button>
               </div>
-
             </form>
         </div>
     </section>
@@ -127,8 +126,7 @@ export default {
       });
     },
     addUserData() {
-      // console.log(this.profile);
-      if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address && this.profile){
+      if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address){
         const newUser =
         {
           first_name: this.first_name,

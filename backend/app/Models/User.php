@@ -107,6 +107,7 @@ class User extends Authenticatable implements JWTSubject
         } else {
             $user = self::create($users);
             $id = $user->$id;
+            
             // // =============image====================
             // $image = $request->file('profile');
             // $new_name =  rand() . '.' . $image->getClientOriginalExtension();
@@ -167,4 +168,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Attendance::class, 'user_id');
     }
+
+
+    public function ClassRooms()
+    {
+        return $this->belongsTo(ClassRoom::class);
+    }
 }
+
+
+

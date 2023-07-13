@@ -61,7 +61,7 @@
 
         <div class="mb-3 col-md-6">
           <label for="formFileDisabled" class="form-label">Profile</label>
-          <input class="form-control" type="file" id="formFileDisabled" />
+          <input class="form-control" type="file" id="formFileDisabled" @change="getImage"  />
         </div>
 
         <div class="col-12 d-flex justify-content-end">
@@ -83,9 +83,10 @@ export default {
       user:[],
       isUpate:true,
       image: null,
+      profile: ''
     };
   },
-  created() {
+  mounted() {
     axios
       .get(`http://127.0.0.1:8000/api/users/${this.$route.params.id}`)
       .then((response) => {
@@ -93,6 +94,15 @@ export default {
       });
   },
   methods: {
+    getImage(event) {
+      var file = event.target.files[0]; 
+      var form = new FormData();
+      form.append('profile', file);
+      axios.post('http://127.0.0.1:8000/api/getImage', form).then((response) => 
+      {
+        this.profile =response.data;
+      });
+    },
    submitForm() {
     const newData = 
       {
@@ -105,13 +115,14 @@ export default {
         "date_of_birth":this.user.date_of_birth,
         "age":this.user.age,
         "gender":this.user.gender,
+        "profile": this.profile
       }
     
-    console.log(newData)
-    axios.put(`http://127.0.0.1:8000/api/users/${this.$route.params.id}`, newData)
-    
-    .then(response => {
-      console.log("User updated successfully:", response.data.data);
+      axios.put(`http://127.0.0.1:8000/api/users/${this.$route.params.id}`, newData)
+      
+      .then(response => {
+      console.log(response)
+      // console.log("User updated successfully:", response.data.data);
       swal.fire({
             icon: 'success',
             title: 'Success!',

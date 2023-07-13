@@ -104,7 +104,7 @@
                                 <div class="profile">
                                     <img src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
                                         @click="toggleDropdown">
-                                    <p class="d-none d-md-inline-block mb-0 ms-4 me-3">NONG PHLOEUT</p>
+                                     <p class="d-none d-md-inline-block mb-0 ms-4 me-3">{{users.first_name}} {{users.last_name}}</p>
                                     <div class="profile-link" :class="{ show: isDropdownOpen }">
                                         <router-link @click="closeDropdown" class="nav-link text-primary mt-0" href="#"
                                             :to="{ path: '/user_info' }"
@@ -151,6 +151,7 @@
     </div>
 </template>
 <script>
+// import axios from 'axios'
 import http from '../../htpp.common'
 export default {
 
@@ -159,6 +160,7 @@ export default {
         isDropdownOpen: false,
         isLinkActiveTeacher: false,
         isLinkActiveStudent: false,
+        users:[]
 
     }),
     computed: {
@@ -168,7 +170,11 @@ export default {
             }
         }
     },
+    created(){
+        this.fetchData();
 
+    },
+    
     methods: {
         logout() {
             http.post('/api/v1/auth/logout', {}, {
@@ -188,6 +194,14 @@ export default {
                     console.log(error);
                 });
         },
+
+        fetchData() {
+            http.get('/api/v1/auth/user')
+                .then(response => {
+                    this.users = response.data.data;
+                    console.log(response.data.data);
+            });
+        },
         toggleDropdown() {
             this.isDropdownOpen = !this.isDropdownOpen;
         },
@@ -203,7 +217,8 @@ export default {
                 // this.isLinkActiveTeacher = false;
             }
         }
-    }
+    },
+    
 }
 
 </script>

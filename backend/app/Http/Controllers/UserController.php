@@ -31,14 +31,11 @@ class UserController extends Controller
     public function getImage(StoreUserRequest $request)
     {
 
-        // $user = User::store($request);
         $image = $request->file('profile');
         $new_name =  rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images'),$new_name);
         $path = asset('images/' . $new_name);
       return $path;
-        // $user->$image = $path;
-        // $user->save();
 
     }    /**
      * Display the specified resource.
@@ -110,5 +107,14 @@ class UserController extends Controller
         }
 
         return response()->json(['success' => true, 'data' => $results], 200);
+    }
+
+    
+    public function getStudent()
+    {
+        $users = User::where('role', 3)
+            ->select('id', 'first_name', 'last_name','gender','age','date_of_birth','phone_number','address','email')
+            ->get();
+        return response()->json($users);
     }
 }
