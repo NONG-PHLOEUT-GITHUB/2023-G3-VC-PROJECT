@@ -219,9 +219,9 @@ export default {
       });
   }
   // mounted() {
-  //   axios.get(this.URL + "/getAverageAbsentAttendanceByMonth")
+  //   axios.get(this.URL + "/getAbsentPercentageByMonth")
   //     .then(response => {
-  //       this.attendance = response.data.averageAbsentAttendanceByMonth;
+  //       this.attendance = response.data.absentPercentage;
   //       this.chartData.datasets[0].data = Object.values(this.attendance);
   //     })
   //     .catch(error => {

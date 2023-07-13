@@ -9,6 +9,7 @@ import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
+import CreateClassForm from '../views/Dashboard/CreateClassForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
 import StudentDetail from '../views/Student/StudentDetial.vue';
@@ -72,6 +73,11 @@ const routes = [
     path: '/createUser',
     name: '/createUser',
     component: CreateUserForm
+  },
+  {
+    path: '/createClass',
+    name: '/createClass',
+    component: CreateClassForm
   },
   {
     path: '/user_info',

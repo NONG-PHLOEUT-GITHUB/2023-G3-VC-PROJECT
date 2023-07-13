@@ -10,7 +10,7 @@ class Attendance extends Model
     use HasFactory;
     protected $fillable = [
         'id', 
-        'attendace_status',
+        'attendance_status',
         'reason',
         'date',
         'user_id',
@@ -24,7 +24,7 @@ class Attendance extends Model
     {
         $attendances = $request->only(
             'id',
-            'attendace_status',
+            'attendance_status',
             'reason',
             'date',
             'user_id',

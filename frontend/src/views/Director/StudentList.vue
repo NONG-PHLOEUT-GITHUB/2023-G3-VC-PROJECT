@@ -39,10 +39,9 @@
                 <tbody>
                     <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
                         <td>
-                            <img v-if="user.profile" alt=""
-                            :src="user.profile"
-                            class="avatar avatar-sm rounded-circle me-2">
-                            <img v-else src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="" class="avatar avatar-sm rounded-circle me-2">
+                            <img alt=""
+                                :src="user.profile"
+                                class="avatar avatar-sm rounded-circle me-2">
                             <a class="text-heading font-semibold" href="#">
                                 {{user.first_name}} {{user.last_name}} 
                             </a>
@@ -87,11 +86,7 @@
 import axios from "axios";
 import swal from "sweetalert";
 export default {
-  props: {
-    selectedClass: String,
-    },
     data() {
-      
         
         return {
             URL: "http://127.0.0.1:8000/api/users",
@@ -102,20 +97,20 @@ export default {
     },
 
     computed: {
-      filteredStudentsList() {
-          if (this.searchQuery === "") {
-              return this.listUser;
-          } else {
-              const filtered = this.listUser.filter(student =>
-              (student.first_name + ' ' + student.last_name).toLowerCase().includes(this.searchQuery.trim().toLowerCase())
-              );
-              if (filtered.length === 0) {
-                  return [{ first_name: "Student not found", last_name: "", email: "", phone_number: "", etc: "" }];
-              } else {
-              return filtered;
-              }
-          }
-      },
+    filteredStudentsList() {
+        if (this.searchQuery === "") {
+            return this.listUser;
+        } else {
+            const filtered = this.listUser.filter(student =>
+            (student.first_name + ' ' + student.last_name).toLowerCase().includes(this.searchQuery.trim().toLowerCase())
+            );
+            if (filtered.length === 0) {
+                return [{ first_name: "Student not found", last_name: "", email: "", phone_number: "", etc: "" }];
+            } else {
+            return filtered;
+            }
+        }
+    },
     },
     methods:{
         //===================get data from Database =================
@@ -125,6 +120,10 @@ export default {
                 console.log(this.listUser);
             });
         },
+        
+        
+    
+    
         //================== Delete a user =================
         deleteUser(id) {
             swal({
@@ -149,11 +148,10 @@ export default {
                 }
             });
         }
-  },
+    },
     mounted() {
         return this.getURL();
-  }, 
-  
+    }, 
     
 }
 </script>
