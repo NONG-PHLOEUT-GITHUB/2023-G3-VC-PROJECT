@@ -126,8 +126,7 @@ export default {
       });
     },
     addUserData() {
-      // console.log(this.profile);
-      if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address && this.profile){
+      if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address){
         const newUser =
         {
           first_name: this.first_name,

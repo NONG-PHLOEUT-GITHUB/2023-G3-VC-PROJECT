@@ -25,8 +25,9 @@ class AttendanceController extends Controller
      */
     public function store(StoreAttendanceRequest $request)
     {
+        //
         $attendance = Attendance::store($request);
-        return response()->json(['success' => true, 'data' => $attendance], 200);
+        return $attendance;
     }
 
     /**
@@ -35,9 +36,7 @@ class AttendanceController extends Controller
     public function show(Attendance $id)
     {
         $attendance = Attendance::find($id);
-        if (!$attendance) {
-            return response()->json(['success' => false, 'message' => 'User not found'], 404);
-        }
+
         return response()->json(['success' => true, 'data' => $attendance], 200);
     }
 
@@ -53,6 +52,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::store($request, $id);
         return response()->json(['success' => true, 'data' => $attendance], 200);
     }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -117,6 +117,19 @@ class AttendanceController extends Controller
     /**
      * show attendance of student detail .
      */
+    public function showAttendanceDetail($id)
+    {
+        $attendance = Attendance::findOrFail($id);
+
+        return response()->json([
+            'date' => $attendance->date,
+            'reason' => $attendance->reason,
+            'attendace_status' => $attendance->attendace_status,
+        ]);
+    }
+    /**
+     * show attendance of student detail .
+     */
     public static function getAttendanceOfRole3ByUserId($id)
     {
         $user = User::where('role', 3)
@@ -142,22 +155,22 @@ class AttendanceController extends Controller
     public function averageAbsentAttendanceByMonth()
     {
         $absentAttendance = Attendance::join('users', 'attendances.user_id', '=', 'users.id')
-                            ->selectRaw('DATE_FORMAT(attendances.date, "%Y-%m") as month, COUNT(*) as absent_count')
-                            ->where('attendances.attendace_status', '=', 'absent')
-                            ->where('users.role', '=', 3)
-                            ->groupBy('month')
-                            ->get();
-        
+            ->selectRaw('DATE_FORMAT(attendances.date, "%Y-%m") as month, COUNT(*) as absent_count')
+            ->where('attendances.attendace_status', '=', 'absent')
+            ->where('users.role', '=', 3)
+            ->groupBy('month')
+            ->get();
+
         $averageAbsentAttendanceByMonth = array();
-        
+
         foreach ($absentAttendance as $attendance) {
             $averageAbsentAttendanceByMonth[$attendance->month] = $attendance->absent_count;
         }
-        
+
         if (empty($averageAbsentAttendanceByMonth)) {
             return response()->json(['message' => "No reports found"], 404);
         }
-        
+
         return response()->json(['averageAbsentAttendanceByMonth' => $averageAbsentAttendanceByMonth]);
     }
     public function totalAbsentDaysByMonth($user_id, $month)
@@ -168,7 +181,7 @@ class AttendanceController extends Controller
             ->whereMonth('date', $month->month)
             ->whereYear('date', $month->year)
             ->get();
-    
+
         $totalAbsentDays = count($absentAttendances);
 
         if (empty($totalAbsentDays)) {
@@ -178,4 +191,3 @@ class AttendanceController extends Controller
     }
 
 }
-
