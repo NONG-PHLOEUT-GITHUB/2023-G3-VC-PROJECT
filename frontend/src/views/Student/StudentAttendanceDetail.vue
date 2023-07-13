@@ -8,15 +8,15 @@
       <thead>
         <tr>
           <th>date</th>
-          <th>attendance_status</th>
           <th>reason</th>
+          <th>attendance status</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="record in attendanceRecords" :key="record.id">
           <td>{{ record.date }}</td>
-          <td>{{ record.attendace_status }}</td>
           <td>{{ record.reason }}</td>
+          <td>{{ record.attendace_status }}</td>
         </tr>
       </tbody>
     </table>
@@ -108,7 +108,7 @@ thead th {
   left: 0;
   background-color: #0000FF;
   cursor: pointer;
-  text-transform: capitalize;
+  text-transform: uppercase;
   color: white;
   font-size: 15px;
   font-weight: bold;
