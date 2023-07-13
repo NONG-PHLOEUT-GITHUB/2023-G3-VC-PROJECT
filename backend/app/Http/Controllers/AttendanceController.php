@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Models\Attendance;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -32,9 +33,11 @@ class AttendanceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Attendance $attendance)
+    public function show(Attendance $id)
     {
-        //
+        $attendance = Attendance::find($id);
+
+        return response()->json(['success' => true, 'data' => $attendance], 200);
     }
 
     /**
@@ -124,5 +127,73 @@ class AttendanceController extends Controller
             'attendace_status' => $attendance->attendace_status,
         ]);
     }
-}
+    /**
+     * show attendance of student detail .
+     */
+    public static function getAttendanceOfRole3ByUserId($id)
+    {
+        $user = User::where('role', 3)
+            ->find($id);
 
+        if ($user) {
+            $attendanceRecords = $user->roleAttendances;
+            return response()->json([
+                'user' => [
+                    'id' => $user->id,
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                ],
+                'attendanceRecords' => $attendanceRecords,
+            ]);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
+    /**
+     * show average of student attendance of each month.
+     */
+    public function getAbsentPercentageByMonth($month) {
+        // Calculate the start and end date of the given month
+        $startDate = date('Y-m-01', strtotime($month));
+        $endDate = date('Y-m-t', strtotime($month));
+        
+        // Get the total number of attendance records for all students in the given month
+        $totalAttendance = Attendance::join('users', 'attendances.user_id', '=', 'users.id')
+                                      ->where('users.role', 3)
+                                      ->whereBetween('date', [$startDate, $endDate])
+                                      ->count();
+        
+        // Get the number of absent attendance records for all students in the given month
+        $absentAttendance = Attendance::join('users', 'attendances.user_id', '=', 'users.id')
+                                        ->where('users.role', 3)
+                                        ->where('attendances.attendance_status', 'absent')
+                                        ->whereBetween('date', [$startDate, $endDate])
+                                        ->count();
+        
+        // Calculate the absent percentage for all students in the given month
+        $absentPercentage = ($absentAttendance / $totalAttendance) * 100;
+        
+        // Return the absent percentage as a JSON response
+        return response()->json(['absentPercentage' => $absentPercentage], 200);
+    }
+    /**
+    * show total of student absent of each month.
+    */
+    public function totalAbsentDaysByMonth($user_id, $month)
+    {
+        $month = Carbon::createFromFormat('Y-m', $month);
+        $absentAttendances = Attendance::where('user_id', $user_id)
+            ->where('attendance_status', 'absent')
+            ->whereMonth('date', $month->month)
+            ->whereYear('date', $month->year)
+            ->get();
+
+        $totalAbsentDays = count($absentAttendances);
+
+        if (empty($totalAbsentDays)) {
+            return response()->json(['message' => "No absent this month"], 404);
+        }
+        return response()->json(['totalAbsentDays' => $totalAbsentDays]);
+    }
+
+}

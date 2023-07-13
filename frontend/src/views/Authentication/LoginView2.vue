@@ -1,5 +1,5 @@
 <template>
-    <div class="container d-flex align-center justify-center" style="height: 100vh;">
+    <div class="container d-flex align-center justify-center" style="height: 100vh">
         <div class="ma-4">
             <h2>SCHOOL MANAGEMENT</h2>
             <v-img class="bg-white" width="300" :aspect-ratio="1"
@@ -17,7 +17,9 @@
                     prepend-inner-icon="mdi-email-outline" v-model="email" :rules="emailRules" variant="outlined"
                     no-validation></v-text-field>
                 <span :rules="emailRules"></span>
-                <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">Password</div>
+                <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
+                    Password
+                </div>
 
                 <v-text-field :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'"
                     density="compact" placeholder="Enter your password" prepend-inner-icon="mdi-lock-outline"
@@ -40,22 +42,21 @@ import http from '../../htpp.common';
 // import { sha256 } from 'js-sha256';
 // recferences// https://vee-validate.logaretm.com/v4/tutorials/basics/
 export default {
-
-    emits: ['isLogin', 'isForgotPassword'],
+    emits: ["isLogin", "isForgotPassword"],
     data: () => ({
         visible: false,
         loading: false,
         snackbar: false,
         passwordShow: false,
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         emailRules: [
-            v => !!v || 'E-mail is required',
-            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+            (v) => !!v || "E-mail is required",
+            (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
         ],
         passwordRules: [
-            v => !!v || 'Password is required',
-            v => (v && v.length >= 6) || 'Password must be 6  characters or more!',
+            (v) => !!v || "Password is required",
+            (v) => (v && v.length >= 6) || "Password must be 6  characters or more!",
         ],
     }),
 
@@ -85,15 +86,15 @@ export default {
                         Toast.fire({
                             icon: 'success',
                             title: 'Signed in successfully'
-                        }) 
+                        })
                         // sessionStorage.setItem('email', this.email);
                         // this.$emit('isLogin', true, this.email);
                     })
                     .then(() => {
                         // const value = this.email;
 
-                        // // Hash the value using SHA-256
-                        // const hashedValue = sha256(value);
+                        // // Store the hashed value in local storage
+                        // localStorage.setItem('email', hashedValue);
 
                         // // Store the hashed value in local storage
                         // localStorage.setItem('email', hashedValue);
@@ -117,9 +118,10 @@ export default {
         },
 
         forgotPassword() {
-            this.$emit('isForgotPassword', true);
-        }
+            this.$emit("isForgotPassword", true);
+        },
     }
-
 }
+
+
 </script>

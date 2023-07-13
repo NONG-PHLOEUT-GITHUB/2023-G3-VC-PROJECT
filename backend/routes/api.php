@@ -32,28 +32,44 @@ Route::post('/login', 'LoginController@login');
 
 // ***Route***
 Route::resource("/users", UserController::class);
+Route::get("/classes", [ClassRoomController::class, 'index']);
+Route::post("/classes", [ClassRoomController::class, 'store']);
 Route::resource("/attendances", AttendanceController::class);
 
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
 // ***Student***
 Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfStudents"]);
 Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsence"]);
+Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOfRole3ByUserId"]);
 Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
+Route::post('/checkStudentAttendance' , [AttendanceController::class, "store"]);
+Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
+Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
+
 // ***Teacher***
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
 Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
+Route::post('/getImage', [UserController::class, 'getImage']);
 Route::get('/users/{id}', [UserController::class,"show"]);
 Route::put('/users/{id}', [UserController::class,"update"]);
 Route::resource('users' , UserController::class);
+Route::get('/studentattendancedetail/{user_id}', [AttendanceController::class, 'showDetail']);
 Route::post('/password/change', [ChangePasswordController::class,'change']);
 
 Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmail']);
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
-Route::post('/class_rooms', [ClassRoomController::class,"store"]);
 
-// Route::resource('attendance' , AttendanceController::class);
+
+Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
+// ->where('class_name', '[a-zA-Z0-10]+')->where('user_id', '[0-10]+');
+
+// Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
+// get student
+Route::get('/getStudents', [UserController::class,"getStudent"]);
+
+
 
 Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
 Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);

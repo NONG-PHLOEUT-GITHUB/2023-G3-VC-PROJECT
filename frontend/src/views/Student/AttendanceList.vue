@@ -18,7 +18,7 @@
           <td>{{ attendanceItem.last_name }}</td>
           <td>{{ attendanceItem.role_attendances_count }}</td>
           <td>
-            <router-link class="status detail" to="/studentdetail">Detail</router-link>
+            <router-link class="status detail" :to="{ path: '/studentattendancedetail/'+ attendanceItem.id }">Detail</router-link>
           </td>
         </tr>
       </tbody>
@@ -39,6 +39,7 @@ export default {
       .get("http://127.0.0.1:8000/api/getAttendance")
       .then((response) => {
         this.attendanceData = response.data;
+        console.log(this.attendanceData);
       })
       .catch((error) => {
         console.log(error);

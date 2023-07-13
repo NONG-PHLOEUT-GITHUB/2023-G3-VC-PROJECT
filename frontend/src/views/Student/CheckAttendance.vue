@@ -1,17 +1,16 @@
 <template>
   <div class="container">
-      <h1>Attendance Check List</h1>
-      <div>
-        <p>This is Attendance of Today</p>
-      </div>
-      <div>
+      <h2>Attendance Check List</h2><br>
+      <div class="checkToday">
           <input type="checkbox" class="selectattendance" @click="SelectAttendace()">Attendance Today 
+          {{ this.date }}
       </div>
 
       <table>
         <thead>
           <tr>
-            <th>Name</th>
+            <th>FirstName</th>
+            <th>LastName</th>
             <th>Gender</th>
             <th>Status</th>
             <th>Reason</th>
@@ -19,17 +18,50 @@
         </thead>
         <tbody >
           <tr v-for="student in students" :key="student.id">
-            <td>{{ student.name }}</td>
+            <td>{{ student.first_name }}</td>
+            <td>{{ student.last_name }}</td>
             <td>{{ student.gender }}</td>
             <td>
-              <input type="checkbox" v-model="attendance_status"> Present
+              <!-- <input type="checkbox" v-model="attendance_status"> Present -->
+                <div class="dropdown rounded-1" >
+                  <select v-model="attendance_status" class="btn dropdown-toggle  " placeholder="" >
+                    <option value="Present">
+                      <p>Present</p>
+                    </option>
+                    <option value="Absent">
+                      <p>Absent</p>
+                    </option>
+                    <option value="Early">
+                      <p>Early</p>
+                    </option>
+                    <option value="Late">
+                      <p>Late</p>
+                    </option>
+                    <option value="Excused">
+                      <p>Excused</p>
+                    </option>
+                    <option value="Unexcused">
+                      <p>Unexcused</p>
+                    </option>
+                    <option value="On leave">
+                      <p>On leave</p>
+                    </option>
+                    <option value="No show">
+                      <p>No show</p>
+                    </option>
+                  </select>
+                </div>             
             </td>
-            <td>{{ student.reason }}</td>
+            <td>
+              <textarea type="tel" v-model="reason" class="form-control" id="reason" placeholder="" />
+            </td>
           </tr>
         </tbody>
         
       </table>
-      <button class="save" @click="saveListAttendence()">Save</button>
+      <div class="col-12 d-flex justify-content-end btn">
+          <button type="submit" class="btn btn-primary text-white" @click="saveListAttendence()" >Save</button>
+      </div>
     </div>
 </template>
 
@@ -41,11 +73,12 @@ export default {
   data() {
     return {
       students: [
-        { id: 1, name: "John", gender: "Male", reason: "Sick", status: false },
+        { id: 1, first_name: "Cheiipok",last_name:"Doem", gender: "Male", reason: "Sick", status: false },
       ],
       date: null,
       attendance_status: "",
-      URL: "http://127.0.0.1:8000/api/attendance",
+      reason: "",
+      URL: "http://127.0.0.1:8000/api/checkStudentAttendance",
     };
   },
   // copy by "https://stackoverflow.com/questions/57249466/getting-current-time-and-date-in-vue-js"
@@ -65,19 +98,29 @@ export default {
       });
     },
     saveListAttendence() {
-      const newAttend = {
-        attendance_status: this.attendance_status,
-        date: this.date,
-      };
-      axios.post(this.URL, newAttend).then((response) => {
-        swal.fire({
-          icon: "success",
-          title: "Save attendance successfully!",
-          text: "you already save your attendance",
-          timer: 2000,
+      if(this.attendance_status != '' && this.date != '' && this.reason != '') {
+        const newAttend = {
+          attendance_status: this.attendance_status,
+          date: this.date,
+          reason: this.reason
+        };
+        console.log(newAttend);
+        axios.post(this.URL, newAttend).then((response) => {
+          swal.fire({
+            icon: "success",
+            title: "Save attendance successfully!",
+            text: "you already save your attendance",
+            timer: 2000,
+          });
+          console.log(response);
         });
-        console.log(response);
-      });
+      }else{
+        swal.fire(
+        'Complete first',
+        'complete all input',
+        'info'
+      )  
+      }
     },
 
     created() {
@@ -85,7 +128,7 @@ export default {
     },
     mounted() {
       this.getStudentData();
-      this.saveListAttendence();
+      // this.saveListAttendence();
     },
   },
 }
@@ -100,10 +143,10 @@ table {
 
 table {
   border-collapse: collapse;
-  width: 90%;
+  width: 95%;
   margin-top: 20px;
   margin-bottom: 20px;
-  margin-left: 5%;
+  margin-left: 3%;
 }
 
 th,
@@ -114,35 +157,24 @@ td {
 }
 
 th {
-  background-color: #cec9c9;
+  background-color: #306ddf;
   text-align: center;
+  color: white;
 }
 
-td:first-child {
-  font-weight: bold;
-}
+
 td.status {
   position: relative;
   padding-left: 30px;
 }
+.btn{
+  margin-right: 0.5%;
+}
 
-h1,
-p {
-  margin-left: 5%;
-}
-.save {
-  padding: 10px;
-  background: lightblue;
-  border: 1px solid lightblue;
-  width: 10%;
-  margin-top: 10px;
-  margin-left: 85%;
-}
+
 .selectattendance {
   padding: 10px;
-  background: lightblue;
-  border: 1px solid lightblue;
-  margin-left: 65px;
+  margin-left: 34px;
 }
 
 </style>

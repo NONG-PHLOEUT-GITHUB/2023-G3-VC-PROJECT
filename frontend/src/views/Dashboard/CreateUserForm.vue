@@ -6,7 +6,7 @@
                     <h3 class="fs-19 fw-bold text-center">CREATE USER</h3>
                 </div>
             </div>
-            <form class="row g-3 card-body p-5 pt-4 " @submit.prevent="createUser">
+            <form class="row g-3 card-body p-5 pt-4 " @submit.prevent="addUserData()">
               <!-- firstname -->
               <div class="col-md-6">
                 <label for="validationCustom01" class="form-label">First name</label>
@@ -49,7 +49,7 @@
                 <div class="valid-feedback">Looks good!</div>
               </div>
 
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <label for="validationCustom02" class="form-label">Gender</label>
                 <div class="gender">
                   <input type="radio" name="gender" id="male" value="male" v-model="gender" class="form-check-input" />
@@ -58,12 +58,30 @@
                   <label class="form-check-label" for="female">Female</label>
                 </div>
               </div>
-            
-              <div class="mb-3 col-md-6">
-                <label for="formFileDisabled" class="form-label">Profile</label>
-                <input class="form-control" type="file" id="formFileDisabled" @change="getFile" >
+             
+              <div class="mb-3 col-md-2">
+                <label for="formFileDisabled" class="form-label ml-5">Role</label> <br>
+                <div class="dropdown bg-white rounded-1 ml-5" >
+                  <select v-model="role" class="btn  dropdown-toggle " placeholder="he" >
+                    <option value="1">
+                      <p>Director</p>
+                    </option>
+                    <option value="2">
+                      <p>Teacher</p>
+                    </option>
+                    <option value="3 ">
+                      <p>Student</p>
+                    </option>
+                  </select>
+                </div>             
               </div>
-              <img v-bind:src="profilePreview" >
+            
+              <div class="mb-3 col-md-5">
+                <label for="formFileDisabled" class="form-label">Profile</label>
+                <input class="form-control"  type="file" id="formFileDisabled" @change="getImage" >
+              </div>
+      
+              <img v-bind:src="profilePreview">
               <div class="col-12 d-flex justify-content-end">
                 <router-link type="submit" class="btn btn-warning text-white mr-2" :to="{ path: '/student'}">Cancel</router-link>
                 <button type="submit" class="btn btn-primary text-white"  >Add User</button>
@@ -75,6 +93,7 @@
 
 <script>
 import axios from "axios";
+import swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -87,49 +106,65 @@ export default {
       address: "",
       date_of_birth: "",
       age: "",
-      profile: "",
       gender: "",
+      profile: "",
+      role: "",
       URL: "http://127.0.0.1:8000/api/users",
+      imgURL: "http://127.0.0.1:8000/api/getImage",
       listUser:[]
     };
   },
   methods: {
-    getFile(event) {
-      this.profile = event.target.files[0];
-      const reader = new FileReader();
-      reader.addEventListener("load", function() {
-        this.profilePreview = reader.result;
-      }
-      .bind(this), false);
-      if(this.profile){
-        if( /\.(jpe?g|png|gif|jpg)$/i.test(this.profile.name)){
-          reader.readAsDataURL(this.profile);
-          // console.log(reader.readAsDataURL(this.profile));
-        }
-      }
+    getImage(event) {
+      // this.profile = event.target.files[0];
+      var file = event.target.files[0]; 
+      var form = new FormData();
+      form.append('profile', file);
+      axios.post(this.imgURL, form).then((response) => 
+      {
+        this.profile =response.data;
+      });
     },
-    createUser() {
-      // if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address){
+    addUserData() {
+      if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address){
         const newUser =
         {
           first_name: this.first_name,
           last_name: this.last_name,
           gender: this.gender,
+          role: this.role,
           age: this.age,
           date_of_birth: this.date_of_birth,
           phone_number: this.phone_number,
           address: this.address,
-          profile:this.profile.name,
           email: this.email,
           password: this.password,
+          profile: this.profile
         };
-        axios.post(this.URL, newUser).then((response) => {
+        axios.post( this.URL , newUser).then((response) => {
           this.listUser.push(response.data);
-          console.log(this.listUser);
         });
-      // }
+        swal.fire({
+          icon: "success",
+          title: "Save attendance successfully!",
+          text: "you already save your attendance",
+          timer: 2000,
+        })
+        .then(() => {
+            this.$router.push({ path: '/student' });
+        }).catch(error=>{
+          console.log(error)
+        })
+      }else{
+        swal.fire(
+        'Complete first',
+        'complete all input',
+        'info'
+      )  
+      }
     },
-  }
+  },
+
   }
 
 </script>

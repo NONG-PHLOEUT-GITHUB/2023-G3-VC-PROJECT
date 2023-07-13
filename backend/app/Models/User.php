@@ -98,8 +98,6 @@ class User extends Authenticatable implements JWTSubject
             'email',
             'password'
         );
-        $users['password'] = Hash::make($users['password']);
-
         if ($id) {
             $user = self::find($id);
             if (!$user) {
@@ -110,35 +108,19 @@ class User extends Authenticatable implements JWTSubject
             $user = self::create($users);
             $id = $user->$id;
             
-            // =============image====================
-            if ($request->hasFile('profile')) {
-                $profile = $request->file('profile');    
-                // Generate a unique filename
-                $filename = time() . '.' . $profile->getClientOriginalExtension();        
-                {
-                    // Store the file in the "src/assets" directory
-                    $profile->storeAs('/public/', $filename);
-                    // Update the user's profile image
-                    $user->profile = $filename;
-                    $user->save();
-                } 
+            // // =============image====================
+            // $image = $request->file('profile');
+            // $new_name =  rand() . '.' . $image->getClientOriginalExtension();
+            // $image->move(public_path('images'),$new_name);
+            // $path = asset('images/' . $new_name);
+            // $user->profile= $path;
+            // $user->save();
             }
-        }
         
-        // ==================upload image==================  
-        // if($request->hash_file('profile')){
-        //     $profile = $request->file('profile');
-        //     $ext = $profile->extension();
-        //     $file = time().'.'.$ext;
-        //     $profile->storeAs('src/assets' , $file);
-        //     $user->profile = $file;
-        // }
-
         // ================token user password=================
-        $token = null;
-        $token = $user->createToken('TOKEN', ['select', 'create', 'update', 'delete']);
-        return response()->json(['success' => true, 'data' => $user, 'token' => $token->plainTextToken], 201);
+        return response()->json(['success' => true, 'data' => $user], 201);
     }
+
 
 
     /**
@@ -186,4 +168,13 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Attendance::class, 'user_id');
     }
+
+
+    public function ClassRooms()
+    {
+        return $this->belongsTo(ClassRoom::class);
+    }
 }
+
+
+

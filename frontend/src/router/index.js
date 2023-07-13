@@ -9,17 +9,18 @@ import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
+import CreateClassForm from '../views/Dashboard/CreateClassForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
-import CheckAttendance from '../views/Student/CheckAttendance.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
-import StudentDetail from '../views/Student/StudentDetail.vue';
+import StudentDetail from '../views/Student/StudentDetial.vue';
+import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vue';
+import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
 import LoginView from '../views/Authentication/LoginView2.vue';
 import DashboardView from '../components/Navigation/DashboardView.vue';
 // import FormFogetPassword from '../views/Authentication/ForgotPassword.vue';
 import FormFogetPassword from '../components/HelloWorld.vue';
-import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
 
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
@@ -75,6 +76,11 @@ const routes = [
     component: CreateUserForm
   },
   {
+    path: '/createClass',
+    name: '/createClass',
+    component: CreateClassForm
+  },
+  {
     path: '/user_info',
     name: '/user_info',
     component: UserInfo
@@ -91,8 +97,18 @@ const routes = [
   },
   {
     path: '/studentdetail',
-    name: '/tudentdetail',
+    name: '/studentdetail',
     component: StudentDetail
+  },
+  {
+    path: '/studentattendancedetail/:id',
+    name: '/studentattendancedetail',
+    component: StudentAttendanceDetail
+  },
+  {
+    path: '/checkAttendance',
+    name: '/checkAttendance',
+    component: CheckAttendance
   },
   {
     path: '/teacherattendancelist',
@@ -103,6 +119,11 @@ const routes = [
     path: '/teachermostabsence',
     name: '/teachermostabsence',
     component: TeacherMostAbsence
+  },
+  {
+    path: '/forgot_password',
+    name: '/forgot_password',
+    component: FormFogetPassword
   },
   {
     path: '/student_list',
@@ -131,12 +152,6 @@ const routes = [
   },
   {
 
-    path: '/check_attendance',
-    name: 'check_attendance',
-    component: CheckAttendance
-  },
-  {
-
     path: '/change_password',
     name: 'change_password',
     component: ChangePassword
@@ -153,15 +168,18 @@ const routes = [
     component: ReportView
   },
   {
-    path: '/forgot_password',
-    name: '/forgot_password',
-    component: FormFogetPassword
+    path: '/class_rooms/:id',
+    name: 'class_rooms',
+    meta: {
+      auth: true
+    },
+    component: StudentList
   },
-  {
-    path: '/reset_new_password',
-    name: 'reset_new_password',
-    component: FormResetNewPassword
-  },
+  // {
+  //   path: '/reset_new_password',
+  //   name: 'reset_new_password',
+  //   component: FormResetNewPassword
+  // },
   // {
   //   path: '/404',
   //   name: '404',

@@ -10,12 +10,12 @@ class Attendance extends Model
     use HasFactory;
     protected $fillable = [
         'id', 
-        'attendace_status',
+        'attendance_status',
         'reason',
         'date',
         'user_id',
     ];
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class);
     }
@@ -41,6 +41,6 @@ class Attendance extends Model
             $id = $attendance->$id;
         }
 
-        return response()->json(['success' => true, 'data' => $attendance], 201);
+        return response()->json(['success' => true, 'data' => $attendances], 201);
     }
 }
