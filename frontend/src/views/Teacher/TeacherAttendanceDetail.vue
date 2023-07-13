@@ -1,48 +1,53 @@
 <template>
   <main class="table">
-    <h3>Teacher Attendance List</h3>
+    <h4>
+      Attendance Records for
+      <span> {{ user.first_name }} {{ user.last_name }}</span>
+    </h4>
     <table>
       <thead>
         <tr>
-          <th>Id</th>
-          <th>First_Name</th>
-          <th>Last_Name</th>
-          <th>Total_Absence</th>
-          <th>See More</th>
+          <th>date</th>
+          <th>reason</th>
+          <th>attendance_status</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="attendanceItem in attendanceData" :key="attendanceItem.id">
-          <td>{{ attendanceItem.id }}</td>
-          <td>{{ attendanceItem.first_name }}</td>
-          <td>{{ attendanceItem.last_name }}</td>
-          <td>{{ attendanceItem.role_attendances_count }}</td>
-          <td>
-            <router-link class="status detail" :to="{ path: '/teacherattendancedetail/'+ attendanceItem.id }">Detail</router-link>
-          </td>
+        <tr v-for="record in attendanceRecords" :key="record.id">
+          <td>{{ record.date }}</td>
+          <td>{{ record.reason }}</td>
+          <td>{{ record.attendace_status }}</td>
         </tr>
       </tbody>
     </table>
   </main>
 </template>
-
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
-      attendanceData: [],
+      user: {},
+      attendanceRecords: [],
     };
   },
+  methods: {
+    listattendance(id) {
+      axios
+        .get(`http://127.0.0.1:8000/api/getteacherDetail/${id}`)
+        .then((response) => {
+          this.user = response.data.user;
+          this.attendanceRecords = response.data.attendanceRecords;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
   mounted() {
-    axios
-      .get("http://127.0.0.1:8000/api/getTeacherAttendance")
-      .then((response) => {
-        this.attendanceData = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const id = this.$route.params.id;
+    this.listattendance(id);
   },
 };
 </script>
@@ -62,14 +67,20 @@ body {
 }
 main.table {
   margin: auto;
+  width: 65vw;
   background-color: #fff5;
   border-radius: 10px;
   padding: 2%;
 }
-h3 {
+h4 {
   padding: 2%;
   text-transform: uppercase;
   color: #5cd2c6;
+}
+span {
+  padding: 2%;
+  text-transform: uppercase;
+  color: #1b1e1d;
 }
 table {
   padding: 2%;
@@ -108,7 +119,6 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
   background-color: #fff6 !important;
 }
-
 .status.detail {
   padding: 0.4rem 1.5rem;
   border-radius: 2rem;
@@ -116,7 +126,6 @@ tbody tr:hover {
   background-color: #50ded9;
   color: #006b21;
 }
-
 thead th:hover {
   color: #5cd2c6;
 }
