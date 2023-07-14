@@ -118,4 +118,18 @@ class UserController extends Controller
             ->get();
         return response()->json($users);
     }
+
+    public function getTeacherBySubject($subject)
+    {
+        $users = User::where('role', 2)
+            ->join('subject_teachers', 'users.id', '=', 'subject_teachers.teacher_id')
+            ->join('subjects', 'subject_teachers.subject_id', '=', 'subjects.id')
+            ->where('subjects.subject_name', '=', $subject)
+            ->select('users.*')
+            ->get();
+        if ($users) {
+            return response()->json(["message" =>  "No teacher with subject " . $subject], 200);
+        }
+        return response()->json(["message" => true, "data" => $users], 200);
+    }
 }

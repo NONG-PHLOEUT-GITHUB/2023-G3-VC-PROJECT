@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\SubjectTeacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class SubjectController extends Controller
+class SubjectTeacherController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $subjects = Subject::all();
+        $subjects = SubjectTeacher::all();
         return response()->json(['success' => true, 'data' => $subjects], 200);
     }
 
@@ -21,10 +23,9 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        $subjects = Subject::store($request);
+        $subjects = SubjectTeacher::store($request);
         return response()->json(['success' => true, 'data' => $subjects], 200);
     }
-
     /**
      * Display the specified resource.
      */

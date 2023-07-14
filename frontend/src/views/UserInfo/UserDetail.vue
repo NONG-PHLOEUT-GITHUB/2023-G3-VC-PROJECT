@@ -300,7 +300,9 @@ export default ({
               </div>
               <div class="col-4 mb-2">
                 <h6 class="text-muted">Role</h6>
-                <p class="text-dark">{{ users.role }} student</p>
+                <p class="text-dark" v-if="users.role == 3">student</p>
+                <p class="text-dark" v-if="users.role == 2">teacher</p>
+                <p class="text-dark" v-if="users.role == 1">director</p>
               </div>
               <div class="col-4 mb-2">
                 <h6 class="text-muted">Age</h6>
