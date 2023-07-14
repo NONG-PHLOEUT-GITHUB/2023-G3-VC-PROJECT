@@ -45,9 +45,10 @@
         <tbody>
           <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
             <td>
-              <img alt=""
-                src="https://play-lh.googleusercontent.com/pjPN53lzZhnsxtS7IaxxT8WndB6Imi8JjD1P7xLSJnnbCKyDPHRyvvy30KsGH-0mmQ"
-                class="avatar avatar-sm rounded-circle me-2">
+              <img v-if="user.profile"
+              :src="user.profile"
+              class="avatar avatar-sm rounded-circle me-2">
+              <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png" class="avatar avatar-sm rounded-circle me-2">
               <a class="text-heading font-semibold" href="#">
                 {{ user.first_name }} {{ user.last_name }}
               </a>
