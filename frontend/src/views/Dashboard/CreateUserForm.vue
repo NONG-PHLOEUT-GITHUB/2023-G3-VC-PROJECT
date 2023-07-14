@@ -192,7 +192,7 @@ export default {
   computed: {
     max_date() {
       const today = new Date();
-      const year = today.getFullYear() -10;
+      const year = today.getFullYear() - 10;
       const month = today.getMonth() + 1; // add 1 because getMonth() returns 0-based month index
       const day = today.getDate();
       return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
@@ -214,7 +214,6 @@ export default {
       this.age = this.calculateAge;
     },
   },
-
   methods: {
     getImage(event) {
       // this.profile = event.target.files[0];

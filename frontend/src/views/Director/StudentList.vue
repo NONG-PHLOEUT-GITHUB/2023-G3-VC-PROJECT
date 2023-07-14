@@ -70,8 +70,6 @@
                                     <i  class="bi bi-pencil-square" ></i> Edit
                                 </button>
                             </router-link>
-                                   
-                       
                             <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2" @click="deleteUser(user.id)">
                                 <i class="bi bi-trash-fill"></i> Delete
                             </button>
@@ -87,7 +85,6 @@ import axios from "axios";
 import swal from "sweetalert";
 export default {
     data() {
-        
         return {
             URL: "http://127.0.0.1:8000/api/users",
             listUser:[],
@@ -95,7 +92,6 @@ export default {
             searchQuery: "",
         }
     },
-
     computed: {
     filteredStudentsList() {
         if (this.searchQuery === "") {
