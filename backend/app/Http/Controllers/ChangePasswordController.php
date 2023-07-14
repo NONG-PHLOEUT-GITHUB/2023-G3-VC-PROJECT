@@ -21,7 +21,7 @@ class ChangePasswordController extends Controller
         }
 
         $user = JWTAuth::parseToken()->authenticate();
-        // dd($user);
+ 
 
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
@@ -34,11 +34,5 @@ class ChangePasswordController extends Controller
         $user->save();
 
         return response()->json(['message' => 'Password changed successfully']);
-        // Hash::make
-        // $user->password = ($request->new_password);
-        // $user->save();
-
-        // return response()->json(['message' => 'Password changed successfully', 'new_password' => $request->new_password]);
-        // return response()->json(['message' => 'Password changed successfully','password' => $user->password]);
     }
 }

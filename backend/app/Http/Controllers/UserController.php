@@ -26,8 +26,10 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = User::store($request);
-        return response()->json(['success' => true, 'data' => $user], 200);
+        return $user;
     }
+
+
     public function getImage(StoreUserRequest $request)
     {
 
@@ -35,7 +37,7 @@ class UserController extends Controller
         $new_name =  rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images'),$new_name);
         $path = asset('images/' . $new_name);
-      return $path;
+        return $path;
 
     }    /**
      * Display the specified resource.
@@ -62,7 +64,6 @@ class UserController extends Controller
     {
         $user = User::store($request,$id);
         return $user;
-        // return response()->json(['success' => true, 'message' => 'user update successfully', 'user' => $user], 200);
     }
 
     /**
