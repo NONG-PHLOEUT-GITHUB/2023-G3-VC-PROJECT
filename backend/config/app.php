@@ -31,6 +31,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+
+    'admin_url' => env('APP_ADMIN_URL', 'http://localhost:8080/reset_new_password'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -170,7 +172,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         /// Application Service Providers for authentication
         // Spatie\Permission\PermissionServiceProvider::class,
-        // Maatwebsite\Excel\ExcelServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -186,7 +188,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
 ];
