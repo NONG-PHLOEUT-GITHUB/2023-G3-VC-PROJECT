@@ -60,8 +60,9 @@ Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmai
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
 
 
-Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
-// ->where('class_name', '[a-zA-Z0-10]+')->where('user_id', '[0-10]+');
+
+Route::get('/getuserInClass/{id}', [ClassRoomController::class, 'getClassNameUserId']);
+
 
 // Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
 // get student

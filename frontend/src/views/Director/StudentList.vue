@@ -22,7 +22,7 @@
         </div>
         <!-- get data form database to display -->
         <div class="card-header">
-            <h5 class="mb-0 p-0 text-primary">STUDENT LIST CLASS 12A</h5>
+            <h5 class="mb-0 p-0 text-primary">STUDENT LIST CLASS {{selectedClass}}</h5>
         </div>
         <div class="table-responsive">
             <table class="table table-hover table-nowrap">
