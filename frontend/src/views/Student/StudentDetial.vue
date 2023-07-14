@@ -5,7 +5,8 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center" >
-                            <img v-if="this.profile ==false " :src="responseData.profile" class="rounded-circle img-fluid image-pf" >
+                            <img v-if="responseData.profile" :src="responseData.profile" class="rounded-circle img-fluid image-pf" >
+                            <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png" alt="" class="rounded-circle img-fluid image-pf">
                             <!-- <input type="file" class="img-detail" @change="getImage" >
                             <img v-if ="this.profile" :src="this.profile" alt="" class="rounded-circle img-fluid -pf">  -->
                             
