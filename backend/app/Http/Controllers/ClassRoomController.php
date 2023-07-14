@@ -80,4 +80,14 @@ class ClassRoomController extends Controller
 
         return response()->json(['success' => true, 'message' => 'classroom deleted successfully'], 200);
     }
+
+
+    public function getStudentInClassroom(){
+
+        $classRooms = ClassRoom::whereHas('users', function ($query) {
+            $query->where('role', 3);
+        })->get();
+        // $userInClass = $this->users()->where('user_role', 3)->get();
+        return response()->json(['success' => true, 'data' => $classRooms], 200);
+    }
 }
