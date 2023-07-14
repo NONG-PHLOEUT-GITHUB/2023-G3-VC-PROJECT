@@ -32,7 +32,9 @@ class User extends Authenticatable implements JWTSubject
         'address',
         'profile',
         'email',
-        'password'
+        'password',
+        'class_room_id',
+        'guardian_id',
     ];
 
     /**
@@ -96,7 +98,9 @@ class User extends Authenticatable implements JWTSubject
             'address',
             'profile',
             'email',
-            'password'
+            'password',
+            'class_room_id',
+            'guardian_id',
         );
         if ($id) {
             $user = self::find($id);
