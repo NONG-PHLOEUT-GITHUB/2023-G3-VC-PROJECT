@@ -5,9 +5,9 @@
       <thead>
         <tr>
           <th>Id</th>
-          <th>First_Name</th>
-          <th>Last_Name</th>
-          <th>Total_Absence</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Total Absence</th>
           <th>See More</th>
         </tr>
       </thead>
@@ -18,7 +18,7 @@
           <td>{{ attendanceItem.last_name }}</td>
           <td>{{ attendanceItem.role_attendances_count }}</td>
           <td>
-            <p class="status detail">Detail</p>
+            <router-link class="status detail" :to="{ path: '/teacherattendancedetail/'+ attendanceItem.id }">Detail</router-link>
           </td>
         </tr>
       </tbody>
@@ -62,14 +62,18 @@ body {
 }
 main.table {
   margin: auto;
-  background-color: #fff5;
   border-radius: 10px;
   padding: 2%;
 }
 h3 {
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  color:  #0000FF;
+}
+span {
   padding: 2%;
   text-transform: uppercase;
-  color: #5cd2c6;
+  color: #1b1e1d;
 }
 table {
   padding: 2%;
@@ -82,7 +86,6 @@ td img {
   height: 36px;
   margin-right: 0.5rem;
   border-radius: 50%;
-
   vertical-align: middle;
 }
 
@@ -98,26 +101,23 @@ thead th {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #d5d1defe;
+  background-color: #0000FF;
   cursor: pointer;
-  text-transform: capitalize;
-}
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
-}
-tbody tr:hover {
-  background-color: #fff6 !important;
+  text-transform: uppercase;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .status.detail {
-  padding: 0.4rem 0;
-  border-radius: 2rem;
-  text-align: center;
-  background-color: #50ded9;
-  color: #006b21;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 3px;
+  background-color: #0000FF;
+  color: white;
+  font-weight: bold;
 }
-
 thead th:hover {
-  color: #5cd2c6;
+  color: #e2f0ee;
 }
 </style>

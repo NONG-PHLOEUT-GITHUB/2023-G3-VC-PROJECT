@@ -10,7 +10,6 @@ use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectTeacherController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,6 +42,7 @@ Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfS
 Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsence"]);
 Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOfRole3ByUserId"]);
 Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
+Route::get("/getteacherDetail/{id}", [AttendanceController::class, "getAttendanceOfRole2ByUserId"]);
 Route::post('/checkStudentAttendance' , [AttendanceController::class, "store"]);
 Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
 Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
@@ -75,8 +75,9 @@ Route::get('/getStudents', [UserController::class,"getStudent"]);
 
 
 
+Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
 Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
-Route::post('/forgot-password', [ForgotPasswordController::class,'forgotPassword']);
+
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
@@ -114,3 +115,7 @@ Route::get('/subjectsTeachers', [SubjectTeacherController::class, 'index']);
 Route::post('/subjectsTeachers', [SubjectTeacherController::class, 'store']);
 
 
+Route::get('/classroom', [ClassRoomController::class, 'index']);
+Route::post('/classroom', [ClassRoomController::class, 'store']);
+
+Route::post('/users-import', [ImportExelFileController::class, 'import']);

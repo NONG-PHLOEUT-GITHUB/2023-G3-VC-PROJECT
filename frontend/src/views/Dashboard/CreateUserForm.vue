@@ -59,19 +59,18 @@
                 </div>
               </div>
              
-              <div class="mb-3 col-md-2">
+              <div class="mb-3 col-md-2 ">
                 <label for="formFileDisabled" class="form-label ml-5">Role</label> <br>
-                <div class="dropdown bg-white rounded-1 ml-5" >
-                  <select v-model="role" class="btn  dropdown-toggle " placeholder="he" >
-                    <option value="1">
-                      <p>Director</p>
-                    </option>
-                    <option value="2">
-                      <p>Teacher</p>
-                    </option>
-                    <option value="3 ">
-                      <p>Student</p>
-                    </option>
+                <div class="dropdown bg-white rounded-1 " >
+                  <select 
+                    class="form-select align-self-end" 
+                    v-model="role"
+                    aria-label="Default select example" 
+                    id="validationCustom01">
+                        <option selected disabled>Select user role</option>
+                        <option value="1">Director</option>
+                        <option value="2">Teacher</option>
+                        <option value="3">Student</option>
                   </select>
                 </div>             
               </div>

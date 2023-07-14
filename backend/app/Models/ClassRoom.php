@@ -16,22 +16,21 @@ class ClassRoom extends Model
     ];
     public static function store($request, $id = null)
     {
-        $class_rooms = $request->only(
-            // 'class_id',
-            'user_id',
+        $classRooms = $request->only(
+            'class_id',
             'class_name',
         );
         if ($id) {
-            $class_room = self::find($id);
-            if (!$class_rooms) {
+            $classRoom = self::find($id);
+            if (!$classRooms) {
                 return response()->json(['error' => 'Record not found'], 404);
             }
-            $class_room->update($class_rooms);
+            $classRoom->update($classRooms);
         } else {
-            $user = self::create($class_rooms);
-            $id = $user->$id;
+            $classRoom = self::create($classRooms);
+            $id = $classRoom->$id;
         }
-        return response()->json(['success' => true, 'data' => $class_rooms], 201);
+        return response()->json(['success' => true, 'data' => $classRoom], 201);
     }
 
     public function users(){

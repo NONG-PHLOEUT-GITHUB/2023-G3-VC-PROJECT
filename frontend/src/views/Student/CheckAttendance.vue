@@ -24,31 +24,19 @@
             <td>
               <!-- <input type="checkbox" v-model="attendance_status"> Present -->
                 <div class="dropdown rounded-1" >
-                  <select v-model="attendance_status" class="btn dropdown-toggle  " placeholder="" >
-                    <option value="Present">
-                      <p>Present</p>
-                    </option>
-                    <option value="Absent">
-                      <p>Absent</p>
-                    </option>
-                    <option value="Early">
-                      <p>Early</p>
-                    </option>
-                    <option value="Late">
-                      <p>Late</p>
-                    </option>
-                    <option value="Excused">
-                      <p>Excused</p>
-                    </option>
-                    <option value="Unexcused">
-                      <p>Unexcused</p>
-                    </option>
-                    <option value="On leave">
-                      <p>On leave</p>
-                    </option>
-                    <option value="No show">
-                      <p>No show</p>
-                    </option>
+                  <select 
+                    class="form-select align-self-end" 
+                    v-model="attendance_status"
+                    aria-label="Default select example" 
+                    id="validationCustom01">
+                        <option selected disabled>Select status</option>
+                        <option value="Present">Present</option>
+                        <option value="Absent">Absent</option>
+                        <option value="Early">Early</option>
+                        <option value="Excused">Excused</option>
+                        <option value="Unexcused">Unexcused</option>
+                        <option value="On leave">On leave</option>
+                        <option value="No show">No show</option>
                   </select>
                 </div>             
             </td>

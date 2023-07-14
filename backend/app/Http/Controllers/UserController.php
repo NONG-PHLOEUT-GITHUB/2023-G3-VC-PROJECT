@@ -126,7 +126,9 @@ class UserController extends Controller
             ->where('subjects.subject_name', '=', $subject)
             ->select('users.*')
             ->get();
-
+        if ($users) {
+            return response()->json(["message" =>  "No teacher with subject " . $subject], 200);
+        }
         return response()->json(["message" => true, "data" => $users], 200);
     }
 }

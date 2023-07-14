@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('api_tokens', function (Blueprint $table) {
-            $table->id();
-            $table->string('api_token', 80)->unique()->nullable()->default(null);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('class_room_id')->nullable();
+            $table->foreign('class_room_id')->references('id')->on('class_rooms')->onDelete('cascade');
         });
     }
 
@@ -23,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('api_tokens');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };
