@@ -62,8 +62,8 @@ const routes = [
     component: TeacherList
   },
   {
-    path: '/class',
-    name: 'class',
+    path: '/class_list',
+    name: 'class_list',
     component: ClassView
   },
   {
