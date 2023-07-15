@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
             $table->integer('score_id');
             $table->integer('score');
-            $table->unsignedBigInteger('teacher_id');
-            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
-            $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

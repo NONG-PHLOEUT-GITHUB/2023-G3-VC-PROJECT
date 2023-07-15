@@ -7,6 +7,7 @@ use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\ImportExelFileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectTeacherController;
 use Illuminate\Http\Request;
