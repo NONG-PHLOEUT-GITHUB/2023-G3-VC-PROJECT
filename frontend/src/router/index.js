@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Director/DirectorDashboard.vue';
 // import StudentView from '../views/Student/StudentView.vue';
-import TeacherList from '../views/Director/TeacherList.vue';
+import TeacherList from '../views/Teacher/TeacherList.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
-import StudentList from '../views/Director/StudentList.vue';
+import StudentList from '../views/Student/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
@@ -27,8 +27,10 @@ import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
 /// change password
 import ChangePassword from '../views/Authentication/ChangePassword.vue';
-
+/// reset new password 
+import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
+import CheckStudentAttendacne from '../views/Student/CheckStudentAttendance.vue';
 // import NotFoundView from '../views/Authentication/NotFoundView.vue';
 
 const routes = [
@@ -181,11 +183,16 @@ const routes = [
     },
     component: StudentList
   },
-  // {
-  //   path: '/reset_new_password',
-  //   name: 'reset_new_password',
-  //   component: FormResetNewPassword
-  // },
+  {
+    path: '/check_student_attendance',
+    name: 'check_student_attendance',
+    component: CheckStudentAttendacne
+  },
+  {
+    path: '/reset_new_password',
+    name: 'reset_new_password',
+    component: FormResetNewPassword
+  },
   // {
   //   path: '/404',
   //   name: '404',

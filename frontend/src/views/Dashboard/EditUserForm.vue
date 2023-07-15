@@ -38,11 +38,11 @@
           />
           <div class="valid-feedback">Looks good!</div>
         </div>
-        <!-- <div class="col-md-6">
+        <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Password</label>
           <input type="password" v-model="user.password" class="form-control" id="validationCustom02" />
           <div class="valid-feedback">Looks good!</div>
-        </div> -->
+        </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label"
             >Phone Number</label
@@ -118,12 +118,13 @@
 
         <div class="mb-3 col-md-6">
           <label for="formFileDisabled" class="form-label">Profile</label>
-          <input
+          <input 
             class="form-control"
             type="file"
             id="formFileDisabled"
             @change="getImage"
           />
+  
         </div>
 
         <div class="col-12 d-flex justify-content-end">
@@ -169,7 +170,6 @@ export default {
       axios
         .post("http://127.0.0.1:8000/api/getImage", form)
         .then((response) => {
-        
           this.profile = response.data;
         });
     },
@@ -178,7 +178,7 @@ export default {
         first_name: this.user.first_name,
         last_name: this.user.last_name,
         email: this.user.email,
-        // "password":this.user.password,
+        password:this.user.password,
         phone_number: this.user.phone_number,
         address: this.user.address,
         date_of_birth: this.user.date_of_birth,
@@ -186,7 +186,7 @@ export default {
         gender: this.user.gender,
         profile: this.profile,
       };
-
+// console.log(newData);
       axios
         .put(
           `http://127.0.0.1:8000/api/users/${this.$route.params.id}`,
@@ -199,9 +199,6 @@ export default {
               title: "Success!",
               text: "User updated successfully",
               timer: 2000,
-            })
-           .then(()=>{
-              window.location.reload()
             })
 
         })
