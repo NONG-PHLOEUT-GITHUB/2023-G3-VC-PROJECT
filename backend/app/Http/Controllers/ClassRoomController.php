@@ -6,10 +6,11 @@ use App\Http\Resources\ClassResource;
 use App\Models\ClassRoom;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClassRoomController extends Controller
 {
-        /**
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -20,19 +21,19 @@ class ClassRoomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function getClassStudents(Request $request)
-    {
-        $role = $request->query(3);
-        $class = $request->query('10A');
+    // public function getClassStudents(Request $request)
+    // {
+    //     $role = $request->query(3);
+    //     $class = $request->query('10A');
 
-        $class = ClassRoom::where('class_name', $class)
-            ->whereHas('user_id', function ($query) use ($role) {
-                $query->where('role', $role);
-            })
-            ->get();
+    //     $class = ClassRoom::where('class_name', $class)
+    //         ->whereHas('user_id', function ($query) use ($role) {
+    //             $query->where('role', $role);
+    //         })
+    //         ->get();
 
-        return $class;
-    }
+    //     return $class;
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -81,13 +82,24 @@ class ClassRoomController extends Controller
         return response()->json(['success' => true, 'message' => 'classroom deleted successfully'], 200);
     }
 
-
-    public function getStudentInClassroom(){
-
-        $classRooms = ClassRoom::whereHas('users', function ($query) {
+    public function getClassNameUserId(string $className)
+    {
+    
+        $classRooms = ClassRoom::where('class_name', $className)
+        ->whereHas('users', function ($query) {
             $query->where('role', 3);
-        })->get();
-        // $userInClass = $this->users()->where('user_role', 3)->get();
+        })
+        ->with('users')
+        ->select('*')
+        ->get();
+    if(empty($classRooms)){
+        return "not found";
+    }
+    else{
         return response()->json(['success' => true, 'data' => $classRooms], 200);
+    }
+
+
+
     }
 }

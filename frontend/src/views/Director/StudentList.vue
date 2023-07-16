@@ -1,7 +1,7 @@
 <template>
   <div class="card shadow border-0 mb-7">
     <div class="card-header">
-      <h3 class="mb-0 text-primary">TEACHERS LIST</h3>
+      <h3 class="mb-0 text-primary">STUDENTS LIST</h3>
     </div>
     <div class="card-header">
       <select class="form-select mb-3" aria-label="Default select example" style="width: 30%;">
@@ -22,51 +22,65 @@
           <i class="bi bi-cloud-arrow-up ms-2 mt-4"></i>
         </form>
         <router-link :to="{ path: '/createUser' }" class="text-white">
-          <button type="button" class="btn btn-primary align-self-end ms-2"><i class="bi bi-person-plus-fill"></i> Add new teacher</button></router-link>
+          <button type="button" class="btn btn-primary align-self-end ms-2"><i class="bi bi-person-plus-fill"></i> Add new
+            student</button></router-link>
       </div>
     </div>
-
-
+    <!-- get data form database to display -->
+    <div class="card-header">
+      <h5 class="mb-0 p-0 text-primary">STUDENT LIST CLASS 12A</h5>
+    </div>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="bg-primary">
           <tr>
             <th scope="col" class="fs-6 text-light">Name</th>
             <th scope="col" class="fs-6 text-light">Gender</th>
-            <th scope="col" class="fs-6 text-light">age</th>
-            <th scope="col" class="fs-6 text-light">class</th>
-            <th scope="col" class="fs-6 text-light">Subject</th>
-            <th scope="col" class="fs-6 text-light">phone number</th>
-            <th scope="col" class="fs-6 text-light">Action</th>
+            <th scope="col" class="fs-6 text-light">Age</th>
+            <th scope="col" class="fs-6 text-light">Email</th>
+            <th scope="col" class="fs-6 text-light">Phone Number</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(teacher, index) of filteredTeacherList" :key="index" class="border-2-dark">
+          <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
             <td>
-              <img alt="..." :src="teacher.profile" class="avatar avatar-sm rounded-circle me-2">
-              <a class="text-heading font-semibold" href="#">{{teacher.first_name + " " + teacher.last_name}}</a>
+              <img v-if="user.profile"
+              :src="user.profile"
+              class="avatar avatar-sm rounded-circle me-2">
+              <img v-else :src="user.profile" class="avatar avatar-sm rounded-circle me-2">
+              <a class="text-heading font-semibold" href="#">
+                {{ user.first_name }} {{ user.last_name }}
+              </a>
             </td>
-            <td>{{teacher.gender}}</td>
-            <td>{{teacher.age}}</td>
-            <td>{{teacher.class}}</td>
-            <td>{{teacher.subject}}</td>
-            <td>{{teacher.phone_number}}</td>
-
+            <td>
+              {{ user.gender }}
+            </td>
+            <td>
+              {{ user.age }}
+            </td>
+            <td>
+              {{ user.email }}
+            </td>
+            <td>
+              {{ user.phone_number }}
+            </td>
             <td class="text-end d-flex justify-content-end">
-              <router-link :to="{ path: '/student_detail/' + teacher.id }">
+              <router-link :to="{ path: '/student_detail/' + user.id }">
                 <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
                   <i class="bi bi-person-circle text-warning"></i> View Profile
                 </button>
               </router-link>
 
-              <router-link :to="{ path: '/edit/' + teacher.id }">
+              <router-link :to="{ path: '/edit/' + user.id }">
                 <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
                   <i class="bi bi-pencil-square"></i> Edit
                 </button>
               </router-link>
 
+
               <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
-                @click="deleteUser(teacher.id)">
+                @click="deleteUser(user.id)">
                 <i class="bi bi-trash-fill"></i> Delete
               </button>
             </td>
@@ -76,9 +90,7 @@
     </div>
   </div>
 </template>
-
 <script>
-
 import axios from "axios";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
@@ -87,23 +99,23 @@ export default {
   data() {
 
     return {
-      URL: "http://127.0.0.1:8000/api/getTeachers",
-      teacherList: [],
+      URL: "http://127.0.0.1:8000/api/getStudents",
+      listUser: [],
       errorMessage: "",
       searchQuery: "",
     }
   },
 
   computed: {
-    filteredTeacherList() {
+    filteredStudentsList() {
       if (this.searchQuery === "") {
-        return this.teacherList;
+        return this.listUser;
       } else {
-        const filtered = this.teacherList.filter(teacher =>
-          (teacher.first_name + ' ' + teacher.last_name).toLowerCase().includes(this.searchQuery.trim().toLowerCase())
+        const filtered = this.listUser.filter(student =>
+          (student.first_name + ' ' + student.last_name).toLowerCase().includes(this.searchQuery.trim().toLowerCase())
         );
         if (filtered.length === 0) {
-          return [{ first_name: "teacher not found", last_name: "", email: "", phone_number: "", etc: "" }];
+          return [{ first_name: "Student not found", last_name: "", email: "", phone_number: "", etc: "" }];
         } else {
           return filtered;
         }
@@ -114,8 +126,8 @@ export default {
     //===================get data from Database =================
     getData() {
       axios.get(this.URL).then((response) => {
-        this.teacherList = response.data;
-        console.log(this.teacherList);
+        this.listUser = response.data;
+        console.log(this.listUser);
       });
     },
     //================== Delete a user =================
@@ -215,9 +227,54 @@ export default {
     this.$refs.fileInput.addEventListener('change', this.importFile);
     return this.getData();
   },
+
 }
 </script>
 
-<style scoped>
+<style>
+.input-file {
+  position: relative;
+  overflow: hidden;
+  width: 180px;
+  border: none;
+  background-color: #3590df;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
+  cursor: pointer;
+  transition: background-color .3s ease;
+}
 
+.input-file:hover {
+
+  background-color: #1D6F42;
+}
+
+.input-file [type=file] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+
+}
+
+.input-file label {
+  color: #F1F1F1;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.input-file .bi {
+  color: #e2d7d7;
+}
+
+.bi-brightness-low {
+  color: yellow;
+}
+.bi-cloud-arrow-up {
+  font-size: 20px;
+  margin-top: 20px;
+}
 </style>
