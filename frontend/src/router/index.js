@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Director/DirectorDashboard.vue';
 // import StudentView from '../views/Student/StudentView.vue';
 import TeacherList from '../views/Director/TeacherList.vue';
+import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
 import StudentList from '../views/Director/StudentList.vue';
@@ -172,6 +173,11 @@ const routes = [
     path: '/report_view',
     name: 'report_view',
     component: ReportView
+  },
+  {
+    path: '/teacher_list_view',
+    name: 'teacher_list_view',
+    component: TeacherListView
   },
   {
     path: '/class_rooms/:id',

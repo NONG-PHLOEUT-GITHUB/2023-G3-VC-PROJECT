@@ -113,7 +113,14 @@ class UserController extends Controller
     public function getStudent()
     {
         $users = User::where('role', 3)
-            ->select('id', 'first_name', 'last_name','gender','age','date_of_birth','phone_number','address','email')
+            ->select('id', 'first_name', 'last_name','gender','age','date_of_birth','phone_number','address','email', 'profile')
+            ->get();
+        return response()->json($users);
+    }
+    public function getTeachers()
+    {
+        $users = User::where('role', 2)
+            ->select('id', 'first_name', 'last_name','gender','age','date_of_birth','phone_number','address','email', 'profile')
             ->get();
         return response()->json($users);
     }

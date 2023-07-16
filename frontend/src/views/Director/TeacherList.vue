@@ -4,18 +4,29 @@
       <h3 class="mb-0 text-primary">TEACHERS LIST</h3>
     </div>
     <div class="card-header">
+      <select class="form-select mb-3" aria-label="Default select example" style="width: 30%;">
+        <option selected disabled>Select grade</option>
+        <option value="10">Grade 10</option>
+        <option value="11">Grade 11</option>
+        <option value="12">Grade 12</option>
+      </select>
       <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
         <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%;">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search teacher" aria-label="Search" style="width: 78%;" v-model="searchQuery">
-          <button class="btn btn-outline-warning my-2 my-sm-0 " type="button" ><i class="bi bi-search"></i> Search</button>
+          <input class="form-control mr-sm-2" type="search" placeholder="Search student" aria-label="Search"
+            style="width: 78%;">
+          <button class="btn btn-outline-warning my-2 my-sm-0 " type="button"><i class="bi bi-search"></i> Search</button>
         </form>
-        <router-link :to="{ path: '/createUser' }" class="text-white" style="width: 20%;">
-          <button type="button" class="btn btn-primary align-self-end" style="width: 100%;">
-            <i class="bi bi-person-plus-fill"></i> Add new teacher
-          </button>
-        </router-link>
+        <form class="input-file ms-4 me-3 border border-4 rounded-1 p-2 " @submit.prevent="importFile">
+          <label for="file-input">Upload Excel file</label>
+          <input type="file" ref="fileInput" id="file-input">
+          <i class="bi bi-cloud-arrow-up ms-2 mt-4"></i>
+        </form>
+        <router-link :to="{ path: '/createUser' }" class="text-white">
+          <button type="button" class="btn btn-primary align-self-end ms-2"><i class="bi bi-person-plus-fill"></i> Add new teacher</button></router-link>
       </div>
     </div>
+
+
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="bg-primary">
@@ -30,24 +41,32 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="teacher of filteredTeacherList" :key="teacher" class="border-2-dark">
+          <tr v-for="(teacher, index) of filteredTeacherList" :key="index" class="border-2-dark">
             <td>
-              <img alt="..." src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
-              <a class="text-heading font-semibold" href="#">{{teacher.name}}</a>
+              <img alt="..." :src="teacher.profile" class="avatar avatar-sm rounded-circle me-2">
+              <a class="text-heading font-semibold" href="#">{{teacher.first_name + " " + teacher.last_name}}</a>
             </td>
             <td>{{teacher.gender}}</td>
             <td>{{teacher.age}}</td>
             <td>{{teacher.class}}</td>
             <td>{{teacher.subject}}</td>
-            <td>{{teacher.phone}}</td>
+            <td>{{teacher.phone_number}}</td>
+
             <td class="text-end d-flex justify-content-end">
-              <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
-                <i class="bi bi-person-circle text-warning"></i> View Profile
-              </button>
-              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
-                <i class="bi bi-pencil-square"></i> Edit
-              </button>
-              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2">
+              <router-link :to="{ path: '/student_detail/' + teacher.id }">
+                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
+                  <i class="bi bi-person-circle text-warning"></i> View Profile
+                </button>
+              </router-link>
+
+              <router-link :to="{ path: '/edit/' + teacher.id }">
+                <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
+                  <i class="bi bi-pencil-square"></i> Edit
+                </button>
+              </router-link>
+
+              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
+                @click="deleteUser(teacher.id)">
                 <i class="bi bi-trash-fill"></i> Delete
               </button>
             </td>
@@ -59,47 +78,146 @@
 </template>
 
 <script>
+
+import axios from "axios";
+import swal from "sweetalert";
+import Swal from "sweetalert2";
+import http from "../../htpp.common"
 export default {
   data() {
+
     return {
-      teacherList: [
-        {name: "Rien Leam", gender: "Male", age: 34, class: "12A", subject: "Math", phone: "0977348624"},
-        {name: "Sophia Williams", gender: "Female", age: 28, class: "12A", subject: "English", phone: "0977348624"},
-        {name: "John Doe", gender: "Male", age: 32, class: "12A", subject: "Science", phone: "0977348624"},
-        {name: "Jane Smith", gender: "Female", age: 27, class: "12A", subject: "History", phone: "0977348624"},
-        {name: "David Lee", gender: "Male", age: 39, class: "12A",subject: "Physical Education", phone: "0977348624"},
-        {name: "Maria Rodriguez", gender: "Female", age: 34, class: "12A", subject: "Spanish", phone: "0977348624"},
-        {name: "Mohammed Ahmed", gender: "Male", age: 28, class: "12A", subject: "Arabic", phone: "0977348624"},
-        {name: "Emily Chen", gender: "Female", age: 32, class: "12A", subject: "Chinese", phone: "0977348624"},
-        {name: "Carlos Ramirez", gender: "Male", age: 27, class: "12A", subject: "French", phone: "0977348624"},
-        {name: "Makoto Tanaka", gender: "Male", age: 39, class: "12A", subject: "Japanese", phone: "0977348624"},
-      ],
+      URL: "http://127.0.0.1:8000/api/getTeachers",
+      teacherList: [],
+      errorMessage: "",
       searchQuery: "",
-    };
+    }
   },
+
   computed: {
     filteredTeacherList() {
-        if (this.searchQuery === "") {
-            return this.teacherList;
+      if (this.searchQuery === "") {
+        return this.teacherList;
+      } else {
+        const filtered = this.teacherList.filter(teacher =>
+          (teacher.first_name + ' ' + teacher.last_name).toLowerCase().includes(this.searchQuery.trim().toLowerCase())
+        );
+        if (filtered.length === 0) {
+          return [{ first_name: "teacher not found", last_name: "", email: "", phone_number: "", etc: "" }];
         } else {
-            const filtered = this.teacherList.filter((teacher) =>
-                teacher.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-            );
-            if (filtered.length === 0) {
-            return [{ name: "Teacher not found", students: [], classes: [] }];
-            } else {
-            return filtered;
-            }
+          return filtered;
         }
+      }
     },
   },
-  
-};
+  methods: {
+    //===================get data from Database =================
+    getData() {
+      axios.get(this.URL).then((response) => {
+        this.teacherList = response.data;
+        console.log(this.teacherList);
+      });
+    },
+    //================== Delete a user =================
+    deleteUser(id) {
+      swal({
+        title: "Are you sure?",
+        text: "You will not be able to recover this user!",
+        icon: "warning",
+        buttons: ["Cancel", "Yes, delete it!"],
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios.delete(this.URL + `/${id}`)
+            .then(() => {
+              swal("Deleted!", "Your user has been deleted.", "success");
+              // call mounted
+              this.getData();
+            })
+            .catch(error => {
+              swal("Error", "An error occurred while deleting the user.", "error");
+              console.error(error);
+            });
+        } 
+        // else {
+        //   swal("Cancelled", "Your user is safe :)", "error");
+        // }
+      });
+    },
+
+    importFile() {
+/// progressbar
+      let timerInterval;
+      Swal.fire({
+        title: 'File Uploading',
+        html: 'Please wait for file upload <b></b> %.',
+        timer: 2000, // Change the timer to 5000ms (5 seconds)
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+          const b = Swal.getHtmlContainer().querySelector('b');
+          let startTime = Date.now();
+          timerInterval = setInterval(() => {
+            let elapsedTime = Date.now() - startTime;
+            let progress = Math.min(100, Math.round((elapsedTime / 20)));
+            b.textContent = progress;
+          }, 20);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log('I was closed by the timer');
+        }
+      });
+      /// data upload
+
+      const file = this.$refs.fileInput.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+
+      http.post('/api/users-import', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+
+      }).then(response => {
+        console.log(response.data);
+
+        /// progressbar
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Upload successful',
+        })
+        // call mounted
+        this.getData();
+
+      }).catch(error => {
+        console.error(error.response.data);
+      });
+    }
+  },
+
+  mounted() {
+    this.$refs.fileInput.addEventListener('change', this.importFile);
+    return this.getData();
+  },
+}
 </script>
 
 <style scoped>
-/* td{
-    font-size: 25px;
-    color: red;
-} */
+
 </style>
