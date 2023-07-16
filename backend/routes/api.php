@@ -8,8 +8,9 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\ImportExelFileController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\SubjectTeacherController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,6 +67,11 @@ Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
 
 Route::get('/getuserInClass/{class}', [ClassRoomController::class, 'getClassNameUserId']);
 
+Route::get("/users/subject/{subject}", [UserController::class, "getTeacherBySubject"]);
+
+
+Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
+// ->where('class_name', '[a-zA-Z0-10]+')->where('user_id', '[0-10]+');
 
 // Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
 // get student
@@ -104,9 +110,19 @@ Route::prefix('v1')->group(function () {
     });
 });
 
+// subjects
+Route::get('/subjects', [SubjectController::class, 'index']);
+Route::post('/subjects', [SubjectController::class, 'store']);
+
+// subject taacher
+Route::get('/subjectsTeachers', [SubjectTeacherController::class, 'index']);
+Route::post('/subjectsTeachers', [SubjectTeacherController::class, 'store']);
+
 
 Route::get('/classroom', [ClassRoomController::class, 'index']);
 // Route::get('/get_student', [ClassRoomController::class, 'getStudentInClassroom']);
 Route::post('/classroom', [ClassRoomController::class, 'store']);
 
-Route::post('/users-import', [ImportExelFileController::class, 'import']);
+Route::post('/users_import', [ImportExelFileController::class, 'import']);
+
+Route::get('/teacher_information/{teacher_id}',[UserController::class,'getTeacherDetail']);

@@ -1,10 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Director/DirectorDashboard.vue';
-// import StudentView from '../views/Student/StudentView.vue';
-import TeacherList from '../views/Director/TeacherList.vue';
+import TeacherList from '../views/Teacher/TeacherList.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
-import StudentList from '../views/Director/StudentList.vue';
+import StudentList from '../views/Student/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
@@ -18,18 +17,18 @@ import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vu
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
-import LoginView from '../views/Authentication/LoginView2.vue';
 import DashboardView from '../components/Navigation/DashboardView.vue';
-// import FormFogetPassword from '../views/Authentication/ForgotPassword.vue';
-import FormFogetPassword from '../components/HelloWorld.vue';
 
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
-/// change password
-import ChangePassword from '../views/Authentication/ChangePassword.vue';
-
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
-// import NotFoundView from '../views/Authentication/NotFoundView.vue';
+import CheckStudentAttendacne from '../views/Student/CheckStudentAttendance.vue';
+
+//authentication router
+import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
+import LoginView from '../views/Authentication/LoginView.vue';
+import FormFogetPassword from '../components/HelloWorld.vue';
+import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
 const routes = [
   {
@@ -62,8 +61,8 @@ const routes = [
     component: TeacherList
   },
   {
-    path: '/class',
-    name: 'class',
+    path: '/class_list',
+    name: 'class_list',
     component: ClassView
   },
   {
@@ -181,11 +180,16 @@ const routes = [
     },
     component: StudentList
   },
-  // {
-  //   path: '/reset_new_password',
-  //   name: 'reset_new_password',
-  //   component: FormResetNewPassword
-  // },
+  {
+    path: '/check_student_attendance',
+    name: 'check_student_attendance',
+    component: CheckStudentAttendacne
+  },
+  {
+    path: '/reset_new_password',
+    name: 'reset_new_password',
+    component: FormResetNewPassword
+  },
   // {
   //   path: '/404',
   //   name: '404',

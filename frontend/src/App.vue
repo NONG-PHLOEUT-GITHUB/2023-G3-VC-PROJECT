@@ -2,17 +2,14 @@
   <main>
 
     <template v-if="isLogged">
-      <dashboard-view @isLogin="handleLogin" @isChangePassword="handleCancelChangePassword">
+      <dashboard-view @isLogin="handleLogin" @isChangePassword="handleChangePassword('save')">
         <router-view></router-view>
+        <v-row justify="center">
+          <v-dialog v-model="dialog" persistent width="1024">
+            <formchange-password @isCancelChangePassword="handleChangePassword('cancel')"></formchange-password>
+          </v-dialog>
+        </v-row>
       </dashboard-view>
-    </template>
-
-    <template v-else-if="isHasChanged">
-      <v-row justify="center">
-        <v-dialog v-model="dialog" persistent width="1024">
-          <formchange-password></formchange-password>
-        </v-dialog>
-      </v-row>
     </template>
 
     <template v-else-if="forgotPassword">
@@ -27,17 +24,19 @@
     <template v-else>
       <form-login @isLogin="handleLogin" @isForgotPassword="handleforgotPassword"></form-login>
     </template>
+    <!-- {{ name }} -->
 
   </main>
 </template>
 
 <script>
-import FormLogin from './views/Authentication/LoginView2.vue';
+import FormLogin from './views/Authentication/LoginView.vue';
 import FormForgotPassword from './views/Authentication/ForgotPassword.vue';
 import FormResetPassword from './views/Authentication/ResetNewPassword.vue';
 import DashboardView from './components/Navigation/DashboardView.vue';
 import FormchangePassword from './views/Authentication/ChangePassword.vue';
-
+// import { useUserStore } from './store';
+// const {name}=useUserStore();
 export default {
   components: {
     DashboardView,
@@ -54,7 +53,7 @@ export default {
     resetPassword: false,
     forgotPasswordEmail: null,
     isHasChanged: false,
-    dialog: true,
+    dialog: false,
   }),
   created() {
     const email = sessionStorage.getItem('email');
@@ -63,6 +62,7 @@ export default {
       this.userEmail = email;
       console.log(this.userEmail);
     }
+    this.handleResetPassword();
   },
 
 
@@ -88,15 +88,36 @@ export default {
       this.resetPassword = true;
     },
 
+    // handleResetPassword() {
+    //   this.resetPassword = false;
+    //   this.isLogged = true;
+    // },
     handleResetPassword() {
-      this.resetPassword = false;
-      this.isLogged = true;
+      console.log('URL:', window.location.href);
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.has('reset_new_password')) {
+        this.resetPassword = true;
+        const resetToken = searchParams.get('reset_new_password');
+        console.log('Reset token:', resetToken);
+      } else {
+        this.resetPassword = false;
+      }
+      console.log('Reset password:', this.resetPassword);
     },
-    handleCancelChangePassword() {
-      this.isHasChanged = true;
-      this.isLogged = false;
-      // this.dialog = true;
-    }
+
+    handleChangePassword(isActive) {
+      if (isActive == 'save') {
+        this.dialog = true;
+      }else if (isActive == 'cancel') {
+        console.log(isActive);
+        this.dialog = false;
+      }
+      else{
+        this.dialog = false;
+      }
+      
+    },
+
   },
 }
 

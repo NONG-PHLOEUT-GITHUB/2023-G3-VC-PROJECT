@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -11,7 +12,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
+        $subjects = Subject::all();
+        return response()->json(['success' => true, 'data' => $subjects], 200);
     }
 
     /**
@@ -19,7 +21,8 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $subjects = Subject::store($request);
+        return response()->json(['success' => true, 'data' => $subjects], 200);
     }
 
     /**

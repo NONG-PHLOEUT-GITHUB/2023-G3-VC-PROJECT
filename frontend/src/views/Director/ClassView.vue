@@ -115,7 +115,7 @@
 
 <script>
 import axios from 'axios';
-import StudentList from '../Director/StudentList.vue'; // Import the StudentList component
+import StudentList from '../Student/StudentList.vue'; // Import the StudentList component
 
 export default {
   components: {
