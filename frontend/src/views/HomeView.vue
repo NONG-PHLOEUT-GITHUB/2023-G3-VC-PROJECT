@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="about">
     <h1>This is an home page for file home view</h1>
   </div>
@@ -17,4 +17,4 @@ export default defineComponent({
     HelloWorld,
   },
 });
-</script>
+</script> -->

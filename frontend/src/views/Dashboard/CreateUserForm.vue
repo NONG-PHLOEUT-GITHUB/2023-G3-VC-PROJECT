@@ -40,7 +40,7 @@
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Date of Birth</label>
-          <input type="date" class="form-control" v-model="date_of_birth" id="dateOfBirth" placeholder="" />
+          <input type="date" class="form-control" :max="max_date" v-model="date_of_birth" id="dateOfBirth" placeholder="" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
