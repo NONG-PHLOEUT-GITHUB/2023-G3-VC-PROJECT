@@ -26,8 +26,10 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = User::store($request);
-        return response()->json(['success' => true, 'data' => $user], 200);
+        return $user;
     }
+
+
     public function getImage(StoreUserRequest $request)
     {
 
@@ -35,7 +37,7 @@ class UserController extends Controller
         $new_name =  rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images'),$new_name);
         $path = asset('images/' . $new_name);
-      return $path;
+        return $path;
 
     }    /**
      * Display the specified resource.
@@ -62,7 +64,6 @@ class UserController extends Controller
     {
         $user = User::store($request,$id);
         return $user;
-        // return response()->json(['success' => true, 'message' => 'user update successfully', 'user' => $user], 200);
     }
 
     /**
@@ -134,8 +135,21 @@ class UserController extends Controller
             ->select('users.*')
             ->get();
         if ($users) {
-            return response()->json(["message" =>  "No teacher with subject " . $subject], 200);
+            return response()->json(["message" =>  "No teacher with subject " . $subject], 404);
         }
         return response()->json(["message" => true, "data" => $users], 200);
     }
+    
+    
+    // --------------------------------Teacher Detail--------------------------------
+    
+    // public function getTeacherDetail($teacher_id){
+    //     $teacher = User::where('role', 2)
+    //         ->join('class_room_teacher', 'users.id', '=', 'class_room_teacher.user_id')
+    //         ->join('class_rooms', 'class_room_teacher.class_room_id', '=', 'class_rooms.id')
+    //         ->where('users.id', $teacher_id)
+    //         ->get(['class_rooms.*']);
+    
+    //     return response()->json(["message" => true, "data" => $teacher], 200);
+    // }
 }

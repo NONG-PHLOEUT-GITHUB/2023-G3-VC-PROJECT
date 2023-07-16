@@ -26,13 +26,15 @@
             <v-text-field ref="emailField" density="compact" placeholder="Email address"
               prepend-inner-icon="mdi-email-outline" v-model="email" :rules="emailRules" variant="outlined"
               no-validation></v-text-field>
-            <span :rules="emailRules"></span>
+            <span :rules="emailRules[0]"></span>
             <v-row no-gutters>
               <v-col>
-                <v-btn @Click="cancel" class="text-none mt-4" color="blue-darken-4" block variant="outlined">Cancel</v-btn>
+                <v-btn @Click="cancel" class="text-none mt-4" color="blue-darken-4" block
+                  variant="outlined">Cancel</v-btn>
               </v-col>
               <v-col>
-                <v-btn type="submit" color="primary" block class="mt-4 ms-1">Next</v-btn>
+                <v-btn ref="button" type="submit" color="primary" block
+                  class="mt-4 ms-1">Next</v-btn>
               </v-col>
             </v-row>
 
@@ -46,13 +48,13 @@
 
 
 <script>
-// import Swal from 'sweetalert2'
+import Swal from 'sweetalert2'
 import http from '../../htpp.common';
 // recferences// https://vee-validate.logaretm.com/v4/tutorials/basics/
 
 export default {
   // emits: ['isResetPassword'],
-  emits: ['isCancel'],
+  emits: ['isCancel','isValidEmail'],
   data: () => ({
     visible: false,
     email: '',
@@ -60,6 +62,7 @@ export default {
       v => !!v || 'E-mail is required',
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
     ],
+    isSuccess: false,
   }),
 
   methods: {
@@ -68,16 +71,32 @@ export default {
         http.post('/api/forgot-password', {
           email: this.email,
         })
-          .then(() => {
+        .then(() => {
             // sessionStorage.setItem('email', this.email);
             // this.$emit('isResetPassword', true);
             // this.$router.push('/reset_new_password');
             console.log(this.email);
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'success',
+              title: 'Signed in successfully'
+            })
           })
           .catch(error => {
-            if (error.response.status === 401) {
+            if (error.response.status === 404) {
               if (this.emailRules !== '') {
-                this.emailRules = ['Email or password is icorrect'];
+                this.emailRules = ['Email not found'];
               }
 
             } else {
@@ -86,8 +105,8 @@ export default {
           });
       }
     },
-    cancel(){
-      this.$emit('isCancel',true);
+    cancel() {
+      this.$emit('isCancel', true);
       this.$router.push('/login');
     }
   }

@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
-use Mockery\Matcher\Subset;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
@@ -148,15 +147,15 @@ class User extends Authenticatable implements JWTSubject
 
     public function subjects()
     {
-        return $this->belongsToMany(Subset::class, 'subject_teacher')->withTimestamps();
+        return $this->belongsToMany(Subject::class, 'subject_teacher','user_id', 'subject_id')->withTimestamps();
     }
 
     /**
      * user belongs to classroom
      */
-    public function classRoom()
+    public function classRooms()
     {
-        return $this->belongsTo(ClassRoom::class);
+        return $this->belongsToMany(ClassRoom::class,'class_room_teacher', 'user_id', 'class_room_id');
     }
 
 
@@ -173,11 +172,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Attendance::class, 'user_id');
     }
 
-
-    public function ClassRooms()
-    {
-        return $this->belongsTo(ClassRoom::class);
-    }
 }
 
 

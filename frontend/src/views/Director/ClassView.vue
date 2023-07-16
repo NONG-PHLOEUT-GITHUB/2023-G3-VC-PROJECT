@@ -105,7 +105,6 @@
             <form class="form-inline my-2 my-lg-0 d-flex" style="width: 100%;">
               <div v-if="selectedClass">
                 <student-list :selectedClass="selectedClass" />
-
               </div>
             </form>
         </div>
@@ -116,7 +115,7 @@
 
 <script>
 import axios from 'axios';
-import StudentList from '../Director/StudentList.vue'; // Import the StudentList component
+import StudentList from '../Student/StudentList.vue'; // Import the StudentList component
 
 export default {
   components: {
@@ -125,23 +124,6 @@ export default {
   data() {
     return {
       students:[],
-      // classesList: [
-      //   { name: " 10A", students: 53, teacher: "Sreypok Doem" },
-      //   { name: " 10B", students: 53, teacher: "Sreypok Doem" },
-      //   { name: " 10C", students: 53, teacher: "Sreypok Doem" },
-      //   { name: " 10D", students: 53, teacher: "Sreypok Doem" },
-      //   { name: " 10E", students: 53, teacher: "Sreypok Doem" },
-      //   { name: " 11A", students: 50, teacher: "Sokunthea Kim" },
-      //   { name: " 11B", students: 50, teacher: "Sokunthea Kim" },
-      //   { name: " 11C", students: 50, teacher: "Sokunthea Kim" },
-      //   { name: " 11D", students: 50, teacher: "Sokunthea Kim" },
-      //   { name: " 11E", students: 50, teacher: "Sokunthea Kim" },
-      //   { name: " 12A", students: 48, teacher: "Ratana Lim" },
-      //   { name: "12B", students: 48, teacher: "Ratana Lim" },
-      //   { name: " 12C", students: 48, teacher: "Ratana Lim" },
-      //   { name: " 12D", students: 48, teacher: "Ratana Lim" },
-      //   { name: " 12E", students: 48, teacher: "Ratana Lim" }
-      // ],
       listClasses: [],
       numberStudent: 0,
       URL: "http://127.0.0.1:8000/api/classes",
@@ -149,12 +131,12 @@ export default {
       selectedClass: '',
     };
   },
-  computed: {
-    filteredClassesList() {
-      // Filter the classes list based on the search query
-      return this.listClasses.filter(classRoom => classRoom.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
-    },
-  },
+  // computed: {
+  //   filteredClassesList() {
+  //     // Filter the classes list based on the search query
+  //     return this.listClasses.filter(classRoom => classRoom.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+  //   },
+  // },
   methods: {
     getURL() {
       axios.get(this.URL).then((response) => {
@@ -162,20 +144,17 @@ export default {
           console.log(this.listClasses);
       });
     },
-    showStudents(className) {
-    // Set the selected class to the class name that was clicked
-    this.selectedClass = className;
-
-    axios.get(`http://127.0.0.1:8000/api/getClassStudents?class_name=${className}`)
-      .then(response => {
-        console.log(response.data.data);
-        // Set the students list to the response data
-        this.listClasses = response.data.data;
-      })
-      .catch(error => {
-        // Handle the error here
-        console.log(error);
-      });
+    showStudents() {
+      axios.get(`http://127.0.0.1:8000/api/getuserInClass`)
+        .then(response => {
+         console.log(response.data);
+          this.error = null;
+        })
+        .catch(error => {
+          this.studentName = null;
+          this.error = error.response.data.error;
+        });
+    
     },
   },
   mounted() {
