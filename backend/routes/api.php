@@ -7,6 +7,7 @@ use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\ImportExelFileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -31,7 +32,8 @@ Route::post('/login', 'LoginController@login');
 
 // ***Route***
 Route::resource("/users", UserController::class);
-Route::resource("/classes", ClassRoomController::class);
+Route::get("/classes", [ClassRoomController::class, 'index']);
+Route::post("/classes", [ClassRoomController::class, 'store']);
 Route::resource("/attendances", AttendanceController::class);
 
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
@@ -40,6 +42,7 @@ Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfS
 Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsence"]);
 Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOfRole3ByUserId"]);
 Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
+Route::get("/getteacherDetail/{id}", [AttendanceController::class, "getAttendanceOfRole2ByUserId"]);
 Route::post('/checkStudentAttendance' , [AttendanceController::class, "store"]);
 Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
 Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
@@ -61,7 +64,7 @@ Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
 
 
 
-Route::get('/getuserInClass/{id}', [ClassRoomController::class, 'getClassNameUserId']);
+Route::get('/getuserInClass/{class}', [ClassRoomController::class, 'getClassNameUserId']);
 
 
 // Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
@@ -70,8 +73,9 @@ Route::get('/getStudents', [UserController::class,"getStudent"]);
 
 
 
+Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
 Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
-Route::post('/forgot-password', [ForgotPasswordController::class,'forgotPassword']);
+
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
@@ -101,3 +105,8 @@ Route::prefix('v1')->group(function () {
 });
 
 
+Route::get('/classroom', [ClassRoomController::class, 'index']);
+// Route::get('/get_student', [ClassRoomController::class, 'getStudentInClassroom']);
+Route::post('/classroom', [ClassRoomController::class, 'store']);
+
+Route::post('/users-import', [ImportExelFileController::class, 'import']);

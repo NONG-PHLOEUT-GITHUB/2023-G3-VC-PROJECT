@@ -41,9 +41,6 @@
       </div>
       
     </div>
-    <div class="card-header">
-      <h3 class="mb-0 p-0 text-primary">GRADE 10</h3>
-    </div>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="bg-primary">

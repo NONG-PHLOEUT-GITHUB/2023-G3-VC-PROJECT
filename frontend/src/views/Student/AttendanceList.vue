@@ -5,9 +5,9 @@
       <thead>
         <tr>
           <th>Id</th>
-          <th>First_Name</th>
-          <th>Last_Name</th>
-          <th>Total_Absence</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Total Absence</th>
           <th>See More</th>
         </tr>
       </thead>
@@ -63,15 +63,14 @@ body {
 }
 main.table {
   margin: auto;
-  width: 65vw;
   background-color: #fff5;
   border-radius: 10px;
   padding: 2%;
 }
 h3 {
-  padding: 2%;
+  margin-bottom: 10px;
   text-transform: uppercase;
-  color: #5cd2c6;
+  color: #0000FF;
 }
 table {
   padding: 2%;
@@ -100,24 +99,26 @@ thead th {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #d5d1defe;
+  background-color: #0000FF;
   cursor: pointer;
-  text-transform: capitalize;
+  text-transform: uppercase;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
 }
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
-}
+
 tbody tr:hover {
   background-color: #fff6 !important;
 }
 .status.detail {
-  padding: 0.4rem 1.5rem;
-  border-radius: 2rem;
-  text-align: center;
-  background-color: #50ded9;
-  color: #006b21;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+  background-color: #0000FF;
+  color: white;
+  font-weight: bold;
 }
 thead th:hover {
-  color: #5cd2c6;
+  color: #e8e8fa;
 }
 </style>

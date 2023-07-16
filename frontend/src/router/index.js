@@ -14,6 +14,7 @@ import AttendanceList from '../views/Student/AttendanceList.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
 import StudentDetail from '../views/Student/StudentDetial.vue';
 import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vue';
+import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vue';
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
@@ -28,20 +29,22 @@ import TeacherDetail from '../views/Student/StudentDetial.vue'
 import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
+// import NotFoundView from '../views/Authentication/NotFoundView.vue';
 
 const routes = [
   {
     path: '/login',
     name: 'login',
     component: LoginView,
-    meta:{
-      isRequired: true
-    }
+    // meta:{
+    //   isRequired: true
+    // }
   },
   {
     path: '/home',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta:{requireAuth:true}
   },
   {
     path: '/dashboard',
@@ -102,6 +105,11 @@ const routes = [
     path: '/studentattendancedetail/:id',
     name: '/studentattendancedetail',
     component: StudentAttendanceDetail
+  },
+  {
+    path: '/teacherattendancedetail/:id',
+    name: '/teacherattendancedetail',
+    component: TeacherAttendanceDetail
   },
   {
     path: '/checkAttendance',
@@ -173,7 +181,16 @@ const routes = [
     },
     component: StudentList
   },
-  
+  // {
+  //   path: '/reset_new_password',
+  //   name: 'reset_new_password',
+  //   component: FormResetNewPassword
+  // },
+  // {
+  //   path: '/404',
+  //   name: '404',
+  //   component: NotFoundView
+  // }
   
 
 ]
@@ -184,20 +201,35 @@ const router = createRouter({
 });
 
 // https://beginnersoftwaredeveloper.com/how-do-i-protect-my-vue-router/?expand_article=1
-router.beforeEach((to,from,next) => {
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     // check if the user is authenticated
+//     if (!store.getters.isAuthenticated) {
+//       next({
+//         path: '/login',
+//         query: { redirect: to.fullPath }
+//       })
+//     } else {
+//       next()
+//     }
+//   } else {
+//     next()
+//   }
+// })
+
+
+router.beforeEach((to,from, next) => {
   const isUserAuthenticated = null;
-
-  const isRequired = to.matched.some(
-    (record) => record.meta.isRequired
+  const isRequiredAuth = to.matched.some(
+    (record) => record.meta.isRequiredAuth
   );
-
-  if(isRequired && !isUserAuthenticated){
+  if (isUserAuthenticated  && !isRequiredAuth) {
     next('/login');
   }else{
     next();
   }
 })
-
 
 
 export default router
