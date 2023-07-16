@@ -125,7 +125,7 @@ export default {
       });
     },
     addUserData() {
-      if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address){
+      if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address && this.role){
         const newUser =
         {
           first_name: this.first_name,
@@ -145,8 +145,8 @@ export default {
         });
         swal.fire({
           icon: "success",
-          title: "Save attendance successfully!",
-          text: "you already save your attendance",
+          title: "Save user successfully!",
+          text: "you already save your user",
           timer: 2000,
         })
         .then(() => {
