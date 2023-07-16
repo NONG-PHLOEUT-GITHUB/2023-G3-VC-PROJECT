@@ -77,7 +77,8 @@ Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']
 // get student
 Route::get('/getStudents', [UserController::class,"getStudent"]);
 
-
+// get teachers
+Route::get('/getTeachers', [UserController::class,"getTeachers"]);
 
 Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
 Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);

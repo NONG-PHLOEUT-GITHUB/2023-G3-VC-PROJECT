@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Director/DirectorDashboard.vue';
+// import StudentView from '../views/Student/StudentView.vue';
 import TeacherList from '../views/Teacher/TeacherList.vue';
+import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
 import StudentList from '../views/Student/StudentList.vue';
@@ -27,7 +29,7 @@ import CheckStudentAttendacne from '../views/Student/CheckStudentAttendance.vue'
 //authentication router
 import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
 import LoginView from '../views/Authentication/LoginView.vue';
-import FormFogetPassword from '../components/HelloWorld.vue';
+// import FormFogetPassword from '../components/HelloWorld.vue';
 import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
 const routes = [
@@ -125,11 +127,11 @@ const routes = [
     name: '/teachermostabsence',
     component: TeacherMostAbsence
   },
-  {
-    path: '/forgot_password',
-    name: '/forgot_password',
-    component: FormFogetPassword
-  },
+  // {
+  //   path: '/forgot_password',
+  //   name: '/forgot_password',
+  //   component: FormFogetPassword
+  // },
   {
     path: '/student_list',
     name: 'student_list',
@@ -171,6 +173,11 @@ const routes = [
     path: '/report_view',
     name: 'report_view',
     component: ReportView
+  },
+  {
+    path: '/teacher_list_view',
+    name: 'teacher_list_view',
+    component: TeacherListView
   },
   {
     path: '/class_rooms/:id',
