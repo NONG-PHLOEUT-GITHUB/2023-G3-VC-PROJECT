@@ -119,4 +119,6 @@ Route::post('/subjectsTeachers', [SubjectTeacherController::class, 'store']);
 Route::get('/classroom', [ClassRoomController::class, 'index']);
 Route::post('/classroom', [ClassRoomController::class, 'store']);
 
-Route::post('/users-import', [ImportExelFileController::class, 'import']);
+Route::post('/users_import', [ImportExelFileController::class, 'import']);
+
+Route::get('/teacher_information/{teacher_id}',[UserController::class,'getTeacherDetail']);

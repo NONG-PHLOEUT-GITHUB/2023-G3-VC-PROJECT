@@ -4,21 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ClassRoom extends Model
 {
     use HasFactory;
     protected $fillable = [
-        // 'class_id',
-        'user_id',
         'class_name',
+        'description',
         
     ];
     public static function store($request, $id = null)
     {
         $classRooms = $request->only(
-            'class_id',
             'class_name',
+            'description',
         );
         if ($id) {
             $classRoom = self::find($id);
@@ -33,8 +33,8 @@ class ClassRoom extends Model
         return response()->json(['success' => true, 'data' => $classRoom], 201);
     }
 
-    public function users(){
-        return $this->hasMany(User::class);
+    public function teachers(){
+        return $this->belongsToMany(User::class,'class_room_teacher', 'user_id', 'class_room_id');
     }
 
 

@@ -128,8 +128,21 @@ class UserController extends Controller
             ->select('users.*')
             ->get();
         if ($users) {
-            return response()->json(["message" =>  "No teacher with subject " . $subject], 200);
+            return response()->json(["message" =>  "No teacher with subject " . $subject], 404);
         }
         return response()->json(["message" => true, "data" => $users], 200);
     }
+    
+    
+    // --------------------------------Teacher Detail--------------------------------
+    
+    // public function getTeacherDetail($teacher_id){
+    //     $teacher = User::where('role', 2)
+    //         ->join('class_room_teacher', 'users.id', '=', 'class_room_teacher.user_id')
+    //         ->join('class_rooms', 'class_room_teacher.class_room_id', '=', 'class_rooms.id')
+    //         ->where('users.id', $teacher_id)
+    //         ->get(['class_rooms.*']);
+    
+    //     return response()->json(["message" => true, "data" => $teacher], 200);
+    // }
 }

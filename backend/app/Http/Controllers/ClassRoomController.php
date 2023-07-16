@@ -40,7 +40,7 @@ class ClassRoomController extends Controller
     public function store(Request $request)
     {
         $classrooms = ClassRoom::store($request);
-        return response()->json(['success' => true, 'data' => $classrooms], 200);
+        return $classrooms;
 
     }
 
