@@ -22,4 +22,4 @@ const vuetify = createVuetify({
   directives,
 })
 
-createApp(App).use(router).use(vuetify).use(pinia).mount('#app')
+createApp(App).use(createPinia()).use(router).use(vuetify).use(pinia).mount('#app')
