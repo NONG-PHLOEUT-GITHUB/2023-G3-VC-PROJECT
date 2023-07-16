@@ -62,7 +62,7 @@
                         <!-- class management -->
 
                         <li class="nav-item">
-                            <a @click="toggleLinks('class')" class="nav-link text-primary" href="#" >
+                            <a @click="toggleLinks('class')" class="nav-link text-primary" href="#">
                                 <i class="bi bi-building my-icon"></i> Class management
                             </a>
                             <router-link v-show="isLinkActiveClass" class="nav-link text-primary ms-4" href="#"
@@ -77,15 +77,20 @@
 
                         <!-- //attendance management -->
 
-                        <li  class="nav-item">
-                            <a @click="toggleLinks('attendance')" class="nav-link text-primary" href="#" :to="{ path: '/attendance' }"
-                                :class="{ active: $route.path === '/attendance' }">
+                        <li class="nav-item">
+                            <a @click="toggleLinks('attendance')" class="nav-link text-primary" href="#"
+                                :to="{ path: '/attendance' }" :class="{ active: $route.path === '/attendance' }">
                                 <i class="bi bi-clipboard-check my-icon"></i>Attendance management
-                                
+
                             </a>
                             <router-link v-show="isLinkActiveAttendance" class="nav-link text-primary ms-4" href="#"
                                 :to="{ path: '/attendance_list' }" :class="{ active: $route.path === '/attendance_list' }">
                                 <i class="bi bi-check2-circle my-icon"></i>Student Attendance
+                            </router-link>
+                            <router-link v-show="isLinkActiveAttendance" class="nav-link text-primary ms-4" href="#"
+                                :to="{ path: '/check_student_attendance' }"
+                                :class="{ active: $route.path === '/check_student_attendance' }">
+                                <i class="bi bi-check2-circle my-icon"></i>Check student attendance
                             </router-link>
                         </li>
 
@@ -128,20 +133,20 @@
                             <!-- profile -->
                             <div class="col-sm-6 col-12 text-sm-end">
                                 <div class="profile">
-                                    <img :src="users.profile" @click="toggleDropdown" />
                                     <p class="d-none d-md-inline-block mb-0 ms-4 me-3">
                                         {{ users.first_name }} {{ users.last_name }}
                                     </p>
+                                    <img :src="users.profile" @click="toggleDropdown" />
                                     <div class="profile-link" :class="{ show: isDropdownOpen }">
                                         <router-link @click="closeDropdown" class="nav-link text-primary mt-0" href="#"
                                             :to="{ path: '/user_info' }" :class="{ active: $route.path === '/user_info' }">
                                             <i class="bi bi-person my-icon"></i>Profile
                                         </router-link>
                                         <a @click="logout" class="nav-link text-primary mt-0" href="#">
-                                          
+
                                             <i class="bi bi-box-arrow-right my-icon"></i>Logout
                                         </a>
-                                        <a @click="closeDropdown" class="nav-link text-primary" href="#">
+                                        <a @click="changePassword" class="nav-link text-primary" href="#">
                                             <i class="bi bi-gear my-icon"></i>Change Password
                                         </a>
                                     </div>
@@ -161,8 +166,9 @@
 
 import VueCookies from 'vue-cookies'
 import http from "../../htpp.common";
+import Swal from 'sweetalert2';
 export default {
-    emits: ["isLogin"],
+    emits: ["isLogin", 'isChangePassword'],
     data: () => ({
         isDropdownOpen: false,
         isLinkActiveTeacher: false,
@@ -192,6 +198,19 @@ export default {
                     }
                 )
                 .then(() => {
+
+                    // alert
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 500,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
                     // Remove the access token from local storage
                     localStorage.removeItem("access_token");
                     sessionStorage.removeItem("email");
@@ -200,7 +219,13 @@ export default {
                     // this.$router.push('/login');
                     this.$emit("isLogin", false, this.email);
                     this.fetchData();
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Signed in successfully'
+                    })
                 })
+
                 .catch((error) => {
                     console.log(error);
                 });
@@ -221,10 +246,10 @@ export default {
             } else if (link === "class") {
                 this.isLinkActiveClass = !this.isLinkActiveClass;
                 // this.isLinkActiveTeacher = false;
-            }else if (link === "attendance") {
+            } else if (link === "attendance") {
                 this.isLinkActiveAttendance = !this.isLinkActiveAttendance;
                 // this.isLinkActiveTeacher = false;
-            }else if (link === "score") {
+            } else if (link === "score") {
                 this.isLinkActiveScore = !this.isLinkActiveScore;
                 // this.isLinkActiveTeacher = false;
             }
@@ -251,6 +276,10 @@ export default {
                     console.log(error);
                 });
         },
+        changePassword() {
+            this.$emit('isChangePassword', true);
+        },
+        
 
     },
     mounted() {

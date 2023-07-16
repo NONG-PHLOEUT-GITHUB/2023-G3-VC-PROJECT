@@ -7,6 +7,7 @@ use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\ImportExelFileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectTeacherController;
 use Illuminate\Http\Request;
@@ -118,4 +119,6 @@ Route::post('/subjectsTeachers', [SubjectTeacherController::class, 'store']);
 Route::get('/classroom', [ClassRoomController::class, 'index']);
 Route::post('/classroom', [ClassRoomController::class, 'store']);
 
-Route::post('/users-import', [ImportExelFileController::class, 'import']);
+Route::post('/users_import', [ImportExelFileController::class, 'import']);
+
+Route::get('/teacher_information/{teacher_id}',[UserController::class,'getTeacherDetail']);

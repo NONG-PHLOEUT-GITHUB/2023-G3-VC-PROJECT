@@ -45,10 +45,9 @@
         <tbody>
           <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
             <td>
-              <img v-if="user.profile"
-              :src="user.profile"
-              class="avatar avatar-sm rounded-circle me-2">
-              <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png" class="avatar avatar-sm rounded-circle me-2">
+              <img v-if="user.profile" :src="user.profile" class="avatar avatar-sm rounded-circle me-2">
+              <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
+                class="avatar avatar-sm rounded-circle me-2">
               <a class="text-heading font-semibold" href="#">
                 {{ user.first_name }} {{ user.last_name }}
               </a>
@@ -61,6 +60,9 @@
             </td>
             <td>
               {{ user.email }}
+            </td>
+            <td hidden>
+              {{ user.password }}
             </td>
             <td>
               {{ user.phone_number }}
@@ -87,6 +89,9 @@
           </tr>
         </tbody>
       </table>
+      <div class="card-footer border-0 py-5">
+        <span class="text-muted text-sm">Showing 10 items out of 250 results found</span>
+      </div>
     </div>
   </div>
 </template>
@@ -157,7 +162,7 @@ export default {
     },
 
     importFile() {
-/// progressbar
+      /// progressbar
       let timerInterval;
       Swal.fire({
         title: 'File Uploading',
@@ -272,6 +277,7 @@ export default {
 .bi-brightness-low {
   color: yellow;
 }
+
 .bi-cloud-arrow-up {
   font-size: 20px;
   margin-top: 20px;
