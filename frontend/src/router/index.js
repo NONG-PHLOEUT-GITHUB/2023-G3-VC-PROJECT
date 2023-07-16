@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Director/DirectorDashboard.vue';
-// import StudentView from '../views/Student/StudentView.vue';
 import TeacherList from '../views/Teacher/TeacherList.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
@@ -18,20 +17,18 @@ import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vu
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
-import LoginView from '../views/Authentication/LoginView2.vue';
 import DashboardView from '../components/Navigation/DashboardView.vue';
-// import FormFogetPassword from '../views/Authentication/ForgotPassword.vue';
-import FormFogetPassword from '../components/HelloWorld.vue';
 
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
-/// change password
-import ChangePassword from '../views/Authentication/ChangePassword.vue';
-/// reset new password 
-import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
 import CheckStudentAttendacne from '../views/Student/CheckStudentAttendance.vue';
-// import NotFoundView from '../views/Authentication/NotFoundView.vue';
+
+//authentication router
+import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
+import LoginView from '../views/Authentication/LoginView.vue';
+import FormFogetPassword from '../components/HelloWorld.vue';
+import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
 const routes = [
   {

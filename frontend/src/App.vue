@@ -24,17 +24,19 @@
     <template v-else>
       <form-login @isLogin="handleLogin" @isForgotPassword="handleforgotPassword"></form-login>
     </template>
+    <!-- {{ name }} -->
 
   </main>
 </template>
 
 <script>
-import FormLogin from './views/Authentication/LoginView2.vue';
+import FormLogin from './views/Authentication/LoginView.vue';
 import FormForgotPassword from './views/Authentication/ForgotPassword.vue';
 import FormResetPassword from './views/Authentication/ResetNewPassword.vue';
 import DashboardView from './components/Navigation/DashboardView.vue';
 import FormchangePassword from './views/Authentication/ChangePassword.vue';
-
+// import { useUserStore } from './store';
+// const {name}=useUserStore();
 export default {
   components: {
     DashboardView,
