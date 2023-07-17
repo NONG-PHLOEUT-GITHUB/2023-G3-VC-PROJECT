@@ -268,7 +268,7 @@ export default {
       formData.append("file", file);
 
       http
-        .post("/api/users-import", formData, {
+        .post("/api/users_import", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
