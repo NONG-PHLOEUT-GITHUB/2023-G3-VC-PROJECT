@@ -1,15 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Director/DirectorDashboard.vue';
-<<<<<<< HEAD
 // import StudentView from '../views/Student/StudentView.vue';
-import TeacherList from '../views/Director/TeacherList.vue';
-import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
-=======
 import TeacherList from '../views/Teacher/TeacherList.vue';
->>>>>>> 329f8c8b4920a45d518ea456e1370aca8c87a741
+import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
 import StudentList from '../views/Student/StudentList.vue';
+// import StudentList from '../views/Director/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
