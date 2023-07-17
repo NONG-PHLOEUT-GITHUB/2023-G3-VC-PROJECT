@@ -35,8 +35,9 @@ import FormForgotPassword from './views/Authentication/ForgotPassword.vue';
 import FormResetPassword from './views/Authentication/ResetNewPassword.vue';
 import DashboardView from './components/Navigation/DashboardView.vue';
 import FormchangePassword from './views/Authentication/ChangePassword.vue';
-// import { useUserStore } from './store';
-// const {name}=useUserStore();
+import { useUserStore } from './store/UserStore';
+import { toRefs } from 'vue';
+
 export default {
   components: {
     DashboardView,
@@ -45,7 +46,11 @@ export default {
     FormResetPassword,
     FormchangePassword,
   },
-
+  setup() {
+    const User = useUserStore()
+    // return { User }
+    return toRefs(User);
+  },
   data: () => ({
     isLogged: false,
     userEmail: null,
@@ -108,14 +113,14 @@ export default {
     handleChangePassword(isActive) {
       if (isActive == 'save') {
         this.dialog = true;
-      }else if (isActive == 'cancel') {
+      } else if (isActive == 'cancel') {
         console.log(isActive);
         this.dialog = false;
       }
-      else{
+      else {
         this.dialog = false;
       }
-      
+
     },
 
   },

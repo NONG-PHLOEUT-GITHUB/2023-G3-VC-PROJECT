@@ -195,7 +195,16 @@ const routes = [
   //   name: '404',
   //   component: NotFoundView
   // }
-  
+  // {
+  //   path: '/home',
+  //   name: 'home',
+  //   component: HomeView,
+  //   meta: {
+  //     requireAuth: true,
+  //     roles: ['admin']
+  //   },
+  //   beforeEnter: checkRole
+  // },
 
 ]
 
@@ -205,23 +214,6 @@ const router = createRouter({
 });
 
 // https://beginnersoftwaredeveloper.com/how-do-i-protect-my-vue-router/?expand_article=1
-
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     // check if the user is authenticated
-//     if (!store.getters.isAuthenticated) {
-//       next({
-//         path: '/login',
-//         query: { redirect: to.fullPath }
-//       })
-//     } else {
-//       next()
-//     }
-//   } else {
-//     next()
-//   }
-// })
-
 
 router.beforeEach((to,from, next) => {
   const isUserAuthenticated = null;
@@ -234,6 +226,16 @@ router.beforeEach((to,from, next) => {
     next();
   }
 })
+
+// function checkRole(to, from, next) {
+//   const userAuthStore = useUserAuth();
+//   const currentUser = userAuthStore.currentUser;
+//   if (currentUser && to.meta.roles.includes(currentUser.role)) {
+//     next();
+//   } else {
+//     next({ name: 'unauthorized' });
+//   }
+// }
 
 
 export default router
