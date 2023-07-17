@@ -30,7 +30,7 @@ import CheckStudentAttendacne from '../views/Student/CheckStudentAttendance.vue'
 //authentication router
 import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
 import LoginView from '../views/Authentication/LoginView.vue';
-import FormFogetPassword from '../components/HelloWorld.vue';
+// import FormFogetPassword from '../components/HelloWorld.vue';
 import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
 const routes = [
@@ -128,11 +128,11 @@ const routes = [
     name: '/teachermostabsence',
     component: TeacherMostAbsence
   },
-  {
-    path: '/forgot_password',
-    name: '/forgot_password',
-    component: FormFogetPassword
-  },
+  // {
+  //   path: '/forgot_password',
+  //   name: '/forgot_password',
+  //   component: FormFogetPassword
+  // },
   {
     path: '/student_list',
     name: 'student_list',

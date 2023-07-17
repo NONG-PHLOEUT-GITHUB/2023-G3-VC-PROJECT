@@ -10,7 +10,7 @@
           aria-label="Default select example"
           style="width: 30%"
           v-model="selectedClass"
-          @change="getStudentInClass(selectedClass)"
+          @click="getStudentInClass(selectedClass)"
         >
           <option selected disabled>Select grade</option>
           <option
@@ -72,14 +72,14 @@
           </tr>
         </thead>
         
-        <tbody v-if="listUser !=null">
+        <tbody v-if="listUser && listUser.length">
           <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
             <td>
               <img v-if="user.profile" :src="user.profile" class="avatar avatar-sm rounded-circle me-2">
               <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
                 class="avatar avatar-sm rounded-circle me-2">
               <a class="text-heading font-semibold" href="#">
-                {{ user.first_name }} {{ user.last_name }}
+                {{ user.first_name}} {{ user.last_name}} 
               </a>
             </td>
             <td>
@@ -126,16 +126,16 @@
             </td>
           </tr>
         </tbody>
-        <tbody v-else>
-          <tr>
+          <tr v-else>
             <td colspan="6" class="text-center text-danger">
               This class does not have any students.
             </td>
           </tr>
-        </tbody>
       </table>
       <div class="card-footer border-0 py-5">
-        <span class="text-muted text-sm">Showing 10 items out of 250 results found</span>
+        <span class="text-muted text-sm">   
+          All Students in class {{ selectedClass }} :
+        {{ listUser?.length }} member</span>
       </div>
     </div>
   </div>
@@ -166,7 +166,7 @@ export default {
         { label: "Grade 12B", value: "12B" },
         { label: "Grade 12C", value: "12C" },
       ],
-      selectedClassStudents: null,
+      selectedClass: null,
     };
   },
 
@@ -304,9 +304,9 @@ export default {
       axios
         .get(`http://127.0.0.1:8000/api/getuserInClass/${classId}`)
         .then((response) => {
-          this.selectedClassStudents = response.data.data;
-          for (let user of this.selectedClassStudents) {
-            this.listUser = user.users;
+          this.listUser = response.data.data;
+          for (let user of this.listUser) {
+              this.listUser = user.students;
           }
         })
         .catch((error) => {

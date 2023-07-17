@@ -255,7 +255,7 @@ export default {
             }
         },
         setCookie(name, value) {
-            VueCookies.set(name, value, { expires: 1 });
+            VueCookies.set(name, value, { expires: 365 });
         },
         getCookie(name) {
             return VueCookies.get(name);

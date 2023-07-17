@@ -83,23 +83,18 @@ class ClassRoomController extends Controller
     }
 
     public function getClassNameUserId(string $className)
-    {
-    
-        $classRooms = ClassRoom::where('class_name', $className)
-        ->whereHas('users', function ($query) {
+{
+    $classRooms = ClassRoom::where('class_name', $className)
+        ->whereHas('students', function ($query) {
             $query->where('role', 3);
         })
-        ->with('users')
-        ->select('*')
+        ->with('students')
         ->get();
-    if(empty($classRooms)){
+
+    if ($classRooms->isEmpty()) {
         return "not found";
-    }
-    else{
+    } else {
         return response()->json(['success' => true, 'data' => $classRooms], 200);
     }
-
-
-
-    }
+}
 }
