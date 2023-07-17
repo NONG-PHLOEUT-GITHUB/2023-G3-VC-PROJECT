@@ -148,8 +148,7 @@ import http from "../../htpp.common";
 export default {
   data() {
     return {
-      URL: "http://127.0.0.1:8000/api/users",
-      // URL : "http://127.0.0.1:8000/api/getStudents",
+      URL: "http://127.0.0.1:8000/api/getStudents",
       listUser: [],
       errorMessage: "",
       searchQuery: "",
@@ -201,7 +200,7 @@ export default {
     //===================get data from Database =================
     getData() {
       axios.get(this.URL).then((response) => {
-        this.listUser = response.data.data;
+        this.listUser = response.data;
         console.log(this.listUser);
       });
     },
@@ -269,7 +268,7 @@ export default {
       formData.append("file", file);
 
       http
-        .post("/api/users-import", formData, {
+        .post("/api/users_import", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

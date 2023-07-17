@@ -6,6 +6,7 @@ import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
 import StudentList from '../views/Student/StudentList.vue';
+// import StudentList from '../views/Director/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';

@@ -76,9 +76,11 @@ Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']
 // Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
 // get student
 Route::get('/getStudents', [UserController::class,"getStudent"]);
+Route::delete('/getStudents/{id}', [UserController::class,"destroy"]);
 
 // get teachers
 Route::get('/getTeachers', [UserController::class,"getTeachers"]);
+Route::delete('/getTeachers/{id}', [UserController::class,"destroy"]);
 
 Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
 Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
