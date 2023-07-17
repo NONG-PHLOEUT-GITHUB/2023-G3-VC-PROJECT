@@ -33,7 +33,7 @@
                                 <i class="bi bi-sort-down my-icon ms-4"></i>
                             </a>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/teacher_list' }" :class="{ 'active': $route.path === '/teacher_list' }">
+                                :to="{ path: '/teacher_list_view' }" :class="{ 'active': $route.path === '/teacher_list_view' }">
                                 <i class="bi bi-list my-icon"></i> Teacher List
                             </router-link>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
@@ -255,7 +255,7 @@ export default {
             }
         },
         setCookie(name, value) {
-            VueCookies.set(name, value, { expires: 1 });
+            VueCookies.set(name, value, { expires: 365 });
         },
         getCookie(name) {
             return VueCookies.get(name);

@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "vue-cli-plugin-pinia": "~0.2.4"
+  },
+  "dependencies": {
+    "@vue/composition-api": "^1.7.1",
+    "pinia": "^2.1.4"
+  }
+}

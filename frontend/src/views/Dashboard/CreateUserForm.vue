@@ -40,7 +40,7 @@
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Date of Birth</label>
-          <input type="date" class="form-control" v-model="date_of_birth" id="dateOfBirth" placeholder="" />
+          <input type="date" class="form-control" :max="max_date" v-model="date_of_birth" id="dateOfBirth" placeholder="" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
@@ -122,7 +122,7 @@ export default {
       });
     },
     addUserData() {
-      if (this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address) {
+      if(this.first_name && this.last_name && this.email && this.password && this.phone_number && this.address && this.role){
         const newUser =
         {
           first_name: this.first_name,
@@ -142,8 +142,8 @@ export default {
         });
         swal.fire({
           icon: "success",
-          title: "Save attendance successfully!",
-          text: "you already save your attendance",
+          title: "Save user successfully!",
+          text: "you already save your user",
           timer: 2000,
         })
           .then(() => {
