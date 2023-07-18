@@ -33,7 +33,8 @@
                                 <i class="bi bi-sort-down my-icon ms-4"></i>
                             </a>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/teacher_list_view' }" :class="{ 'active': $route.path === '/teacher_list_view' }">
+                                :to="{ path: '/teacher_list_view' }"
+                                :class="{ 'active': $route.path === '/teacher_list_view' }">
                                 <i class="bi bi-list my-icon"></i> Teacher List
                             </router-link>
                             <router-link v-show="isLinkActiveTeacher" class="nav-link text-primary ms-4" href="#"
@@ -55,7 +56,7 @@
                             </router-link>
                             <router-link v-show="isLinkActiveStudent" class="nav-link text-primary ms-4" href="#"
                                 :to="{ path: '/student' }" :class="{ active: $route.path === '/student' }">
-                                <i class="bi bi-gear my-icon"></i>Add student Student
+                                <i class="bi bi-gear my-icon"></i>Add new student
                             </router-link>
                         </li>
 
@@ -85,7 +86,7 @@
                             </a>
                             <router-link v-show="isLinkActiveAttendance" class="nav-link text-primary ms-4" href="#"
                                 :to="{ path: '/attendance_list' }" :class="{ active: $route.path === '/attendance_list' }">
-                                <i class="bi bi-check2-circle my-icon"></i>Student Attendance
+                                <i class="bi bi-check2-circle my-icon"></i>Student attendance list
                             </router-link>
                             <router-link v-show="isLinkActiveAttendance" class="nav-link text-primary ms-4" href="#"
                                 :to="{ path: '/check_student_attendance' }"
@@ -113,6 +114,13 @@
                                 <i class="bi bi-table"></i> Schedule
                             </router-link>
                         </li>
+                        <router-link :to="{ path: '/checkAttendance' }">
+                            <button type="button"
+                                class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300">
+                                <i class="bi bi-calendar2-week-fill text-warning"></i> Check
+                                Attendance
+                            </button>
+                        </router-link>
                     </ul>
                     <!-- Divider -->
                     <hr class="navbar-divider my-5 opacity-20" />
@@ -279,7 +287,7 @@ export default {
         changePassword() {
             this.$emit('isChangePassword', true);
         },
-        
+
 
     },
     mounted() {

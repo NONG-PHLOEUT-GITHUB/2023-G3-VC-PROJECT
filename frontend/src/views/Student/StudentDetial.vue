@@ -5,16 +5,14 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img v-if="responseData.profile" :src="responseData.profile"
-                                class="rounded-circle img-fluid image-pf">
-                            <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png" alt=""
-                                class="rounded-circle img-fluid image-pf">
-
+                            <div class="profile">
+                                <img v-if="responseData.profile" :src="responseData.profile"
+                                    class="rounded-circle img-fluid image-pf">
+                                <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png" alt=""
+                                    class="rounded-circle img-fluid image-pf">
+                            </div>
                             <h3 class="my-3">{{ responseData.first_name }} {{ responseData.last_name }}</h3>
                             <h4 class="mb-2">Class 11A</h4>
-                            <div class="d-flex justify-content-center mb-2">
-                                <button type="button" class="btn btn-primary text-white">Edit profile</button>
-                            </div>
                         </div>
                     </div>
                     <!-- <div class="card mb-4 mb-lg-0">
@@ -52,7 +50,8 @@
                                     <p class="mb-0">Name </p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ responseData.first_name }} {{ responseData.last_name }}</p>
+                                    <p class="text-muted mb-0">{{ responseData.first_name }} {{ responseData.last_name }}
+                                    </p>
                                 </div>
                             </div>
                             <hr>
@@ -265,4 +264,17 @@ export default {
 .my-3 {
     text-transform: uppercase;
     font-size: 25px;
-}</style>
+}
+
+.profile {
+    position: relative;
+}
+
+.profile img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+</style>

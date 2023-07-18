@@ -112,6 +112,7 @@ export default {
     };
   },
   methods: {
+    // resferent :  https://www.youtube.com/watch?v=chCtrNGrQhk
     getImage(event) {
       // this.profile = event.target.files[0];
       var file = event.target.files[0];
