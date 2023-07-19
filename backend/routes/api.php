@@ -7,6 +7,7 @@ use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\ImportExelFileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectTeacherController;
 use Illuminate\Http\Request;
@@ -63,6 +64,9 @@ Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmai
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
 
 
+
+Route::get('/getuserInClass/{class}', [ClassRoomController::class, 'getClassNameUserId']);
+
 Route::get("/users/subject/{subject}", [UserController::class, "getTeacherBySubject"]);
 
 
@@ -72,8 +76,11 @@ Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']
 // Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
 // get student
 Route::get('/getStudents', [UserController::class,"getStudent"]);
+Route::delete('/getStudents/{id}', [UserController::class,"destroy"]);
 
-
+// get teachers
+Route::get('/getTeachers', [UserController::class,"getTeachers"]);
+Route::delete('/getTeachers/{id}', [UserController::class,"destroy"]);
 
 Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
 Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
@@ -116,6 +123,9 @@ Route::post('/subjectsTeachers', [SubjectTeacherController::class, 'store']);
 
 
 Route::get('/classroom', [ClassRoomController::class, 'index']);
+// Route::get('/get_student', [ClassRoomController::class, 'getStudentInClassroom']);
 Route::post('/classroom', [ClassRoomController::class, 'store']);
 
-Route::post('/users-import', [ImportExelFileController::class, 'import']);
+Route::post('/users_import', [ImportExelFileController::class, 'import']);
+
+Route::get('/teacher_information/{teacher_id}',[UserController::class,'getTeacherDetail']);

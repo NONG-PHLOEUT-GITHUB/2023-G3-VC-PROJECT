@@ -15,10 +15,9 @@
                     Email
                 </div>
 
-                <v-text-field :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'"
-                    density="compact" placeholder="Enter current password" prepend-inner-icon="mdi-lock-outline"
-                    v-model="email" :rules="passwordRules" variant="outlined" @click:append-inner="visible = !visible">
-                </v-text-field>
+                <v-text-field ref="emailField" density="compact" placeholder="Email address"
+                    prepend-inner-icon="mdi-email-outline" v-model="email" :rules="emailRules" variant="outlined"
+                    no-validation></v-text-field>
                 <span :rules="emailRules"></span>
 
                 <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
@@ -41,7 +40,7 @@
                     @click:append-inner="visibleConfirm = !visibleConfirm">
                 </v-text-field>
 
-                <v-btn type="submit" color="primary" block class="mt-4">Change Password</v-btn>
+                <v-btn type="submit" color="primary" block class="mt-4">Reset Password</v-btn>
             </v-form>
             <div v-if="successMessage">{{ successMessage }}</div>
             <div v-if="errorMessage">{{ errorMessage }}</div>
@@ -72,16 +71,16 @@ export default {
             errorMessage: '',
 
             emailRules: [
-                v => !!v || 'New password is required',
-                v => (v && v.length >= 6) || 'Password must be 6  characters or more!',
+                v => !!v || 'Email is required',
+                (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
             ],
             passwordRules: [
                 v => !!v || 'New password is required',
-                v => (v && v.length >= 6) || 'Password must be 6  characters or more!',
+                v => (v && v.length >= 8) || 'Password must be 8  characters or more!',
             ],
             NewPasswordRules: [
                 v => !!v || 'Confirm new password is required',
-                v => (v && v.length >= 6) || 'Password must be 6  characters or more!',
+                v => (v && v.length >= 8) || 'Password must be 8  characters or more!',
             ],
         };
     },

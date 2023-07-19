@@ -48,7 +48,7 @@
               <img v-if="user.profile"
               :src="user.profile"
               class="avatar avatar-sm rounded-circle me-2">
-              <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png" class="avatar avatar-sm rounded-circle me-2">
+              <img v-else :src="user.profile" class="avatar avatar-sm rounded-circle me-2">
               <a class="text-heading font-semibold" href="#">
                 {{ user.first_name }} {{ user.last_name }}
               </a>
@@ -99,7 +99,7 @@ export default {
   data() {
 
     return {
-      URL: "http://127.0.0.1:8000/api/users",
+      URL: "http://127.0.0.1:8000/api/getStudents",
       listUser: [],
       errorMessage: "",
       searchQuery: "",
@@ -126,7 +126,7 @@ export default {
     //===================get data from Database =================
     getData() {
       axios.get(this.URL).then((response) => {
-        this.listUser = response.data.data;
+        this.listUser = response.data;
         console.log(this.listUser);
       });
     },
@@ -150,9 +150,10 @@ export default {
               swal("Error", "An error occurred while deleting the user.", "error");
               console.error(error);
             });
-        } else {
-          swal("Cancelled", "Your user is safe :)", "error");
-        }
+        } 
+        // else {
+        //   swal("Cancelled", "Your user is safe :)", "error");
+        // }
       });
     },
 
