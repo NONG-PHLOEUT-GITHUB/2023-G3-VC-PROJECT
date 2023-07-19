@@ -26,10 +26,11 @@
         <v-app-bar title="School Management">
             <v-menu offset-y open-on-hover>
                 <template v-slot:activator="{ props }">
+                    <v-btn>{{ users.first_name }} {{ users.last_name }}</v-btn>
                     <v-btn icon v-bind="props">
                         <v-avatar color="brown" size="large">
-                            {{ users.profile }}
-                            <!-- <span class="text-h5"></span> -->
+                             <v-img :src="users.profile" alt="Avatar" cover>
+                    </v-img>
                         </v-avatar>
                     </v-btn>
                 </template>
@@ -81,11 +82,6 @@ export default {
     props: ['menubar'],
     name: "LayoutDashboard",
     data: () => ({
-        // user: {
-        //     initials: "JD",
-        //     fullName: "John Doe",
-        //     email: "john.doe@doe.com",
-        // },
         users: [],
     }),
 
@@ -141,5 +137,10 @@ export default {
 .image {
     border-radius: 100%;
 }
+
+.user-name span{
+    text-transform: uppercase;
+}
+
 </style>
   

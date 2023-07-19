@@ -9,19 +9,34 @@ export default {
   data: () => ({
     menubar: [
       {
-        path: '/student-list',
+        path: '/home',
         title: "Dashboard",
         icon: 'mdi-home'
       },
       {
-        path: '/student-attendance',
-        title: "My Attendance",
-        icon: 'mdi-school'
+        path: '/add-teacher',
+        title: "Add teacher",
+        icon: 'mdi-home'
       },
       {
-        path: '/student-score',
-        title: " My score",
+        path: '/student-list',
+        title: "Add student",
         icon: 'mdi-home'
+      },
+      {
+        path: '/student-attendance',
+        title: "Attendance",
+        icon: 'mdi-progress-check'
+      },
+      {
+        path: '/student-acadamice',
+        title: "Score",
+        icon: 'mdi-chart-bar'
+      },
+      {
+        path: '/student-acadamice',
+        title: "Class",
+        icon: 'mdi-chart-bar'
       },
     ],
   })

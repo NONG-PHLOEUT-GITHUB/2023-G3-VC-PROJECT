@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/Director/DirectorDashboard.vue';
-import TeacherList from '../views/Teacher/TeacherList.vue';
+//admind dashboard router =================================================================
+import DashboardHomeView from '@/views/Director/DirectorDashboard.vue';
+import AddTeacher from '@/views/Teacher/TeacherList.vue';
+//admind dashboard router =================================================================
 import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import StudentList from '../views/Student/StudentList.vue';
@@ -31,8 +33,10 @@ import ForgotPasswordFrom from '@/views/Authentication/ForgotPasswordForm.vue';
 import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
 //user router ===========================================================================
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
-//dashboard router =================================================================
+//dashboard router ======================================================================
 import AdmindDashboard from '@/components/AdmindDashboard.vue';
+//student dashboard router ==============================================================
+import StudnetAcadmics from '@/views/Student/StudentView.vue';
 const routes = [
   {
     path: '/',
@@ -63,8 +67,13 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: HomeView,
+    component: DashboardHomeView,
     meta:{requireAuth:true}
+  },
+  {
+    path: '/student-acadamice',
+    name: 'StudnetAcadmics',
+    component: StudnetAcadmics,
   },
   {
     path: '/dashboard',
@@ -82,9 +91,9 @@ const routes = [
     component: StudentList
   },
   {
-    path: '/teacher',
-    name: 'teacher',
-    component: TeacherList
+    path: '/add-teacher',
+    name: 'AddTeacher',
+    component: AddTeacher
   },
   {
     path: '/class_list',

@@ -14,6 +14,11 @@ export default {
         icon: 'mdi-home'
       },
       {
+        path: '/class-list',
+        title: "Dashboard",
+        icon: 'mdi-home'
+      },
+      {
         path: '/student-attendance',
         title: "My Attendance",
         icon: 'mdi-school'

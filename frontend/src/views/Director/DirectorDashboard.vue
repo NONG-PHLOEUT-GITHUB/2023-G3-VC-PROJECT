@@ -1,5 +1,6 @@
 <template>
-  <main class="py-6 bg-surface-secondary">
+  <admin-dashboard></admin-dashboard>
+  <main class="main py-6">
     <div class="container-fluid">
       <div class="row g-6 mb-6">
         <div class="col-xl-4 col-sm-6 col-12">
@@ -184,4 +185,9 @@ export default {
 
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
+
+.main{
+  margin-left: 19%;
+  margin-right: 10px;
+}
 </style>
