@@ -114,28 +114,18 @@
     </div>
     <h3>REPORTS</h3>
     <div class="row">
-
       <div class="col-sm-6">
         <div class="card shadow-lg mt-5 p-3">
           <div class="chart">
-            <Bar
-            id="my-chart-id"
-            :options="chartOptions"
-            :data="chartData"
-            />
+            <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
             <h5 class="text-center m-3 text-warning">STUDENT ATTENDANCE</h5>
           </div>
         </div>
       </div>
-
       <div class="col-sm-6">
         <div class="card shadow-lg mt-5 p-3">
           <div class="chart">
-            <Bar
-            id="my-chart-id"
-            :options="chartOptions"
-            :data="chartData1"
-            />
+            <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
             <h5 class="text-center m-3 text-warning">FAILED STUDENT</h5>
           </div>
         </div>
@@ -157,23 +147,6 @@ import {
   LinearScale,
 } from "chart.js";
 
-// export default {
-//   data() {
-//     return {
-//       results:''
-//     };
-//   },
-//   mounted() {
-//     axios.get('http://127.0.0.1:8000/api/getTotal')
-//       .then(response => {
-//        this.results = response.data.data
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   }
-// }
-
 ChartJS.register(
   Title,
   Tooltip,
@@ -192,32 +165,81 @@ export default {
       results: "",
       attendance: "",
       chartData: {
-        labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [ { 
-          label: "Attendance average", 
-          data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43] } ],
-    },
+        labels: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+        datasets: [
+          {
+            label: "Attendance average",
+            data: [],
+          },
+        ],
+      },
       chartData1: {
-        labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [ { 
-          label: "Average of failed students",
-          data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43] } ],
-    },
-    chartOptions: {
-        backgroundColor: '#1E90FF',
-        responsive: true
-      }
-    }
+        labels: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+        datasets: [
+          {
+            label: "Average of failed students",
+            data: [200, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43],
+          },
+        ],
+      },
+      chartOptions: {
+        backgroundColor: "#1E90FF",
+        responsive: true,
+      },
+    };
   },
   mounted() {
-    axios.get('http://127.0.0.1:8000/api/getTotal')
-      .then(response => {
-       this.results = response.data.data
+    axios
+      .get("http://127.0.0.1:8000/api/getTotal")
+      .then((response) => {
+        this.results = response.data.data;
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
-  }
+    this.fetchAttendanceData();
+  },
+  methods: {
+    fetchAttendanceData() {
+      axios
+        .get("http://127.0.0.1:8000/api/totalattendanceofstudent")
+        .then((response) => {
+          const mydata = Object.values(response.data);
+          for (let i = 0; i < mydata.length; i++) {
+            this.chartData.datasets[0].data[i] = mydata[i];
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
   // mounted() {
   //   axios.get(this.URL + "/getAbsentPercentageByMonth")
   //     .then(response => {
@@ -228,7 +250,7 @@ export default {
   //       console.log(error);
   //     });
   // }
-}
+};
 </script>
 <style>
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);

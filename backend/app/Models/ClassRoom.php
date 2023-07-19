@@ -32,12 +32,9 @@ class ClassRoom extends Model
         }
         return response()->json(['success' => true, 'data' => $classRoom], 201);
     }
-
     public function users(){
         return $this->hasMany(User::class);
     }
-
-
     public function schedule()
     {
         return $this->hasOne(User::class);

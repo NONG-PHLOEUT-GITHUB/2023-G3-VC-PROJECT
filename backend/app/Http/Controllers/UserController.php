@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Guardian;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return response()->json(['success'=>true, 'data'=>$user], 200);
+        return response()->json(['success' => true, 'data' => $user], 200);
     }
 
     /**
@@ -34,17 +35,17 @@ class UserController extends Controller
     {
 
         $image = $request->file('profile');
-        $new_name =  rand() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images'),$new_name);
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $new_name);
         $path = asset('images/' . $new_name);
         return $path;
 
-    }    /**
-     * Display the specified resource.
-     */
+    } /**
+      * Display the specified resource.
+      */
     public function getEmails($id)
     {
-        return User::select('email')->where('id','!=', $id)->where('role', '!=', 'admin')->get();
+        return User::select('email')->where('id', '!=', $id)->where('role', '!=', 'admin')->get();
     }
     public function show(string $id)
     {
@@ -62,7 +63,7 @@ class UserController extends Controller
      */
     public function update(StoreUserRequest $request, string $id)
     {
-        $user = User::store($request,$id);
+        $user = User::store($request, $id);
         return $user;
     }
 
@@ -110,11 +111,11 @@ class UserController extends Controller
         return response()->json(['success' => true, 'data' => $results], 200);
     }
 
-    
+
     public function getStudent()
     {
         $users = User::where('role', 3)
-            ->select('id', 'first_name', 'last_name','gender','age','date_of_birth','phone_number','address','email')
+            ->select('id', 'first_name', 'last_name', 'gender', 'age', 'date_of_birth', 'phone_number', 'address', 'email')
             ->get();
         return response()->json($users);
     }
@@ -128,8 +129,26 @@ class UserController extends Controller
             ->select('users.*')
             ->get();
         if ($users) {
-            return response()->json(["message" =>  "No teacher with subject " . $subject], 200);
+            return response()->json(["message" => "No teacher with subject " . $subject], 200);
         }
         return response()->json(["message" => true, "data" => $users], 200);
+    }
+
+    /**
+     * Get Guardian information
+     */
+    public function getGuardianData(string $userId)
+    {
+        $user = User::with('guardian')->find($userId);
+        $guardian = $user->guardian;
+        $guardianData = [
+            'first_name' => $guardian->first_name,
+            'last_name' => $guardian->last_name,
+            'phone_number' => $guardian->phone_number,
+        ];
+        return response()->json([
+            'user_id' => $user->id,
+            'guardian' => $guardianData,
+        ]);
     }
 }

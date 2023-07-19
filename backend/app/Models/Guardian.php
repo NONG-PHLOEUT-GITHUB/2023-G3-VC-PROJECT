@@ -13,4 +13,32 @@ class Guardian extends Model
     {
         return $this->hasMany(User::class);
     }
+    protected $fillable = [
+        'id',
+        'first_name',
+        'last_name',
+        'gender',
+        'age',
+        'date_of_birth',
+        'phone_number',
+        'address',
+        'job',
+    ];
+    public static function store($request, $id = null)
+    {
+        $guardian = $request->only(
+            'id',
+            'first_name',
+            'last_name',
+            'gender',
+            'age',
+            'date_of_birth',
+            'phone_number',
+            'address',
+            'job',
+        );
+        $guardian = self::updateOrCreate(['id' => $id], $guardian);
+
+        return $guardian;
+    }
 }

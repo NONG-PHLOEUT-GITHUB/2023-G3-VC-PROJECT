@@ -15,14 +15,13 @@ class ChangePasswordController extends Controller
             'current_password' => 'required|min:6',
             'new_password' => 'required|min:6|confirmed',
         ]);
-
+        
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
 
         $user = JWTAuth::parseToken()->authenticate();
  
-
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }

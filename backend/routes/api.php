@@ -7,6 +7,7 @@ use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectTeacherController;
 use Illuminate\Http\Request;
@@ -27,17 +28,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::post('/login', 'LoginController@login');
 
 // ***Route***
 Route::resource("/users", UserController::class);
 Route::get("/classes", [ClassRoomController::class, 'index']);
 Route::post("/classes", [ClassRoomController::class, 'store']);
-Route::resource("/attendances", AttendanceController::class);
-
+Route::resource("/guardians", GuardianController::class);
+Route::get('/guardiandata/{id}', [UserController::class, 'getGuardianData']);
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
-// ***Student***
+
+// ***Attendance***
+Route::resource("/attendances", AttendanceController::class);
 Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfStudents"]);
 Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsence"]);
 Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOfRole3ByUserId"]);
@@ -46,6 +48,8 @@ Route::get("/getteacherDetail/{id}", [AttendanceController::class, "getAttendanc
 Route::post('/checkStudentAttendance' , [AttendanceController::class, "store"]);
 Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
 Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
+Route::get("/totalStudentsAbsentEveryMonth", [AttendanceController::class, "totalStudentsAbsentEveryMonth"]);
+Route::get("/totalattendanceofstudent", [AttendanceController::class, "getTotalAttendanceOfStudentsAllMonths"]);
 
 // ***Teacher***
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
