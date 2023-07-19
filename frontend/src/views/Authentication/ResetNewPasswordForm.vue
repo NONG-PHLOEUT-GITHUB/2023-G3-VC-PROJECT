@@ -1,4 +1,13 @@
 <template>
+    <div class="d-flex justify-center">
+        <v-dialog v-model="dialog" width="auto" class="dailog">
+            <v-alert type="error" icon="mdi-alert-circle" class="alter">
+                Pleas enter your email for reset password
+            </v-alert>
+        </v-dialog>
+    </div>
+
+    
     <div class="container d-flex align-center justify-center" style="height: 100vh;">
         <div class="ma-4">
             <h2>SCHOOL MANAGEMENT</h2>
@@ -8,18 +17,7 @@
         </div>
         <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8" elevation="10" max-width="448" rounded="lg">
             <v-form ref="form" @submit.prevent="resetPassword">
-                <v-title class="text-h6 text-md-h5 text-lg-h4">
-                    Reset your password
-                </v-title>
-                <div class="text-subtitle-1 text-medium-emphasis mt-8">
-                    Email
-                </div>
-
-                <v-text-field ref="emailField" density="compact" placeholder="Email address"
-                    prepend-inner-icon="mdi-email-outline" v-model="email" :rules="emailRules" variant="outlined"
-                    no-validation></v-text-field>
-                <span :rules="emailRules"></span>
-
+                <h2 class="mb-4">Reset your password</h2>
                 <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
                     New password
                 </div>
@@ -42,38 +40,29 @@
 
                 <v-btn type="submit" color="primary" block class="mt-4">Reset Password</v-btn>
             </v-form>
-            <div v-if="successMessage">{{ successMessage }}</div>
-            <div v-if="errorMessage">{{ errorMessage }}</div>
         </v-card>
     </div>
 </template>
   
 
 
-<!--recferences// https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
+<!-- // https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
 <script>
 // import Swal from 'sweetalert2'
 
-import http from '../../htpp.common';
+import http from '@/htpp.common';
 export default {
     data() {
         return {
+            dialog: false,
             visible: false,
             visibleConfirm: false,
             passwordShow: false,
 
-            email: '',
             newPassword: '',
             confirmPassword: '',
             token: '',
 
-            successMessage: '',
-            errorMessage: '',
-
-            emailRules: [
-                v => !!v || 'Email is required',
-                (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-            ],
             passwordRules: [
                 v => !!v || 'New password is required',
                 v => (v && v.length >= 8) || 'Password must be 8  characters or more!',
@@ -88,33 +77,27 @@ export default {
     methods: {
         resetPassword() {
             const data = {
-                email: this.email,
-                new_password: this.newPassword,
-                new_password_confirmation: this.confirmPassword,
+                password: this.newPassword,
+                password_confirmation: this.confirmPassword,
                 token: this.token
             };
-            http.post('/api/reset-password', data, {
+            http.post(`/api/reset-new-password/${this.token}`, data, {
 
             }).then(response => {
-                this.successMessage = response.data.message;
-                this.errorMessage = '';
-                this.currentPassword = '';
+                console.log(response);
                 this.newPassword = '';
                 this.confirmPassword = '';
-                console.log(this.successMessage);
-            }).catch(error => {
-                this.errorMessage = error.response.data.error;
-                this.successMessage = '';
-                if (error.response.status === 401) {
-                    if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '') {
+                this.$router.push('/')
+            })
+                .catch(error => {
+                    if (error.response.status === 404) {
+                        this.dialog = true;
+                        console.log(error.response.status);
                         this.emailRules = ['Email or password is icorrect'];
-                        this.passwordRules = ['Email or password is icorrect'];
+                    } else {
+                        console.log(error);
                     }
-
-                } else {
-                    console.log(error);
-                }
-            });
+                });
         },
     },
     created() {
@@ -122,3 +105,13 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+@import "~vuetify/dist/vuetify.css";
+
+.alter {
+    margin-bottom: 150%;
+}
+
+
+</style>
