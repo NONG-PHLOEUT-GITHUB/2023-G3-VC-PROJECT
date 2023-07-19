@@ -19,6 +19,9 @@ class Authentication extends Controller
         $credentials = $request->only('email', 'password');
         if ($token = auth()->guard('api')->attempt($credentials)) {
             $user = auth()->user();
+            $role = $user->role;
+            $first_name = $user->first_name;
+            $last_name = $user->last_name;
             // $attendances = $user->attendances;
             // $subjects = $user->subjects;
             // $scores = $user->scores;
@@ -26,8 +29,11 @@ class Authentication extends Controller
             return response()->json(
                 [
                     'status' => 'success',
-                    // 'data' => auth()->user(),
                     'data' => $user,
+                    'role' => $role,
+                    'first_name' => $first_name,
+                    'last_name' => $last_name,
+                    // 'data' => auth()->user(),
                     // 'attendance' => $attendances,
                     // 'subject' => $subjects,
                     // 'score' => $scores,
@@ -57,13 +63,12 @@ class Authentication extends Controller
      * Get authenticated user
      */
 
-     public function user(Request $request)
-     {
-         $user = User::find(Auth::user()->id);
-         return response()->json([
-             'status' => 'success',
-             'data' => $user
-         ]);
-     }
-
+    public function user(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        return response()->json([
+            'status' => 'success',
+            'data' => $user
+        ]);
+    }
 }

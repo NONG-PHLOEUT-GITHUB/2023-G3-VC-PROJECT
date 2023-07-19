@@ -58,7 +58,7 @@ class ForgotPasswordController extends Controller
 
 
 
-    public function resetPassword(Request $request)
+    public function resetPassword(Request $request, $token)
     {
         $formatted = Carbon::now()->subMinutes(2)->toDateTimeString();
         PasswordReset::where('created_at', '<=', $formatted)->delete();
@@ -67,7 +67,9 @@ class ForgotPasswordController extends Controller
             'password' => 'required|confirmed',
         ]);
 
+    
         $passwordreset = PasswordReset::where('token', $token)->first();
+
 
         if(!$passwordreset){
             return response([
