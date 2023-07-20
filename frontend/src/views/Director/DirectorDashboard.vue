@@ -146,22 +146,12 @@ export default {
         }],
       },
       chartData1: {
-<<<<<<< HEAD
         labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [ { 
           label: "Percentage of failed students(%)",
           data: [] } ],
     },
     chartOptions: {
-=======
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [{
-          label: "Average of failed students",
-          data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43]
-        }],
-      },
-      chartOptions: {
->>>>>>> 3e83e400da8277e4003607e572e6d6afcc8c8e78
         backgroundColor: '#1E90FF',
         responsive: true
       }
