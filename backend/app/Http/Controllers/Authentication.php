@@ -22,7 +22,7 @@ class Authentication extends Controller
             $role = $user->role;
             $first_name = $user->first_name;
             $last_name = $user->last_name;
-            // $attendances = $user->attendances;
+            $attendances = $user->attendances;
             // $subjects = $user->subjects;
             // $scores = $user->scores;
             // $scores = $user->scores;
@@ -34,7 +34,7 @@ class Authentication extends Controller
                     'first_name' => $first_name,
                     'last_name' => $last_name,
                     // 'data' => auth()->user(),
-                    // 'attendance' => $attendances,
+                    'attendance' => $attendances,
                     // 'subject' => $subjects,
                     // 'score' => $scores,
                     'access_token' => $token
@@ -65,10 +65,12 @@ class Authentication extends Controller
 
     public function user(Request $request)
     {
-        $user = User::find(Auth::user()->id);
+     
+        $user = User::with('guardian','classroom','attendances', 'scores','comments')->find(Auth::user()->id);
+        
         return response()->json([
             'status' => 'success',
-            'data' => $user
+            'data' => $user,
         ]);
     }
 }

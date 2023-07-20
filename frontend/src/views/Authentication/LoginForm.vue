@@ -38,8 +38,9 @@
 
 <script>
 // import Swal from 'sweetalert2'
+import Cookies from 'js-cookie';
 import http from '@/htpp.common';
-// recferences// https://vee-validate.logaretm.com/v4/tutorials/basics/
+// https://vee-validate.logaretm.com/v4/tutorials/basics/
 export default {
     data: () => ({
         visible: false,
@@ -65,25 +66,35 @@ export default {
                     email: this.email,
                     password: this.password,
                 })
-                    .then(response => {
-                        console.log('API response:', response.data.role);
-                     
-                        localStorage.setItem('access_token', response.data.access_token);
-
-                        sessionStorage.setItem('email', this.email);
+        
+                .then(response => {
+                    console.log(response.data.data);
+                    const ROLE = response.data.role;
+                    const token = response.data.access_token;
+                    if (ROLE === 1) {
                         this.$router.push('/admind-dashboard');
-                    })
-                    .catch(error => {
-                        if (error.response.status === 401) {
-                            if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '') {
-                                this.emailRules = [''];
-                                this.passwordRules = ['Email or password is incorrect'];
-                            }
-
-                        } else {
-                            console.log(error);
+                    } else if (ROLE === 2) {
+                        this.$router.push('/admind-dashboard');
+                    } else {
+                        this.$router.push('/admind-dashboard');
+                    }
+                    // Cookies.set('access_token', token, { expires: 14, domain: '.example.com', path: '/' });
+                    Cookies.set('access_token', token, { expires: 14 });
+                    Cookies.set('user_role', ROLE, { expires: 14 });
+                    localStorage.setItem('access_token',token);
+                    
+                })
+                .catch(error => {
+                    if (error.response && error.response.status === 401) {
+                        if (this.emailRules !== '' && this.password !== '' && this.passwordRules !== '' && this.passwordRules !== '') {
+                            this.emailRules = [''];
+                            this.passwordRules = ['Email or password is incorrect'];
                         }
-                    });
+
+                    } else {
+                        console.log(error);
+                    }
+                });
             }
         },
     }

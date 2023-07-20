@@ -52,13 +52,12 @@
   
 
 
-<!--recferences// https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
+ <!-- https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
 <script>
 import Swal from 'sweetalert2'
 
 import http from '../../htpp.common';
 export default {
-    emits: ['isCancelChangePassword'],
     data() {
         return {
             visibleCurrent: false,
@@ -141,10 +140,6 @@ export default {
                     }
                 });
         },
-        cancelChangePassword() {
-            this.$emit('isCancelChangePassword', true);
-            console.log('get all changes');
-        }
     },
 
 };

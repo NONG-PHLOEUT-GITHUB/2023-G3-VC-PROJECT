@@ -9,17 +9,17 @@ export default {
 data: () => ({
   menubar: [
     {
-      path: '/student-list',
+      path: '/studnet-home',
       title: "Dashboard",
       icon: 'mdi-home'
     },
     {
-      path: '/student-attendance',
+      path: '/studnet-attendance',
       title: "Attendance",
       icon: 'mdi-progress-check'
     },
     {
-      path: '/student-acadamice',
+      path: '/studnet-scores',
       title: "Score",
       icon: 'mdi-chart-bar'
     },

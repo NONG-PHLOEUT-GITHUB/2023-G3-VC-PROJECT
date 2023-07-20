@@ -35,14 +35,24 @@ import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================
 import AdmindDashboard from '@/components/AdmindDashboard.vue';
+import TeacherDashboard from '@/components/TeacherDashboard.vue';
+import StudentDashboard from '@/components/StudentDashboard.vue';
 //student dashboard router ==============================================================
 import StudnetAcadmics from '@/views/Student/StudentView.vue';
+import StudentHomeView from '@/views/Student/StudentHomeView';
+import StudentAttendanceView from '@/views/Student/StudentAttendanceView.vue';
+import StudentScoreView from '@/views/Student/StudentScoreView.vue';
 const routes = [
   {
     path: '/',
     name: 'LoginForm',
     component: LoginForm,
   },
+  // {
+  //   path: '/login',
+  //   name: 'LoginForm',
+  //   component: LoginForm,
+  // },
   {
     path: '/reset-new-password/:token',
     name: 'ResetNewPasswordForm',
@@ -70,6 +80,23 @@ const routes = [
     component: DashboardHomeView,
     meta:{requireAuth:true}
   },
+  // =============================
+  {
+    path: '/studnet-home',
+    name: 'StudentHomeView',
+    component: StudentHomeView,
+  },
+  {
+    path: '/studnet-attendance',
+    name: 'StudentAttendanceView',
+    component: StudentAttendanceView,
+  },
+  {
+    path: '/studnet-scores',
+    name: 'StudentScoreView',
+    component: StudentScoreView,
+  },
+  // =============================
   {
     path: '/student-acadamice',
     name: 'StudnetAcadmics',
@@ -80,11 +107,24 @@ const routes = [
     name: 'dashboard',
     component: DashboardView
   },
+// ============main dashboard=======
   {
     path: '/admind-dashboard',
     name: 'AdmindDashboard',
     component: AdmindDashboard
   },
+  {
+    path: '/student-dashboard',
+    name: 'StudentDashboard',
+    component: StudentDashboard
+  },
+  {
+    path: '/teacher-dashboard',
+    name: 'TeacherDashboard',
+    component: TeacherDashboard
+  },
+
+
   {
     path: '/student',
     name: 'student',
