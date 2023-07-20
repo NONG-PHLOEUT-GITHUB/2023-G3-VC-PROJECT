@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
+use App\Models\Guardian;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class CommentController extends Controller
+class GuardianController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,27 +14,16 @@ class CommentController extends Controller
     public function index()
     {
         //
-        $comment = Comment::all();
-        return response()->json(['success'=>true, 'data'=>$comment], 200);
+        $guardian = Guardian::all();
+        return $guardian;
     }
 
-    // public function getComment()
-    // {
-    //     $comments = Comment::where('role', 3)
-    //         ->select('id', 'body', 'user_id')
-    //         ->get();
-    //     return response()->json($comments);
-    // }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         //
-        
-        $comments = Comment::store($request);
-        return $comments;
-        
     }
 
     /**
@@ -42,6 +32,7 @@ class CommentController extends Controller
     public function show(string $id)
     {
         //
+        
     }
 
     /**
@@ -59,4 +50,16 @@ class CommentController extends Controller
     {
         //
     }
+    public function getGuardianChatId($id)
+    {
+        $guardian = Guardian::find($id);
+        if (!$guardian) {
+            return response()->json(['error' => 'Guardian not found'], 404);
+        }
+        return response()->json([
+            "id"=>$guardian->id,
+            'chat_id' => $guardian->chatId
+        ]);
+    }
+
 }

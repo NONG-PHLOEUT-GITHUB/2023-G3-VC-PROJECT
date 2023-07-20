@@ -16,26 +16,35 @@
         <tr v-for="record in attendanceRecords" :key="record.id">
           <td>{{ record.date }}</td>
           <td>{{ record.reason }}</td>
-          <td>{{ record.attendace_status }}</td>
+          <td>{{ record.status }}</td>
         </tr>
       </tbody>
     </table>
+    <button @click="generatePDF()" class="button">save</button>
   </main>
 </template>
+
 <script>
 import axios from "axios";
-
+import swal from "sweetalert2";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 export default {
   data() {
     return {
       user: {},
       attendanceRecords: [],
+      URL: "http://127.0.0.1:8000/api/getAttendance",
+      gurdianURL: "http://127.0.0.1:8000/api/getGuardian",
+      pdfFile: null,
+      telegramAPI:
+        "https://api.telegram.org/bot6394729253:AAEuIrWM_GEvRqJ5kJ6Mpk4ZB7J0lmKMnfI/sendDocument", // replace with your Telegram bot token
     };
   },
   methods: {
     listattendance(id) {
       axios
-        .get(`http://127.0.0.1:8000/api/getAttendance/${id}`)
+        .get(this.URL + "/" + id)
         .then((response) => {
           this.user = response.data.user;
           this.attendanceRecords = response.data.attendanceRecords;
@@ -44,10 +53,70 @@ export default {
           console.log(error);
         });
     },
+    async getChatId(id) {
+      try {
+        const response = await axios.get(
+          this.gurdianURL + "/" +`${id}`
+        );
+        this.chat_id = response.data.chat_id;
+      } catch (error) {
+        console.error("Error getting chat ID:", error);
+      }
+    },
+    // -----------ASK AI "how to sent pdf file to telagrambot"==================
+    async sendPDF(chatId, pdfOutput) {
+      try {
+        const formData = new FormData();
+        formData.append("chat_id", chatId);
+        formData.append("document", pdfOutput, "attendance.pdf");
+        const response = await axios.post(this.telegramAPI, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(pdfOutput);
+        if (!response.data.ok) {
+          swal.fire("Failed", "Failed to send PDF", "error");
+          return;
+        }
+        swal.fire({
+          icon: "success",
+          title: "PDF sent successfully!",
+          text: "Your attendance report has been sent to the guardian",
+          timer: 2000,
+        });
+      } catch (error) {
+        console.error("Error sending PDF:", error);
+        swal.fire("Error", "Failed to send PDF", "error");
+      }
+    },
+    async generatePDF() {
+      const document = new jsPDF("p", "pt", "a4");
+      document.setFontSize(16);
+      document.setFont("helvetica", "bold");
+      document.text("Attendance Records ", 40, 30);
+      const name = `${this.user.first_name} ${this.user.last_name}`;
+      document.text(`FullName: ${name}`, 230, 30);
+      const table = this.attendanceRecords.map((record) => [
+        record.date,
+        record.reason,
+        record.status,
+      ]);
+      document.autoTable({
+        head: [["Date", "Reason", "Attendance Status"]],
+        body: table,
+      });
+      console.log(table);
+      const pdfOutput = document.output("blob");
+      await this.sendPDF(this.chat_id, pdfOutput);
+      const fileName = `${name}_attendance.pdf`;
+      document.save(fileName);
+    },
   },
   mounted() {
     const id = this.$route.params.id;
     this.listattendance(id);
+    this.getChatId(id);
   },
 };
 </script>
@@ -73,7 +142,7 @@ main.table {
 h3 {
   margin-bottom: 10px;
   text-transform: uppercase;
-  color:  #0000FF;
+  color: #0000ff;
 }
 span {
   padding: 2%;
@@ -106,7 +175,7 @@ thead th {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #0000FF;
+  background-color: #0000ff;
   cursor: pointer;
   text-transform: uppercase;
   color: white;
@@ -123,5 +192,18 @@ thead th {
 }
 thead th:hover {
   color: #e2f0ee;
+}
+.button {
+  background: blue;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 10px 22px;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+  margin-left: 93%;
 }
 </style>

@@ -32,11 +32,12 @@ export default {
   data() {
     return {
       attendanceData: [],
+      getTeacherMostAbsenceURL:"http://127.0.0.1:8000/api/getTeacherMostAbsence"
     };
   },
   mounted() {
     axios
-      .get("http://127.0.0.1:8000/api/getTeacherMostAbsence")
+      .get(this.getTeacherMostAbsenceURL)
       .then((response) => {
         this.attendanceData = response.data;
       })

@@ -7,6 +7,8 @@ use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\ImportExelFileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectTeacherController;
@@ -35,6 +37,7 @@ Route::post('/login', 'LoginController@login');
 Route::resource("/users", UserController::class);
 Route::get("/classes", [ClassRoomController::class, 'index']);
 Route::post("/classes", [ClassRoomController::class, 'store']);
+Route::post("/attendances", [AttendanceController::class, 'store']);
 Route::resource("/attendances", AttendanceController::class);
 
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
@@ -76,6 +79,8 @@ Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']
 // Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
 // get student
 Route::get('/getStudents', [UserController::class,"getStudent"]);
+// Route::get('/getByStudent/{id}', [UserController::class,"getStudentById"]);
+Route::get('/getGuardian/{id}', [GuardianController::class,"getGuardianChatId"]);
 
 // get teachers
 Route::get('/getTeachers', [UserController::class,"getTeachers"]);
@@ -127,3 +132,6 @@ Route::post('/classroom', [ClassRoomController::class, 'store']);
 Route::post('/users_import', [ImportExelFileController::class, 'import']);
 
 Route::get('/teacher_information/{teacher_id}',[UserController::class,'getTeacherDetail']);
+// comment
+Route::get('/getComments', [CommentController::class, 'getComment']);
+Route::post('/comments', [CommentController::class, 'store']);

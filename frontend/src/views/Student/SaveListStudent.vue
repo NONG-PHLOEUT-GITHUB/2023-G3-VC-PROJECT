@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>STUDENT LIST</h3>
-    <div class="table-container ">
+    <div class="table-container">
       <table id="my-table">
         <thead class="bg-primary">
           <tr>
@@ -18,7 +18,7 @@
         </thead>
         <tbody>
           <tr v-for="(student, index) in students" :key="index">
-            <td>{{index +1}}</td>
+            <td>{{ index + 1 }}</td>
             <td>{{ student.first_name }}</td>
             <td>{{ student.last_name }}</td>
             <td>{{ student.gender }}</td>
@@ -56,14 +56,13 @@ export default {
       url: "http://127.0.0.1:8000/api/getStudents",
     };
   },
+  // reference https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI
   methods: {
     // download pdf ==================================
     downloadPDF() {
       this.isDetail = true;
-      axios({
-        url: "http://127.0.0.1:8000/api/getStudents",
-        method: "GET",
-      })
+      axios
+        .get(this.url)
         .then((response) => {
           this.students = response.data.data;
           const element = document.getElementById("my-table");
@@ -85,7 +84,7 @@ export default {
     },
     fetchData() {
       axios
-        .get("http://127.0.0.1:8000/api/getStudents")
+        .get(this.url)
         .then((response) => {
           this.students = response.data;
         })

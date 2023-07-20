@@ -30,12 +30,13 @@ export default {
     return {
       user: {},
       attendanceRecords: [],
+      URL:"http://127.0.0.1:8000/api/getteacherDetail"
     };
   },
   methods: {
     listattendance(id) {
       axios
-        .get(`http://127.0.0.1:8000/api/getteacherDetail/${id}`)
+        .get(this.URL + "/" +`${id}`)
         .then((response) => {
           this.user = response.data.user;
           this.attendanceRecords = response.data.attendanceRecords;

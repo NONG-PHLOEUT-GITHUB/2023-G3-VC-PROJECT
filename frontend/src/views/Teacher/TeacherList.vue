@@ -139,9 +139,6 @@ export default {
               console.error(error);
             });
         } 
-        // else {
-        //   swal("Cancelled", "Your user is safe :)", "error");
-        // }
       });
     },
 

@@ -182,11 +182,12 @@ export default {
         responseData: [],
         userProfilePreview : null,
         profile: '',
+        URL:"http://localhost:8000/api/users",
         };
     },
     methods: {
         fetchDataById(id) {
-        axios.get(`http://localhost:8000/api/users/${id}`)
+        axios.get(this.URL + "/" +`${id}`)
             .then(response => {
             this.responseData = response.data.data;
             console.log(this.responseData);
