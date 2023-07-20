@@ -72,11 +72,11 @@ export default {
                     const ROLE = response.data.role;
                     const token = response.data.access_token;
                     if (ROLE === 1) {
-                        this.$router.push('/admind-dashboard');
+                        this.$router.push('/admin-dashboard');
                     } else if (ROLE === 2) {
-                        this.$router.push('/admind-dashboard');
+                        this.$router.push('/teacher-dashboard');
                     } else {
-                        this.$router.push('/admind-dashboard');
+                        this.$router.push('/student-dashboard');
                     }
                     // Cookies.set('access_token', token, { expires: 14, domain: '.example.com', path: '/' });
                     Cookies.set('access_token', token, { expires: 14 });

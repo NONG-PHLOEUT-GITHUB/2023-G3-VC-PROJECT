@@ -40,7 +40,7 @@ import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
 //user router ===========================================================================
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================
-import AdmindDashboard from '@/components/AdmindDashboard.vue';
+import AdminDashboard from '@/components/AdminDashboard.vue';
 import TeacherDashboard from '@/components/TeacherDashboard.vue';
 import StudentDashboard from '@/components/StudentDashboard.vue';
 //student dashboard router ==============================================================
@@ -119,9 +119,9 @@ const routes = [
   },
 // ============main dashboard=======
   {
-    path: '/admind-dashboard',
+    path: '/admin-dashboard',
     name: 'AdmindDashboard',
-    component: AdmindDashboard
+    component: AdminDashboard
   },
   {
     path: '/student-dashboard',
