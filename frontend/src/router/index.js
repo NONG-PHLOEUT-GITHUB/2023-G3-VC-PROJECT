@@ -13,6 +13,7 @@ import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import CreateClassForm from '../views/Dashboard/CreateClassForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
+import StudentGraph from '../views/Student/StudentGraph.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
 import StudentDetail from '../views/Student/StudentDetial.vue';
 import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vue';
@@ -197,6 +198,12 @@ const routes = [
     path: '/reset_new_password',
     name: 'reset_new_password',
     component: FormResetNewPassword
+  },
+
+  {
+    path: '/studentgraph',
+    name: '/studentgraph',
+    component: StudentGraph,
   },
   // {
   //   path: '/404',
