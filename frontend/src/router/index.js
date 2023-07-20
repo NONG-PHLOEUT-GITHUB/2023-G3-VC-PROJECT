@@ -27,13 +27,13 @@ import EditUserForm from '../views/Dashboard/EditUserForm.vue'
 import CheckStudentAttendacne from '../views/Student/CheckStudentAttendance.vue';
 
 //authentication router
-import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
-import LoginView from '../views/Authentication/LoginView.vue';
+import FormResetNewPassword from '@/views/Authentication/ResetNewPasswordForm.vue';
+// import LoginView from '../views/Authentication/LoginView.vue';
 // import FormFogetPassword from '../components/HelloWorld.vue';
-import ChangePassword from '../views/Authentication/ChangePassword.vue';
+// import ChangePassword from '../views/Authentication/ChangePassword.vue';
 import GiveFeedBackForm from '../views/Teacher/GiveFeedBackForm.vue'
 //authentication router =================================================================
-import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vue';
+// import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vue';
 import LoginForm from '../views/Authentication/LoginForm.vue';
 import ForgotPasswordFrom from '@/views/Authentication/ForgotPasswordForm.vue';
 import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
@@ -49,11 +49,11 @@ const routes = [
     name: 'LoginForm',
     component: LoginForm,
   },
-  {
-    path: '/reset-new-password/:token',
-    name: 'ResetNewPasswordForm',
-    component: ResetNewPasswordForm
-  },
+  // {
+  //   path: '/reset-new-password/:token',
+  //   name: 'ResetNewPasswordForm',
+  //   component: ResetNewPasswordForm
+  // },
   {
 
     path: '/change_password',
