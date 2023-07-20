@@ -9,6 +9,7 @@ use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\ImportExelFileController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SubjectTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,7 @@ Route::get("/getteacherDetail/{id}", [AttendanceController::class, "getAttendanc
 Route::post('/checkStudentAttendance' , [AttendanceController::class, "store"]);
 Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
 Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
+Route::get("/getPercentageOfFaildedStudentByMonth/{year}", [UserController::class, "getPercentageOfFaildedStudentByMonth"]);
 
 // ***Teacher***
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
@@ -116,6 +118,11 @@ Route::prefix('v1')->group(function () {
 // subjects
 Route::get('/subjects', [SubjectController::class, 'index']);
 Route::post('/subjects', [SubjectController::class, 'store']);
+
+// score
+Route::get('/scores', [ScoreController::class, 'index']);
+Route::post('/scores', [ScoreController::class, 'store']);
+Route::get('/getStudentScore/{id}/{month}', [ScoreController::class, 'getStudentScore']);
 
 // subject taacher
 Route::get('/subjectsTeachers', [SubjectTeacherController::class, 'index']);

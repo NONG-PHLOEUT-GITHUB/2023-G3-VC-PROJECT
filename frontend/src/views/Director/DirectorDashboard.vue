@@ -190,7 +190,6 @@ export default {
     return {
       URL: "http://127.0.0.1:8000/api",
       results: "",
-      attendance: "",
       chartData: {
         labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [ { 
@@ -200,8 +199,8 @@ export default {
       chartData1: {
         labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [ { 
-          label: "Average of failed students",
-          data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43] } ],
+          label: "Percentage of failed students(%)",
+          data: [] } ],
     },
     chartOptions: {
         backgroundColor: '#1E90FF',
@@ -217,7 +216,21 @@ export default {
       .catch(error => {
         console.log(error);
       });
+     
+    axios.get(this.URL + "/getPercentageOfFaildedStudentByMonth")
+      .then(response => {
+        const mydata = response.data.failed_users_percentage;
+        console.log(mydata);
+        for (let i = 0; i < mydata.length; i++) {
+          this.chartData1.datasets[0].data[i] = mydata[i];
+        }
+        console.log(this.chartData1.datasets[0].data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
+
   // mounted() {
   //   axios.get(this.URL + "/getAbsentPercentageByMonth")
   //     .then(response => {
@@ -228,6 +241,9 @@ export default {
   //       console.log(error);
   //     });
   // }
+
+
+
 }
 </script>
 <style>
