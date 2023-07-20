@@ -7,7 +7,6 @@
         </div>
       </div>
       <form class="row g-3 card-body p-5 pt-4" @submit.prevent="addClass()">
-        <!-- firstname -->
         <div class="col-md-6">
           <label for="validationCustom01" class="form-label">Class name</label>
           <input
@@ -19,22 +18,26 @@
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
-            <label for="validationCustom01" class="form-label">Please select class owner</label>
-            <select 
-            class="form-select align-self-end" 
+          <label for="validationCustom01" class="form-label"
+            >Please select class owner</label
+          >
+          <select
+            class="form-select align-self-end"
             v-model="teacher"
-            aria-label="Default select example" 
-            id="validationCustom01">
-                <option selected disabled>Select teacher</option>
-                <option value="18">Rien Leam</option>
-                <option value="18">Sreypok Doem</option>
-                <option value="18">Navy Rorn</option>
-                <option value="19">Linna Muth</option>
-                <option value="19">Nong Phlouet</option>
-            </select>
-            <div class="valid-feedback">Looks good!</div>
+            aria-label="Default select example"
+            id="validationCustom01"
+          >
+            <option selected disabled>Select teacher</option>
+            <option
+              v-for="teacher in teachers"
+              :value="teacher.id"
+              :key="teacher.id"
+            >
+              {{ teacher.first_name }} {{ teacher.last_name }}
+            </option>
+          </select>
+          <div class="valid-feedback">Looks good!</div>
         </div>
-        
 
         <img v-bind:src="profilePreview" />
         <div class="col-12 d-flex justify-content-end">
@@ -63,56 +66,62 @@ export default {
       class_name: "",
       teacher: "",
       URL: "http://127.0.0.1:8000/api/classes",
-      listClasses:[]
+      TeacherURL:"http://127.0.0.1:8000/api/getTeachers",
+      listClasses: [],
+      teachers: [],
     };
   },
   methods: {
     addClass() {
-      if(this.class_name && this.teacher){
-        const newClass =
-        {
+      if (this.class_name && this.teacher) {
+        const newClass = {
           class_name: this.class_name,
-          user_id: this.teacher,
+          teacher: this.teacher.first_name,
         };
-        axios
-        .post( this.URL , newClass)
-        .then((response) => {
+        axios.post(this.URL, newClass).then((response) => {
           console.log(response.data);
           this.listClasses.push(response.data);
         });
-        swal.fire({
-          icon: "success",
-          title: "create class successfully!",
-          text: "you already created your class",
-          timer: 2000,
-        })
-        .then(()=>{
-            this.$router.push({ path: "/class" })
-        })
-        .catch(error=>{
-          console.log(error);
-        })
-      }else{
-        swal.fire(
-        'Complete first',
-        'complete all input',
-        'info'
-      )  
+        console.log(newClass);
+        swal
+          .fire({
+            icon: "success",
+            title: "create class successfully!",
+            text: "you already created your class",
+            timer: 2000,
+          })
+          .then(() => {
+            this.$router.push({ path: "/class" });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        swal.fire("Complete first", "complete all input", "info");
       }
     },
   },
 
-  }
-
+  mounted() {
+    axios
+      .get(this.TeacherURL)
+      .then((response) => {
+        this.teachers = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+};
 </script>
 
 <style scoped>
-  .gender{
-    background: #f8f7f7;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  img{
-    width: 100px;
-  }
+.gender {
+  background: #f8f7f7;
+  padding: 10px;
+  border-radius: 5px;
+}
+img {
+  width: 100px;
+}
 </style>

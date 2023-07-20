@@ -32,12 +32,12 @@ export default {
   data() {
     return {
       attendanceData: [],
-      URL:"http://127.0.0.1:8000/api",
+      URL:"http://127.0.0.1:8000/api/getTeacherAttendance"
     };
   },
   mounted() {
     axios
-      .get(this.URL + "/getTeacherAttendance")
+      .get(this.URL)
       .then((response) => {
         this.attendanceData = response.data;
       })

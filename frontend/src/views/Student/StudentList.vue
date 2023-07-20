@@ -95,16 +95,16 @@
             </td>
           </tr>
         </tbody>
-        <tr v-else>
-          <td colspan="6" class="text-center text-danger">
-            This class does not have any students.
-          </td>
-        </tr>
+          <tr v-else>
+            <td colspan="6" class="text-center text-danger">
+              This class does not have any students.
+            </td>
+          </tr> 
       </table>
       <div class="card-footer border-0 py-5">
-        <span class="text-muted text-sm">
-          All Students in class {{ selectedClass }} :
-          {{ listUser?.length }} member</span>
+        <span class="text-muted text-sm">   
+          Total Students in class {{ selectedClass }} :
+        {{ listUser?.length }} people</span>
       </div>
     </div>
   </div>
@@ -117,7 +117,8 @@ import http from "../../htpp.common";
 export default {
   data() {
     return {
-      URL: "http://127.0.0.1:8000/api/getStudents",
+      // URL: "http://127.0.0.1:8000/api/users",
+      URL : "http://127.0.0.1:8000/api/getStudents",
       listUser: [],
       errorMessage: "",
       searchQuery: "",
@@ -136,6 +137,7 @@ export default {
         { label: "Grade 12C", value: "12C" },
       ],
       selectedClass: null,
+      getClassURL:"http://127.0.0.1:8000/api/getuserInClass"
     };
   },
 
@@ -236,7 +238,8 @@ export default {
       const formData = new FormData();
       formData.append("file", file);
 
-      http.post("/api/users_import", formData, {
+      http
+        .post("/api/users_import", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             "Cache-Control": "no-cache",
@@ -275,7 +278,7 @@ export default {
     },
     getStudentInClass(classId) {
       axios
-        .get(`http://127.0.0.1:8000/api/getuserInClass/${classId}`)
+        .get(this.getClassURL + "/" + `${classId}`)
         .then((response) => {
           this.listUser = response.data.data;
           for (let user of this.listUser) {

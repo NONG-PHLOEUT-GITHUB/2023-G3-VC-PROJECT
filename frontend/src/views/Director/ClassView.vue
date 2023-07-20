@@ -44,6 +44,14 @@
                   <i class="bi bi-calendar2-week-fill text-warning"></i> Attendance report
                 </button>
               </router-link>
+              <router-link :to="{ path: '/feedback' }">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300"
+                >
+                  <i class="bi bi-calendar2-week-fill text-warning"></i> FeedBack
+                </button>
+              </router-link>
             </td>
           </tr>
         </tbody>

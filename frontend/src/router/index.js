@@ -26,6 +26,12 @@ import TeacherDetail from '../views/Student/StudentDetial.vue'
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
 import CheckStudentAttendacne from '../views/Student/CheckStudentAttendance.vue';
 
+//authentication router
+import FormResetNewPassword from '@/views/Authentication/ResetNewPasswordForm.vue';
+// import LoginView from '../views/Authentication/LoginView.vue';
+// import FormFogetPassword from '../components/HelloWorld.vue';
+// import ChangePassword from '../views/Authentication/ChangePassword.vue';
+import GiveFeedBackForm from '../views/Teacher/GiveFeedBackForm.vue'
 //authentication router =================================================================
 import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vue';
 import LoginForm from '../views/Authentication/LoginForm.vue';
@@ -58,6 +64,10 @@ const routes = [
     name: 'ResetNewPasswordForm',
     component: ResetNewPasswordForm
   },
+  //   path: '/reset-new-password/:token',
+  //   name: 'ResetNewPasswordForm',
+  //   component: ResetNewPasswordForm
+  // },
   {
 
     path: '/change_password',
@@ -251,6 +261,17 @@ const routes = [
     name: 'check_student_attendance',
     component: CheckStudentAttendacne
   },
+  {
+    path: '/reset_new_password',
+    name: 'reset_new_password',
+    component: FormResetNewPassword
+  },
+  {
+    path: '/feedback',
+    name: 'feedback',
+    component: GiveFeedBackForm
+  }
+  
 
   // {
   //   path: '/404',

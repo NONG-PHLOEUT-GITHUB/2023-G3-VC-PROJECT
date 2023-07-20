@@ -1,11 +1,11 @@
 <template>
-    <div class="d-flex justify-center">
+    <!-- <div class="d-flex justify-center">
         <v-dialog v-model="dialog" width="auto" class="dailog">
             <v-alert type="error" icon="mdi-alert-circle" class="alter">
                 Pleas enter your email for reset password
             </v-alert>
         </v-dialog>
-    </div>
+    </div> -->
 
 
     <div class="container d-flex align-center justify-center" style="height: 100vh;">
