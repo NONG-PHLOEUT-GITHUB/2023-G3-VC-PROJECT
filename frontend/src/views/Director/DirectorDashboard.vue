@@ -1,33 +1,24 @@
 <template>
-  <main class="py-6 bg-surface-secondary">
+  <admin-dashboard></admin-dashboard>
+  <main class="main py-6">
     <div class="container-fluid">
       <div class="row g-6 mb-6">
-        <div class="col-xl-3 col-sm-6 col-12">
+        <div class="col-xl-4 col-sm-6 col-12">
           <div class="card shadow border-0">
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <span class="h6 font-semibold text-muted text-sm d-block mb-2"
-                    >Students</span
-                  >
-                  <span
-                    v-for="(result, index) in results"
-                    :key="index"
-                    class="h3 font-bold mb-0"
-                  >
-                    <p
-                      class="h6 font-semibold text-muted text-sm d-block mb-2"
-                      v-if="result.role == 3"
-                    >
-                      Total : {{ result.total }}, Male: {{ result.male }},
+                  <span class="h3 font-semibold text-muted d-block mb-2 mb-4">Students</span>
+                  <span v-for="(result, index) in results" :key="index" class="h3 font-bold mb-0">
+                    <p class="h6 font-bold mt-4" v-if="result.role == 3">
+                      Total : {{ result.total }},
+                      Male: {{ result.male }},
                       Female: {{ result.female }}
                     </p>
                   </span>
                 </div>
                 <div class="col-auto">
-                  <div
-                    class="icon icon-shape bg-tertiary text-white text-lg rounded-circle"
-                  >
+                  <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
                     <i class="bi bi-people"></i>
                   </div>
                 </div>
@@ -35,32 +26,22 @@
             </div>
           </div>
         </div>
-        <div class="col-xl-3 col-sm-6 col-12">
+        <div class="col-xl-4 col-sm-6 col-12">
           <div class="card shadow border-0">
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <span class="h6 font-semibold text-muted text-sm d-block mb-2"
-                    >Teachers</span
-                  >
-                  <span
-                    v-for="(result, index) in results"
-                    :key="index"
-                    class="h3 font-bold mb-0"
-                  >
-                    <p
-                      class="h6 font-semibold text-muted text-sm d-block mb-2"
-                      v-if="result.role == 2"
-                    >
-                      Total : {{ result.total }}, Male: {{ result.male }},
+                  <span class="h3 font-semibold text-muted  d-block mb-2">Teachers</span>
+                  <span v-for="(result, index) in results" :key="index" class="h3 font-bold mb-0">
+                    <p class="h6 font-bold mt-4" v-if="result.role == 2">
+                      Total : {{ result.total }}, 
+                      Male: {{ result.male }},
                       Female: {{ result.female }}
                     </p>
                   </span>
                 </div>
                 <div class="col-auto">
-                  <div
-                    class="icon icon-shape bg-primary text-white text-lg rounded-circle"
-                  >
+                  <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
                     <i class="bi bi-people"></i>
                   </div>
                 </div>
@@ -68,42 +49,17 @@
             </div>
           </div>
         </div>
-        <div class="col-xl-3 col-sm-6 col-12">
+        <div class="col-xl-4 col-sm-6 col-12">
           <div class="card shadow border-0">
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <span class="h6 font-semibold text-muted text-sm d-block mb-2"
-                    >Class</span
-                  >
-                  <span class="h3 font-bold mb-0">40</span>
+                  <span class="h3 font-semibold text-muted  d-block mb-2">Class</span>
+                  <span class="h6 font-bold mb-0">Total : 10 class</span>
                 </div>
                 <div class="col-auto">
-                  <div
-                    class="icon icon-shape bg-info text-white text-lg rounded-circle"
-                  >
+                  <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
                     <i class="bi bi-building"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-          <div class="card shadow border-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <span class="h6 font-semibold text-muted text-sm d-block mb-2"
-                    >Libary</span
-                  >
-                  <span class="h3 font-bold mb-0">2</span>
-                </div>
-                <div class="col-auto">
-                  <div
-                    class="icon icon-shape bg-warning text-white text-lg rounded-circle"
-                  >
-                    <i class="bi bi-book"></i>
                   </div>
                 </div>
               </div>
@@ -118,11 +74,7 @@
       <div class="col-sm-6">
         <div class="card shadow-lg mt-5 p-3">
           <div class="chart">
-            <Bar
-            id="my-chart-id"
-            :options="chartOptions"
-            :data="chartData"
-            />
+            <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
             <h5 class="text-center m-3 text-warning">STUDENT ATTENDANCE</h5>
           </div>
         </div>
@@ -131,11 +83,7 @@
       <div class="col-sm-6">
         <div class="card shadow-lg mt-5 p-3">
           <div class="chart">
-            <Bar
-            id="my-chart-id"
-            :options="chartOptions"
-            :data="chartData1"
-            />
+            <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
             <h5 class="text-center m-3 text-warning">FAILED STUDENT</h5>
           </div>
         </div>
@@ -190,18 +138,18 @@ export default {
     return {
       URL: "http://127.0.0.1:8000/api",
       results: "",
-      attendance: "",
       chartData: {
-        labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [ { 
-          label: "Attendance average", 
-          data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43] } ],
-    },
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [{
+          label: "Attendance average",
+          data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43]
+        }],
+      },
       chartData1: {
         labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [ { 
-          label: "Average of failed students",
-          data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43] } ],
+          label: "Percentage of failed students(%)",
+          data: [] } ],
     },
     chartOptions: {
         backgroundColor: '#1E90FF',
@@ -212,12 +160,26 @@ export default {
   mounted() {
     axios.get('http://127.0.0.1:8000/api/getTotal')
       .then(response => {
-       this.results = response.data.data
+        this.results = response.data.data
+      })
+      .catch(error => {
+        console.log(error);
+      });
+     
+    axios.get(this.URL + "/getPercentageOfFaildedStudentByMonth")
+      .then(response => {
+        const mydata = response.data.failed_users_percentage;
+        console.log(mydata);
+        for (let i = 0; i < mydata.length; i++) {
+          this.chartData1.datasets[0].data[i] = mydata[i];
+        }
+        console.log(this.chartData1.datasets[0].data);
       })
       .catch(error => {
         console.log(error);
       });
   }
+
   // mounted() {
   //   axios.get(this.URL + "/getAbsentPercentageByMonth")
   //     .then(response => {
@@ -228,6 +190,9 @@ export default {
   //       console.log(error);
   //     });
   // }
+
+
+
 }
 </script>
 <style>
@@ -235,4 +200,9 @@ export default {
 
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
+
+.main{
+  margin-left: 19%;
+  margin-right: 10px;
+}
 </style>

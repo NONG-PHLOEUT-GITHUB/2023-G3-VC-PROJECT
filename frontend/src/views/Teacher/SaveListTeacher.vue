@@ -6,8 +6,7 @@
         <thead class="bg-primary">
           <tr>
             <th scope="col" class="fs-6 text-light">NO</th>
-            <th scope="col" class="fs-6 text-light">First name</th>
-            <th scope="col" class="fs-6 text-light">Last name</th>
+            <th scope="col" class="fs-6 text-light">Name</th>
             <th scope="col" class="fs-6 text-light">Gender</th>
             <th scope="col" class="fs-6 text-light">age</th>
             <th scope="col" class="fs-6 text-light">Date of birth</th>
@@ -25,8 +24,7 @@
             class="border-2-dark"
           >
             <td>{{ index + 1 }}</td>
-            <td>{{ teacher.first_name }}</td>
-            <td>{{ teacher.last_name }}</td>
+            <td>{{ teacher.first_name + " " + teacher.last_name }}</td>
             <td>{{ teacher.gender }}</td>
             <td>{{ teacher.age }}</td>
             <td>{{ teacher.date_of_birth }}</td>

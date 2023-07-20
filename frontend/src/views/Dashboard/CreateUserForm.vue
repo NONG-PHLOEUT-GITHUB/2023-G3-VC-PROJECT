@@ -112,6 +112,7 @@ export default {
     };
   },
   methods: {
+    // resferent :  https://www.youtube.com/watch?v=chCtrNGrQhk
     getImage(event) {
       // this.profile = event.target.files[0];
       var file = event.target.files[0];
@@ -147,7 +148,11 @@ export default {
           timer: 2000,
         })
           .then(() => {
-            this.$router.push({ path: '/student' });
+            if(this.role==3){
+              this.$router.push({ path: '/student' });
+            }else if(this.role==2){
+              this.$router.push({ path: '/teacher' });
+            }
           }).catch(error => {
             console.log(error)
           })

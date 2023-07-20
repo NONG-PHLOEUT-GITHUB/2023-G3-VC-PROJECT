@@ -5,44 +5,23 @@
     </div>
     <div class="card-header">
       <div>
-        <select
-          class="form-select mb-3"
-          aria-label="Default select example"
-          style="width: 30%"
-          v-model="selectedClass"
-          @click="getStudentInClass(selectedClass)"
-        >
+        <select class="form-select mb-3" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
+          @click="getStudentInClass(selectedClass)">
           <option selected disabled>Select grade</option>
-          <option
-            v-for="grade in grades"
-            :key="grade.value"
-            :value="grade.value"
-            
-          >
+          <option v-for="grade in grades" :key="grade.value" :value="grade.value">
             {{ grade.label }}
           </option>
         </select>
       </div>
-      <div
-        class="form-group d-flex justify-content-between mb-3"
-        style="width: 100%"
-      >
+      <div class="form-group d-flex justify-content-between mb-3" style="width: 100%">
         <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search student"
-            aria-label="Search"
-            style="width: 78%"
-          />
+          <input class="form-control mr-sm-2" type="search" placeholder="Search student" aria-label="Search"
+            style="width: 78%" />
           <button class="btn btn-outline-warning my-2 my-sm-0" type="button">
             <i class="bi bi-search"></i> Search
           </button>
         </form>
-        <form
-          class="input-file ms-4 me-3 border border-4 rounded-1 p-2"
-          @submit.prevent="importFile"
-        >
+        <form class="input-file ms-4 me-3 border border-4 rounded-1 p-2" @submit.prevent="importFile">
           <label for="file-input">Upload Excel file</label>
           <input type="file" ref="fileInput" id="file-input" />
           <i class="bi bi-cloud-arrow-up ms-2 mt-4"></i>
@@ -50,8 +29,7 @@
         <router-link :to="{ path: '/createUser' }" class="text-white">
           <button type="button" class="btn btn-primary align-self-end ms-2">
             <i class="bi bi-person-plus-fill"></i> Add new student
-          </button></router-link
-        >
+          </button></router-link>
       </div>
     </div>
     <div class="card-header">
@@ -71,7 +49,7 @@
             <th></th>
           </tr>
         </thead>
-        
+
         <tbody v-if="listUser && listUser.length">
           <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
             <td>
@@ -79,7 +57,7 @@
               <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
                 class="avatar avatar-sm rounded-circle me-2">
               <a class="text-heading font-semibold" href="#">
-                {{ user.first_name}} {{ user.last_name}} 
+                {{ user.first_name }} {{ user.last_name }}
               </a>
             </td>
             <td>
@@ -99,28 +77,19 @@
             </td>
             <td class="text-end d-flex justify-content-end">
               <router-link :to="{ path: '/student_detail/' + user.id }">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300"
-                >
+                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
                   <i class="bi bi-person-circle text-warning"></i> View Profile
                 </button>
               </router-link>
 
               <router-link :to="{ path: '/edit/' + user.id }">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2"
-                >
+                <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
                   <i class="bi bi-pencil-square"></i> Edit
                 </button>
               </router-link>
 
-              <button
-                type="button"
-                class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
-                @click="deleteUser(user.id)"
-              >
+              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
+                @click="deleteUser(user.id)">
                 <i class="bi bi-trash-fill"></i> Delete
               </button>
             </td>
@@ -273,6 +242,7 @@ export default {
         .post("/api/users_import", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Cache-Control": "no-cache",
           },
         })
         .then((response) => {
@@ -295,8 +265,12 @@ export default {
             icon: "success",
             title: "Upload successful",
           });
+
+          // Reset the file input field
+          this.$refs.fileInput.value = '';
           // call mounted
           this.getData();
+
         })
         .catch((error) => {
           console.error(error.response.data);
@@ -308,7 +282,7 @@ export default {
         .then((response) => {
           this.listUser = response.data.data;
           for (let user of this.listUser) {
-              this.listUser = user.students;
+            this.listUser = user.students;
           }
         })
         .catch((error) => {

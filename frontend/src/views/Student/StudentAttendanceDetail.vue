@@ -140,29 +140,15 @@ main.table {
   padding: 2%;
 }
 h3 {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   text-transform: uppercase;
   color: #0000ff;
-}
-span {
-  padding: 2%;
-  text-transform: uppercase;
-  color: #1b1e1d;
 }
 table {
   padding: 2%;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
-
-td img {
-  width: 36px;
-  height: 36px;
-  margin-right: 0.5rem;
-  border-radius: 50%;
-  vertical-align: middle;
-}
-
 table,
 th,
 td {
@@ -170,7 +156,6 @@ td {
   padding: 1rem;
   text-align: left;
 }
-
 thead th {
   position: sticky;
   top: 0;
@@ -181,14 +166,6 @@ thead th {
   color: white;
   font-size: 15px;
   font-weight: bold;
-}
-
-.status.detail {
-  padding: 0.4rem 1.5rem;
-  border-radius: 2rem;
-  text-align: center;
-  background-color: #50ded9;
-  color: #006b21;
 }
 thead th:hover {
   color: #e2f0ee;

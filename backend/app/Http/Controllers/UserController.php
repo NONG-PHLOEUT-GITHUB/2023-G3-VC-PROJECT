@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Role;
+use App\Models\Score;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -139,7 +141,51 @@ class UserController extends Controller
         }
         return response()->json(["message" => true, "data" => $users], 200);
     }
-    
+    /**
+    * show total of student failed of each month.
+    */
+    public function getPercentageOfFaildedStudentByMonth($year) {
+
+        $users = User::where('role', '=', 3)->get();
+
+        $failed_users = collect();
+
+        foreach ($users as $user) {
+            $user_scores = Score::select('subject_id', 'score')
+                ->where('user_id', '=', $user->id)
+                ->get();
+
+            $total_score = 0;
+            foreach ($user_scores as $score) {
+                $total_score += $score->score;
+            }
+            $average_score = $total_score / 14;
+
+            if ($average_score < 25.00) {
+                $failed_users->push($user);
+            }
+        }
+
+        $total_users = $users->count();
+        $failed_users_count = $failed_users->count();
+        $failed_users_percentage = [($failed_users_count / $total_users) * 100];
+
+        $failed_users_male_count = $failed_users->where('gender', '=', 'male')->count();
+        $failed_users_female_count = $failed_users->where('gender', '=', 'female')->count();
+
+        return response()->json([
+            'total_users' => $total_users,
+            'failed_users_count' => $failed_users_count,
+            'failed_users_percentage' => $failed_users_percentage,
+            'failed_users_male_count' => $failed_users_male_count,
+            'failed_users_female_count' => $failed_users_female_count,
+        ], 200);
+
+        // $failedPercentage = [20, 30, 10, 45, 28, 54, 34, 45, 28, 54, 34, 9];
+        // return response()->json(['data' => $failedPercentage], 200);
+
+        
+    }
     
     // --------------------------------Teacher Detail--------------------------------
     

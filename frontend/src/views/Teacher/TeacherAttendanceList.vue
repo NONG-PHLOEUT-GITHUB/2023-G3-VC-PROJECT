@@ -111,7 +111,7 @@ thead th {
 }
 
 .status.detail {
-  padding: 10px;
+  padding: 10px 25px;
   margin-left: 10px;
   border-radius: 3px;
   background-color: #0000FF;

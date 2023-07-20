@@ -11,6 +11,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\ImportExelFileController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SubjectTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,7 @@ Route::get("/getteacherDetail/{id}", [AttendanceController::class, "getAttendanc
 Route::post('/checkStudentAttendance' , [AttendanceController::class, "store"]);
 Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
 Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
+Route::get("/getPercentageOfFaildedStudentByMonth/{year}", [UserController::class, "getPercentageOfFaildedStudentByMonth"]);
 
 // ***Teacher***
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
@@ -81,12 +83,14 @@ Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']
 Route::get('/getStudents', [UserController::class,"getStudent"]);
 // Route::get('/getByStudent/{id}', [UserController::class,"getStudentById"]);
 Route::get('/getGuardian/{id}', [GuardianController::class,"getGuardianChatId"]);
+Route::delete('/getStudents/{id}', [UserController::class,"destroy"]);
 
 // get teachers
 Route::get('/getTeachers', [UserController::class,"getTeachers"]);
+Route::delete('/getTeachers/{id}', [UserController::class,"destroy"]);
 
 Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
-Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
+Route::post('/reset-new-password/{token}', [ForgotPasswordController::class,'resetPassword']);
 
 
 Route::prefix('v1')->group(function () {
@@ -119,6 +123,11 @@ Route::prefix('v1')->group(function () {
 // subjects
 Route::get('/subjects', [SubjectController::class, 'index']);
 Route::post('/subjects', [SubjectController::class, 'store']);
+
+// score
+Route::get('/scores', [ScoreController::class, 'index']);
+Route::post('/scores', [ScoreController::class, 'store']);
+Route::get('/getStudentScore/{id}/{month}', [ScoreController::class, 'getStudentScore']);
 
 // subject taacher
 Route::get('/subjectsTeachers', [SubjectTeacherController::class, 'index']);
