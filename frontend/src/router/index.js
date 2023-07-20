@@ -1,12 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/Director/DirectorDashboard.vue';
-// import StudentView from '../views/Student/StudentView.vue';
-import TeacherList from '../views/Teacher/TeacherList.vue';
+//admind dashboard router =================================================================
+import DashboardHomeView from '@/views/Director/DirectorDashboard.vue';
+import AddTeacher from '@/views/Teacher/TeacherList.vue';
+//admind dashboard router =================================================================
 import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
-import UserInfo from '../views/UserInfo/UserDetail.vue';
 import StudentList from '../views/Student/StudentList.vue';
-// import StudentList from '../views/Director/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
@@ -27,26 +26,54 @@ import TeacherDetail from '../views/Student/StudentDetial.vue'
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
 import CheckStudentAttendacne from '../views/Student/CheckStudentAttendance.vue';
 
-//authentication router
-import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
-import LoginView from '../views/Authentication/LoginView.vue';
-// import FormFogetPassword from '../components/HelloWorld.vue';
-import ChangePassword from '../views/Authentication/ChangePassword.vue';
-
+//authentication router =================================================================
+import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vue';
+import LoginForm from '../views/Authentication/LoginForm.vue';
+import ForgotPasswordFrom from '@/views/Authentication/ForgotPasswordForm.vue';
+import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
+//user router ===========================================================================
+import UserProfile from '@/views/UserInfo/UserProfile.vue';
+//dashboard router ======================================================================
+import AdmindDashboard from '@/components/AdmindDashboard.vue';
+//student dashboard router ==============================================================
+import StudnetAcadmics from '@/views/Student/StudentView.vue';
 const routes = [
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView,
-    // meta:{
-    //   isRequired: true
-    // }
+    path: '/',
+    name: 'LoginForm',
+    component: LoginForm,
+  },
+  {
+    path: '/reset-new-password/:token',
+    name: 'ResetNewPasswordForm',
+    component: ResetNewPasswordForm
+  },
+  {
+
+    path: '/change_password',
+    name: 'ChangePasswordForm',
+    component: ChangePasswordForm
+  },
+    {
+    path: '/forgot-password',
+    name: 'FormFogetPassword',
+    component: ForgotPasswordFrom
+  },
+    {
+    path: '/user-profile',
+    name: 'UserProfile',
+    component: UserProfile
   },
   {
     path: '/home',
     name: 'home',
-    component: HomeView,
+    component: DashboardHomeView,
     meta:{requireAuth:true}
+  },
+  {
+    path: '/student-acadamice',
+    name: 'StudnetAcadmics',
+    component: StudnetAcadmics,
   },
   {
     path: '/dashboard',
@@ -54,14 +81,19 @@ const routes = [
     component: DashboardView
   },
   {
+    path: '/admind-dashboard',
+    name: 'AdmindDashboard',
+    component: AdmindDashboard
+  },
+  {
     path: '/student',
     name: 'student',
     component: StudentList
   },
   {
-    path: '/teacher',
-    name: 'teacher',
-    component: TeacherList
+    path: '/add-teacher',
+    name: 'AddTeacher',
+    component: AddTeacher
   },
   {
     path: '/class_list',
@@ -82,11 +114,6 @@ const routes = [
     path: '/createClass',
     name: '/createClass',
     component: CreateClassForm
-  },
-  {
-    path: '/user_info',
-    name: '/user_info',
-    component: UserInfo
   },
   {
     path: '/attendancelist',
@@ -128,11 +155,7 @@ const routes = [
     name: '/teachermostabsence',
     component: TeacherMostAbsence
   },
-  // {
-  //   path: '/forgot_password',
-  //   name: '/forgot_password',
-  //   component: FormFogetPassword
-  // },
+
   {
     path: '/student_list',
     name: 'student_list',
@@ -158,12 +181,7 @@ const routes = [
     name: 'attendance_list',
     component: AttendanceList
   },
-  {
 
-    path: '/change_password',
-    name: 'change_password',
-    component: ChangePassword
-  },
 
   {
     name: 'edit',
@@ -193,17 +211,22 @@ const routes = [
     name: 'check_student_attendance',
     component: CheckStudentAttendacne
   },
-  {
-    path: '/reset_new_password',
-    name: 'reset_new_password',
-    component: FormResetNewPassword
-  },
+
   // {
   //   path: '/404',
   //   name: '404',
   //   component: NotFoundView
   // }
-  
+  // {
+  //   path: '/home',
+  //   name: 'home',
+  //   component: HomeView,
+  //   meta: {
+  //     requireAuth: true,
+  //     roles: ['admin']
+  //   },
+  //   beforeEnter: checkRole
+  // },
 
 ]
 
@@ -213,23 +236,6 @@ const router = createRouter({
 });
 
 // https://beginnersoftwaredeveloper.com/how-do-i-protect-my-vue-router/?expand_article=1
-
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     // check if the user is authenticated
-//     if (!store.getters.isAuthenticated) {
-//       next({
-//         path: '/login',
-//         query: { redirect: to.fullPath }
-//       })
-//     } else {
-//       next()
-//     }
-//   } else {
-//     next()
-//   }
-// })
-
 
 router.beforeEach((to,from, next) => {
   const isUserAuthenticated = null;
@@ -242,6 +248,16 @@ router.beforeEach((to,from, next) => {
     next();
   }
 })
+
+// function checkRole(to, from, next) {
+//   const userAuthStore = useUserAuth();
+//   const currentUser = userAuthStore.currentUser;
+//   if (currentUser && to.meta.roles.includes(currentUser.role)) {
+//     next();
+//   } else {
+//     next({ name: 'unauthorized' });
+//   }
+// }
 
 
 export default router

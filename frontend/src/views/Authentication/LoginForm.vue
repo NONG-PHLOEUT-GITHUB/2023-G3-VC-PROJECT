@@ -26,7 +26,7 @@
                     v-model="password" :rules="passwordRules" variant="outlined"
                     @click:append-inner="visible = !visible"></v-text-field>
 
-                <router-link @click="forgotPassword" :to="{ path: '/forgot_password' }">Forgot login password?</router-link>
+                <router-link to="/forgot-password">Forgot login password?</router-link>
 
                 <v-btn type="submit" color="primary" block class="mt-4">login</v-btn>
             </v-form>
@@ -37,12 +37,10 @@
 
 
 <script>
-import Swal from 'sweetalert2'
-import http from '../../htpp.common';
-// import { sha256 } from 'js-sha256';
+// import Swal from 'sweetalert2'
+import http from '@/htpp.common';
 // recferences// https://vee-validate.logaretm.com/v4/tutorials/basics/
 export default {
-    emits: ["isLogin", "isForgotPassword"],
     data: () => ({
         visible: false,
         loading: false,
@@ -68,40 +66,12 @@ export default {
                     password: this.password,
                 })
                     .then(response => {
-                        console.log('API response:', response.data);
+                        console.log('API response:', response.data.role);
+                     
                         localStorage.setItem('access_token', response.data.access_token);
-                        // alert
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 500,
-                            timerProgressBar: true,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        })
-
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Signed in successfully'
-                        })
-                        // sessionStorage.setItem('email', this.email);
-                        // this.$emit('isLogin', true, this.email);
-                    })
-                    .then(() => {
-                        // const value = this.email;
-
-                        // // Store the hashed value in local storage
-                        // localStorage.setItem('email', hashedValue);
-
-                        // // Store the hashed value in local storage
-                        // localStorage.setItem('email', hashedValue);
 
                         sessionStorage.setItem('email', this.email);
-                        this.$emit('isLogin', true, this.email);
-                        this.$router.push('/home');
+                        this.$router.push('/admind-dashboard');
                     })
                     .catch(error => {
                         if (error.response.status === 401) {
@@ -116,12 +86,11 @@ export default {
                     });
             }
         },
-
-        forgotPassword() {
-            this.$emit("isForgotPassword", true);
-        },
     }
 }
 
 
 </script>
+
+
+

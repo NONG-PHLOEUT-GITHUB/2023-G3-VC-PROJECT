@@ -57,6 +57,7 @@ export default {
     };
   },
   methods: {
+    // https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work
     // download pdf ==================================
     downloadPDF() {
       this.isDetail = true;

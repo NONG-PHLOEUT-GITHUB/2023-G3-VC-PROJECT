@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <div class="card shadow border-0 mb-7">
     <div class="card-header">
       <h3 class="mb-0 text-primary">TEACHERS LIST</h3>
@@ -219,5 +220,8 @@ export default {
 </script>
 
 <style scoped>
-
+.card{
+  margin-left: 20%;
+  margin-right: 14px;
+}
 </style>

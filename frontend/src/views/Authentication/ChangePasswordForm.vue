@@ -1,11 +1,5 @@
 <template>
     <div class="container d-flex align-center justify-center" style="height: 100vh;">
-        <!-- <div class="ma-4">
-            <h2>SCHOOL MANAGEMENT</h2>
-            <v-img class="bg-white" width="300" :aspect-ratio="1"
-                src="https://img.freepik.com/free-vector/key-concept-illustration_114360-6305.jpg?w=740&t=st=1688968989~exp=1688969589~hmac=3df727a833bf7fda300b7187397feb313d8ae5e060a5cec4ccf7c3f3e6872185"
-                cover></v-img>
-        </div> -->
         <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8" elevation="10" max-width="448" rounded="lg">
             <v-form ref="form" @submit.prevent="changePassword">
                 <v-title>
@@ -52,8 +46,6 @@
                     </v-col>
                 </v-row>
             </v-form>
-            <div v-if="successMessage">{{ successMessage }}</div>
-            <div v-if="errorMessage">{{ errorMessage }}</div>
         </v-card>
     </div>
 </template>

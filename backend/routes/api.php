@@ -85,7 +85,7 @@ Route::get('/getTeachers', [UserController::class,"getTeachers"]);
 Route::delete('/getTeachers/{id}', [UserController::class,"destroy"]);
 
 Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
-Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
+Route::post('/reset-new-password/{token}', [ForgotPasswordController::class,'resetPassword']);
 
 
 Route::prefix('v1')->group(function () {
