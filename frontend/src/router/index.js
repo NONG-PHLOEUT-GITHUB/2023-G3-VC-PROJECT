@@ -17,6 +17,7 @@ import StudentGraph from '../views/Student/StudentGraph.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
 import StudentDetail from '../views/Student/StudentDetial.vue';
 import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vue';
+import StudentListScore from '../views/Student/StudentListScore.vue';
 import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vue';
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
@@ -204,6 +205,11 @@ const routes = [
     path: '/studentgraph',
     name: '/studentgraph',
     component: StudentGraph,
+  },
+  {
+    path: '/studentlistscore',
+    name: '/studentlistscore',
+    component: StudentListScore,
   },
   // {
   //   path: '/404',
