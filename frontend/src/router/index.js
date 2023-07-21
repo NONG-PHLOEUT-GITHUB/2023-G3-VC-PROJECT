@@ -33,16 +33,21 @@ import FormResetNewPassword from '@/views/Authentication/ResetNewPasswordForm.vu
 // import ChangePassword from '../views/Authentication/ChangePassword.vue';
 import GiveFeedBackForm from '../views/Teacher/GiveFeedBackForm.vue'
 //authentication router =================================================================
-// import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vue';
+import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vue';
 import LoginForm from '../views/Authentication/LoginForm.vue';
 import ForgotPasswordFrom from '@/views/Authentication/ForgotPasswordForm.vue';
 import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
 //user router ===========================================================================
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================
-import AdmindDashboard from '@/components/AdmindDashboard.vue';
+import AdminDashboard from '@/components/AdminDashboard.vue';
+import TeacherDashboard from '@/components/TeacherDashboard.vue';
+import StudentDashboard from '@/components/StudentDashboard.vue';
 //student dashboard router ==============================================================
 import StudnetAcadmics from '@/views/Student/StudentView.vue';
+import StudentHomeView from '@/views/Student/StudentHomeView';
+import StudentAttendanceView from '@/views/Student/StudentAttendanceView.vue';
+import StudentScoreView from '@/views/Student/StudentScoreView.vue';
 const routes = [
   {
     path: '/',
@@ -50,6 +55,15 @@ const routes = [
     component: LoginForm,
   },
   // {
+  //   path: '/login',
+  //   name: 'LoginForm',
+  //   component: LoginForm,
+  // },
+  {
+    path: '/reset-new-password/:token',
+    name: 'ResetNewPasswordForm',
+    component: ResetNewPasswordForm
+  },
   //   path: '/reset-new-password/:token',
   //   name: 'ResetNewPasswordForm',
   //   component: ResetNewPasswordForm
@@ -76,6 +90,23 @@ const routes = [
     component: DashboardHomeView,
     meta:{requireAuth:true}
   },
+  // =============================
+  {
+    path: '/studnet-home',
+    name: 'StudentHomeView',
+    component: StudentHomeView,
+  },
+  {
+    path: '/studnet-attendance',
+    name: 'StudentAttendanceView',
+    component: StudentAttendanceView,
+  },
+  {
+    path: '/studnet-scores',
+    name: 'StudentScoreView',
+    component: StudentScoreView,
+  },
+  // =============================
   {
     path: '/student-acadamice',
     name: 'StudnetAcadmics',
@@ -86,11 +117,24 @@ const routes = [
     name: 'dashboard',
     component: DashboardView
   },
+// ============main dashboard=======
   {
-    path: '/admind-dashboard',
+    path: '/admin-dashboard',
     name: 'AdmindDashboard',
-    component: AdmindDashboard
+    component: AdminDashboard
   },
+  {
+    path: '/student-dashboard',
+    name: 'StudentDashboard',
+    component: StudentDashboard
+  },
+  {
+    path: '/teacher-dashboard',
+    name: 'TeacherDashboard',
+    component: TeacherDashboard
+  },
+
+
   {
     path: '/student',
     name: 'student',

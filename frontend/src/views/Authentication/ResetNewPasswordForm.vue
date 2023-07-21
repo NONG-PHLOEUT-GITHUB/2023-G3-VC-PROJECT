@@ -7,7 +7,7 @@
         </v-dialog>
     </div> -->
 
-    
+
     <div class="container d-flex align-center justify-center" style="height: 100vh;">
         <div class="ma-4">
             <h2>SCHOOL MANAGEMENT</h2>
@@ -34,11 +34,11 @@
                 <v-text-field :append-inner-icon="visibleConfirm ? 'mdi-eye-off' : 'mdi-eye'"
                     :type="visibleConfirm ? 'text' : 'password'" density="compact"
                     placeholder="Enter your confirm new password" prepend-inner-icon="mdi-lock-outline"
-                    v-model="confirmPassword" :rules="NewPasswordRules" variant="outlined"
+                    v-model="confirmPassword" :rules="confirmPasswordRule" variant="outlined"
                     @click:append-inner="visibleConfirm = !visibleConfirm">
                 </v-text-field>
 
-                <v-btn type="submit" color="primary" block class="mt-4">Reset Password</v-btn>
+                <v-btn :disabled="!isPasswordValid" type="submit" color="primary" block class="mt-4">Reset Password</v-btn>
             </v-form>
         </v-card>
     </div>
@@ -67,7 +67,7 @@ export default {
                 v => !!v || 'New password is required',
                 v => (v && v.length >= 8) || 'Password must be 8  characters or more!',
             ],
-            NewPasswordRules: [
+            confirmPasswordRule: [
                 v => !!v || 'Confirm new password is required',
                 v => (v && v.length >= 8) || 'Password must be 8  characters or more!',
             ],
@@ -83,26 +83,43 @@ export default {
             };
             http.post(`/api/reset-new-password/${this.token}`, data, {
 
-            }).then(response => {
-                console.log(response);
+            }).then(() => {
                 this.newPassword = '';
                 this.confirmPassword = '';
                 this.$router.push('/')
             })
                 .catch(error => {
-                    if (error.response.status === 404) {
-                        this.dialog = true;
+                    if (error.response.status === 422) {
+                        // this.dialog = true;
                         console.log(error.response.status);
-                        this.emailRules = ['Email or password is icorrect'];
+                        this.confirmPasswordRule = ['The password field confirmation does not match'];
                     } else {
-                        console.log(error);
+                        console.log('Unknown error occurred:', error);
                     }
                 });
         },
     },
     created() {
         this.token = this.$route.params.token;
-    }
+    },
+    computed: {
+        isPasswordValid() {
+            return this.newPassword.length >= 8;
+        },
+    },
+
+    watch: {
+        confirmPassword(value) {
+            if (value !== this.newPassword) {
+                this.confirmPasswordRule = ['The passwords do not match'];
+            } else {
+                this.confirmPasswordRule = [
+                    v => !!v || 'Confirm new password is required',
+                    v => (v && v.length >= 8) || 'Password must be 8 characters or more!',
+                ];
+            }
+        },
+    },
 };
 </script>
 
@@ -112,6 +129,4 @@ export default {
 .alter {
     margin-bottom: 150%;
 }
-
-
 </style>

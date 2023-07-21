@@ -18,6 +18,14 @@
                                 {{ menu.icon }}
                             </v-icon> {{ menu.title }}
                         </v-btn>
+                        <!-- <v-list>
+                            <v-list-item v-for="(item, i) in menubar" :key="i" :value="item" color="primary" class="mt-2" rounded="xl">
+                                <template v-slot:prepend>
+                                    <v-icon :icon="item.icon"></v-icon>
+                                </template>
+                                <v-list-item-title class="text-button mt-1" v-text="item.title"></v-list-item-title>
+                            </v-list-item>
+                        </v-list> -->
                     </v-list-item>
                 </v-list-item>
             </v-list>
@@ -29,33 +37,33 @@
                     <v-btn>{{ users.first_name }} {{ users.last_name }}</v-btn>
                     <v-btn icon v-bind="props">
                         <v-avatar color="brown" size="large">
-                             <v-img :src="users.profile" alt="Avatar" cover>
-                    </v-img>
+                            <v-img :src="users.profile" alt="Avatar" cover>
+                            </v-img>
                         </v-avatar>
                     </v-btn>
                 </template>
 
 
                 <v-card>
-                    <v-card-text >
+                    <v-card-text>
                         <div class=" mx-auto text-center">
-                            <v-btn class="btn mt-2" block variant="outlined" rounded to="/user-profile"
+                            <v-btn size="small" class="btn mt-2" block variant="outlined" rounded to="/user-profile"
                                 active-class="white--text">
-                                <v-icon size="24">
+                                <v-icon>
                                     mdi-account
                                 </v-icon>Profile
                             </v-btn>
 
-                            <v-btn class="btn mt-2" block variant="outlined" rounded to="/student-score"
-                                active-class="white--text">
-                                <v-icon size="24">
+                            <v-btn size="small" @click="dialogVisible = true" class="btn mt-2" block variant="outlined"
+                                rounded active-class="white--text">
+                                <v-icon>
                                     mdi-lock
                                 </v-icon>
                                 Change Password
                             </v-btn>
-                            <v-btn class="btn mt-2" block variant="outlined" rounded to="/student-score"
+                            <v-btn @click="logout" size="small" class="btn mt-2" block variant="outlined" rounded
                                 active-class="white--text">
-                                <v-icon size="24">
+                                <v-icon>
                                     mdi-logout
                                 </v-icon>
                                 Logout
@@ -68,21 +76,30 @@
         </v-app-bar>
 
         <v-main class="main">
-
             <router-view></router-view>
 
         </v-main>
     </v-layout>
+
+    <v-dialog v-model="dialogVisible" transition="dialog-top-transition" width="auto">
+        <change-password-dialog />
+    </v-dialog>
 </template>
-  
+
   
 <script>
 import http from '@/htpp.common'
+import Cookies from 'js-cookie';
+import ChangePasswordDialog from '@/views/Authentication/ChangePasswordForm.vue';
 export default {
     props: ['menubar'],
     name: "LayoutDashboard",
+    components: {
+        ChangePasswordDialog,
+    },
     data: () => ({
         users: [],
+        dialogVisible: false,
     }),
 
     mounted() {
@@ -100,18 +117,18 @@ export default {
             http.post("/api/v1/auth/logout", {},
                 {
                     headers: {
-                        Authorization: "Bearer " + localStorage.getItem("access_token"),
+                        Authorization: "Bearer " + Cookies.get('access_token')
                     },
                 }
             )
-            .then(() => {
-                localStorage.removeItem("access_token");
-                sessionStorage.removeItem("email");
-            })
+                .then(() => {
+                    Cookies.remove('access_token');
+                    this.$router.push('/');
+                })
 
-            .catch((error) => {
-                console.log(error);
-            });
+                .catch((error) => {
+                    console.log(error);
+                });
         },
     }
 };
@@ -124,6 +141,7 @@ export default {
 .white--text {
     color: white !important;
 }
+
 .sibar {
     margin-right: 20px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
@@ -138,9 +156,8 @@ export default {
     border-radius: 100%;
 }
 
-.user-name span{
+.user-name span {
     text-transform: uppercase;
 }
-
 </style>
   

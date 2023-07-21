@@ -1,11 +1,9 @@
 <template>
-  <div class="d-flex justify-center">
-      <v-dialog v-model="dialog" width="auto" class="dailog">
-          <v-alert type="success" icon="mdi-checkbox-marked-circle" class="alter">
-              Please check your email <a :href="'mailto:' + email" target="_blank">{{ email }}</a>
-          </v-alert>
-      </v-dialog>
-  </div>
+  <!-- <div class="d-flex justify-center">
+    <v-alert  v-if="isSuccess" type="success" icon="mdi-checkbox-marked-circle" class="alter">
+        Please check your email <a :href="'mailto:' + email" target="_blank">{{ email }}</a>
+    </v-alert>
+  </div> -->
 
   <v-layout class="d-flex  justify-center align-center " style="height: 100vh;">
       <v-container class="d-flex  justify-center align-center">
@@ -54,14 +52,12 @@ import http from '@/htpp.common';
 
 export default {
   data: () => ({
-      dialog: false,
       visible: false,
       email: '',
       emailRules: [
           v => !!v || 'E-mail is required',
           v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
-      isSuccess: false,
   }),
 
   methods: {
@@ -71,8 +67,6 @@ export default {
                   email: this.email,
               })
               .then(() => {
-                  console.log(this.dialog = true);
-                  this.dialog = true;
                   this.email = "";
               })
               .catch(error => {
@@ -94,8 +88,5 @@ export default {
 <style>
 @import "~vuetify/dist/vuetify.css";
 
-.alter {
-  margin-bottom: 130%;
-}
 </style>
 

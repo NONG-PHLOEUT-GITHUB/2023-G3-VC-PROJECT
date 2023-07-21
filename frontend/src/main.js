@@ -12,7 +12,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 /// main dashboard=======================================================
 
 import MainDashboard from '@/components/MainDashboard'
-import AdmindDashboard from '@/components/AdmindDashboard'
+import AdminDashboard from '@/components/AdminDashboard'
 import TeacherDashboard from '@/components/TeacherDashboard'
 import StudentDashboard from '@/components/StudentDashboard'
 
@@ -24,7 +24,7 @@ const vuetify = createVuetify({
 const app = createApp(App);
 
 app.component('main-dashboard',MainDashboard);
-app.component('admin-dashboard',AdmindDashboard);
+app.component('admin-dashboard',AdminDashboard);
 app.component('teacher-dashboard',TeacherDashboard);
 app.component('student-dashboard',StudentDashboard);
 
