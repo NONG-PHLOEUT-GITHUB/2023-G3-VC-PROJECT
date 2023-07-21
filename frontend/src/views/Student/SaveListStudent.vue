@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <div>
     <h3>STUDENT LIST</h3>
     <div class="table-container">
