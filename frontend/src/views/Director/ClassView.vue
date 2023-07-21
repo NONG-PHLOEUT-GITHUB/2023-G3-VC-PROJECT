@@ -1,7 +1,7 @@
 <template>
   <admin-dashboard></admin-dashboard>
   <div class="main">
-    <h3 class="mb-0 text-primary mt-4">CLASSES LIST</h3>
+    <!-- <h3 class="mb-0 text-primary mt-4">CLASSES LIST</h3> -->
     <v-card class="d-flex mt-5 pa-5">
 
       <!-- <v-row> -->
