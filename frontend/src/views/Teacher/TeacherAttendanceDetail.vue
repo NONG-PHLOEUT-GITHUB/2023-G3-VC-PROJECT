@@ -16,7 +16,7 @@
         <tr v-for="record in attendanceRecords" :key="record.id">
           <td>{{ record.date }}</td>
           <td>{{ record.reason }}</td>
-          <td>{{ record.attendace_status }}</td>
+          <td>{{ record.attendance_status }}</td>
         </tr>
       </tbody>
     </table>
@@ -30,12 +30,13 @@ export default {
     return {
       user: {},
       attendanceRecords: [],
+      URL:"http://127.0.0.1:8000/api"
     };
   },
   methods: {
     listattendance(id) {
       axios
-        .get(`http://127.0.0.1:8000/api/getteacherDetail/${id}`)
+        .get(this.URL + `/getteacherDetail/${id}`)
         .then((response) => {
           this.user = response.data.user;
           this.attendanceRecords = response.data.attendanceRecords;
@@ -71,7 +72,6 @@ main.table {
   padding: 2%;
 }
 h3 {
-  
   margin-bottom: 20px;
   text-transform: uppercase;
   color:  #0000FF;

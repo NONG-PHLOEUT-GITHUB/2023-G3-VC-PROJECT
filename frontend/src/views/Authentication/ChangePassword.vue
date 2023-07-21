@@ -1,11 +1,5 @@
 <template>
     <div class="container d-flex align-center justify-center" style="height: 100vh;">
-        <div class="ma-4">
-            <h2>SCHOOL MANAGEMENT</h2>
-            <v-img class="bg-white" width="300" :aspect-ratio="1"
-                src="https://img.freepik.com/free-vector/key-concept-illustration_114360-6305.jpg?w=740&t=st=1688968989~exp=1688969589~hmac=3df727a833bf7fda300b7187397feb313d8ae5e060a5cec4ccf7c3f3e6872185"
-                cover></v-img>
-        </div>
         <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8" elevation="10" max-width="448" rounded="lg">
             <v-form ref="form" @submit.prevent="changePassword">
                 <v-title>
@@ -15,10 +9,10 @@
                     Current password
                 </div>
 
-                <v-text-field :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'"
-                    density="compact" placeholder="Enter current password" prepend-inner-icon="mdi-lock-outline"
-                    v-model="currentPassword" :rules="passwordRules" variant="outlined"
-                    @click:append-inner="visible = !visible">
+                <v-text-field :append-inner-icon="visibleCurrent ? 'mdi-eye-off' : 'mdi-eye'"
+                    :type="visibleCurrent ? 'text' : 'password'" density="compact" placeholder="Enter current password"
+                    prepend-inner-icon="mdi-lock-outline" v-model="currentPassword" :rules="passwordRules"
+                    variant="outlined" @click:append-inner="visibleCurrent = !visibleCurrent">
                 </v-text-field>
                 <span :rules="emailRules"></span>
 
@@ -26,10 +20,10 @@
                     New password
                 </div>
 
-                <v-text-field :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'" :type="visible ? 'text' : 'password'"
-                    density="compact" placeholder="Enter your new password" prepend-inner-icon="mdi-lock-outline"
-                    v-model="newPassword" :rules="passwordRules" variant="outlined"
-                    @click:append-inner="visible = !visible">
+                <v-text-field :append-inner-icon="visibleNew ? 'mdi-eye-off' : 'mdi-eye'"
+                    :type="visibleNew ? 'text' : 'password'" density="compact" placeholder="Enter your new password"
+                    prepend-inner-icon="mdi-lock-outline" v-model="newPassword" :rules="passwordRules" variant="outlined"
+                    @click:append-inner="visibleNew = !visibleNew">
                 </v-text-field>
 
                 <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
@@ -42,10 +36,16 @@
                     @click:append-inner="visibleConfirm = !visibleConfirm">
                 </v-text-field>
 
-                <v-btn type="submit" color="primary" block class="mt-4">Change Password</v-btn>
+                <v-row no-gutters>
+                    <v-col>
+                        <v-btn @Click="cancelChangePassword" class="text-none mt-4 w-25" color="blue-darken-4" block 
+                            variant="outlined">Cancel</v-btn>
+                    </v-col>
+                    <v-col>
+                        <v-btn type="submit" color="primary" block class="mt-4 ms-1">Save</v-btn>
+                    </v-col>
+                </v-row>
             </v-form>
-            <div v-if="successMessage">{{ successMessage }}</div>
-            <div v-if="errorMessage">{{ errorMessage }}</div>
         </v-card>
     </div>
 </template>
@@ -54,13 +54,15 @@
 
 <!--recferences// https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
 <script>
-// import Swal from 'sweetalert2'
+import Swal from 'sweetalert2'
 
 import http from '../../htpp.common';
 export default {
+    emits: ['isCancelChangePassword'],
     data() {
         return {
-            visible: false,
+            visibleCurrent: false,
+            visibleNew: false,
             visibleConfirm: false,
             passwordShow: false,
 
@@ -71,7 +73,7 @@ export default {
             errorMessage: '',
 
             emailRules: [
-                v => !!v || 'New password is required',
+                v => !!v || 'Current password is required',
                 v => (v && v.length >= 6) || 'Password must be 6  characters or more!',
             ],
             passwordRules: [
@@ -103,6 +105,27 @@ export default {
                     this.newPassword = '';
                     this.confirmPassword = '';
                     console.log(this.successMessage);
+
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 500,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Signed in successfully'
+                    }).then(() => {
+                        this.$emit('isCancelChangePassword', false);
+                    });
+                    // this.$emit('isCancelChangePassword', false);
                 })
                 .catch(error => {
                     this.errorMessage = error.response.data.error;
@@ -118,6 +141,11 @@ export default {
                     }
                 });
         },
+        cancelChangePassword() {
+            this.$emit('isCancelChangePassword', true);
+            console.log('get all changes');
+        }
     },
+
 };
 </script>

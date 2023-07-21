@@ -32,11 +32,12 @@ export default {
   data() {
     return {
       attendanceData: [],
+      URL:"http://127.0.0.1:8000/api",
     };
   },
   mounted() {
     axios
-      .get("http://127.0.0.1:8000/api/getTeacherAttendance")
+      .get(this.URL + "/getTeacherAttendance")
       .then((response) => {
         this.attendanceData = response.data;
       })
@@ -110,7 +111,7 @@ thead th {
 }
 
 .status.detail {
-  padding: 10px;
+  padding: 10px 25px;
   margin-left: 10px;
   border-radius: 3px;
   background-color: #0000FF;

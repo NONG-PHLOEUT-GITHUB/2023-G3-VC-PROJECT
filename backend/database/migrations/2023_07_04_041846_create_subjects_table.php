@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->integer('subject_id');
             $table->string('subject_name', 255);
             $table->string('description', 255)->nullable();
             $table->unsignedBigInteger('schedule_id');

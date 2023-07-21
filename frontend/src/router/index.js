@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Director/DirectorDashboard.vue';
 // import StudentView from '../views/Student/StudentView.vue';
-import TeacherList from '../views/Director/TeacherList.vue';
+import TeacherList from '../views/Teacher/TeacherList.vue';
+import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
 import UserInfo from '../views/UserInfo/UserDetail.vue';
-import StudentList from '../views/Director/StudentList.vue';
+import StudentList from '../views/Student/StudentList.vue';
+// import StudentList from '../views/Director/StudentList.vue';
 import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
@@ -18,18 +20,18 @@ import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vu
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
-import LoginView from '../views/Authentication/LoginView2.vue';
 import DashboardView from '../components/Navigation/DashboardView.vue';
-// import FormFogetPassword from '../views/Authentication/ForgotPassword.vue';
-import FormFogetPassword from '../components/HelloWorld.vue';
 
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
-/// change password
-import ChangePassword from '../views/Authentication/ChangePassword.vue';
-
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
-// import NotFoundView from '../views/Authentication/NotFoundView.vue';
+import CheckStudentAttendacne from '../views/Student/CheckStudentAttendance.vue';
+
+//authentication router
+import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
+import LoginView from '../views/Authentication/LoginView.vue';
+// import FormFogetPassword from '../components/HelloWorld.vue';
+import ChangePassword from '../views/Authentication/ChangePassword.vue';
 
 const routes = [
   {
@@ -126,11 +128,11 @@ const routes = [
     name: '/teachermostabsence',
     component: TeacherMostAbsence
   },
-  {
-    path: '/forgot_password',
-    name: '/forgot_password',
-    component: FormFogetPassword
-  },
+  // {
+  //   path: '/forgot_password',
+  //   name: '/forgot_password',
+  //   component: FormFogetPassword
+  // },
   {
     path: '/student_list',
     name: 'student_list',
@@ -174,6 +176,11 @@ const routes = [
     component: ReportView
   },
   {
+    path: '/teacher_list_view',
+    name: 'teacher_list_view',
+    component: TeacherListView
+  },
+  {
     path: '/class_rooms/:id',
     name: 'class_rooms',
     meta: {
@@ -181,17 +188,31 @@ const routes = [
     },
     component: StudentList
   },
-  // {
-  //   path: '/reset_new_password',
-  //   name: 'reset_new_password',
-  //   component: FormResetNewPassword
-  // },
+  {
+    path: '/check_student_attendance',
+    name: 'check_student_attendance',
+    component: CheckStudentAttendacne
+  },
+  {
+    path: '/reset_new_password',
+    name: 'reset_new_password',
+    component: FormResetNewPassword
+  },
   // {
   //   path: '/404',
   //   name: '404',
   //   component: NotFoundView
   // }
-  
+  // {
+  //   path: '/home',
+  //   name: 'home',
+  //   component: HomeView,
+  //   meta: {
+  //     requireAuth: true,
+  //     roles: ['admin']
+  //   },
+  //   beforeEnter: checkRole
+  // },
 
 ]
 
@@ -201,23 +222,6 @@ const router = createRouter({
 });
 
 // https://beginnersoftwaredeveloper.com/how-do-i-protect-my-vue-router/?expand_article=1
-
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     // check if the user is authenticated
-//     if (!store.getters.isAuthenticated) {
-//       next({
-//         path: '/login',
-//         query: { redirect: to.fullPath }
-//       })
-//     } else {
-//       next()
-//     }
-//   } else {
-//     next()
-//   }
-// })
-
 
 router.beforeEach((to,from, next) => {
   const isUserAuthenticated = null;
@@ -230,6 +234,16 @@ router.beforeEach((to,from, next) => {
     next();
   }
 })
+
+// function checkRole(to, from, next) {
+//   const userAuthStore = useUserAuth();
+//   const currentUser = userAuthStore.currentUser;
+//   if (currentUser && to.meta.roles.includes(currentUser.role)) {
+//     next();
+//   } else {
+//     next({ name: 'unauthorized' });
+//   }
+// }
 
 
 export default router

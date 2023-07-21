@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Authentication extends Controller
 {
-
+    // https://jwt-auth.readthedocs.io/en/develop/laravel-installation/
     // https://jwt-auth.readthedocs.io/en/develop/quick-start/
 
     /**

@@ -74,7 +74,10 @@ export default {
           class_name: this.class_name,
           user_id: this.teacher,
         };
-        axios.post( this.URL , newClass).then((response) => {
+        axios
+        .post( this.URL , newClass)
+        .then((response) => {
+          console.log(response.data);
           this.listClasses.push(response.data);
         });
         swal.fire({
@@ -82,7 +85,13 @@ export default {
           title: "create class successfully!",
           text: "you already created your class",
           timer: 2000,
-        });
+        })
+        .then(()=>{
+            this.$router.push({ path: "/class" })
+        })
+        .catch(error=>{
+          console.log(error);
+        })
       }else{
         swal.fire(
         'Complete first',

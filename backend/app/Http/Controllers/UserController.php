@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
+<<<<<<< HEAD
 use App\Models\Guardian;
+=======
+use App\Models\Comment;
+>>>>>>> main
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -115,7 +119,18 @@ class UserController extends Controller
     public function getStudent()
     {
         $users = User::where('role', 3)
+<<<<<<< HEAD
             ->select('id', 'first_name', 'last_name', 'gender', 'age', 'date_of_birth', 'phone_number', 'address', 'email')
+=======
+            ->select('id', 'first_name', 'last_name', 'gender', 'age', 'date_of_birth', 'phone_number', 'address', 'email', 'profile')
+            ->get();
+        return response()->json($users);
+    }
+    public function getTeachers()
+    {
+        $users = User::where('role', 2)
+            ->select('id', 'first_name', 'last_name', 'gender', 'age', 'date_of_birth', 'phone_number', 'address', 'email', 'profile')
+>>>>>>> main
             ->get();
         return response()->json($users);
     }
@@ -129,11 +144,16 @@ class UserController extends Controller
             ->select('users.*')
             ->get();
         if ($users) {
+<<<<<<< HEAD
             return response()->json(["message" => "No teacher with subject " . $subject], 200);
+=======
+            return response()->json(["message" => "No teacher with subject " . $subject], 404);
+>>>>>>> main
         }
         return response()->json(["message" => true, "data" => $users], 200);
     }
 
+<<<<<<< HEAD
     /**
      * Get Guardian information
      */
@@ -150,5 +170,25 @@ class UserController extends Controller
             'user_id' => $user->id,
             'guardian' => $guardianData,
         ]);
+=======
+
+    // --------------------------------Teacher Detail--------------------------------
+
+    // public function getTeacherDetail($teacher_id){
+    //     $teacher = User::where('role', 2)
+    //         ->join('class_room_teacher', 'users.id', '=', 'class_room_teacher.user_id')
+    //         ->join('class_rooms', 'class_room_teacher.class_room_id', '=', 'class_rooms.id')
+    //         ->where('users.id', $teacher_id)
+    //         ->get(['class_rooms.*']);
+
+    //     return response()->json(["message" => true, "data" => $teacher], 200);
+    // }
+
+    // ----------------------get comment for student------------------------
+    public function getCommentForStudent($id)
+    {
+        $comments = Comment::where('student_id', $id)->get();
+        return $comments;
+>>>>>>> main
     }
 }

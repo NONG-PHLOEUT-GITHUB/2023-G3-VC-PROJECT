@@ -34,7 +34,6 @@ class ResetPasswordController extends Controller
 
     public function createToken($email)
     {
-
         $oldToken = DB::table('password_resets')->where('email', $email)->first();
 
         if ($oldToken) {
@@ -46,7 +45,6 @@ class ResetPasswordController extends Controller
         return $token;
     }
 
-
     public function saveToken($token, $email)
     {
         DB::table('password_resets')->insert([
@@ -56,13 +54,11 @@ class ResetPasswordController extends Controller
         ]);
     }
 
-
     public function validateEmail($email)
     {
         return !!User::where('email', $email)->first();
     }
-
-
+  
     public function failedResponse()
     {
         return response()->json([
