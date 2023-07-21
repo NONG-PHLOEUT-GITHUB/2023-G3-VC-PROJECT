@@ -190,7 +190,7 @@ class AttendanceController extends Controller
         $absentAttendance = Attendance::join('users', 'attendances.user_id', '=', 'users.id')
                                         ->where('users.role', 3)
                                         ->where('attendances.attendance_status', 'absent')
-                                        ->whereBetween('date', [$startDate, $endDate])
+                                        ->whereBetween('month', [$startDate, $endDate])
                                         ->count();
         
         // Calculate the absent percentage for all students in the given month
@@ -200,8 +200,15 @@ class AttendanceController extends Controller
         return response()->json(['absentPercentage' => $absentPercentage], 200);
     }
     /**
-    * show total of student absent of each month.
+    * show total of student failed of each month.
     */
+    public function getPercentageOfFaildedStudentByMonth() {
+        $percentage = [];
+        return response()->json(['data' => $percentage], 200);
+    }
+    /**
+    * show total of student absent of each month.
+    */ 
     public function totalAbsentDaysByMonth($user_id, $month)
     {
         $month = Carbon::createFromFormat('Y-m', $month);

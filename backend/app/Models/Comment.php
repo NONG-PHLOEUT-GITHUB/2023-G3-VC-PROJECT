@@ -14,17 +14,28 @@ class Comment extends Model
         'student_id',
         'teacher_id',
     ];
+
+
     public static function store($request, $id = null)
     {
-        $comment = $request->only(
+        $comments = $request->only(
             'id',
             'body',
-            'student_id',
-            'teacher_id',
+            'user_id'
         );
-        $comment = self::updateOrCreate(['id' => $id], $comment);
+        if ($id) {
+            $comment = self::find($id);
+            if (!$comment) {
+                return response()->json(['error' => 'Record not found'], 404);
+            }
+            $comment->update($comments);
+        } else {
+            $comment = self::create($comments);
+            $id = $comment->$id;
+            }
         
-        return $comment;
+        // ================token user password=================
+        return response()->json(['success' => true, 'data' => $comment], 201);
     }
     public function user()
     {

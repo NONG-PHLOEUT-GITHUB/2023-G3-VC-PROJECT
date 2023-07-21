@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <div class="card shadow border-0 mb-7">
     <div class="card-header">
       <h3 class="mb-0 text-primary">TEACHERS LIST</h3>
@@ -139,9 +140,6 @@ export default {
               console.error(error);
             });
         } 
-        // else {
-        //   swal("Cancelled", "Your user is safe :)", "error");
-        // }
       });
     },
 
@@ -219,5 +217,8 @@ export default {
 </script>
 
 <style scoped>
-
+.card{
+  margin-left: 19%;
+  margin-right: 14px;
+}
 </style>

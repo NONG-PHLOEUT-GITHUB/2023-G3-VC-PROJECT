@@ -37,18 +37,18 @@
         </tbody>
       </table>
       <div class="download d-flex justify-content-end mt-3">
-          <button
-            class="btn btn-sm btn-neutral text-white text-dark-hover bg-primary p-4 fs-6 align-self-end"
-            v-if="!isDownloading"
-            @click="downloadPDF()"
-          >
-            <i class="bi bi-download"></i> Download PDF
-          </button>
-          <div v-else>
-            <p>Generating PDF...</p>
-            <i class="fa fa-spinner fa-spin"></i>
-          </div>
-          <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
+        <button
+          class="btn btn-sm btn-neutral text-white text-dark-hover bg-primary p-4 fs-6 align-self-end"
+          v-if="!isDownloading"
+          @click="downloadPDF()"
+        >
+          <i class="bi bi-download"></i> Download PDF
+        </button>
+        <div v-else>
+          <p>Generating PDF...</p>
+          <i class="fa fa-spinner fa-spin"></i>
+        </div>
+        <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
       </div>
     </div>
   </div>
@@ -72,10 +72,8 @@ export default {
     // download pdf ==================================
     downloadPDF() {
       this.isDetail = true;
-      axios({
-        url: this.url,
-        method: "GET",
-      })
+      axios
+        .get(this.url)
         .then((response) => {
           this.teachers = response.data.data;
           const element = document.querySelector(".table");

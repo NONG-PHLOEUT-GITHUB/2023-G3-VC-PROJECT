@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <main class="table">
     <h3>Student Attendance List</h3>
     <table>
@@ -32,11 +33,12 @@ export default {
   data() {
     return {
       attendanceData: [],
+      URL:"http://127.0.0.1:8000/api/getAttendance"
     };
   },
   mounted() {
     axios
-      .get("http://127.0.0.1:8000/api/getAttendance")
+      .get(this.URL)
       .then((response) => {
         this.attendanceData = response.data;
         console.log(this.attendanceData);
