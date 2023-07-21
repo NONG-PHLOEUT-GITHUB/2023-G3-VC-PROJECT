@@ -3,32 +3,34 @@
     <h3>STUDENT LIST</h3>
     <div class="table-container">
       <table id="my-table">
-        <thead class="bg-primary">
-          <tr>
-            <th>No</th>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>Gender</th>
-            <th>Age</th>
-            <th>DateofBirth</th>
-            <th>PhoneNumber</th>
-            <th>Address</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(student, index) in students" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td>{{ student.first_name }}</td>
-            <td>{{ student.last_name }}</td>
-            <td>{{ student.gender }}</td>
-            <td>{{ student.age }}</td>
-            <td>{{ student.date_of_birth }}</td>
-            <td>{{ student.phone_number }}</td>
-            <td>{{ student.address }}</td>
-            <td>{{ student.email }}</td>
-          </tr>
-        </tbody>
+        <v-table>
+          <thead>
+            <tr>
+              <th class="text-white">No</th>
+              <th class="text-white">FirstName</th>
+              <th class="text-white">LastName</th>
+              <th class="text-white">Gender</th>
+              <th class="text-white">Age</th>
+              <th class="text-white">DateofBirth</th>
+              <th class="text-white">PhoneNumber</th>
+              <th class="text-white">Address</th>
+              <th class="text-white">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(student, index) in students" :key="index">
+              <td>{{ index + 1 }}</td>
+              <td>{{ student.first_name }}</td>
+              <td>{{ student.last_name }}</td>
+              <td>{{ student.gender }}</td>
+              <td>{{ student.age }}</td>
+              <td>{{ student.date_of_birth }}</td>
+              <td>{{ student.phone_number }}</td>
+              <td>{{ student.address }}</td>
+              <td>{{ student.email }}</td>
+            </tr>
+          </tbody>
+        </v-table>
       </table>
       <button class="button" v-if="!isDownloading" @click="downloadPDF()">
         <i class="bi bi-download"></i> Download PDF
@@ -105,71 +107,51 @@ export default {
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 
-.table-container {
-  font-family: "Poppins", sans-serif;
-  margin: 0 auto;
-  margin-top: 10px;
-}
 
-#my-table {
+/* Set styles for the table */
+table {
   border-collapse: collapse;
-  border-spacing: 0;
   width: 100%;
+  margin-bottom: 20px;
 }
 
-#my-table th,
-#my-table td {
-  padding: 15px;
-  text-align: center;
-}
-
-#my-table th {
-  border-bottom: 2px solid #fff;
-  color: #fff;
-  font-weight: 600;
-  text-transform: uppercase;
-  border: 1px solid #ddd;
-}
-
-#my-table td {
+td {
+  text-align: left;
+  padding: 8px;
   border-bottom: 1px solid #ddd;
-  border: 1px solid #ddd;
 }
 
-#my-table tr:last-child td {
-  border-bottom: none;
-  border: 1px solid #ddd;
+th {
+  background-color: blue;
+  color: white;
 }
 
-#my-table tr:nth-child(even) td {
-  background-color: #f4f4f4;
-  border: 1px solid #ddd;
+/* Set styles for the download button */
+.button {
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.fa-spinner {
+  font-size: 24px;
+  margin-left: 10px;
+  animation: spin 2s linear infinite;
 }
 
-#my-table tr:hover td {
-  background-color: #eaeaea;
-  border: 1px solid #ddd;
-}
-
-@media only screen and (max-width: 768px) {
-  .my-table {
-    font-size: 0.9rem;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
-
-.my-table td:nth-child(2),
-.my-table td:nth-child(3) {
-  text-align: left;
-}
-
-.my-table td:nth-child(2) {
-  color: #add8e6;
-}
-
-.my-table td:nth-child(3) {
-  color: #999;
-}
-
 .detail {
   background: #58c3e7;
   border: none;
@@ -190,15 +172,12 @@ export default {
 .button {
   background: blue;
   border: none;
-  border-radius: 20px;
   color: #fff;
   cursor: pointer;
   font-weight: 600;
   padding: 10px 22px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
   margin-top: 10px;
-  margin-left: 83%;
+  margin-left: 88%;
 }
 
 .button:hover {
@@ -208,18 +187,5 @@ export default {
 
 .button-container {
   text-align: left;
-}
-
-.fa-spinner {
-  animation: fa-spin 2s infinite linear;
-}
-
-@keyframes fa-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>
