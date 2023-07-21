@@ -175,7 +175,7 @@ export default {
       }
     },
 
-    // ASk AI and copy from it "how to sent imformation of stundet to parent"
+    // ASk AI and copy from it "how to sent attendance of stundet to parent"
     // https://www.youtube.com/watch?v=aNmRNjME6mE
     async getChatId(id) {
       try {
