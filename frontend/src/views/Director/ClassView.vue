@@ -1,112 +1,172 @@
 <template>
-  <div class="card shadow border-0 mb-7">
-    <div class="card-header">
-      <h3 class="mb-0 text-primary">CLASSES LIST</h3>
-    </div>
-    <div class="card-header">
-      <div class="form-group d-flex justify-content-between mb-3">
-       <select name="" id="" class="form-select mb-3 w-25" aria-label="Default select example">
-        <option value="">Grade 10A</option>
-        <option value="">Grade 10A</option>
-       </select>
-        <router-link :to="{ path: '/createClass' }" class="text-white">
-          <button type="button" class="btn btn-primary align-self-end">
-            <i class="bi bi-building"></i> Add new class
-          </button>
-        </router-link>
-      </div>
+  <admin-dashboard></admin-dashboard>
+  <div class="main">
+    <h3 class="mb-0 text-primary mt-4">CLASSES LIST</h3>
+    <v-card class="d-flex mt-5 pa-5">
 
-    </div>
-    <div class="table-responsive">
-      <table class="table table-hover table-nowrap">
-        <tbody>
-          <tr @click="showStudents(classRoom.name)" v-for="classRoom in listClasses" :key="classRoom.name"
-            class="border-2-dark">
-            <td>
-              <i class="bi bi-building"></i>
-              {{ classRoom.class_name }}
+      <!-- <v-row> -->
+        <v-select class="w-10"
+        label="Select class"
+        :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+        variant="solo"
+        ></v-select>
+        <v-btn color="primary" class="mt-4 ms-5" @click="dialog=true"><v-icon>mdi-plus-outline</v-icon> add new class</v-btn>
+      <!-- </v-row> -->
 
-            </td>
-            <td>
-              {{ classRoom.user_id }}
-            </td>
-            <td>
-              {{ numberStudent }}
-            </td>
-            <td class="text-end d-flex justify-content-start">
-              <router-link :to="{ path: '/monthly_report' }">
-                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
-                  <i class="bi bi-table text-warning"></i> Score report
-                </button>
-              </router-link>
-              <router-link :to="{ path: '/attendance_list' }">
-                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300">
-                  <i class="bi bi-calendar2-week-fill text-warning"></i> Attendance report
-                </button>
-              </router-link>
-              <router-link :to="{ path: '/feedback' }">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300"
-                >
-                  <i class="bi bi-calendar2-week-fill text-warning"></i> FeedBack
-                </button>
-              </router-link>
-            </td>
-          </tr>
-        </tbody>
+      <v-row justify="center">
+        <v-dialog v-model="dialog" persistent width="40%">
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">Create new class</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
 
-      </table>
-    </div>
+                  <v-col cols="12">
+                    <v-text-field 
+                    v-modle="className"
+                    label="Class name" 
+                    required variant="outlined"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field 
+                    v-model="teacherName"
+                    variant="outlined"
+                    label="Teacher name"
+                    required
+                    >
+                  </v-text-field>
+                  </v-col>
+                  
+                </v-row>
+              </v-container>
+    
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="blue-darken-1"
+                variant="text"
+                @click="dialog = false"
+              >
+                Close
+              </v-btn>
+              <v-btn type="submit"
+                color="blue-darken-1"
+            
+                @click="addClass"
+              >
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </v-card>
+
+    <v-card
+      v-for="classRoom in listClasses"
+      :key="classRoom.name"
+      class="card mx-auto mt-2"
+      width="96%"
+      prepend-icon="mdi-home"
+    >
+      <template v-slot:title> Class : {{ classRoom.class_name }} </template>
+
+      <v-col cols="auto">
+        <v-btn to="/monthly_report" class="me-4">
+       <v-icon>mdi-chart-line</v-icon>   Score report
+        </v-btn>
+        <v-btn to="/attendance_list">
+         <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn>
+        <v-btn to="/feedback" class="ms-4">
+        <v-icon>mdi-poll</v-icon>  Studen feedback
+        </v-btn>
+       
+
+      </v-col>
+
+      <!-- <v-card-text>
+          This is content
+        </v-card-text>  -->
+    </v-card>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-// import StudentList from '../Student/StudentList.vue'; // Import the StudentList component
+
+import http from "@/htpp.common";
 
 export default {
-  // components: {
-  //   StudentList, // Register the StudentList component
-  // },
   data() {
     return {
       students: [],
       listClasses: [],
       numberStudent: 0,
-      URL: "http://127.0.0.1:8000/api/classes",
-      searchQuery: '',
-      selectedClass: '',
+      searchQuery: "",
+      selectedClass: "",
+      dialog: false,
+
+      teachers: [],
+      className: "",
+      teacherName: "",
     };
   },
-  // computed: {
-  //   filteredClassesList() {
-  //     // Filter the classes list based on the search query
-  //     return this.listClasses.filter(classRoom => classRoom.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
-  //   },
-  // },
+
   methods: {
     getURL() {
-      axios.get(this.URL).then((response) => {
+      http.get("/api/classes").then((response) => {
         this.listClasses = response.data.data;
         console.log(this.listClasses);
       });
     },
     showStudents() {
-      axios.get(`http://127.0.0.1:8000/api/getuserInClass`)
-        .then(response => {
+      http
+        .get('api/getuserInClass')
+        .then((response) => {
           console.log(response.data);
           this.error = null;
         })
-        .catch(error => {
+        .catch((error) => {
           this.studentName = null;
           this.error = error.response.data.error;
         });
+    },
 
+
+    addClass() {
+      if (this.class_name && this.teacher) {
+        const newClass = {
+          class_name: this.class_name,
+          teacher: this.teacher.first_name,
+        };
+        http.post('/api/classes', newClass)
+        .then((response) => {
+          console.log(response.data);
+          this.dialog = false;
+        });
+      }
     },
   },
   mounted() {
+    http.get('/api/getTeachers')
+    .then((response) => {
+      this.teachers = response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
     return this.getURL();
   },
-};
+}
 </script>
+
+<style scoped>
+@import "~vuetify/dist/vuetify.css";
+.main {
+  margin-left: 18%;
+  margin-top: 15px;
+}
+</style>

@@ -19,6 +19,11 @@ export default {
         icon: 'mdi-home'
       },
       {
+        path: '/student_list',
+        title: "Student list",
+        icon: 'mdi-home'
+      },
+      {
         path: '/student-list',
         title: "Add student",
         icon: 'mdi-home'
@@ -34,7 +39,7 @@ export default {
         icon: 'mdi-chart-bar'
       },
       {
-        path: '/student-acadamice',
+        path: '/class_list',
         title: "Class",
         icon: 'mdi-chart-bar'
       },
