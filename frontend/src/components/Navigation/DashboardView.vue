@@ -102,7 +102,7 @@
                                 <i class="bi bi-files-alt my-icon"></i> Score management
                             </a>
                             <router-link v-show="isLinkActiveScore" class="nav-link text-primary ms-4" href="#"
-                                :to="{ path: '/2' }" :class="{ active: $route.path === '/2' }">
+                                :to="{ path: '/student_score' }" :class="{ active: $route.path === '/student_score' }">
                                 <i class="bi bi-clipboard-check my-icon"></i> Student Score
                             </router-link>
                         </li>

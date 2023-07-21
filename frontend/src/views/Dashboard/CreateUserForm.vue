@@ -113,8 +113,8 @@ export default {
   },
   methods: {
     getImage(event) {
-      // this.profile = event.target.files[0];
       var file = event.target.files[0];
+      console.log(event.target.files[0]);
       var form = new FormData();
       form.append('profile', file);
       axios.post(this.imgURL, form).then((response) => {

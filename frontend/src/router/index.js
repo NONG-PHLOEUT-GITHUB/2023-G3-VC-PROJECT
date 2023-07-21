@@ -32,6 +32,10 @@ import FormResetNewPassword from '../views/Authentication/ResetNewPassword.vue';
 import LoginView from '../views/Authentication/LoginView.vue';
 // import FormFogetPassword from '../components/HelloWorld.vue';
 import ChangePassword from '../views/Authentication/ChangePassword.vue';
+// student score list  
+import StudentScore from '../views/Student/StudentScore.vue';
+// add score 
+import AddScore from '../views/Student/AddStudentScore.vue';
 
 const routes = [
   {
@@ -202,7 +206,17 @@ const routes = [
   //   path: '/404',
   //   name: '404',
   //   component: NotFoundView
-  // }
+  // },
+  {
+    path: '/student_score',
+    name: 'student_score',
+    component: StudentScore
+  },
+  {
+    path: '/add_score/:id',
+    name: 'add_score',
+    component: AddScore
+  },
   
 
 ]

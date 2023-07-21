@@ -125,7 +125,10 @@ class UserController extends Controller
             ->get();
         return response()->json($users);
     }
-
+    public function getStudentId($id){
+        $user = User::find($id);
+        return response()->json($user);
+    }
     public function getTeacherBySubject($subject)
     {
         $users = User::where('role', 2)

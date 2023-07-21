@@ -76,6 +76,7 @@ Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']
 // Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
 // get student
 Route::get('/getStudents', [UserController::class,"getStudent"]);
+Route::get('/getStudents/{id}', [UserController::class,"getStudentId"]);
 Route::delete('/getStudents/{id}', [UserController::class,"destroy"]);
 
 // get teachers
