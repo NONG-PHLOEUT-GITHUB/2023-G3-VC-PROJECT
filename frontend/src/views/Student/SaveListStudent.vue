@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h3>STUDENT LIST</h3>
-    <div class="table-container">
+  <admin-dashboard></admin-dashboard>
+  <v-card class="table-container">
+      <h3>STUDENT LIST</h3>
       <table id="my-table">
         <v-table>
           <thead>
@@ -32,16 +32,16 @@
           </tbody>
         </v-table>
       </table>
-      <button class="button" v-if="!isDownloading" @click="downloadPDF()">
-        <i class="bi bi-download"></i> Download PDF
-      </button>
+      <v-btn v-if="!isDownloading" @click="downloadPDF()">
+        <v-icon color="red" size="24">mdi-file-pdf-outline</v-icon>
+         Download PDF
+        </v-btn>
       <div v-else>
         <p>Generating PDF...</p>
         <i class="fa fa-spinner fa-spin"></i>
       </div>
       <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
-    </div>
-  </div>
+    </v-card>
 </template>
 
 <script>
@@ -126,66 +126,9 @@ th {
   color: white;
 }
 
-/* Set styles for the download button */
-.button {
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-top: 20px;
-  cursor: pointer;
-}
-.fa-spinner {
-  font-size: 24px;
-  margin-left: 10px;
-  animation: spin 2s linear infinite;
-}
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.detail {
-  background: #58c3e7;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 8px 20px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
-}
-
-.detail:hover {
-  background: #fff;
-  color: #add8e6;
-}
-
-.button {
-  background: blue;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 10px 22px;
-  margin-top: 10px;
-  margin-left: 88%;
-}
-
-.button:hover {
-  background: #fff;
-  color: #add8e6;
-}
-
-.button-container {
-  text-align: left;
+.table-container{
+  margin-left: 18%;
+  margin-right: 2px;
 }
 </style>

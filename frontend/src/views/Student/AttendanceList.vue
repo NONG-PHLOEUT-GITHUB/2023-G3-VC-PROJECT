@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <main class="table">
     <h3>Student Attendance List</h3>
     <table>
