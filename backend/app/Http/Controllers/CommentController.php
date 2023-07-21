@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -11,15 +12,16 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comment = Comment::all();
+        return response()->json(['success' => true, 'data' => $comment], 200);
     }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $comment = Comment::store($request);
+        return response()->json(['success' => true, 'data' => $comment], 200);
     }
 
     /**
@@ -27,7 +29,8 @@ class CommentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $comment = Comment::find($id);
+        return response()->json(['success' => true, 'data' => $comment], 200);
     }
 
     /**
@@ -35,7 +38,9 @@ class CommentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $comment = Comment::store($request, $id);
+
+        return response()->json(['success' => true, 'data' => $comment], 200);
     }
 
     /**
@@ -43,6 +48,8 @@ class CommentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $comment = Comment::store($id);
+        $comment->delete();
+        return response()->json(['success' => true, 'date' => "delete successfully"], 200);
     }
 }

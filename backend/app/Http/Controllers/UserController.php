@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Comment;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return response()->json(['success'=>true, 'data'=>$user], 200);
+        return response()->json(['success' => true, 'data' => $user], 200);
     }
 
     /**
@@ -34,17 +35,17 @@ class UserController extends Controller
     {
 
         $image = $request->file('profile');
-        $new_name =  rand() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images'),$new_name);
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $new_name);
         $path = asset('images/' . $new_name);
         return $path;
 
-    }    /**
-     * Display the specified resource.
-     */
+    } /**
+      * Display the specified resource.
+      */
     public function getEmails($id)
     {
-        return User::select('email')->where('id','!=', $id)->where('role', '!=', 'admin')->get();
+        return User::select('email')->where('id', '!=', $id)->where('role', '!=', 'admin')->get();
     }
     public function show(string $id)
     {
@@ -62,7 +63,7 @@ class UserController extends Controller
      */
     public function update(StoreUserRequest $request, string $id)
     {
-        $user = User::store($request,$id);
+        $user = User::store($request, $id);
         return $user;
     }
 
@@ -110,18 +111,18 @@ class UserController extends Controller
         return response()->json(['success' => true, 'data' => $results], 200);
     }
 
-    
+
     public function getStudent()
     {
         $users = User::where('role', 3)
-            ->select('id', 'first_name', 'last_name','gender','age','date_of_birth','phone_number','address','email', 'profile')
+            ->select('id', 'first_name', 'last_name', 'gender', 'age', 'date_of_birth', 'phone_number', 'address', 'email', 'profile')
             ->get();
         return response()->json($users);
     }
     public function getTeachers()
     {
         $users = User::where('role', 2)
-            ->select('id', 'first_name', 'last_name','gender','age','date_of_birth','phone_number','address','email', 'profile')
+            ->select('id', 'first_name', 'last_name', 'gender', 'age', 'date_of_birth', 'phone_number', 'address', 'email', 'profile')
             ->get();
         return response()->json($users);
     }
@@ -135,21 +136,28 @@ class UserController extends Controller
             ->select('users.*')
             ->get();
         if ($users) {
-            return response()->json(["message" =>  "No teacher with subject " . $subject], 404);
+            return response()->json(["message" => "No teacher with subject " . $subject], 404);
         }
         return response()->json(["message" => true, "data" => $users], 200);
     }
-    
-    
+
+
     // --------------------------------Teacher Detail--------------------------------
-    
+
     // public function getTeacherDetail($teacher_id){
     //     $teacher = User::where('role', 2)
     //         ->join('class_room_teacher', 'users.id', '=', 'class_room_teacher.user_id')
     //         ->join('class_rooms', 'class_room_teacher.class_room_id', '=', 'class_rooms.id')
     //         ->where('users.id', $teacher_id)
     //         ->get(['class_rooms.*']);
-    
+
     //     return response()->json(["message" => true, "data" => $teacher], 200);
     // }
+
+    // ----------------------get comment for student------------------------
+    public function getCommentForStudent($id)
+    {
+        $comments = Comment::where('student_id', $id)->get();
+        return $comments;
+    }
 }

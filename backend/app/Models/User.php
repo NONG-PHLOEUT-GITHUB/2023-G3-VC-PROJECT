@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use Sabberworm\CSS\Comment\Commentable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
@@ -171,7 +172,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Attendance::class, 'user_id');
     }
-
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
 
 

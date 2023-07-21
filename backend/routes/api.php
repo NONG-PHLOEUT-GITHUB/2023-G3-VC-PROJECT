@@ -7,6 +7,7 @@ use App\Http\Controllers\Authentication;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ImportExelFileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectTeacherController;
@@ -36,6 +37,8 @@ Route::resource("/users", UserController::class);
 Route::get("/classes", [ClassRoomController::class, 'index']);
 Route::post("/classes", [ClassRoomController::class, 'store']);
 Route::resource("/attendances", AttendanceController::class);
+Route::resource("/comments", CommentController::class);
+Route::get("/getcommentforspecificstudent/{id}", [UserController::class, "getCommentForStudent"]);
 
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
 // ***Student***
