@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 //admind dashboard router =================================================================
 import DashboardHomeView from '@/views/Director/DirectorDashboard.vue';
-import AddTeacher from '@/views/Teacher/TeacherList.vue';
+import AddTeacher from '../views/Teacher/TeacherList.vue';
 //admind dashboard router =================================================================
 import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import ScheduleView from '../views/Director/ScheduleView.vue';
@@ -126,6 +126,9 @@ const routes = [
     name: 'StudentDashboard',
     component: StudentDashboard
   },
+
+
+
   {
     path: '/teacher-dashboard',
     name: 'TeacherDashboard',
@@ -134,8 +137,8 @@ const routes = [
 
 
   {
-    path: '/student',
-    name: 'student',
+    path: '/student-list',
+    name: 'StudentList',
     component: StudentList
   },
   {
@@ -242,8 +245,8 @@ const routes = [
     component: ReportView
   },
   {
-    path: '/teacher_list_view',
-    name: 'teacher_list_view',
+    path: '/teacher_list',
+    name: 'teacher_list',
     component: TeacherListView
   },
   {

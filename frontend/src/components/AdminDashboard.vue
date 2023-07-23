@@ -4,7 +4,6 @@
 
 <script>
 
-
 export default {
   data: () => ({
     menubar: [
@@ -14,19 +13,24 @@ export default {
         icon: 'mdi-home'
       },
       {
+        path: '/teacher_list',
+        title: "teacher list",
+        icon: 'mdi-format-list-bulleted'
+      },
+      {
         path: '/add-teacher',
         title: "Add teacher",
-        icon: 'mdi-home'
+        icon: 'mdi-plus'
       },
       {
         path: '/student_list',
         title: "Student list",
-        icon: 'mdi-home'
+        icon: 'mdi-format-list-bulleted'
       },
       {
         path: '/student-list',
         title: "Add student",
-        icon: 'mdi-home'
+        icon: 'mdi-plus'
       },
       {
         path: '/student-attendance',
@@ -41,7 +45,7 @@ export default {
       {
         path: '/class_list',
         title: "Class",
-        icon: 'mdi-chart-bar'
+        icon: 'mdi-clipboard-text'
       },
     ],
   })

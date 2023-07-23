@@ -1,5 +1,6 @@
 <template>
-  <div class="teacher-list">
+  <admin-dashboard></admin-dashboard>
+  <div class="teacher-list mt-4">
     <h3>TEACHERS' LIST</h3>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap mt-3">
@@ -58,14 +59,15 @@
 import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import http from "../../htpp.common";
 export default {
+
   data() {
     return {
       isDownloading: false,
       isDetail: false,
       pdfUrl: null,
       teachers: [],
-      url: "http://127.0.0.1:8000/api/getTeachers",
     };
   },
   methods: {
@@ -94,10 +96,10 @@ export default {
         });
     },
     fetchData() {
-      axios
-        .get(this.url)
+      http
+        .get('/api/get-teachers')
         .then((response) => {
-          this.teachers = response.data;
+          this.teachers = response.data.data;
         })
         .catch((error) => {
           console.log(error);
@@ -116,121 +118,8 @@ export default {
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 
-/* .table-container {
-  font-family: "Poppins", sans-serif;
-  margin: 0 auto;
-  margin-top: 10px;
+.teacher-list{
+  /* background:blue; */
+  margin-left: 18%;
 }
-
-#my-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-}
-
-#my-table th,
-#my-table td {
-  padding: 15px;
-  text-align: center;
-}
-
-#my-table th {
-  border-bottom: 2px solid #fff;
-  color: #fff;
-  font-weight: 600;
-  text-transform: uppercase;
-  border: 1px solid #ddd;
-}
-
-#my-table td {
-  border-bottom: 1px solid #ddd;
-  border: 1px solid #ddd;
-}
-
-#my-table tr:last-child td {
-  border-bottom: none;
-  border: 1px solid #ddd;
-}
-
-#my-table tr:nth-child(even) td {
-  background-color: #f4f4f4;
-  border: 1px solid #ddd;
-}
-
-#my-table tr:hover td {
-  background-color: #eaeaea;
-  border: 1px solid #ddd;
-}
-
-@media only screen and (max-width: 768px) {
-  .my-table {
-    font-size: 0.9rem;
-  }
-}
-
-.my-table td:nth-child(2),
-.my-table td:nth-child(3) {
-  text-align: left;
-}
-
-.my-table td:nth-child(2) {
-  color: #add8e6;
-}
-
-.my-table td:nth-child(3) {
-  color: #999;
-}
-
-.detail {
-  background: #58c3e7;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 8px 20px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
-}
-
-.detail:hover {
-  background: #fff;
-  color: #add8e6;
-}
-
-.button {
-  background: blue;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 10px 22px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
-  margin-top: 10px;
-  margin-left: 83%;
-}
-
-.button:hover {
-  background: #fff;
-  color: #add8e6;
-}
-
-.button-container {
-  text-align: left;
-}
-
-.fa-spinner {
-  animation: fa-spin 2s infinite linear;
-}
-
-@keyframes fa-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} */
 </style>

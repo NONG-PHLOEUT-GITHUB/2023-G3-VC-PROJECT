@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <div class="card shadow border-0 mb-7">
     <div class="card-header">
       <h3 class="mb-0 text-primary">STUDENTS LIST</h3>
@@ -300,6 +301,10 @@ export default {
 </script>
 
 <style>
+.card{
+  margin-left: 20%;
+  background: #000;
+}
 .input-file {
   position: relative;
   overflow: hidden;
