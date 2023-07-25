@@ -21,18 +21,21 @@
           </tr>
         </thead>
 
-        <tbody v-for="student of listUser" :key="student">
-          <tr class="border-secondary">
+        <tbody>
+          <tr
+            class="border-secondary"
+            v-for="student in listUser"
+            :key="student.id"
+          >
             <td>
               <input
-              class="form-check-input" 
-                type="checkbox" 
+                class="form-check-input"
+                type="checkbox"
                 @click="getStudentId(student.id)"
                 v-model="student.selected"
               />
-              {{ student.first_name + " " }}{{ student.last_name }}
+              {{ student.first_name }} {{ student.last_name }}
             </td>
-
             <td>
               <input
                 type="number"
@@ -121,10 +124,8 @@
                 v-model="student.SP"
               />
             </td>
-            <td  >{{ getTotalScore(student)}}</td>
-            <!-- <td>{{ getTotalScore() ? getTotalScore(student) : 0 }}</td> -->
+            <td>{{ getTotalScore(student) }}</td>
             <td>{{ getAverageScore(student) }}</td>
-           
           </tr>
         </tbody>
       </table>
@@ -148,7 +149,6 @@ export default {
     getStudent() {
       axios.get(this.URL).then((response) => {
         this.listUser = response.data;
-        // console.log(this.listUser);
       });
     },
 
@@ -163,7 +163,7 @@ export default {
           console.error(error);
         });
     },
-
+    // get score form input number
     getScore(student) {
       let scores = [];
       for (var subject in student) {
@@ -171,35 +171,47 @@ export default {
           scores.push(student[subject]);
         }
       }
-      return scores.pop();
+      console.log(scores.pop());
+      return scores;
     },
   },
   computed: {
+    // compute total of score that we have been inputed
     getTotalScore() {
       return function (student) {
         let total = 0;
-        for (var score in student) {
-          if (typeof student[score] === "number") {
-              total += student[score]
-            }
+        const subjects = [
+          "K",
+          "M",
+          "P",
+          "E",
+          "B",
+          "ES",
+          "CH",
+          "GEO",
+          "H",
+          "MC",
+          "SP",
+        ];
+        for (var i = 0; i < subjects.length; i++) {
+          const subject = subjects[i];
+          if (
+            typeof student[subject] === "number" &&
+            !isNaN(student[subject])
+          ) {
+            total += student[subject];
           }
-          return total;
+        }
+        return total;
       };
     },
+    // get average score that we have been inputed 
     getAverageScore() {
       return function (student) {
-        let total = 0;
-        let average=0;
-        for (var score in student) {
-          if (typeof student[score] === "number") {
-              total += student[score]
-              average = total/12
-            }
-          }
-          return average;
+        let total = this.getTotalScore(student);
+        return (total / 12).toFixed(2);
       };
-
-    }
+    },
   },
   mounted() {
     return this.getStudent();
