@@ -217,7 +217,6 @@ class AttendanceController extends Controller
             ->whereMonth('date', $month->month)
             ->whereYear('date', $month->year)
             ->get();
-
         $totalAbsentDays = count($absentAttendances);
 
         if (empty($totalAbsentDays)) {
