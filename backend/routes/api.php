@@ -50,6 +50,7 @@ Route::get("/getPercentageOfFaildedStudentByMonth/{year}", [UserController::clas
 Route::post('/getImage', [UserController::class, 'getImage']);
 Route::get("/users/subject/{subject}", [UserController::class, "getTeacherBySubject"]);
 Route::get('/get-teachers', [UserController::class,"getTeachers"]);
+
 Route::delete('/get-teachers/{id}', [UserController::class,"destroy"]);
 Route::get('/get-students', [UserController::class,"getStudent"]);
 
@@ -66,6 +67,8 @@ Route::put("/classrooms/{id}", [ClassRoomController::class, 'update']);
 Route::get("/classrooms/{id}", [ClassRoomController::class, 'show']);
 Route::get("/classrooms", [ClassRoomController::class, 'index']);
 Route::get('/classrooms', [ClassRoomController::class, 'index']);
+
+Route::put('/classrooms/{id}', [UserController::class,"updateClass"]);
 // Route::get('/get_student', [ClassRoomController::class, 'getStudentInClassroom']);
 Route::post('/classroom', [ClassRoomController::class, 'store']);
 Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
