@@ -165,7 +165,6 @@ export default {
       .catch(error => {
         console.log(error);
       });
-     
     axios.get(this.URL + "/getPercentageOfFaildedStudentByMonth")
       .then(response => {
         const mydata = response.data.failed_users_percentage;
