@@ -2,7 +2,7 @@
   <main class="table">
     <h3>Teacher Most Absence List</h3>
     <table>
-      <thead>
+      <thead class="no">
         <tr>
           <th>First Name</th>
           <th>Last Name</th>
@@ -87,7 +87,7 @@ td {
   font-weight: bold;
   font-size: 15px;
 }
-thead th {
+.no {
   position: sticky;
   top: 0;
   left: 0;

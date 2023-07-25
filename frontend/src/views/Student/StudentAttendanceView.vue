@@ -87,7 +87,7 @@ export default {
 }
 </script>
   
-<style>
+<style scoped>
   @import "~vuetify/dist/vuetify.css";
 .card{
   margin-left: 17%;

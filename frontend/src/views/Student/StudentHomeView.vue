@@ -17,7 +17,7 @@
       </div>
     </v-sheet>
   </template>
-  <style>
+  <style scoped>
     @import "~vuetify/dist/vuetify.css";
   
     .sheet {
