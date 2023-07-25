@@ -12,28 +12,16 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
         $comment = Comment::all();
-        return response()->json(['success'=>true, 'data'=>$comment], 200);
+        return response()->json(['success' => true, 'data' => $comment], 200);
     }
-
-    // public function getComment()
-    // {
-    //     $comments = Comment::where('role', 3)
-    //         ->select('id', 'body', 'user_id')
-    //         ->get();
-    //     return response()->json($comments);
-    // }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
-        
-        $comments = Comment::store($request);
-        return $comments;
-        
+        $comment = Comment::store($request);
+        return response()->json(['success' => true, 'data' => $comment], 200);
     }
 
     /**
@@ -41,7 +29,8 @@ class CommentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $comment = Comment::find($id);
+        return response()->json(['success' => true, 'data' => $comment], 200);
     }
 
     /**
@@ -49,7 +38,9 @@ class CommentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $comment = Comment::store($request, $id);
+
+        return response()->json(['success' => true, 'data' => $comment], 200);
     }
 
     /**
@@ -57,6 +48,8 @@ class CommentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $comment = Comment::store($id);
+        $comment->delete();
+        return response()->json(['success' => true, 'date' => "delete successfully"], 200);
     }
 }

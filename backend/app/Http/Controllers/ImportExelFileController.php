@@ -20,7 +20,6 @@ class ImportExelFileController extends Controller
                 'message' => 'No file uploaded'
             ], 400);
         }
-
         $filePath = Storage::putFile('files', $file);
         
         Excel::import(new ImportUsers, storage_path('app/' . $filePath));

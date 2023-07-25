@@ -1,9 +1,9 @@
 <template>
   <admin-dashboard></admin-dashboard>
-  <v-card class="table-container">
-      <h3>STUDENT LIST</h3>
-      <table id="my-table">
-        <v-table>
+  <v-card class="table-container mt-4">
+      <h3 class="ms-6">STUDENT LIST</h3>
+      <table id="my-table" >
+        <v-table class="pa-6">
           <thead>
             <tr>
               <th class="text-white">No</th>
@@ -32,8 +32,9 @@
           </tbody>
         </v-table>
       </table>
+      <div class="icon pa-4">
       <v-btn v-if="!isDownloading" @click="downloadPDF()">
-        <v-icon color="red" size="24">mdi-file-pdf-outline</v-icon>
+        <v-icon size="24">mdi-download</v-icon>
          Download PDF
         </v-btn>
       <div v-else>
@@ -41,6 +42,7 @@
         <i class="fa fa-spinner fa-spin"></i>
       </div>
       <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
+    </div>
     </v-card>
 </template>
 
@@ -48,6 +50,7 @@
 import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import http from '../../htpp.common'
 export default {
   data() {
     return {
@@ -55,7 +58,6 @@ export default {
       isDetail: false,
       pdfUrl: null,
       students: [],
-      url: "http://127.0.0.1:8000/api/getStudents",
     };
   },
   // reference https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI
@@ -85,10 +87,10 @@ export default {
         });
     },
     fetchData() {
-      axios
-        .get(this.url)
+      http
+        .get('api/get-students')
         .then((response) => {
-          this.students = response.data;
+          this.students = response.data.data;
         })
         .catch((error) => {
           console.log(error);
@@ -130,5 +132,10 @@ th {
 .table-container{
   margin-left: 18%;
   margin-right: 2px;
+}
+
+.icon{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

@@ -66,7 +66,7 @@ class Authentication extends Controller
     public function user(Request $request)
     {
      
-        $user = User::with('guardian','classroom','attendances', 'scores','comments')->find(Auth::user()->id);
+        $user = User::with('guardian','classroom','attendances', 'scores',)->find(Auth::user()->id);
         
         return response()->json([
             'status' => 'success',

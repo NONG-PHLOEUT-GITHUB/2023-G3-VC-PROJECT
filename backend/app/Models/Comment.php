@@ -11,8 +11,11 @@ class Comment extends Model
     protected $fillable = [
         'id',
         'body',
-        'user_id'
+        'student_id',
+        'teacher_id',
     ];
+
+
     public static function store($request, $id = null)
     {
         $comments = $request->only(
@@ -34,7 +37,6 @@ class Comment extends Model
         // ================token user password=================
         return response()->json(['success' => true, 'data' => $comment], 201);
     }
-
     public function user()
     {
         return $this->belongsTo(User::class);

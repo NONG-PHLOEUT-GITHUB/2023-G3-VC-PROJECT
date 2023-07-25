@@ -77,7 +77,7 @@
 
         <v-main class="main">
             <router-view></router-view>
-
+           <!-- <user-details></user-details> -->
         </v-main>
     </v-layout>
 
@@ -91,11 +91,13 @@
 import http from '@/htpp.common'
 import Cookies from 'js-cookie';
 import ChangePasswordDialog from '@/views/Authentication/ChangePasswordForm.vue';
+// import UserDetails from '@/views/UserInfo/UserProfile.vue';
 export default {
     props: ['menubar'],
     name: "LayoutDashboard",
     components: {
         ChangePasswordDialog,
+        // UserDetails
     },
     data: () => ({
         users: [],
@@ -150,6 +152,7 @@ export default {
 .btn {
     display: flex;
     justify-content: flex-start;
+    border: solid 1px gray;
 }
 
 .image {
@@ -159,5 +162,7 @@ export default {
 .user-name span {
     text-transform: uppercase;
 }
+
+
 </style>
   

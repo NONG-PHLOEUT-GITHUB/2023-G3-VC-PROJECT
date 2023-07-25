@@ -9,23 +9,23 @@ export default {
   data: () => ({
     menubar: [
       {
-        path: '/student-list',
-        title: "Dashboard",
-        icon: 'mdi-home'
-      },
-      {
-        path: '/class-list',
+        path: '/teacher-dashboard',
         title: "Dashboard",
         icon: 'mdi-home'
       },
       {
         path: '/student-attendance',
-        title: "My Attendance",
+        title: "Attendance",
         icon: 'mdi-school'
       },
       {
         path: '/student-score',
-        title: " My score",
+        title: "score",
+        icon: 'mdi-home'
+      },
+      {
+        path: '/class-list',
+        title: "classroom",
         icon: 'mdi-home'
       },
     ],
