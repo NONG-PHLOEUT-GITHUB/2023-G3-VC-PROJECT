@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ChangePasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Authentication;
-use App\Http\Controllers\ChangePasswordController;
-use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GuardianController;
@@ -124,17 +124,14 @@ Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
 
         // Login User
-        Route::post('/login', [Authentication::class, "login"]);
-
-        // Refresh the JWT Token
-        // Route::get('/refresh', [AuthController::class, 'refresh']);
+        Route::post('/login', [AuthenticationController::class, "login"]);
 
         Route::middleware('auth:api')->group(function () {
             // Get user info
-            Route::get('/user', [Authentication::class,'user']);
+            Route::get('/user', [AuthenticationController::class,'user']);
 
             // Logout user from application
-            Route::post('/logout',[Authentication::class,'logout']);
+            Route::post('/logout',[AuthenticationController::class,'logout']);
             // Change password user from application
         });
     });
