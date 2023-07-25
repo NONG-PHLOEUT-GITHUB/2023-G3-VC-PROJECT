@@ -168,6 +168,7 @@ const routes = [
     path: '/attendance-list',
     name: '/AttendanceList',
     component: AttendanceList
+    
   },
   {
     path: '/studentmostabsence',

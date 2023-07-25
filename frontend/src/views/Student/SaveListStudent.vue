@@ -1,56 +1,58 @@
 <template>
-  <admin-dashboard></admin-dashboard>
+<admin-dashboard></admin-dashboard>
   <v-card class="table-container mt-4">
-      <h3 class="ms-6">STUDENT LIST</h3>
-      <table id="my-table" >
-        <v-table class="pa-6">
-          <thead>
-            <tr>
-              <th class="text-white">No</th>
-              <th class="text-white">FirstName</th>
-              <th class="text-white">LastName</th>
-              <th class="text-white">Gender</th>
-              <th class="text-white">Age</th>
-              <th class="text-white">DateofBirth</th>
-              <th class="text-white">PhoneNumber</th>
-              <th class="text-white">Address</th>
-              <th class="text-white">Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(student, index) in students" :key="index">
-              <td>{{ index + 1 }}</td>
-              <td>{{ student.first_name }}</td>
-              <td>{{ student.last_name }}</td>
-              <td>{{ student.gender }}</td>
-              <td>{{ student.age }}</td>
-              <td>{{ student.date_of_birth }}</td>
-              <td>{{ student.phone_number }}</td>
-              <td>{{ student.address }}</td>
-              <td>{{ student.email }}</td>
-            </tr>
-          </tbody>
-        </v-table>
-      </table>
-      <div class="icon pa-4">
-        <v-btn class='mb-4 me-6' v-if="!isDownloading" @click="downloadPDF()">
+    <h3 class="ms-6">STUDENT LIST</h3>
+    <table id="my-table">
+      <v-table class="pa-6">
+        <thead>
+          <tr>
+            <th class="text-white">No</th>
+            <th class="text-white">FirstName</th>
+            <th class="text-white">LastName</th>
+            <th class="text-white">Gender</th>
+            <th class="text-white">Age</th>
+            <th class="text-white">DateofBirth</th>
+            <th class="text-white">PhoneNumber</th>
+            <th class="text-white">Address</th>
+            <th class="text-white">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(student, index) in students" :key="index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ student.first_name }}</td>
+            <td>{{ student.last_name }}</td>
+            <td>{{ student.gender }}</td>
+            <td>{{ student.age }}</td>
+            <td>{{ student.date_of_birth }}</td>
+            <td>{{ student.phone_number }}</td>
+            <td>{{ student.address }}</td>
+            <td>{{ student.email }}</td>
+          </tr>
+        </tbody>
+      </v-table>
+    </table>
+    <div class="icon pa-4">
+      <v-btn v-if="!isDownloading" @click="downloadPDF()">
         <v-icon size="24">mdi-download</v-icon>
-         Download PDF
-        </v-btn>
+        Download PDF
+      </v-btn>
       <div v-else>
         <p>Generating PDF...</p>
         <i class="fa fa-spinner fa-spin"></i>
       </div>
       <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
     </div>
-    </v-card>
+  </v-card>
 </template>
 
 <script>
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import http from '../../htpp.common'
+import AdminDashboard from '../../components/AdminDashboard.vue';
 export default {
+  components: { AdminDashboard },
   data() {
     return {
       isDownloading: false,
@@ -65,7 +67,7 @@ export default {
     downloadPDF() {
       this.isDetail = true;
       http
-        .get('/api/get-students')
+        .get('api/get-students')
         .then((response) => {
           this.students = response.data.data;
           const element = document.getElementById("my-table");

@@ -56,7 +56,7 @@ export default {
         'body': this.comment,
         'user_id': this.selectedStudent, // Use only the selected student's ID in the POST request
       };
-      console.log(commentData);
+
       axios
         .post(this.commentURL, commentData)
         .then((response) => {
