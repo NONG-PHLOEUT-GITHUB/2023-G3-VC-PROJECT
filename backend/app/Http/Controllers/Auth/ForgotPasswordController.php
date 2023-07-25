@@ -30,7 +30,6 @@ class ForgotPasswordController extends Controller
         }
 
         // Generate Token
-        // $token = Str::random(60);
         $token = JWTAuth::fromUser($user, ['reset_password' => true]);
         // If email is already has in table delete it
         PasswordReset::where('email', $email)->delete();

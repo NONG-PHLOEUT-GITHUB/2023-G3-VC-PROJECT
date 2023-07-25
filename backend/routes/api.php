@@ -40,7 +40,7 @@ Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmai
 
 // ========================users router==================================================
 
-Route::post('/users_import', [ImportExelFileController::class, 'import']);
+Route::post('/users-import', [ImportExelFileController::class, 'import']);
 Route::get('/teacher_information/{teacher_id}',[UserController::class,'getTeacherDetail']);
 Route::get('/users/{id}', [UserController::class,"show"]);
 Route::put('/users/{id}', [UserController::class,"update"]);
@@ -70,7 +70,7 @@ Route::get('/classrooms', [ClassRoomController::class, 'index']);
 Route::post('/classroom', [ClassRoomController::class, 'store']);
 Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
-Route::delete('/getStudents/{id}', [UserController::class,"destroy"]);
+Route::delete('/delete-user/{id}', [UserController::class,"destroy"]);
 Route::get('/getuserInClass/{class}', [ClassRoomController::class, 'getClassNameUserId']);
 
 // ========================subject router===============================================
