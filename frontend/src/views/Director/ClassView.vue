@@ -9,8 +9,9 @@
         v-model="selectedClass"
         variant="solo"
       ></v-select>
-      <v-btn color="primary" class="mt-4 ms-5" @click="dialog = true"><v-icon>mdi-plus-outline</v-icon> add new
-        class</v-btn>
+      <v-btn color="primary" class="mt-4 ms-5" @click="dialog = true"
+        ><v-icon>mdi-plus-outline</v-icon> add new class</v-btn
+      >
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent width="40%">
           <v-card>
@@ -22,19 +23,39 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-text-field v-model="className" label="Class name" required variant="outlined"></v-text-field>
+                      <v-text-field
+                        v-model="className"
+                        label="Class name"
+                        required
+                        variant="outlined"
+                      ></v-text-field>
                     </v-col>
                     <v-col cols="12">
-                      <v-select v-model="selectedTeacher" :items="teachers" :item-text="teacherName" item-value="user_id"
-                        label="Select teacher" variant="outlined">
-                      </v-select>
+                      <select
+                        v-model="selectedTeacher"
+                        class="form-select"
+                        aria-label="Default select example"
+                      >
+                        <option
+                          v-for="teacher in teacherList"
+                          :key="teacher.id"
+                          :value="teacher.id"
+                        >
+                          {{ teacher.first_name }} {{ teacher.last_name }}
+                        </option>
+                      </select>
                     </v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue-darken-1" variant="text" @click="dialog = false">Cancel</v-btn>
+                <v-btn
+                  color="blue-darken-1"
+                  variant="text"
+                  @click="dialog = false"
+                  >Cancel</v-btn
+                >
                 <v-btn type="submit" color="blue-darken-1">Save</v-btn>
               </v-card-actions>
             </v-form>
@@ -43,8 +64,13 @@
       </v-row>
     </v-card>
 
-    <v-card v-for="classroom in classrooms" :key="classroom.id" class="card mx-auto mt-2" width="96%"
-      prepend-icon="mdi-home">
+    <v-card
+      v-for="classroom in classrooms"
+      :key="classroom.id"
+      class="card mx-auto mt-2"
+      width="96%"
+      prepend-icon="mdi-home"
+    >
       <template v-slot:title> Class : {{ classroom.class_name }} </template>
 
       <div class="action">
@@ -53,7 +79,8 @@
             <v-icon>mdi-chart-line</v-icon> Score report
           </v-btn>
           <v-btn to="/attendance_list">
-            <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn>
+            <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn
+          >
           <v-btn to="/feedback" class="ms-4">
             <v-icon>mdi-poll</v-icon> Studen feedback
           </v-btn>
@@ -62,7 +89,11 @@
           <v-btn @click="editClassroom(classroom)" color="green" class="me-2">
             <v-icon>mdi-pencil</v-icon>Edit
           </v-btn>
-          <v-btn @click="deleteClassroom(classroom.id)" color="red" class="text-white">
+          <v-btn
+            @click="deleteClassroom(classroom.id)"
+            color="red"
+            class="text-white"
+          >
             <v-icon>mdi-delete</v-icon> Delete
           </v-btn>
         </v-col>
@@ -85,10 +116,12 @@ export default {
       teachers: [],
       selectedTeacher: null,
       classrooms: [],
+      teacherList: [],
       className: "",
       formAction: "Add Classroom",
       editing: false,
       editId: null,
+      listClass: [],
     };
   },
 
@@ -113,29 +146,29 @@ export default {
           console.log(error.response.data.error);
         });
     },
-
-    getTeacher() {
+    addTeacher() {
+      // Send a POST request to create a new classroom
       http
-        .get("/get-teachers")
+        .post("/api/classrooms", {
+          class_name: this.className,
+          teacher_id: this.selectedTeacher,
+        })
         .then((response) => {
-          if (response.data && response.data.data) {
-            let teacherList = response.data.data;
-            for (let teacher of teacherList) {
-              // this.teachers.push(teacher.first_na  me + " " + teacher.last_name);
-              this.teachers.push(teacher.id)
-              // this.teachers.push({
-              //   text: teacher.first_name + " " + teacher.last_name,
-              //   value: teacher.id,
-              // });
-            }
-            console.log(this.teachers);
-          } else {
-            console.log("Invalid response format:", response);
-          }
+          console.log("New classroom created:", response.data);
+          // Reset the form fields
+          this.className = null;
+          this.selectedTeacher = null;
+          // Reload the list of classrooms
+          this.fetchClassrooms();
         })
         .catch((error) => {
-          console.log("Error fetching teachers:", error);
+          console.log("Error creating classroom:", error);
         });
+    },
+    getTeacher() {
+      http.get("/get-teachers").then((response) => {
+        this.teacherList = response.data.data;
+      });
     },
     onTeacherSelected(teacher) {
       // this.selectedTeacher = teacher.text;
@@ -145,7 +178,7 @@ export default {
     fetchClassrooms() {
       http.get("/classrooms").then((response) => {
         this.classrooms = response.data.data;
-        console.log('class', this.classrooms);
+        console.log("class", this.classrooms);
       });
     },
 
@@ -163,6 +196,7 @@ export default {
           .then(() => {
             // Reset the form and close the dialog
             this.cancelForm();
+            this.fetchClassrooms()
           })
           .catch((error) => {
             console.log(error);
@@ -186,9 +220,30 @@ export default {
       this.formAction = "Edit Classroom";
       this.editing = true;
       this.editId = classroom.id;
-      this.classroom = { ...classroom };
-      this.selectedTeacher = classroom.teacherId;
+      this.className = classroom.class_name;
+      this.selectedTeacher = classroom.teacher_id;
       this.dialog = true;
+    },
+
+    updateClassroom() {
+      const id = this.editId;
+      // Send a PUT request to update the classroom
+      http
+        .put(`/classrooms/${id}`, {
+          class_name: this.className,
+          teacher_id: this.selectedTeacher,
+        })
+        .then((response) => {
+          this.fetchClassrooms();
+          console.log("Classroom updated:", response.data);
+          this.className = null;
+          this.selectedTeacher = null;
+          // Reload the list of classrooms
+          this.dialog = false;
+        })
+        .catch((error) => {
+          console.log("Error updating classroom:", error);
+        });
     },
 
     cancelForm() {
@@ -212,12 +267,13 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    }
+    },
   },
 
   mounted() {
-    this.getTeacher()
     this.fetchClassrooms();
+    this.getTeacher();
+    this.addTeacher();
   },
 };
 </script>

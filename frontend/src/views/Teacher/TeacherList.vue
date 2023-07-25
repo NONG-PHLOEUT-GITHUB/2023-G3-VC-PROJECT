@@ -5,12 +5,13 @@
       <h3 class="mb-0 text-primary">TEACHERS LIST</h3>
     </div>
     <div class="card-header">
-      <select class="form-select mb-3" aria-label="Default select example" style="width: 30%;">
-        <option selected disabled>Select grade</option>
-        <option value="10">Grade 10</option>
-        <option value="11">Grade 11</option>
-        <option value="12">Grade 12</option>
-      </select>
+       <select class="form-select mb-3" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
+          @click="getStudentInClass(selectedClass)">
+          <option selected disabled>Select grade</option>
+          <option v-for="grade in grades" :key="grade.value" :value="grade.value">
+            {{ grade.label }}
+          </option>
+        </select>
       <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
         <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%;">
           <input class="form-control mr-sm-2" type="search" placeholder="Search student" aria-label="Search"
@@ -93,6 +94,21 @@ export default {
       teacherList: [],
       errorMessage: "",
       searchQuery: "",
+      getClassURL:"http://127.0.0.1:8000/api/getuserInClass",
+      grades: [
+        { label: "Grade 9A", value: "9A" },
+        { label: "Grade 9B", value: "9B" },
+        { label: "Grade 9C", value: "9C" },
+        { label: "Grade 10A", value: "10A" },
+        { label: "Grade 10B", value: "10B" },
+        { label: "Grade 10C", value: "10C" },
+        { label: "Grade 11A", value: "11A" },
+        { label: "Grade 11B", value: "11B" },
+        { label: "Grade 11C", value: "11C" },
+        { label: "Grade 12A", value: "12A" },
+        { label: "Grade 12B", value: "12B" },
+        { label: "Grade 12C", value: "12C" },
+      ],
     }
   },
 
@@ -208,7 +224,20 @@ export default {
       }).catch(error => {
         console.error(error.response.data);
       });
-    }
+    },
+     getStudentInClass(classId) {
+      axios
+        .get(this.getClassURL + "/" + `${classId}`)
+        .then((response) => {
+          this.listUser = response.data.data;
+          for (let user of this.listUser) {
+            this.listUser = user.students;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 
   mounted() {
