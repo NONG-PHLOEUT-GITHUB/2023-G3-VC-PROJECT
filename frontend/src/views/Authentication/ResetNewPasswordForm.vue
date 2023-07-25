@@ -48,7 +48,7 @@
 
 <!-- // https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
 <script>
-// import Swal from 'sweetalert2'
+import Swal from 'sweetalert2'
 
 import http from '@/htpp.common';
 export default {
@@ -83,11 +83,35 @@ export default {
             };
             http.post(`/api/reset-new-password/${this.token}`, data, {
 
+            })
+            .then(() => {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+              },
+            });
+
+            Toast.fire({
+              icon: "success",
+              title: "Your password has been reset successfully!",
+              html: "<p>You can now login with your new password.</p>",
             }).then(() => {
                 this.newPassword = '';
                 this.confirmPassword = '';
                 this.$router.push('/')
-            })
+            });
+          })
+            // .then(() => {
+            //     this.newPassword = '';
+            //     this.confirmPassword = '';
+            //     this.$router.push('/')
+            // })
                 .catch(error => {
                     if (error.response.status === 422) {
                         // this.dialog = true;

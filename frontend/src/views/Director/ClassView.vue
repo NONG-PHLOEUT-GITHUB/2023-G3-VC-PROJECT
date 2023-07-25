@@ -15,45 +15,48 @@
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent width="40%">
           <v-card>
-            <v-card-title>
-              <span class="text-h5">Create new class</span>
-            </v-card-title>
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      v-model="className"
-                      label="Class name"
-                      required
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field
-                      v-model="teacherName"
-                      variant="outlined"
-                      label="Teacher name"
-                      required
-                    >
-                    </v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="blue-darken-1"
-                variant="text"
-                @click="dialog = false"
-              >
-                Close
-              </v-btn>
-              <v-btn type="submit" color="blue-darken-1" @click="addClass">
-                Save
-              </v-btn>
-            </v-card-actions>
+            <v-form @submit.prevent="saveClassroom">
+              <v-card-title>
+                <span class="text-h5">{{ formAction }}</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="className"
+                        label="Class name"
+                        required
+                        variant="outlined"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                    
+                      <!-- <v-select
+                          v-model="selectedTeacher"
+                          :items="teachers"
+                          :item-text="teacherName"
+                          item-value="user_id"
+                          label="Select teacher"
+                          variant="outlined"
+                          
+                        >
+                      </v-select> -->
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="blue-darken-1"
+                  variant="text"
+                  @click="dialog = false"
+                  >Cancel</v-btn
+                >
+                <v-btn type="submit" color="blue-darken-1">Save</v-btn>
+              </v-card-actions>
+            </v-form>
           </v-card>
         </v-dialog>
       </v-row>
@@ -94,21 +97,43 @@ export default {
       listClasses: [],
       selectedClass: "",
       dialog: false,
+      teachers: [],
+      selectedTeacher: null,
+      classrooms: [],
       className: "",
-      teacherName: "",
-      listUser: [],
+      formAction: "Add Classroom",
+      editing: false,
+      editId: null,
+      users: [
+          {
+            id: 1,
+            name: "John",
+            last: "Doe"
+          },
+          {
+            id: 2,
+            name: "Harry",
+            last: "Potter"
+          },
+          {
+            id: 3,
+            name: "George",
+            last: "Bush"
+          }
+        ]
     };
   },
 
-  methods: {
-    getURL() {
-      http.get("/api/classes").then((response) => {
-        this.listClasses = response.data.data;
-        console.log(this.listClasses);
-      });
+  computed: {
+    teacherName() {
+      return function (teacher) {
+        return teacher.first_name + " " + teacher.last_name;
+      };
     },
+  },
 
-    showStudents(classId) {
+  methods: {
+    showStudents() {
       http
         .get(`api/getuserInClass/${classId}`)
         .then((response) => {
@@ -130,12 +155,115 @@ export default {
         };
         http.post("/api/classes", newClass).then((response) => {
           console.log(response.data);
-          this.dialog = false;
-          this.getURL();
+          this.error = null;
+        })
+        .catch((error) => {
+          this.studentName = null;
+          this.error = error.response.data.error;
         });
       }
     },
-  },
+
+    getTeacher() {
+      http
+        .get("/api/get-teachers")
+        .then((response) => {
+          if (response.data && response.data.data) {
+            let teacherList = response.data.data;
+            for (let teacher of teacherList) {
+              // this.teachers.push(teacher.first_na  me + " " + teacher.last_name);
+              // this.teachers.push(teacher.id)
+              this.teachers.push({
+                text: teacher.first_name + " " + teacher.last_name,
+                value: teacher.id,
+              });
+            }
+            console.log(this.teachers);
+          } else {
+            console.log("Invalid response format:", response);
+          }
+        })
+        .catch((error) => {
+          console.log("Error fetching teachers:", error);
+        });
+    },
+    onTeacherSelected(teacher) {
+      // this.selectedTeacher = teacher.text;
+      this.selectedTeacher = teacher.value;
+    },
+
+    fetchClassrooms() {
+      http.get("/api/classrooms").then((response) => {
+        this.classrooms = response.data.data;
+        // console.log(this.listClasses);
+      });
+    },
+
+    saveClassroom() {
+      // Create a new classroom object with the selected teacher object and other form data
+      const newclassroom = {
+        class_name: this.className,
+        user_id: this.selectedTeacher,
+      };
+
+      if (this.editing) {
+        // Update an existing classroom
+        http
+          .put(`/api/classrooms/${this.editId}`, newclassroom)
+          .then(() => {
+            // Reset the form and close the dialog
+            this.cancelForm();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        // Add a new classroom
+        http
+          .post("/api/classrooms", newclassroom)
+          .then(() => {
+            // Reset the form and close the dialog
+            this.cancelForm();
+            this.fetchClassrooms();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+
+    editClassroom(classroom) {
+      this.formAction = "Edit Classroom";
+      this.editing = true;
+      this.editId = classroom.id;
+      this.classroom = { ...classroom };
+      this.selectedTeacher = classroom.teacherId;
+      this.dialog = true;
+    },
+
+    cancelForm() {
+      this.formAction = "Add Classroom";
+      this.editing = false;
+      this.editId = null;
+      this.classroom = { className: "", teacher: "" };
+      this.selectedTeacher = null;
+      this.dialog = false;
+    },
+
+    deleteClassroom(id) {
+      http
+        .delete(`/api/classrooms/${id}`)
+        .then(() => {
+          const index = this.classrooms.findIndex((c) => c.id === id);
+          if (index !== -1) {
+            this.classrooms.splice(index, 1);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      }
+    },
 
   mounted() {
     http

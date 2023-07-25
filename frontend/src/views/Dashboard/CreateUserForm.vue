@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <section class="container-fluid px-4 py-4 ">
     <div class="card bg-gray-300">
       <div class="p-5 pb-1">
@@ -149,9 +150,9 @@ export default {
         })
           .then(() => {
             if(this.role==3){
-              this.$router.push({ path: '/student' });
+              this.$router.push({ path: '/student-list' });
             }else if(this.role==2){
-              this.$router.push({ path: '/teacher' });
+              this.$router.push({ path: '/add-teacher' });
             }
           }).catch(error => {
             console.log(error)
