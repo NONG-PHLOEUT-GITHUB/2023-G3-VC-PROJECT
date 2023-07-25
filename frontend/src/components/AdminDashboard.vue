@@ -48,6 +48,13 @@ export default {
         icon: 'mdi-clipboard-text'
       },
     ],
+    userProfile:[
+      {
+        path: '/user-profile',
+        title: "Class",
+        icon: 'mdi-clipboard-text'
+      },
+    ],
   })
 }
 </script>

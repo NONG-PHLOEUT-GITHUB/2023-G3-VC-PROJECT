@@ -8,6 +8,7 @@
         :items="listClasses && listClasses.map((classRoom) => classRoom.class_name)"
         v-model="selectedClass"
         variant="solo"
+        @click="showStudents(selectedClass)"
       ></v-select>
       <v-btn color="primary" class="mt-4 ms-5" @click="dialog = true"
         ><v-icon>mdi-plus-outline</v-icon> add new class</v-btn
@@ -73,8 +74,8 @@
           <v-btn to="/monthly_report" class="me-4">
             <v-icon>mdi-chart-line</v-icon> Score report
           </v-btn>
-          <v-btn @click="showStudents(classRoom.classId)">
-            <v-icon>mdi-calendar-clock</v-icon> Attendance report
+          <v-btn to="/attendance-list"  @click="showStudents(className)" class="ms-4">
+            <v-icon>mdi-poll</v-icon> Attendance Report
           </v-btn>
           <v-btn to="/feedback" class="ms-4">
             <v-icon>mdi-poll</v-icon> Student feedback
@@ -102,7 +103,7 @@ export default {
 
   methods: {
     getURL() {
-      http.get("/api/classes").then((response) => {
+      http.get("/api/classrooms").then((response) => {
         this.listClasses = response.data.data;
         console.log(this.listClasses);
       });
@@ -113,8 +114,8 @@ export default {
         .get(`api/getuserInClass/${classId}`)
         .then((response) => {
           console.log(classId);
-          this.listUser = response;
-          // console.log(this.listUser);
+          this.listUser = response.data;
+          console.log(this.listUser);
         })
         .catch((error) => {
           this.listUser = [];
@@ -128,10 +129,13 @@ export default {
           class_name: this.className,
           teacher: this.teacherName,
         };
-        http.post("/api/classes", newClass).then((response) => {
+        http.post("/api/classrooms", newClass).then((response) => {
           console.log(response.data);
           this.dialog = false;
           this.getURL();
+        })
+        .catch(error=>{
+          console.log(error);
         });
       }
     },

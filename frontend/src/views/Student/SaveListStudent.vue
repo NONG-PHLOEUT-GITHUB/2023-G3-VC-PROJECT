@@ -61,7 +61,7 @@ export default {
       students: [],
     };
   },
-  // reference https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI
+  // https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI
   methods: {
     // download pdf ==================================
     downloadPDF() {
