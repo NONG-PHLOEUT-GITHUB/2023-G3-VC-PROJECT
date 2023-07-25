@@ -32,22 +32,20 @@
 </template>
 
 <script>
-import axios from "axios";
+
 import Swal from "sweetalert2";
-// import swal from 'sweetalert';
+import http from '@/htpp.common'
 export default {
   data() {
     return {
-      URL: "http://127.0.0.1:8000/api/getStudents",
       listUser: [],
       selectedStudent: null, 
-      commentURL: "http://127.0.0.1:8000/api/comments",
       comment: ''
     };
   },
   methods: {
     getData() {
-      axios.get(this.URL).then((response) => {
+      http.get('/get-students').then((response) => {
         this.listUser = response.data;
       });
     },
@@ -57,8 +55,8 @@ export default {
         'user_id': this.selectedStudent, // Use only the selected student's ID in the POST request
       };
       console.log(commentData);
-      axios
-        .post(this.commentURL, commentData)
+      http
+        .post('/comments', commentData)
         .then((response) => {
           console.log(response);
         })

@@ -23,7 +23,6 @@ import DashboardView from '../components/Navigation/DashboardView.vue';
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
-import CheckStudentAttendacne from '../views/Student/CheckStudentAttendance.vue';
 
 //authentication router
 import FormResetNewPassword from '@/views/Authentication/ResetNewPasswordForm.vue';
@@ -54,12 +53,12 @@ import Cookies from 'js-cookie';
 const routes = [
   {
     path: '/',
-    name: 'LoginForm',
+    name: 'FristLoginForm',
     component: LoginForm,
   },
   {
     path: '/login',
-    name: 'LoginForm',
+    name: 'SecondLoginForm',
     component: LoginForm,
   },
   {
@@ -263,11 +262,6 @@ const routes = [
       auth: true
     },
     component: StudentList
-  },
-  {
-    path: '/check_student_attendance',
-    name: 'check_student_attendance',
-    component: CheckStudentAttendacne
   },
   {
     path: '/reset_new_password',

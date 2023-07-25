@@ -59,6 +59,15 @@
         </template>
 
         <v-card>
+          <div class="mx-auto text-center mt-4">
+            <v-avatar  size="100" color="" class="avatar">
+              <v-img class="image" :src="users.profile" alt="Avatar" cover> </v-img>
+            </v-avatar>
+              <h4 class="user-name">{{ users.first_name }} {{ users.last_name }}</h4>
+              <p class="text-caption mt-1">
+                {{ users.email }}
+              </p>
+          </div>
           <v-card-text>
             <div class="mx-auto text-center">
               <v-btn
@@ -217,5 +226,13 @@ export default {
 
 .user-name span {
   text-transform: uppercase;
+}
+
+.user-name{
+  text-transform: uppercase;
+}
+
+.image{
+  border: solid 1px rgb(122, 148, 154);
 }
 </style>

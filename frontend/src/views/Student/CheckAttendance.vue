@@ -2,7 +2,7 @@
   <teacher-dashboard></teacher-dashboard>
   <div class="container mt-5">
     <v-card>
-      <v-btn size="30" block>attendance check list</v-btn>
+      <v-btn block variant="plain" size="large">attendance check list</v-btn>
     <!-- <h2>Attendance Check List</h2> -->
     <br />
     <div>

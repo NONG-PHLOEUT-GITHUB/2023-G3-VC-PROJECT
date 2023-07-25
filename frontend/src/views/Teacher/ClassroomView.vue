@@ -1,11 +1,13 @@
 <template>
 <teacher-dashboard></teacher-dashboard>
 <div class="main">
+  <v-btn block variant="plain" size="large">Class list</v-btn>
   <v-card 
     class="card mx-auto mt-2"
     width="96%"
     prepend-icon="mdi-home"
   >
+
     <template v-slot:title> Class : {{ classrooms.class_name }}</template>
     <div class="action">
       <v-col cols="auto">

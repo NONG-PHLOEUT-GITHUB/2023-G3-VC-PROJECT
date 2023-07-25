@@ -31,6 +31,7 @@
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12">
+                      <label for="" class="mb-4">Pleas chose teacher</label>
                       <select
                         v-model="selectedTeacher"
                         class="form-select"
@@ -126,10 +127,8 @@ export default {
   },
 
   computed: {
-    teacherName() {
-      return function (teacher) {
-        return teacher.first_name + " " + teacher.last_name;
-      };
+    fullName() {
+      return `${this.first_name} ${this.last_name}`;
     },
   },
 
@@ -196,7 +195,7 @@ export default {
           .then(() => {
             // Reset the form and close the dialog
             this.cancelForm();
-            this.fetchClassrooms()
+            this.fetchClassrooms();
           })
           .catch((error) => {
             console.log(error);
@@ -292,4 +291,4 @@ export default {
   display: flex;
   justify-content: flex-end;
 }
-</style> 
+</style>
