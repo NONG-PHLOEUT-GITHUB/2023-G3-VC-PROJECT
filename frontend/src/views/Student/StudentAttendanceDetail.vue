@@ -1,15 +1,16 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <main class="table">
     <h3>
-      Attendance Records for
+      Attendance Records 
       <span> {{ user.first_name }} {{ user.last_name }}</span>
     </h3>
-    <table>
+    <v-table>
       <thead>
         <tr>
-          <th>date</th>
-          <th>reason</th>
-          <th>attendance status</th>
+          <th class="text-white">date</th>
+          <th class="text-white">reason</th>
+          <th class="text-white">attendance status</th>
         </tr>
       </thead>
       <tbody>
@@ -19,7 +20,7 @@
           <td>{{ record.status }}</td>
         </tr>
       </tbody>
-    </table>
+    </v-table>
     <button @click="generatePDF()" class="button">save</button>
   </main>
 </template>
@@ -55,9 +56,7 @@ export default {
     },
     async getChatId(id) {
       try {
-        const response = await axios.get(
-          this.gurdianURL + "/" +`${id}`
-        );
+        const response = await axios.get(this.gurdianURL + "/" + `${id}`);
         this.chat_id = response.data.chat_id;
       } catch (error) {
         console.error("Error getting chat ID:", error);
@@ -128,59 +127,20 @@ export default {
   box-sizing: border-box;
   font-family: sans-serif;
 }
-body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+main{
+  width: 80%;
+  margin-left: 20%;
+  margin-top: 20px;
 }
-main.table {
-  margin: auto;
-  border-radius: 10px;
-  padding: 2%;
-}
-h3 {
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  color: #0000ff;
-}
-table {
-  padding: 2%;
-  width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-}
-table,
-th,
-td {
-  border-collapse: collapse;
-  padding: 1rem;
-  text-align: left;
-}
-thead th {
-  position: sticky;
-  top: 0;
-  left: 0;
-  background-color: #0000ff;
-  cursor: pointer;
-  text-transform: uppercase;
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
-}
-thead th:hover {
-  color: #e2f0ee;
-}
-.button {
-  background: blue;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 10px 22px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
+.button{
+  margin-left: 90%;
+  border: 1px solid gray;
+  width: 10%;
+  padding: 9px;
   margin-top: 10px;
-  margin-left: 93%;
+  background: blue;
+  color: white;
+  border-radius: 10px;
 }
 </style>

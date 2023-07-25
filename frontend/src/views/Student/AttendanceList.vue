@@ -2,14 +2,14 @@
   <admin-dashboard></admin-dashboard>
   <main class="table">
     <h3>Student Attendance List</h3>
-    <table>
+    <v-table>
       <thead>
         <tr>
-          <th>Id</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Total Absence</th>
-          <th>See More</th>
+          <th class="text-left">Id</th>
+          <th class="text-left">First Name</th>
+          <th class="text-left">Last Names</th>
+          <th class="text-left">Total Absence</th>
+          <th class="text-left">See More</th>
         </tr>
       </thead>
       <tbody>
@@ -23,7 +23,7 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </v-table>
   </main>
 </template>
 <script>
@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       attendanceData: [],
-      URL:"http://127.0.0.1:8000/api/getAttendance"
+      URL: "http://127.0.0.1:8000/api/getAttendance",
     };
   },
   mounted() {
@@ -51,57 +51,13 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: sans-serif;
-}
-body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-main.table {
-  margin: auto;
-  background-color: #fff5;
-  border-radius: 10px;
-  padding: 2%;
-}
-h3 {
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  color: #0000FF;
-}
-table {
-  padding: 2%;
-  width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-}
-
-td img {
-  width: 36px;
-  height: 36px;
-  margin-right: 0.5rem;
-  border-radius: 50%;
-
-  vertical-align: middle;
-}
-
-table,
-th,
-td {
-  border-collapse: collapse;
-  padding: 1rem;
-  text-align: left;
-}
+*
 
 thead th {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #0000FF;
+  background-color: #0000ff;
   cursor: pointer;
   text-transform: uppercase;
   color: white;
@@ -116,11 +72,16 @@ tbody tr:hover {
   padding: 10px;
   margin-left: 10px;
   border-radius: 10px;
-  background-color: #0000FF;
+  background-color: #0000ff;
   color: white;
   font-weight: bold;
 }
 thead th:hover {
   color: #e8e8fa;
+}
+main{
+  width: 80%;
+  margin-left: 20%;
+  margin-top: 20px;
 }
 </style>
