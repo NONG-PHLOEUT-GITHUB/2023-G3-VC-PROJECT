@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subjects', function (Blueprint $table) {
-            $table->id();
-            $table->string('subject_name', 255);
-            $table->timestamps();
-
+        Schema::table('subjects', function (Blueprint $table) {
+            //
+            $table->unsignedBigInteger('score_id');
+            $table->foreign('score_id')->references('id')->on('scores')->onDelete('cascade');
+    
         });
     }
 
@@ -24,6 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subjects');
+        Schema::table('subjects', function (Blueprint $table) {
+            //
+        });
     }
 };

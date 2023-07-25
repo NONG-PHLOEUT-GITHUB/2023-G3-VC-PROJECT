@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Score;
 use Illuminate\Http\Request;
 
 class ScoreController extends Controller
@@ -20,6 +21,14 @@ class ScoreController extends Controller
     public function store(Request $request)
     {
         //
+        $scores = Score::store($request);
+
+        $scores->subject()->create([
+            'subject_name' => $request->input('subject_name')
+        ]);
+
+        return response()->json(['success' => true, 'data' => $scores], 201);
+
     }
 
     /**

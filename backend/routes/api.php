@@ -8,8 +8,10 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\ImportExelFileController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectTeacherController;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -78,6 +80,10 @@ Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']
 Route::get('/getStudents', [UserController::class,"getStudent"]);
 Route::get('/getStudents/{id}', [UserController::class,"getStudentId"]);
 Route::delete('/getStudents/{id}', [UserController::class,"destroy"]);
+
+//   score
+Route::get('/scores' , [ScoreController::class,"index"]);
+Route::post('/scores' , [ScoreController::class,"store"]);
 
 // get teachers
 Route::get('/getTeachers', [UserController::class,"getTeachers"]);

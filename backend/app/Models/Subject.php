@@ -27,4 +27,7 @@ class Subject extends Model
     public function schedule(){
         return $this->belongsTo(Schedule::class);
     }
+    public function score(){
+        return $this->belongsTo(Score::class);
+    }
 }
