@@ -34,6 +34,7 @@ import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vu
 import LoginForm from '../views/Authentication/LoginForm.vue';
 import ForgotPasswordFrom from '@/views/Authentication/ForgotPasswordForm.vue';
 import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
+import NotFoundView from '@/views/Authentication/NotFoundView.vue'
 //user router ===========================================================================
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================
@@ -41,35 +42,34 @@ import AdminDashboard from '@/components/AdminDashboard.vue';
 import TeacherDashboard from '@/components/TeacherDashboard.vue';
 import StudentDashboard from '@/components/StudentDashboard.vue';
 //student dashboard router ==============================================================
-import StudnetAcadmics from '@/views/Student/StudentView.vue';
+import StudentAcadmics from '@/views/Student/StudentView.vue';
 import StudentHomeView from '@/views/Student/StudentHomeView';
 import StudentAttendanceView from '@/views/Student/StudentAttendanceView.vue';
 import StudentScoreView from '@/views/Student/StudentScoreView.vue';
 //teacher dashboard router =============================================================
 import ClassroomView from '@/views/Teacher/ClassroomView.vue';
+import Cookies from 'js-cookie';
+
+
 const routes = [
   {
     path: '/',
     name: 'LoginForm',
     component: LoginForm,
   },
-  // {
-  //   path: '/login',
-  //   name: 'LoginForm',
-  //   component: LoginForm,
-  // },
+  {
+    path: '/login',
+    name: 'LoginForm',
+    component: LoginForm,
+  },
   {
     path: '/reset-new-password/:token',
     name: 'ResetNewPasswordForm',
     component: ResetNewPasswordForm
   },
-  //   path: '/reset-new-password/:token',
-  //   name: 'ResetNewPasswordForm',
-  //   component: ResetNewPasswordForm
-  // },
   {
 
-    path: '/change_password',
+    path: '/change-password',
     name: 'ChangePasswordForm',
     component: ChangePasswordForm
   },
@@ -81,22 +81,27 @@ const routes = [
     {
     path: '/user-profile',
     name: 'UserProfile',
-    component: UserProfile
+    component: UserProfile,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/home',
     name: 'home',
     component: DashboardHomeView,
-    meta:{requireAuth:true}
+    meta:{
+      requiresAuth:true
+    }
   },
   // =============================
   {
-    path: '/studnet-home',
+    path: '/student-home',
     name: 'StudentHomeView',
     component: StudentHomeView,
   },
   {
-    path: '/studnet-attendance',
+    path: '/student-attendance',
     name: 'StudentAttendanceView',
     component: StudentAttendanceView,
   },
@@ -108,8 +113,8 @@ const routes = [
   // =============================
   {
     path: '/student-acadamice',
-    name: 'StudnetAcadmics',
-    component: StudnetAcadmics,
+    name: 'StudentAcadmics',
+    component: StudentAcadmics,
   },
   {
     path: '/dashboard',
@@ -125,10 +130,16 @@ const routes = [
   {
     path: '/student-dashboard',
     name: 'StudentDashboard',
-    component: StudentDashboard
+    component: StudentDashboard,
+    beforeRouteUpdate(to, from, next) {
+      const isStudent = true;
+      if (isStudent) {
+        next('/student-home');
+      } else {
+        next();
+      }
+    }
   },
-
-
 
   {
     path: '/teacher-dashboard',
@@ -272,55 +283,36 @@ const routes = [
     path: '/teacher-classroom',
     name: 'ClassroomView',
     component: ClassroomView
+  },
+  {
+    path: '/:pathMatch(.*)*', // matches any unknown path
+    name: 'not-found',
+    component: NotFoundView
   }
-  
-
-  // {
-  //   path: '/404',
-  //   name: '404',
-  //   component: NotFoundView
-  // }
-  // {
-  //   path: '/home',
-  //   name: 'home',
-  //   component: HomeView,
-  //   meta: {
-  //     requireAuth: true,
-  //     roles: ['admin']
-  //   },
-  //   beforeEnter: checkRole
-  // },
 
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(process.env.VUE_APP_API_URL),
   routes
 });
 
 // https://beginnersoftwaredeveloper.com/how-do-i-protect-my-vue-router/?expand_article=1
 
-router.beforeEach((to,from, next) => {
-  const isUserAuthenticated = null;
-  const isRequiredAuth = to.matched.some(
-    (record) => record.meta.isRequiredAuth
-  );
-  if (isUserAuthenticated  && !isRequiredAuth) {
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = checkAuth(); // your authentication check function
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !isAuthenticated) {
     next('/login');
-  }else{
+  } else {
     next();
   }
 })
 
-// function checkRole(to, from, next) {
-//   const userAuthStore = useUserAuth();
-//   const currentUser = userAuthStore.currentUser;
-//   if (currentUser && to.meta.roles.includes(currentUser.role)) {
-//     next();
-//   } else {
-//     next({ name: 'unauthorized' });
-//   }
-// }
+function checkAuth() {
+  const token = Cookies.get('access_token');
+  return !!token;
+}
 
-
-export default router
+export default router;

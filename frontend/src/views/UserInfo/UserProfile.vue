@@ -1,8 +1,8 @@
 <template>
 
-  <!-- <admin-dashboard></admin-dashboard>
-  <teacher-dashboard></teacher-dashboard> -->
-  <student-dashboard></student-dashboard>
+  <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
+  <teacher-dashboard v-else-if="this.role === '2'"></teacher-dashboard>
+  <student-dashboard v-else></student-dashboard>
   <v-sheet
     border="lg opacity-12"
     class="detail mt-6"
@@ -81,12 +81,13 @@
 
 <script>
 import http from "@/htpp.common";
-
+import Cookies from 'js-cookie';
 export default {
   name: "UserDetails",
   data() {
     return {
       users: " ",
+      role: "",
     };
   },
   methods: {
@@ -95,10 +96,16 @@ export default {
         this.users = response.data.data;
       });
     },
+    getRole() {
+     let cookies = Cookies.get('user_role');
+     this.role = cookies
+     console.log(cookies); 
+    }
   },
 
   mounted() {
     this.fetchData();
+    this.getRole();
   },
 };
 </script>

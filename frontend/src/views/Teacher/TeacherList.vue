@@ -115,7 +115,7 @@ export default {
   methods: {
     //===================get data from Database =================
     getData() {
-      http.get('/api/get-teachers')
+      http.get('/get-teachers')
       .then((response) => {
         this.teacherList = response.data.data;
         console.log('teacher list',this.teacherList);
@@ -177,7 +177,7 @@ export default {
       const formData = new FormData();
       formData.append('file', file);
 
-      http.post('/api/users-import', formData, {
+      http.post('/users-import', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

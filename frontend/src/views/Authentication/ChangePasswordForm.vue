@@ -40,11 +40,11 @@
 
         <v-row no-gutters>
           <v-col>
-            <v-btn @Click="cancel" class="text-none mt-4 w-25" color="blue-darken-4" block
+            <v-btn @Click="cancel" class="mt-4 w-25" color="teal-darken-4" block
               variant="outlined">Cancel</v-btn>
           </v-col>
           <v-col>
-            <v-btn type="submit" color="primary" block class="mt-4 ms-1">Save</v-btn>
+            <v-btn type="submit" color="teal-darken-4" block class="mt-4 ms-1">Save</v-btn>
           </v-col>
         </v-row>
       </v-form>

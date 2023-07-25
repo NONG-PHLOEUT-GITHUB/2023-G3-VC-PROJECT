@@ -38,7 +38,7 @@
                     @click:append-inner="visibleConfirm = !visibleConfirm">
                 </v-text-field>
 
-                <v-btn :disabled="!isPasswordValid" type="submit" color="primary" block class="mt-4">Reset Password</v-btn>
+                <v-btn :disabled="!isPasswordValid" type="submit" color="teal-darken-4" block class="mt-4">Reset Password</v-btn>
             </v-form>
         </v-card>
     </div>
@@ -81,7 +81,7 @@ export default {
                 password_confirmation: this.confirmPassword,
                 token: this.token
             };
-            http.post(`/api/reset-new-password/${this.token}`, data, {
+            http.post(`/reset-new-password/${this.token}`, data, {
 
             })
             .then(() => {
@@ -104,7 +104,7 @@ export default {
             }).then(() => {
                 this.newPassword = '';
                 this.confirmPassword = '';
-                this.$router.push('/')
+                this.$router.push('/login')
             });
           })
             // .then(() => {
