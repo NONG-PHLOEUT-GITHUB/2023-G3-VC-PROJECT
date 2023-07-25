@@ -11,11 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
 class ForgotPasswordController extends Controller
 {
-
-//  || REFERENCE|| // https://youtu.be/rLt_RkSfqDc
+    //  || REFERENCE|| // https://youtu.be/rLt_RkSfqDc
     public function send_reset_password_email(Request $request){
         $request->validate([
             'email' => 'required|email',

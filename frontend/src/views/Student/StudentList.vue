@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <div class="card shadow border-0 mb-7">
     <div class="card-header">
       <h3 class="mb-0 text-primary">STUDENTS LIST</h3>
@@ -117,8 +118,6 @@ import http from "../../htpp.common";
 export default {
   data() {
     return {
-      // URL: "http://127.0.0.1:8000/api/users",
-      URL : "http://127.0.0.1:8000/api/getStudents",
       listUser: [],
       errorMessage: "",
       searchQuery: "",
@@ -169,10 +168,10 @@ export default {
   },
   methods: {
     //===================get data from Database =================
-    getData() {
-      axios.get(this.URL).then((response) => {
-        this.listUser = response.data;
-        console.log(this.listUser);
+    getStudents() {
+      http.get('/api/get-students')
+      .then((response) => {
+        this.listUser = response.data.data;
       });
     },
     //================== Delete a user =================
@@ -190,7 +189,7 @@ export default {
             .then(() => {
               swal("Deleted!", "Your user has been deleted.", "success");
               // call mounted
-              this.getData();
+              this.getStudents();
             })
             .catch((error) => {
               swal(
@@ -269,7 +268,7 @@ export default {
           // Reset the file input field
           this.$refs.fileInput.value = '';
           // call mounted
-          this.getData();
+          this.getStudents();
 
         })
         .catch((error) => {
@@ -294,12 +293,16 @@ export default {
   mounted() {
     this.getStudentInClass();
     this.$refs.fileInput.addEventListener("change", this.importFile);
-    return this.getData();
+    return this.getStudents();
   },
 };
 </script>
 
 <style>
+.card{
+  margin-left: 20%;
+  background: #000;
+}
 .input-file {
   position: relative;
   overflow: hidden;
@@ -343,5 +346,9 @@ export default {
 .bi-cloud-arrow-up {
   font-size: 20px;
   margin-top: 20px;
+}
+
+.card{
+  padding: 20px;
 }
 </style>

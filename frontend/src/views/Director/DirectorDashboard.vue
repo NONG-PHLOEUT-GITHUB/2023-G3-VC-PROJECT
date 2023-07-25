@@ -1,100 +1,60 @@
 <template>
   <admin-dashboard></admin-dashboard>
-  <main class="main py-6">
-    <div class="container-fluid">
-      <div class="row g-6 mb-6">
-        <div class="col-xl-4 col-sm-6 col-12">
-          <div class="card shadow border-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <span class="h3 font-semibold text-muted d-block mb-2 mb-4">Students</span>
-                  <span v-for="(result, index) in results" :key="index" class="h3 font-bold mb-0">
-                    <p class="h6 font-bold mt-4" v-if="result.role == 3">
-                      Total : {{ result.total }},
-                      Male: {{ result.male }},
-                      Female: {{ result.female }}
-                    </p>
-                  </span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
-                    <i class="bi bi-people"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4 col-sm-6 col-12">
-          <div class="card shadow border-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <span class="h3 font-semibold text-muted  d-block mb-2">Teachers</span>
-                  <span v-for="(result, index) in results" :key="index" class="h3 font-bold mb-0">
-                    <p class="h6 font-bold mt-4" v-if="result.role == 2">
-                      Total : {{ result.total }}, 
-                      Male: {{ result.male }},
-                      Female: {{ result.female }}
-                    </p>
-                  </span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
-                    <i class="bi bi-people"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4 col-sm-6 col-12">
-          <div class="card shadow border-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <span class="h3 font-semibold text-muted  d-block mb-2">Class</span>
-                  <span class="h6 font-bold mb-0">Total : 10 class</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
-                    <i class="bi bi-building"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="card-container">
+  <v-row class="mt-7 ms-24">
+    <v-card width="390" class="me-2" prepend-icon="mdi-account-tie">
+      <template v-slot:title>Teachers </template>
+
+      <v-card-text class="card-text" v-for="(result, index) in results" :key="index"> 
+        <h5 v-if="result.role == 3">
+          Total : {{ result.total }}
+          <v-spacer></v-spacer>
+           Male: {{ result.male }}
+          <v-spacer></v-spacer>
+           Female: {{ result.female }}
+        </h5>
+       </v-card-text>
+    </v-card>
+    <v-card   width="390" prepend-icon="mdi-account">
+      <template v-slot:title> Students </template>
+      <v-card-text class="card-text" v-for="(result, index) in results" :key="index">
+      <h5 v-if="result.role == 2">
+          Total : {{ result.total }}
+          <v-spacer></v-spacer>
+          Male: {{ result.male }}
+          <v-spacer></v-spacer>
+          Female: {{ result.female }}
+      </h5>
+      </v-card-text>
+    </v-card>
+    <v-card  width="400" class="ms-2" prepend-icon="mdi-school">
+      <template v-slot:title> Class </template>
+
+      <v-card-text class="ms-14"> 
+        <h5>Total 10 class</h5>
+       </v-card-text>
+    </v-card>
+  </v-row>
+</div>
+  <main class="main mt-6">
     <h3>REPORTS</h3>
-    <div class="row">
-
-      <div class="col-sm-6">
-        <div class="card shadow-lg mt-5 p-3">
-          <div class="chart">
-            <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
-            <h5 class="text-center m-3 text-warning">STUDENT ATTENDANCE</h5>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-6">
-        <div class="card shadow-lg mt-5 p-3">
-          <div class="chart">
-            <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
-            <h5 class="text-center m-3 text-warning">FAILED STUDENT</h5>
-          </div>
-        </div>
-      </div>
-    </div>
+  <v-row class="mt-8">
+    <v-card class="bar1">
+      <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+      <h5 class="text-center m-3 text-warning">STUDENT ATTENDANCE</h5>
+    </v-card>
+    <v-card class="bar2 ms-4">
+      <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
+      <h5 class="text-center m-3 text-warning">FAILED STUDENT</h5>
+    </v-card>
+  </v-row>
   </main>
 </template>
 
 <script>
 import axios from "axios";
 import { Bar } from "vue-chartjs";
+import http from "../../htpp.common";
 import {
   Chart as ChartJS,
   Title,
@@ -104,23 +64,6 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
-
-// export default {
-//   data() {
-//     return {
-//       results:''
-//     };
-//   },
-//   mounted() {
-//     axios.get('http://127.0.0.1:8000/api/getTotal')
-//       .then(response => {
-//        this.results = response.data.data
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   }
-// }
 
 ChartJS.register(
   Title,
@@ -139,34 +82,67 @@ export default {
       URL: "http://127.0.0.1:8000/api",
       results: "",
       chartData: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [{
-          label: "Attendance average",
-          data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43]
-        }],
+        labels: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+        datasets: [
+          {
+            label: "Attendance average",
+            data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43],
+          },
+        ],
       },
       chartData1: {
-        labels: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [ { 
-          label: "Percentage of failed students(%)",
-          data: [] } ],
-    },
-    chartOptions: {
-        backgroundColor: '#1E90FF',
-        responsive: true
-      }
-    }
+        labels: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+        datasets: [
+          {
+            label: "Percentage of failed students(%)",
+            data: [],
+          },
+        ],
+      },
+      chartOptions: {
+        backgroundColor: "#1E90FF",
+        responsive: true,
+      },
+    };
   },
   mounted() {
-    axios.get('http://127.0.0.1:8000/api/getTotal')
-      .then(response => {
-        this.results = response.data.data
+    http
+      .get("/api/getTotal")
+      .then((response) => {
+        this.results = response.data.data;
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
-    axios.get(this.URL + "/getPercentageOfFaildedStudentByMonth")
-      .then(response => {
+    axios
+      .get(this.URL + "/getPercentageOfFaildedStudentByMonth")
+      .then((response) => {
         const mydata = response.data.failed_users_percentage;
         console.log(mydata);
         for (let i = 0; i < mydata.length; i++) {
@@ -174,34 +150,39 @@ export default {
         }
         console.log(this.chartData1.datasets[0].data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
-  }
+  },
 
-  // mounted() {
-  //   axios.get(this.URL + "/getAbsentPercentageByMonth")
-  //     .then(response => {
-  //       this.attendance = response.data.absentPercentage;
-  //       this.chartData.datasets[0].data = Object.values(this.attendance);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }
-
-
-
-}
+};
 </script>
 <style>
+
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
 
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 
-.main{
+.main {
   margin-left: 19%;
   margin-right: 10px;
 }
+
+.card-container{
+  padding: 10px;
+  margin-left: 11%;
+}
+.card-text{
+  margin-top: -25px;
+  margin-left: 60px;
+}
+
+.bar1{
+  width: 48%;
+}
+.bar2{
+  width: 49%;
+}
+
 </style>

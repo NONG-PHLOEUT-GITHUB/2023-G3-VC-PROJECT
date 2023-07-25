@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('class_room_teachers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('class_id');
-            $table->foreign('class_id')->references('id')->on('class_rooms')->onDelete('cascade');
+            $table->unsignedBigInteger('class_room_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+            $table->foreign('class_room_id')->references('id')->on('class_rooms')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

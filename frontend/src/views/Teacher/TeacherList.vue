@@ -76,6 +76,7 @@
       </table>
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -85,10 +86,10 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import http from "../../htpp.common"
 export default {
+  // props:['teacherList'],
   data() {
 
     return {
-      URL: "http://127.0.0.1:8000/api/getTeachers",
       teacherList: [],
       errorMessage: "",
       searchQuery: "",
@@ -114,9 +115,10 @@ export default {
   methods: {
     //===================get data from Database =================
     getData() {
-      axios.get(this.URL).then((response) => {
-        this.teacherList = response.data;
-        console.log(this.teacherList);
+      http.get('/api/get-teachers')
+      .then((response) => {
+        this.teacherList = response.data.data;
+        console.log('teacher list',this.teacherList);
       });
     },
     //================== Delete a user =================

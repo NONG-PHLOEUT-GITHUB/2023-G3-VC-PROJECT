@@ -1,6 +1,9 @@
 <template>
-  <div class="container">
-    <h2>Attendance Check List</h2>
+  <teacher-dashboard></teacher-dashboard>
+  <div class="container mt-5">
+    <v-card>
+      <v-btn size="30" block>attendance check list</v-btn>
+    <!-- <h2>Attendance Check List</h2> -->
     <br />
     <div>
       <select
@@ -17,12 +20,19 @@
       </select>
     </div>
     <div class="checkToday">
-      <input
+      <!-- <input
         type="checkbox"
         class="selectattendance"
         @click="SelectAttendace()"
       />Attendance Today
-      {{ this.date }}
+      {{ this.date }} -->
+      <v-checkbox
+            @click="SelectAttendace()"
+            value="red"
+            label="Attendance Today"
+            hide-details
+          ></v-checkbox>{{ this.date }}
+          
     </div>
 
     <table>
@@ -38,13 +48,20 @@
       </thead>
       <tbody v-if="students && students.length">
         <tr v-for="student in students" :key="student.id">
-          <td>
-            <input
+          <td class="text-center">
+            <!-- <input
               @click="getChatId(student.id)"
               type="checkbox"
               class="selectstudent"
               v-model="student.selected"
-            />
+            /> -->
+            <v-checkbox
+              @click="getChatId(student.id)"
+              v-model="student.selected"
+              color="red"
+              value="red"
+              hide-details
+          ></v-checkbox>
           </td>
           <td>{{ student.first_name }}</td>
           <td>{{ student.last_name }}</td>
@@ -85,6 +102,7 @@
         </td>
       </tr>
     </table>
+
     <div class="col-12 d-flex justify-content-end btn">
       <button
         type="submit"
@@ -94,11 +112,13 @@
         Save
       </button>
     </div>
+  </v-card>
   </div>
 </template>
 <script>
 import swal from "sweetalert2";
 import axios from "axios";
+import http from '../../htpp.common'
 export default {
   name: "SweetAlert2",
   data() {
@@ -108,7 +128,6 @@ export default {
       chat_id: null,
       URL: "http://127.0.0.1:8000/api/checkStudentAttendance",
       gurdianURL: "http://127.0.0.1:8000/api/getGuardian",
-      getStudentURL:"http://127.0.0.1:8000/api/getStudents",
       getClassURL:"http://127.0.0.1:8000/api/getuserInClass",
       grades: [
         { label: "Grade 9A", value: "9A" },
@@ -136,7 +155,6 @@ export default {
         "-" +
         today.getDate();
       this.date = date;
-      console.log(this.date);
       this.students.forEach((student) => {
         student.status = false;
       });
@@ -244,8 +262,9 @@ export default {
     },
 
     getStudentData() {
-      axios.get(this.getStudentURL).then((response) => {
-        this.students = response.data;
+      http.get('/api/get-students')
+      .then((response) => {
+        this.students = response.data.data;
       });
     },
     getStudentInClass(classId) {
@@ -312,5 +331,10 @@ td.status {
 .selectattendance {
   padding: 10px;
   margin-left: 34px;
+}
+
+.container{
+  width: 84%;
+  margin-left: 17%;
 }
 </style>

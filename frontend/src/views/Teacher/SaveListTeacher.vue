@@ -1,82 +1,74 @@
 <template>
-  <div class="teacher-list">
-    <h3>TEACHERS' LIST</h3>
-    <div class="table-responsive">
-      <table class="table table-hover table-nowrap mt-3">
-        <thead class="bg-primary">
-          <tr>
-            <th scope="col" class="fs-6 text-light">NO</th>
-            <th scope="col" class="fs-6 text-light">Name</th>
-            <th scope="col" class="fs-6 text-light">Gender</th>
-            <th scope="col" class="fs-6 text-light">age</th>
-            <th scope="col" class="fs-6 text-light">Date of birth</th>
-            <!-- <th scope="col" class="fs-6 text-light">Class</th>
-            <th scope="col" class="fs-6 text-light">Subject</th> -->
-            <th scope="col" class="fs-6 text-light">Phone number</th>
-            <th scope="col" class="fs-6 text-light">Address</th>
-            <th scope="col" class="fs-6 text-light">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(teacher, index) of teachers"
-            :key="index"
-            class="border-2-dark"
-          >
-            <td>{{ index + 1 }}</td>
-            <td>{{ teacher.first_name + " " + teacher.last_name }}</td>
-            <td>{{ teacher.gender }}</td>
-            <td>{{ teacher.age }}</td>
-            <td>{{ teacher.date_of_birth }}</td>
-            <!-- <td>{{ teacher.class }}</td>
-            <td>{{ teacher.subject }}</td> -->
-            <td>{{ teacher.phone_number }}</td>
-            <td>{{ teacher.address }}</td>
-            <td>{{ teacher.email }}</td>
-          </tr>
-        </tbody>
+  <admin-dashboard></admin-dashboard>
+  <v-card class="table-container mt-4">
+      <h3 class="ms-6">TEACHER LIST</h3>
+      <table id="my-table" >
+        <v-table class="pa-6">
+          <thead>
+            <tr>
+              <th class="text-white">No</th>
+              <th class="text-white">FirstName</th>
+              <th class="text-white">LastName</th>
+              <th class="text-white">Gender</th>
+              <th class="text-white">Age</th>
+              <th class="text-white">DateofBirth</th>
+              <th class="text-white">PhoneNumber</th>
+              <th class="text-white">Address</th>
+              <th class="text-white">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(student, index) in students" :key="index">
+              <td>{{ index + 1 }}</td>
+              <td>{{ student.first_name }}</td>
+              <td>{{ student.last_name }}</td>
+              <td>{{ student.gender }}</td>
+              <td>{{ student.age }}</td>
+              <td>{{ student.date_of_birth }}</td>
+              <td>{{ student.phone_number }}</td>
+              <td>{{ student.address }}</td>
+              <td>{{ student.email }}</td>
+            </tr>
+          </tbody>
+        </v-table>
       </table>
-      <div class="download d-flex justify-content-end mt-3">
-        <button
-          class="btn btn-sm btn-neutral text-white text-dark-hover bg-primary p-4 fs-6 align-self-end"
-          v-if="!isDownloading"
-          @click="downloadPDF()"
-        >
-          <i class="bi bi-download"></i> Download PDF
-        </button>
-        <div v-else>
-          <p>Generating PDF...</p>
-          <i class="fa fa-spinner fa-spin"></i>
-        </div>
-        <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
+      <div class="icon pa-1">
+      <v-btn class='mb-4 me-6' v-if="!isDownloading" @click="downloadPDF()">
+        <v-icon size="24">mdi-download</v-icon>
+         Download PDF
+        </v-btn>
+      <div v-else>
+        <p>Generating PDF...</p>
+        <i class="fa fa-spinner fa-spin"></i>
       </div>
+      <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
     </div>
-  </div>
+    </v-card>
 </template>
 
 <script>
-import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import http from '../../htpp.common'
 export default {
   data() {
     return {
       isDownloading: false,
       isDetail: false,
       pdfUrl: null,
-      teachers: [],
-      url: "http://127.0.0.1:8000/api/getTeachers",
+      students: [],
     };
   },
+  // https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI
   methods: {
     // download pdf ==================================
     downloadPDF() {
       this.isDetail = true;
-      axios
-        .get(this.url)
+      http
+        .get('/api/get-teachers')
         .then((response) => {
-          this.teachers = response.data.data;
-          const element = document.querySelector(".table");
+          this.students = response.data.data;
+          const element = document.getElementById("my-table");
           html2canvas(element).then((canvas) => {
             const imgData = canvas.toDataURL("image/png");
             const pdf = new jsPDF();
@@ -94,10 +86,10 @@ export default {
         });
     },
     fetchData() {
-      axios
-        .get(this.url)
+      http
+        .get('api/get-teachers')
         .then((response) => {
-          this.teachers = response.data;
+          this.students = response.data.data;
         })
         .catch((error) => {
           console.log(error);
@@ -116,121 +108,33 @@ export default {
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 
-/* .table-container {
-  font-family: "Poppins", sans-serif;
-  margin: 0 auto;
-  margin-top: 10px;
-}
 
-#my-table {
+/* Set styles for the table */
+table {
   border-collapse: collapse;
-  border-spacing: 0;
   width: 100%;
+  margin-bottom: 20px;
 }
 
-#my-table th,
-#my-table td {
-  padding: 15px;
-  text-align: center;
-}
-
-#my-table th {
-  border-bottom: 2px solid #fff;
-  color: #fff;
-  font-weight: 600;
-  text-transform: uppercase;
-  border: 1px solid #ddd;
-}
-
-#my-table td {
+td {
+  text-align: left;
+  padding: 8px;
   border-bottom: 1px solid #ddd;
-  border: 1px solid #ddd;
 }
 
-#my-table tr:last-child td {
-  border-bottom: none;
-  border: 1px solid #ddd;
+th {
+  background-color: blue;
+  color: white;
 }
 
-#my-table tr:nth-child(even) td {
-  background-color: #f4f4f4;
-  border: 1px solid #ddd;
+
+.table-container{
+  margin-left: 18%;
+  margin-right: 2px;
 }
 
-#my-table tr:hover td {
-  background-color: #eaeaea;
-  border: 1px solid #ddd;
+.icon{
+  display: flex;
+  justify-content: flex-end;
 }
-
-@media only screen and (max-width: 768px) {
-  .my-table {
-    font-size: 0.9rem;
-  }
-}
-
-.my-table td:nth-child(2),
-.my-table td:nth-child(3) {
-  text-align: left;
-}
-
-.my-table td:nth-child(2) {
-  color: #add8e6;
-}
-
-.my-table td:nth-child(3) {
-  color: #999;
-}
-
-.detail {
-  background: #58c3e7;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 8px 20px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
-}
-
-.detail:hover {
-  background: #fff;
-  color: #add8e6;
-}
-
-.button {
-  background: blue;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 10px 22px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
-  margin-top: 10px;
-  margin-left: 83%;
-}
-
-.button:hover {
-  background: #fff;
-  color: #add8e6;
-}
-
-.button-container {
-  text-align: left;
-}
-
-.fa-spinner {
-  animation: fa-spin 2s infinite linear;
-}
-
-@keyframes fa-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} */
 </style>

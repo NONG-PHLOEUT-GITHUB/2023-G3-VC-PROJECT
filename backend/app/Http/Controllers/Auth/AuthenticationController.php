@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Authentication extends Controller
+class AuthenticationController extends Controller
 {
-    // https://jwt-auth.readthedocs.io/en/develop/laravel-installation/
+     // https://jwt-auth.readthedocs.io/en/develop/laravel-installation/
     // https://jwt-auth.readthedocs.io/en/develop/quick-start/
 
     /**
