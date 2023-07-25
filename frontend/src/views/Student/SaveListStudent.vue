@@ -33,7 +33,7 @@
         </v-table>
       </table>
       <div class="icon pa-4">
-      <v-btn v-if="!isDownloading" @click="downloadPDF()">
+        <v-btn class='mb-4 me-6' v-if="!isDownloading" @click="downloadPDF()">
         <v-icon size="24">mdi-download</v-icon>
          Download PDF
         </v-btn>
@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import http from '../../htpp.common'
@@ -60,13 +59,13 @@ export default {
       students: [],
     };
   },
-  // reference https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI
+  // https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI
   methods: {
     // download pdf ==================================
     downloadPDF() {
       this.isDetail = true;
-      axios
-        .get(this.url)
+      http
+        .get('/api/get-students')
         .then((response) => {
           this.students = response.data.data;
           const element = document.getElementById("my-table");

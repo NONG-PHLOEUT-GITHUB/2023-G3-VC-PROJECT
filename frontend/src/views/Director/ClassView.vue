@@ -41,7 +41,8 @@
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12">
-                      <v-select
+                    
+                      <!-- <v-select
                           v-model="selectedTeacher"
                           :items="teachers"
                           :item-text="teacherName"
@@ -50,8 +51,7 @@
                           variant="outlined"
                           
                         >
-                      </v-select>
-                      
+                      </v-select> -->
                     </v-col>
                   </v-row>
                 </v-container>
@@ -127,29 +127,39 @@ export default {
       teachers: [],
       selectedTeacher: null,
       classrooms: [],
-      className:"",
+      className: "",
       formAction: "Add Classroom",
       editing: false,
       editId: null,
+      users: [
+          {
+            id: 1,
+            name: "John",
+            last: "Doe"
+          },
+          {
+            id: 2,
+            name: "Harry",
+            last: "Potter"
+          },
+          {
+            id: 3,
+            name: "George",
+            last: "Bush"
+          }
+        ]
     };
   },
 
-    computed: {
-      teacherName() {
-        return function (teacher) {
+  computed: {
+    teacherName() {
+      return function (teacher) {
         return teacher.first_name + " " + teacher.last_name;
-        };
-      },
+      };
     },
+  },
 
   methods: {
-    fetchClassrooms() {
-      http.get("/api/classrooms").then((response) => {
-        this.classrooms = response.data.data;
-        // console.log(this.listClasses);
-      });
-    },
-
     showStudents() {
       http
         .get("api/getuserInClass")
@@ -171,8 +181,11 @@ export default {
             let teacherList = response.data.data;
             for (let teacher of teacherList) {
               // this.teachers.push(teacher.first_na  me + " " + teacher.last_name);
-              this.teachers.push(teacher.id)
-             
+              // this.teachers.push(teacher.id)
+              this.teachers.push({
+                text: teacher.first_name + " " + teacher.last_name,
+                value: teacher.id,
+              });
             }
             console.log(this.teachers);
           } else {
@@ -183,59 +196,68 @@ export default {
           console.log("Error fetching teachers:", error);
         });
     },
+    onTeacherSelected(teacher) {
+      // this.selectedTeacher = teacher.text;
+      this.selectedTeacher = teacher.value;
+    },
 
-saveClassroom() {
- 
-// Create a new classroom object with the selected teacher object and other form data
-    const newclassroom = {
-      class_name: this.className,
-      user_id: this.selectedTeacher,
-    };
-
-
-    if (this.editing) {
-    // Update an existing classroom
-    http.put(`/api/classrooms/${this.editId}`, newclassroom)
-      .then(() => {
-        // Reset the form and close the dialog
-        this.cancelForm();
-      })
-      .catch((error) => {
-        console.log(error);
+    fetchClassrooms() {
+      http.get("/api/classrooms").then((response) => {
+        this.classrooms = response.data.data;
+        // console.log(this.listClasses);
       });
-  } else {
-    // Add a new classroom
-    http.post("/api/classrooms", newclassroom)
-      .then(() => {
-        // Reset the form and close the dialog
-        this.cancelForm();
-        this.fetchClassrooms();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-},
+    },
 
+    saveClassroom() {
+      // Create a new classroom object with the selected teacher object and other form data
+      const newclassroom = {
+        class_name: this.className,
+        user_id: this.selectedTeacher,
+      };
 
-  
-editClassroom(classroom) {
-  this.formAction = "Edit Classroom";
-  this.editing = true;
-  this.editId = classroom.id;
-  this.classroom = { ...classroom };
-  this.selectedTeacher = classroom.teacherId;
-  this.dialog = true;
-},
-  
-cancelForm() {
-  this.formAction = "Add Classroom";
-  this.editing = false;
-  this.editId = null;
-  this.classroom = { className: "", teacher: "" };
-  this.selectedTeacher = null;
-  this.dialog = false;
-},
+      if (this.editing) {
+        // Update an existing classroom
+        http
+          .put(`/api/classrooms/${this.editId}`, newclassroom)
+          .then(() => {
+            // Reset the form and close the dialog
+            this.cancelForm();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        // Add a new classroom
+        http
+          .post("/api/classrooms", newclassroom)
+          .then(() => {
+            // Reset the form and close the dialog
+            this.cancelForm();
+            this.fetchClassrooms();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+
+    editClassroom(classroom) {
+      this.formAction = "Edit Classroom";
+      this.editing = true;
+      this.editId = classroom.id;
+      this.classroom = { ...classroom };
+      this.selectedTeacher = classroom.teacherId;
+      this.dialog = true;
+    },
+
+    cancelForm() {
+      this.formAction = "Add Classroom";
+      this.editing = false;
+      this.editId = null;
+      this.classroom = { className: "", teacher: "" };
+      this.selectedTeacher = null;
+      this.dialog = false;
+    },
 
     deleteClassroom(id) {
       http

@@ -14,7 +14,7 @@ export default {
         icon: 'mdi-home'
       },
       {
-        path: '/student-attendance',
+        path: '/check-attendance',
         title: "Attendance",
         icon: 'mdi-school'
       },
@@ -24,7 +24,7 @@ export default {
         icon: 'mdi-home'
       },
       {
-        path: '/class-list',
+        path: '/teacher-classroom',
         title: "classroom",
         icon: 'mdi-home'
       },

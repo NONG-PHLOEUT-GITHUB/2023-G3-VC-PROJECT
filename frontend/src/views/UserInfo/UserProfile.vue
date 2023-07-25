@@ -1,4 +1,8 @@
 <template>
+
+  <!-- <admin-dashboard></admin-dashboard>
+  <teacher-dashboard></teacher-dashboard> -->
+  <student-dashboard></student-dashboard>
   <v-sheet
     border="lg opacity-12"
     class="detail mt-6"

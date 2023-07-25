@@ -10,7 +10,6 @@ import MonthlyReport from '../views/Director/MonthlyReport.vue';
 import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
-import CreateClassForm from '../views/Dashboard/CreateClassForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
 import StudentDetail from '../views/Student/StudentDetial.vue';
@@ -46,6 +45,8 @@ import StudnetAcadmics from '@/views/Student/StudentView.vue';
 import StudentHomeView from '@/views/Student/StudentHomeView';
 import StudentAttendanceView from '@/views/Student/StudentAttendanceView.vue';
 import StudentScoreView from '@/views/Student/StudentScoreView.vue';
+//teacher dashboard router =============================================================
+import ClassroomView from '@/views/Teacher/ClassroomView.vue';
 const routes = [
   {
     path: '/',
@@ -162,13 +163,8 @@ const routes = [
     component: CreateUserForm
   },
   {
-    path: '/createClass',
-    name: '/createClass',
-    component: CreateClassForm
-  },
-  {
-    path: '/attendancelist',
-    name: '/attendancelist',
+    path: '/attendance-list',
+    name: '/AttendanceList',
     component: AttendanceList
   },
   {
@@ -192,7 +188,7 @@ const routes = [
     component: TeacherAttendanceDetail
   },
   {
-    path: '/checkAttendance',
+    path: '/check-attendance',
     name: '/checkAttendance',
     component: CheckAttendance
   },
@@ -271,6 +267,11 @@ const routes = [
     path: '/feedback',
     name: 'feedback',
     component: GiveFeedBackForm
+  },
+  {
+    path: '/teacher-classroom',
+    name: 'ClassroomView',
+    component: ClassroomView
   }
   
 
