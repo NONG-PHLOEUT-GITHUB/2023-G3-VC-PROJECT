@@ -1,18 +1,9 @@
 <template>
   <v-card>
     <v-tabs v-model="tab" bg-color="primary">
-      <v-tab value="one">January</v-tab>
-      <v-tab value="Two">February</v-tab>
-      <v-tab value="three">March</v-tab>
-      <v-tab value="four">April</v-tab>
-      <v-tab value="five">May</v-tab>
-      <v-tab value="six">June</v-tab>
-      <v-tab value="seven">July</v-tab>
-      <v-tab value="eight">August</v-tab>
-      <v-tab value="night">September</v-tab>
-      <v-tab value="ten">October</v-tab>
-      <v-tab value="elevent">November</v-tab>
-      <v-tab value="twelve">December</v-tab>
+      <v-tab v-for="month in months" :key="month.value" :value="month.value">{{
+        month.name
+      }}</v-tab>
     </v-tabs>
     <v-card-text>
       <v-window v-model="tab">
@@ -37,6 +28,18 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.calories }}</td>
               </tr> -->
+              <tr>
+                <td>50</td>
+                <td>50</td>
+                <td>50</td>
+                <td>50</td>
+                <td>50</td>
+                <td>50</td>
+                <td>50</td>
+                <td>50</td>
+                <td>50</td>
+                <td>50</td>
+              </tr>
             </tbody>
           </v-table>
         </v-window-item>
@@ -51,9 +54,25 @@
 
 <script>
 export default {
-  data: () => ({
-    tab: null,
-  }),
+  data() {
+    return {
+      tab: "one",
+      months: [
+        { name: "January", value: "one" },
+        { name: "February", value: "two" },
+        { name: "March", value: "three" },
+        { name: "April", value: "four" },
+        { name: "May", value: "five" },
+        { name: "June", value: "six" },
+        { name: "July", value: "seven" },
+        { name: "August", value: "eight" },
+        { name: "September", value: "nine" },
+        { name: "October", value: "ten" },
+        { name: "November", value: "eleven" },
+        { name: "December", value: "twelve" },
+      ],
+    };
+  },
 };
 </script>
 
