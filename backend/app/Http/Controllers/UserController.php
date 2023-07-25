@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\ClassRoom;
 use App\Models\Comment;
 use App\Models\Role;
 use App\Models\Score;
@@ -41,10 +42,10 @@ class UserController extends Controller
         $image->move(public_path('images'), $new_name);
         $path = asset('images/' . $new_name);
         return $path;
-
-    } /**
-      * Display the specified resource.
-      */
+    }
+    /**
+     * Display the specified resource.
+     */
     public function getEmails($id)
     {
         return User::select('email')->where('id', '!=', $id)->where('role', '!=', 'admin')->get();
@@ -129,6 +130,18 @@ class UserController extends Controller
             ->get();
         return response()->json(["message" => true, "data" => $teachers], 200);
     }
+    public function updateClass(Request $request, $id)
+    {
+        $classroom = ClassRoom::findOrFail($id);
+        $classroom->update([
+            'class_name' => $request->input('class_name'),
+            'teacher_id' => $request->input('teacher_id'),
+        ]);
+        return response()->json([
+            'message' => 'Classroom updated successfully',
+            'classroom' => $classroom,
+        ]);
+    }
 
     public function getTeacherBySubject($subject)
     {
@@ -146,9 +159,10 @@ class UserController extends Controller
 
 
     /**
-    * show total of student failed of each month.
-    */
-    public function getPercentageOfFaildedStudentByMonth($year) {
+     * show total of student failed of each month.
+     */
+    public function getPercentageOfFaildedStudentByMonth($year)
+    {
 
         $users = User::where('role', '=', 3)->get();
 
@@ -188,9 +202,9 @@ class UserController extends Controller
         // $failedPercentage = [20, 30, 10, 45, 28, 54, 34, 45, 28, 54, 34, 9];
         // return response()->json(['data' => $failedPercentage], 200);
 
-        
+
     }
-    
+
     // --------------------------------Teacher Detail--------------------------------
 
     // public function getTeacherDetail($teacher_id){
