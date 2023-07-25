@@ -75,7 +75,7 @@ export default {
   }),
   methods: {
     getAttendance() {
-      http.get("/api/v1/auth/user").then((response) => {
+      http.get("/v1/auth/user").then((response) => {
         this.attendances = response.data.data.attendances;
         console.log('attendacne',response.data.data.attendances)
       });

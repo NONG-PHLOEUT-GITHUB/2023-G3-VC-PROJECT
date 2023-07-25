@@ -90,7 +90,7 @@ export default {
     login() {
       if (this.$refs.form.validate()) {
         http
-          .post("/api/v1/auth/login", {
+          .post("/v1/auth/login", {
             email: this.email,
             password: this.password,
           })

@@ -32,11 +32,11 @@ export default {
         title: "Add student",
         icon: 'mdi-plus'
       },
-      {
-        path: '/student-attendance',
-        title: "Attendance",
-        icon: 'mdi-progress-check'
-      },
+      // {
+      //   path: '/student-attendance',
+      //   title: "Attendance",
+      //   icon: 'mdi-progress-check'
+      // },
       {
         path: '/student-acadamice',
         title: "Score",

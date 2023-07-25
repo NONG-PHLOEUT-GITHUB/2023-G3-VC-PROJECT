@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     fetchData() {
-      http.get("/api/v1/auth/user").then((response) => {
+      http.get("/v1/auth/user").then((response) => {
         this.users = response.data.data;
       });
     },

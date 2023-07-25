@@ -19,7 +19,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/",
+  // baseURL: 'http://172.16.0.130:8000/api/',
+  baseURL: "http://127.0.0.1:8000/api/",
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-type": "application/json",

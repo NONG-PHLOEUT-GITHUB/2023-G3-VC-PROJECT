@@ -262,7 +262,7 @@ export default {
     },
 
     getStudentData() {
-      http.get('/api/get-students')
+      http.get('/get-students')
       .then((response) => {
         this.students = response.data.data;
       });

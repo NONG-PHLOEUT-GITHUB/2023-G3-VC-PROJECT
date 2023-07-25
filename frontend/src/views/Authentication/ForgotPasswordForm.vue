@@ -1,10 +1,9 @@
 <template>
-
-    <v-snackbar v-model="snackbarVisible" :timeout="5000" color="success">
-      Password reset email sent successfully!
-    </v-snackbar>
-
   <v-layout class="d-flex justify-center align-center" style="height: 100vh">
+    <v-snackbar class="snackbar" v-model="snackbarVisible" :timeout="2500" color="success">
+      Password reset email sent successfully! 
+      <span>Please check your Email {{ this.email }}</span>
+    </v-snackbar>
     <v-container class="d-flex justify-center align-center">
       <v-flex xs12 md6 class="mb-7 w-50">
         <v-img
@@ -67,7 +66,7 @@
 
 <script>
 import http from "@/htpp.common";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 //  https://vee-validate.logaretm.com/v4/tutorials/basics/
 
 export default {
@@ -85,34 +84,35 @@ export default {
     forgotPassword() {
       if (this.$refs.form.validate()) {
         http
-          .post("/api/forgot-password", {
+          .post("forgot-password", {
             email: this.email,
           })
-          .then(() => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 500,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
+          // .then(() => {
+          //   const Toast = Swal.mixin({
+          //     toast: true,
+          //     position: "top-end",
+          //     showConfirmButton: false,
+          //     timer: 800,
+          //     timerProgressBar: true,
+          //     didOpen: (toast) => {
+          //       toast.addEventListener("mouseenter", Swal.stopTimer);
+          //       toast.addEventListener("mouseleave", Swal.resumeTimer);
+          //     },
+          //   });
 
-            Toast.fire({
-              icon: "success",
-              title: "Your password has been changed successfully!",
-              html: "<p>Pleas check your email</p>",
-            }).then(() => {
-                this.email = "";
-                this.snackbarVisible = true;
-            });
-          })
-          //   .then(() => {
+          //   Toast.fire({
+          //     icon: "success",
+          //     title: "Your password has been changed successfully!",
+          //     html: "<p>Pleas check your email</p>",
+          //   }).then(() => {
           //       this.email = "";
-          //   })
+          //       this.snackbarVisible = true;
+          //   });
+          // })
+            .then(() => {
+                this.snackbarVisible = true;
+                // this.email = "";
+            })
           .catch((error) => {
             if (error.response.status === 404) {
               if (this.emailRules !== "") {
@@ -129,4 +129,7 @@ export default {
 </script>
 <style>
 @import "~vuetify/dist/vuetify.css";
+.snackbar{
+  margin-bottom: 40%;
+}
 </style>

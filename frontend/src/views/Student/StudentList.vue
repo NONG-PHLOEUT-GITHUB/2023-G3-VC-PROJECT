@@ -169,7 +169,7 @@ export default {
   methods: {
     //===================get data from Database =================
     getStudents() {
-      http.get('/api/get-students')
+      http.get('/get-students')
       .then((response) => {
         this.listUser = response.data.data;
       });
@@ -184,8 +184,8 @@ export default {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          axios
-            .delete(this.URL + `/${id}`)
+          http
+            .delete('/delete-user' + `/${id}`)
             .then(() => {
               swal("Deleted!", "Your user has been deleted.", "success");
               // call mounted
@@ -238,7 +238,7 @@ export default {
       formData.append("file", file);
 
       http
-        .post("/api/users_import", formData, {
+        .post("/users-import", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             "Cache-Control": "no-cache",

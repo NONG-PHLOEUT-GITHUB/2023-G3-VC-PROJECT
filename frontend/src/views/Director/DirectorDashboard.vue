@@ -133,7 +133,7 @@ export default {
   },
   mounted() {
     http
-      .get("/api/getTotal")
+      .get("/getTotal")
       .then((response) => {
         this.results = response.data.data;
       })

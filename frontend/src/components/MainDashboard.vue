@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     fetchData() {
-      http.get("/api/v1/auth/user").then((response) => {
+      http.get("/v1/auth/user").then((response) => {
         this.users = response.data.data;
       });
     },
@@ -149,7 +149,7 @@ export default {
     logout() {
       http
         .post(
-          "/api/v1/auth/logout",
+          "/v1/auth/logout",
           {},
           {
             headers: {
