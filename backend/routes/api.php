@@ -66,7 +66,7 @@ Route::put("/classrooms/{id}", [ClassRoomController::class, 'update']);
 Route::get("/classrooms/{id}", [ClassRoomController::class, 'show']);
 Route::get("/classrooms", [ClassRoomController::class, 'index']);
 Route::get('/classrooms', [ClassRoomController::class, 'index']);
-// Route::get('/get_student', [ClassRoomController::class, 'getStudentInClassroom']);
+// Route::get('/get_student', [ClassRoomController::class, 'g']);
 Route::post('/classroom', [ClassRoomController::class, 'store']);
 Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
