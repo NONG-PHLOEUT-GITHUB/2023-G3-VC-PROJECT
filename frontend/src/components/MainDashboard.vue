@@ -175,6 +175,7 @@ export default {
             title: "Logout successfully",
           }).then(() => {
             Cookies.remove("access_token");
+            Cookies.remove("user_role");
             this.$router.push("/login");
           });
         })

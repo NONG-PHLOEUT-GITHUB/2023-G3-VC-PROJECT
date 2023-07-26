@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     getScore() {
-      http.get("/api/v1/auth/user").then((response) => {
+      http.get("/v1/auth/user").then((response) => {
         this.scores = response.data.data.scores;
         console.log(this.scores);
       });

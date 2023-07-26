@@ -100,7 +100,7 @@ const routes = [
     component: StudentAttendanceView,
   },
   {
-    path: '/studnet-scores',
+    path: '/student-scores',
     name: 'StudentScoreView',
     component: StudentScoreView,
   },
@@ -126,8 +126,8 @@ const routes = [
     name: 'StudentDashboard',
     component: StudentDashboard,
     beforeRouteUpdate(to, from, next) {
-      const isStudent = true;
-      if (isStudent) {
+      const StudentDashboard = true;
+      if (StudentDashboard) {
         next('/student-home');
       } else {
         next();

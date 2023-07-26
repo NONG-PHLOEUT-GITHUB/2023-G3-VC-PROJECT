@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const api = axios.create({
-  // baseURL: 'http://172.16.0.130:8000/api/',
+  // baseURL: process.env.VUE_APP_API_UR,
   baseURL: "http://100.26.194.150:8000/api/",
   headers: {
     "Access-Control-Allow-Origin": "*",
