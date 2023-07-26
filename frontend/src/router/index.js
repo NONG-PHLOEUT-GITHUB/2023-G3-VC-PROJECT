@@ -28,7 +28,7 @@ import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vu
 import LoginForm from '../views/Authentication/LoginForm.vue';
 import ForgotPasswordFrom from '@/views/Authentication/ForgotPasswordForm.vue';
 import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
-import NotFoundView from '@/views/Authentication/NotFoundView.vue'
+import NotFoundView from '@/views/Authentication/NotFoundView.vue';
 //user router ===========================================================================
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================
