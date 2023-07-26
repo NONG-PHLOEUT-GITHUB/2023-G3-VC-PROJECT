@@ -38,24 +38,11 @@
 <script>
 
 import Swal from "sweetalert2";
-<<<<<<< HEAD
 import http from "@/htpp.common";
-=======
-import http from '@/htpp.common'
->>>>>>> 3b83bed9155a272599fe0d376777edbb6a23aab3
 export default {
   data() {
     return {
       listUser: [],
-<<<<<<< HEAD
-      selectedStudent: null,
-      commentURL: "http://127.0.0.1:8000/api/comments",
-      comment: "",
-      teacherID: null,
-    };
-  },
-  methods: {
-=======
       selectedStudent: null, 
       comment: ''
     };
@@ -66,27 +53,12 @@ export default {
         this.listUser = response.data;
       });
     },
->>>>>>> 3b83bed9155a272599fe0d376777edbb6a23aab3
     giveComment() {
       const commentData = {
         body: this.comment,
         teacher_id: this.teacherID, 
         student_id: this.selectedStudent,
       };
-<<<<<<< HEAD
-
-      axios.post(this.commentURL, commentData)
-      .then((response) => {
-        console.log(response);
-        console.log(commentData);
-      });
-      Swal.fire({
-        icon: "success",
-        title: "Message sent successfully!",
-        text: "Your Comment successfully to student",
-        timer: 2000,
-      });
-=======
       console.log(commentData);
       http
         .post('/comments', commentData)
@@ -100,7 +72,6 @@ export default {
           timer: 2000,
         })
       // Reset form fields after submission
->>>>>>> 3b83bed9155a272599fe0d376777edbb6a23aab3
       this.selectedStudent = null;
       this.comment = "";
     },

@@ -90,11 +90,7 @@ export default {
     downloadPDF() {
       this.isDetail = true;
       http
-<<<<<<< HEAD
-        .get("/api/get-teachers")
-=======
         .get('/get-teachers')
->>>>>>> 3b83bed9155a272599fe0d376777edbb6a23aab3
         .then((response) => {
           this.teachers = response.data.data;
           const element = document.getElementById("my-table");
@@ -116,11 +112,7 @@ export default {
     },
     fetchData() {
       http
-<<<<<<< HEAD
-        .get("api/get-teachers")
-=======
         .get('/get-teachers')
->>>>>>> 3b83bed9155a272599fe0d376777edbb6a23aab3
         .then((response) => {
           this.listUser = response.data.data;
         })
@@ -130,7 +122,7 @@ export default {
     },
     getClassrooms() {
       http
-        .get("/api/classrooms")
+        .get("/classrooms")
         .then((response) => {
           this.classrooms = response.data.data;
         })
@@ -140,7 +132,7 @@ export default {
     },
     getTeacher(classId) {
       http
-        .get(`/api/get-teachers`)
+        .get(`/get-teachers`)
         .then((response) => {
           this.listUser = response.data.data.filter(
             (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)

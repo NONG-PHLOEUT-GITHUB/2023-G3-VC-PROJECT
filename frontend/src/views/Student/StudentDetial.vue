@@ -128,27 +128,19 @@ export default {
   },
   methods: {
     fetchData() {
-      http.get("/api/v1/auth/user").then((response) => {
+      http.get("/v1/auth/user").then((response) => {
         this.users = response.data.data;
       });
     },
-<<<<<<< HEAD
-    getCommentByTeacher() {
-      http.get("/api/getComments").then((response) => {
-        this.comments = response.data.data;
-        console.log(response.data.data);
-      });
-=======
     methods: {
       fetchData() {
         http.get("/v1/auth/user").then((response) => {
           this.users = response.data.data;
         });
       },
->>>>>>> 3b83bed9155a272599fe0d376777edbb6a23aab3
     },
     getParents() {
-      http.get("/api/getGuardians").then((response) => {
+      http.get("/getGuardians").then((response) => {
         this.parents = response.data.data;
         console.log(response.data.data);
       });
@@ -163,11 +155,6 @@ export default {
 };
 </script>
   
-<<<<<<< HEAD
-  <style>
-.detail {
-  margin-left: 18%;
-=======
   <style scoped>
   .detail {
     margin-left: 18%;
@@ -184,7 +171,6 @@ export default {
   }
 .img-fluid{
     border: solid 3px #e0caca;
->>>>>>> 3b83bed9155a272599fe0d376777edbb6a23aab3
 }
 
 .imformation {
