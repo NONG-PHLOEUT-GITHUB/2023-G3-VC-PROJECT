@@ -1,5 +1,5 @@
 <template>
-  <!-- <admin-dashboard></admin-dashboard> -->
+  <admin-dashboard></admin-dashboard>
   <main class="table">
     <h3>
       Attendance Records

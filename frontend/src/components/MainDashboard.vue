@@ -79,14 +79,18 @@
 </template>
 
 <script>
+// https://snyk.io/advisor/npm-package/lru-cache/functions/lru-cache
 import http from "@/htpp.common";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import ChangePasswordDialog from "@/views/Authentication/ChangePasswordForm.vue";
+import LRU from "lru-cache";
+const cache = new LRU(100);
 
 export default {
   props: ["menubar"],
   name: "LayoutDashboard",
+
   components: {
     ChangePasswordDialog,
   },
@@ -95,14 +99,24 @@ export default {
     dialogVisible: false,
   }),
 
-  mounted() {
-    this.fetchData();
-  },
+
   methods: {
-    fetchData() {
-      http.get("/v1/auth/user").then((response) => {
+  
+    async fetchData() {
+      const cachedResponse = cache.get("users");
+
+      if (cachedResponse) {
+        this.users = cachedResponse;
+        return;
+      }
+
+      try {
+        const response = await http.get("/v1/auth/user");
         this.users = response.data.data;
-      });
+        cache.set("users", this.users);
+      } catch (error) {
+        console.error(error);
+      }
     },
 
     logout() {
@@ -117,31 +131,6 @@ export default {
           }
         )
         .then(() => {
-          // Swal.fire({
-          //   title: 'Do you want to logout?',
-          //   showCancelButton: true,
-          //   position: "top-end",
-          // }).then((result) => {
-          //   /* Read more about isConfirmed, isDenied below */
-          //   if (result.isConfirmed) {
-          //     const Toast =  Swal.mixin({
-          //       toast: true,
-          //       position: "top-end",
-          //       showConfirmButton: false,
-          //       timer: 500,
-          //       timerProgressBar: true,
-          //     });
-          //     Toast.fire({
-          //       icon: "success",
-          //       title: "Logout successfully",
-          //     })
-          //   }
-          // })
-          // .then(() => {
-          //   Cookies.remove("access_token");
-          //   Cookies.remove("user_role");
-          //   this.$router.push("/login");
-          // });
           Swal.fire({
             title: 'Are you sure you want to logout?',
             // text: "You won't be able to revert this!",
@@ -175,6 +164,9 @@ export default {
           console.log(error);
         });
     },
+  },
+  mounted() {
+    this.fetchData();
   },
 };
 </script>

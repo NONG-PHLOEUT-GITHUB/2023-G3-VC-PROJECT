@@ -72,29 +72,29 @@
               <v-icon class="me-2"> mdi-account </v-icon>Parent
               Information</v-btn
             >
-            <div v-for="user in parents" :key="user">
+            <div >
               <v-card variant="text" class="mt-4">
                 <v-icon class="me-2">mdi-account </v-icon>Full name :
-                {{ user.first_name }} {{ user.last_name }}
+                {{ this.parents.first_name}}{{this.parents.last_name}}
               </v-card>
               <v-card variant="text" class="mt-4">
                 <v-icon class="me-2">mdi-gender-transgender </v-icon>Gender :
-                {{ user.gender }}
+                {{ this.parents.gender }}
               </v-card>
               <v-card variant="text mt-4">
-                <v-icon class="me-2"> mdi-numeric </v-icon>Age : {{ user.age }}
+                <v-icon class="me-2"> mdi-numeric </v-icon>Age : {{ this.parents.age }}
               </v-card>
               <v-card variant="text mt-4">
                 <v-icon class="me-2"> mdi-phone </v-icon>Phone number :
-                {{ user.phone_number }}
+                {{ this.parents.phone_number }}
               </v-card>
               <v-card variant="text mt-4">
                 <v-icon class="me-2"> mdi-map-marker </v-icon>Address :
-                {{ user.address }}
+                {{ this.parents.address }}
               </v-card>
               <v-card variant="text mt-4">
-              <v-icon class="me-2"> mdi-email </v-icon>Job : {{ user.job }}
-            </v-card>
+                <v-icon class="me-2"> mdi-email </v-icon>Job : {{ this.parents.job }}
+              </v-card>
             </div>
           </v-col>
         </v-col>
@@ -139,16 +139,22 @@ export default {
         });
       },
     },
-    getParents() {
-      http.get("/getGuardians").then((response) => {
-        this.parents = response.data.data;
-        console.log(response.data.data);
+    getParents(id) {
+      http.get(`/getParents/${id}`).then((response) => {
+        this.parents = response.data.guardian
+        console.log(this.parents);
+      });
+    },
+    getCommentByTeacher() {
+      http.get("/getComments").then((response) => {
+        this.comments = response.data.data;
       });
     },
   },
 
   mounted() {
-    this.getParents();
+   const id = this.$route.params.id;
+    this.getParents(id);
     this.getCommentByTeacher();
     this.fetchData();
   },
@@ -156,21 +162,21 @@ export default {
 </script>
   
   <style scoped>
-  .detail {
-    margin-left: 18%;
-  }
-  
-  .imformation {
-    display: flex;
-    flex-direction: column;
-  }
+.detail {
+  margin-left: 18%;
+}
 
-  .title{
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-.img-fluid{
-    border: solid 3px #e0caca;
+.imformation {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.img-fluid {
+  border: solid 3px #e0caca;
 }
 
 .imformation {

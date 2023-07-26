@@ -242,4 +242,16 @@ class UserController extends Controller
         ]);
     }
 
+    public function getParentsByuser($id){
+        $user = User::where('id', $id)->first();
+        $guardian = Guardian::all();
+        $guardian = GuardianResource::collection($guardian);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        return response()->json([
+            'user_id' => $user->id,
+            'guardian' => $user->guardian,
+        ]);
+    }
 }
