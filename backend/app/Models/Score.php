@@ -12,8 +12,8 @@ class Score extends Model
     protected $fillable = [
         'id',
         'score',
+        'subject_id',
         'user_id',
-        'subject_name',
     ];
 
     public static function store($request, $id = null)
@@ -21,6 +21,7 @@ class Score extends Model
         $scores = $request->only(
             'id',
             'score',
+            'subject_id',
             'user_id',
         );
         if ($id) {

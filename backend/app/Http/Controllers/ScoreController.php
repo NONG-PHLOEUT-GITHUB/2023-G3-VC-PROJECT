@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use Carbon\Carbon;
 use App\Models\Score;
 use Illuminate\Http\Request;
 
@@ -23,10 +22,6 @@ class ScoreController extends Controller
     {
         //
         $scores = Score::store($request);
-
-        $scores->subject()->create([
-            'subject_name' => $request->input('subject_name')
-        ]);
 
         return response()->json(['success' => true, 'data' => $scores], 201);
 

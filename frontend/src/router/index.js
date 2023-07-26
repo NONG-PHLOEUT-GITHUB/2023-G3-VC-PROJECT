@@ -18,7 +18,6 @@ import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vu
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
-import DashboardView from '../components/Navigation/DashboardView.vue';
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
@@ -40,8 +39,11 @@ import StudentAcadmics from '@/views/Student/StudentView.vue';
 import StudentHomeView from '@/views/Student/StudentHomeView';
 import StudentAttendanceView from '@/views/Student/StudentAttendanceView.vue';
 import StudentScoreView from '@/views/Student/StudentScoreView.vue';
+import StudentScore from '@/views/Student/StudentScore.vue';
+
 //teacher dashboard router =============================================================
 import ClassroomView from '@/views/Teacher/ClassroomView.vue';
+
 
 
 
@@ -110,11 +112,7 @@ const routes = [
     name: 'StudentAcadmics',
     component: StudentAcadmics,
   },
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: DashboardView
-  },
+  
 // ============main dashboard=======
   {
     path: '/admin-dashboard',
@@ -263,11 +261,17 @@ const routes = [
     name: 'ClassroomView',
     component: ClassroomView
   },
+  {
+    path: '/student-score',
+    name: 'StudentScore',
+    component: StudentScore
+  },
   // {
   //   path: '/:pathMatch(.*)*', // matches any unknown path
   //   name: 'not-found',
   //   component: NotFoundView
   // }
+  
 
 ]
 

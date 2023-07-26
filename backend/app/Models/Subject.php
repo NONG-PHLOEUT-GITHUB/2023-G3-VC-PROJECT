@@ -10,12 +10,29 @@ class Subject extends Model
     use HasFactory;
     protected $fillable = [
         'id',
-        'subject_id',
         'subject_name',
-        'description',
-        'schedule_id',
     ];
 
+    public static function store($request, $id = null)
+    {
+        $subjects = $request->only(
+            'id',
+            'subject_name',
+        );
+        if ($id) {
+            $subject = self::find($id);
+            if (!$subject) {
+                return response()->json(['error' => 'Record not found'], 404);
+            }
+            $subject->update($subjects);
+        } else {
+            $subject = self::create($subjects);
+            $id = $subject->$id;
+        }   
+        return $subject;
+
+        
+    }
 
 
 
@@ -26,5 +43,8 @@ class Subject extends Model
 
     public function schedule(){
         return $this->belongsTo(Schedule::class);
+    }
+    public function score(){
+        return $this->belongsTo(Score::class);
     }
 }

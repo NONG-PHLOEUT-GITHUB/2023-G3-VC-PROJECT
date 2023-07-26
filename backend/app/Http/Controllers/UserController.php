@@ -36,7 +36,6 @@ class UserController extends Controller
 
     public function getImage(StoreUserRequest $request)
     {
-
         $image = $request->file('profile');
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images'), $new_name);
@@ -142,7 +141,10 @@ class UserController extends Controller
             'classroom' => $classroom,
         ]);
     }
-
+    public function getStudentId($id){
+        $user = User::find($id);
+        return response()->json($user);
+    }
     public function getTeacherBySubject($subject)
     {
         $users = User::where('role', 2)
