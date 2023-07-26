@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import { Bar } from "vue-chartjs";
 import http from "../../htpp.common";
 import {
@@ -79,7 +78,6 @@ export default {
   components: { Bar },
   data() {
     return {
-      URL: "http://127.0.0.1:8000/api",
       results: "",
       chartData: {
         labels: [
@@ -141,8 +139,8 @@ export default {
         console.log(error);
       });
 
-    axios
-      .get(this.URL + "/getPercentageOfFaildedStudentByMonth")
+      http
+      .get("/getPercentageOfFaildedStudentByMonth")
       .then((response) => {
         const mydata = response.data.failed_users_percentage;
         console.log(mydata);

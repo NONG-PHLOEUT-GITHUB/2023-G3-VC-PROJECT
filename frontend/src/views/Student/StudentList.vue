@@ -111,7 +111,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 import http from "../../htpp.common";
@@ -136,7 +135,6 @@ export default {
         { label: "Grade 12C", value: "12C" },
       ],
       selectedClass: null,
-      getClassURL:"http://127.0.0.1:8000/api/getuserInClass"
     };
   },
 
@@ -276,8 +274,8 @@ export default {
         });
     },
     getStudentInClass(classId) {
-      axios
-        .get(this.getClassURL + "/" + `${classId}`)
+      http
+        .get('/getuserInClass'+ "/" + `${classId}`)
         .then((response) => {
           this.listUser = response.data.data;
           for (let user of this.listUser) {

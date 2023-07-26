@@ -82,7 +82,6 @@
 
 <script>
 
-import axios from "axios";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 import http from "../../htpp.common"
@@ -147,7 +146,7 @@ export default {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          axios.delete(this.URL + `/${id}`)
+          http.delete('/delete-user' + `/${id}`)
             .then(() => {
               swal("Deleted!", "Your user has been deleted.", "success");
               // call mounted
@@ -226,8 +225,8 @@ export default {
       });
     },
      getStudentInClass(classId) {
-      axios
-        .get(this.getClassURL + "/" + `${classId}`)
+      http
+        .get('/getuserInClass' + "/" + `${classId}`)
         .then((response) => {
           this.listUser = response.data.data;
           for (let user of this.listUser) {

@@ -70,7 +70,6 @@ export default {
     isDownloading: false,
     isDetail: false,
     pdfUrl: null,
-    url: "http://127.0.0.1:8000/api/getTeachers",
     attendances: []
   }),
   methods: {
