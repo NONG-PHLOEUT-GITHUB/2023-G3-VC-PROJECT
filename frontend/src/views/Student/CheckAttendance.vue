@@ -135,9 +135,6 @@ export default {
       date: null,
       chat_id: null,
       classrooms:[],
-      URL: "http://127.0.0.1:8000/api/checkStudentAttendance",
-      gurdianURL: "http://127.0.0.1:8000/api/guardian",
-      getClassURL:"http://127.0.0.1:8000/api/getuserInClass",
       grades: [
         { label: "Grade 9A", value: "9A" },
         { label: "Grade 9B", value: "9B" },
@@ -183,7 +180,7 @@ export default {
                 reason: student.reason,
               };
               // console.log(newAttend);
-              return axios.post(this.URL, newAttend);
+              return http.post('/checkStudentAttendance', newAttend);
             } else {
               swal.fire("Complete first", "complete all input", "info");
             }
@@ -206,7 +203,7 @@ export default {
     // https://www.youtube.com/watch?v=aNmRNjME6mE
     async getChatId(id) {
       try {
-        const response = await http.get('/api/guardian' + "/" + `${id}`);
+        const response = await http.get('/guardian' + "/" + `${id}`);
         this.chat_id = response.data.guardian_id;
         console.log(response.data.guardian_id);
       } catch (error) {
@@ -247,8 +244,8 @@ export default {
           };
           console.log(attendanceData);
           // Send the attendance data to your API
-          axios
-            .post(this.URL, attendanceData)
+          http
+            .post('/checkStudentAttendance', attendanceData)
             .then((response) => {
               console.log(response.data);
               // Redirect the user to the attendance list page
@@ -278,7 +275,7 @@ export default {
     },
     getStudentInClass(classId) {
       http
-        .get(`/api/get-students`)
+        .get(`/get-students`)
         .then((response) => {
           console.log(response.data.data);
           this.students = response.data.data
@@ -292,7 +289,7 @@ export default {
     },
     getClassrooms() {
       http
-        .get("/api/classrooms")
+        .get("/classrooms")
         .then((response) => {
           this.classrooms = response.data.data;
         })
