@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-tabs v-model="tab" bg-color="primary">
-      <v-tab v-for="month in months" :key="month.value" :value="month.value">{{ month.value }}</v-tab>
+      <v-tab v-for="month in months" :key="month.value" :value="month.value">{{ month.name }}</v-tab>
     </v-tabs>
     <v-card-text>
       <v-window v-model="tab">

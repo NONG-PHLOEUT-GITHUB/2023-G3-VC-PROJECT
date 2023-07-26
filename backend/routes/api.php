@@ -118,6 +118,7 @@ Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendance
 Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
 Route::get("/studentattendancedetail/{user_id}", [AttendanceController::class, "showDetail"]);
 Route::get("/totalattendanceofstudent", [AttendanceController::class, "getTotalAttendanceOfStudentsAllMonths"]);
+Route::get("/totalattendancespecificstudent/{id}", [AttendanceController::class, "getTotalAttendanceOfSpecificStudentAllMonths"]);
 
 // ========================router=====================================================
 

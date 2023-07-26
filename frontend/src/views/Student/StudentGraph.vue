@@ -1,18 +1,18 @@
 <template>
-  <admin-dashboard></admin-dashboard>
-  <h3 class="col-sm-9 m-auto">REPORTS SCORE</h3>
-  <div class="row">
-    <div class="col-sm-9 m-auto">
-      <div class="card shadow-lg mt-5 p-5">
-        <div class="chart">
-          <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
-          <h5 class="text-center m-30 text-warning">STUDENT SCORE</h5>
-        </div>
-      </div>
-    </div>
-  </div>
+  <main class="main mt-6">
+    <h3>REPORTS</h3>
+    <v-row class="mt-8">
+      <v-card class="bar1">
+        <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+        <h5 class="text-center m-3 text-warning">ATTENDANCE</h5>
+      </v-card>
+      <v-card class="bar2 ms-4">
+        <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
+        <h5 class="text-center m-3 text-warning">SCORE</h5>
+      </v-card>
+    </v-row>
+  </main>
 </template>
-
 <script>
 import axios from "axios";
 import { Bar } from "vue-chartjs";
@@ -58,8 +58,8 @@ export default {
         ],
         datasets: [
           {
-            label: "Score average",
-            data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43],
+            label: "Attendance",
+            data: [],
           },
         ],
       },
@@ -80,7 +80,7 @@ export default {
         ],
         datasets: [
           {
-            label: "Average of failed students",
+            label: "Score",
             data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43],
           },
         ],
@@ -100,9 +100,46 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+      this.fetchAttendanceData();
   },
-};
+  methods:{
+    fetchAttendanceData() {
+    axios
+      .get("http://127.0.0.1:8000/api/totalattendancespecificstudent/9")
+      .then((response) => {
+        const mydata = Object.values(response.data);
+        for (let i = 0; i < mydata.length; i++) {
+            this.chartData.datasets[0].data[i] = mydata[i];
+        }
+        console.log(mydata)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+    },
+  };
 </script>
 
 <style>
+.main {
+  margin-left: 19%;
+  margin-right: 10px;
+}
+
+.card-container {
+  padding: 10px;
+  margin-left: 11%;
+}
+.card-text {
+  margin-top: -25px;
+  margin-left: 60px;
+}
+
+.bar1 {
+  width: 48%;
+}
+.bar2 {
+  width: 49%;
+}
 </style>

@@ -227,7 +227,7 @@ class AttendanceController extends Controller
         return response()->json(['totalAbsentDays' => $totalAbsentDays]);
     }
     /**
-     * show total of student absent of all month.
+     * show total of students absent of all month.
      */
     public function getTotalAttendanceOfStudentsAllMonths()
     {
@@ -236,6 +236,22 @@ class AttendanceController extends Controller
             $totalAttendance = User::where('role', 3)
                 ->whereHas('roleAttendances', function ($query) use ($month) {
                     $query->whereMonth('date', $month);
+                })
+                ->count();
+            $attendanceCounts[date('F', mktime(0, 0, 0, $month, 1))] = $totalAttendance;
+        }
+        return response()->json($attendanceCounts);
+    }
+    /**
+     * show total of specific student absent of all month.
+     */
+    public function getTotalAttendanceOfSpecificStudentAllMonths($id)
+    {
+        $attendanceCounts = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $totalAttendance = User::where('id', $id)
+                ->whereHas('roleAttendances', function ($query) use ($month) {
+                    $query->whereMonth('created_at', $month);
                 })
                 ->count();
             $attendanceCounts[date('F', mktime(0, 0, 0, $month, 1))] = $totalAttendance;

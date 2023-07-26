@@ -231,7 +231,7 @@ export default {
   methods: {
     fetchAttendanceData() {
       axios
-        .get(this.URL + "/totalattendanceofstudent")
+        .get(this.URL + "/totalattendanceofstudent/9")
         .then((response) => {
           const mydata = Object.values(response.data);
           for (let i = 0; i < mydata.length; i++) {
