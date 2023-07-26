@@ -236,8 +236,8 @@ export default {
   },
   methods: {
     fetchAttendanceData() {
-      axios
-        .get(this.URL + "/totalattendanceofstudent/9")
+      http
+        .get("/totalattendanceofstudent/9")
         .then((response) => {
           const mydata = Object.values(response.data);
           for (let i = 0; i < mydata.length; i++) {
@@ -249,8 +249,8 @@ export default {
         });
     },
     fetchFaildedStudentData() {
-      axios
-        .get(this.URL + "/getPercentageOfFaildedStudentByMonth")
+      http
+        .get("/getPercentageOfFaildedStudentByMonth")
         .then((response) => {
           const mydata = response.data.failed_users_percentage;
           console.log(mydata);
