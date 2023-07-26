@@ -6,11 +6,15 @@
         <label for="student-name">Student</label>
         <div class="select-container">
           <select
-            v-model="selectedStudent" 
+            v-model="selectedStudent"
             class="form-select"
             aria-label="Default select example"
           >
-            <option v-for="student in listUser" :key="student.id" :value="student.id">
+            <option
+              v-for="student in listUser"
+              :key="student.id"
+              :value="student.id"
+            >
               {{ student.first_name }} {{ student.last_name }}
             </option>
           </select>
@@ -34,7 +38,7 @@
 <script>
 
 import Swal from "sweetalert2";
-import http from '@/htpp.common'
+import http from "@/htpp.common";
 export default {
   data() {
     return {
@@ -51,8 +55,9 @@ export default {
     },
     giveComment() {
       const commentData = {
-        'body': this.comment,
-        'user_id': this.selectedStudent, // Use only the selected student's ID in the POST request
+        body: this.comment,
+        teacher_id: this.teacherID, 
+        student_id: this.selectedStudent,
       };
       console.log(commentData);
       http
@@ -68,11 +73,19 @@ export default {
         })
       // Reset form fields after submission
       this.selectedStudent = null;
-      this.comment = '';
+      this.comment = "";
+    },
+    fetchData() {
+      http.get("/api/get-students").then((response) => {
+        this.listUser = response.data.data;
+        for(let user of this.listUser){
+          this.teacherID = user.id
+        }
+      });
     },
   },
   mounted() {
-    this.getData();
+    this.fetchData();
   },
 };
 </script>

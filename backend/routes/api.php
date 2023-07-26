@@ -76,6 +76,7 @@ Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
 Route::delete('/delete-user/{id}', [UserController::class,"destroy"]);
 Route::get('/getuserInClass/{class}', [ClassRoomController::class, 'getClassNameUserId']);
+Route::get('/get-students-in-class/{class}', [ClassRoomController::class, 'getClassNameTeacherId']);
 
 // ========================subject router===============================================
 
@@ -84,7 +85,7 @@ Route::post('/subjects', [SubjectController::class, 'store']);
 
 // ========================comment router==============================================
 
-Route::get('/getComments', [CommentController::class, 'getComment']);
+Route::get('/getComments', [CommentController::class, 'index']);
 Route::post('/comments', [CommentController::class, 'store']);
 Route::put("/comments", [CommentController::class, 'update']);
 Route::get("/getcommentforspecificstudent/{id}", [UserController::class, "getCommentForStudent"]);
@@ -106,7 +107,9 @@ Route::post('/subjectsTeachers', [SubjectTeacherController::class, 'store']);
 // ========================Guardian router===========================================
 
 Route::get("/getGuardian/{id}", [GuardianController::class,"getGuardianChatId"]);
+Route::get("/getGuardians", [GuardianController::class,"index"]);
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
+Route::get("/guardian/{id}", [UserController::class,"getUserIdFromGuardianId"]);
 
 // ========================attendance router===========================================
 
