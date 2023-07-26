@@ -1,11 +1,11 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <div class="main">
     <h3 class="mb-0 text-primary mt-4">CLASSES LIST</h3>
     <v-card class="d-flex mt-5 pa-5">
       <v-select
         class="w-10"
         label="Select class"
-        :items="listClasses && listClasses.map((classRoom) => classRoom.class_name)"
         v-model="selectedClass"
         variant="solo"
       ></v-select>
@@ -31,17 +31,20 @@
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12">
-                    
-                      <!-- <v-select
-                          v-model="selectedTeacher"
-                          :items="teachers"
-                          :item-text="teacherName"
-                          item-value="user_id"
-                          label="Select teacher"
-                          variant="outlined"
-                          
+                      <label for="" class="mb-4">Pleas chose teacher</label>
+                      <select
+                        v-model="selectedTeacher"
+                        class="form-select"
+                        aria-label="Default select example"
+                      >
+                        <option
+                          v-for="teacher in teacherList"
+                          :key="teacher.id"
+                          :value="teacher.id"
                         >
-                      </v-select> -->
+                          {{ teacher.first_name }} {{ teacher.last_name }}
+                        </option>
+                      </select>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -62,29 +65,44 @@
       </v-row>
     </v-card>
 
-    <template v-if="listClasses && listClasses.length">
-      <v-card
-        v-for="classRoom in listClasses"
-        :key="classRoom.class_id"
-        class="card mx-auto mt-2"
-        width="96%"
-        prepend-icon="mdi-home"
-      >
-        <template v-slot:title> Class : {{ classRoom.class_name }} </template>
+    <v-card
+      v-for="classroom in classrooms"
+      :key="classroom.id"
+      class="card mx-auto mt-2"
+      width="96%"
+      prepend-icon="mdi-home"
+    >
+      <template v-slot:title> Class : {{ classroom.class_name }} </template>
 
+      <div class="action">
         <v-col cols="auto">
-          <v-btn to="/monthly_report" class="me-4">
+          <!-- <v-btn to="/studnet-scores" class="me-4">
             <v-icon>mdi-chart-line</v-icon> Score report
-          </v-btn>
-          <v-btn @click="showStudents(classRoom.classId)">
-            <v-icon>mdi-calendar-clock</v-icon> Attendance report
-          </v-btn>
+          </v-btn> -->
+          <v-btn to="/attendance_list">
+            <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn
+          >
           <v-btn to="/feedback" class="ms-4">
-            <v-icon>mdi-poll</v-icon> Student feedback
+            <v-icon>mdi-poll</v-icon> Studen feedback
           </v-btn>
         </v-col>
-      </v-card>
-    </template>
+        <v-col class="manage">
+          <v-btn @click="editClassroom(classroom)" color="green" class="me-2">
+            <v-icon>mdi-pencil</v-icon>Edit
+          </v-btn>
+          <v-btn
+            @click="deleteClassroom(classroom.id)"
+            color="red"
+            class="text-white"
+          >
+            <v-icon>mdi-delete</v-icon> Delete
+          </v-btn>
+        </v-col>
+      </div>
+      <!-- <v-card-text>
+          This is content
+        </v-card-text> -->
+    </v-card>
   </div>
 </template>
 
@@ -94,41 +112,23 @@ import http from "@/htpp.common";
 export default {
   data() {
     return {
-      listClasses: [],
       selectedClass: "",
       dialog: false,
       teachers: [],
       selectedTeacher: null,
       classrooms: [],
+      teacherList: [],
       className: "",
       formAction: "Add Classroom",
       editing: false,
       editId: null,
-      users: [
-          {
-            id: 1,
-            name: "John",
-            last: "Doe"
-          },
-          {
-            id: 2,
-            name: "Harry",
-            last: "Potter"
-          },
-          {
-            id: 3,
-            name: "George",
-            last: "Bush"
-          }
-        ]
+      listClass: [],
     };
   },
 
   computed: {
-    teacherName() {
-      return function (teacher) {
-        return teacher.first_name + " " + teacher.last_name;
-      };
+    fullName() {
+      return `${this.first_name} ${this.last_name}`;
     },
   },
 
@@ -139,53 +139,35 @@ export default {
         .then((response) => {
           console.log(classId);
           this.listUser = response;
-          // console.log(this.listUser);
         })
         .catch((error) => {
           this.listUser = [];
           console.log(error.response.data.error);
         });
     },
-
-    addClass() {
-      if (this.className && this.teacherName) {
-        const newClass = {
-          class_name: this.className,
-          teacher: this.teacherName,
-        };
-        http.post("/api/classes", newClass).then((response) => {
-          console.log(response.data);
-          this.error = null;
-        })
-        .catch((error) => {
-          this.studentName = null;
-          this.error = error.response.data.error;
-        });
-      }
-    },
-
-    getTeacher() {
+    addTeacher() {
+      // Send a POST request to create a new classroom
       http
-        .get("/api/get-teachers")
+        .post("/api/classrooms", {
+          class_name: this.className,
+          teacher_id: this.selectedTeacher,
+        })
         .then((response) => {
-          if (response.data && response.data.data) {
-            let teacherList = response.data.data;
-            for (let teacher of teacherList) {
-              // this.teachers.push(teacher.first_na  me + " " + teacher.last_name);
-              // this.teachers.push(teacher.id)
-              this.teachers.push({
-                text: teacher.first_name + " " + teacher.last_name,
-                value: teacher.id,
-              });
-            }
-            console.log(this.teachers);
-          } else {
-            console.log("Invalid response format:", response);
-          }
+          console.log("New classroom created:", response.data);
+          // Reset the form fields
+          this.className = null;
+          this.selectedTeacher = null;
+          // Reload the list of classrooms
+          this.fetchClassrooms();
         })
         .catch((error) => {
-          console.log("Error fetching teachers:", error);
+          console.log("Error creating classroom:", error);
         });
+    },
+    getTeacher() {
+      http.get("/get-teachers").then((response) => {
+        this.teacherList = response.data.data;
+      });
     },
     onTeacherSelected(teacher) {
       // this.selectedTeacher = teacher.text;
@@ -193,9 +175,9 @@ export default {
     },
 
     fetchClassrooms() {
-      http.get("/api/classrooms").then((response) => {
+      http.get("/classrooms").then((response) => {
         this.classrooms = response.data.data;
-        // console.log(this.listClasses);
+        console.log("class", this.classrooms);
       });
     },
 
@@ -209,10 +191,11 @@ export default {
       if (this.editing) {
         // Update an existing classroom
         http
-          .put(`/api/classrooms/${this.editId}`, newclassroom)
+          .put(`/classrooms/${this.editId}`, newclassroom)
           .then(() => {
             // Reset the form and close the dialog
             this.cancelForm();
+            this.fetchClassrooms();
           })
           .catch((error) => {
             console.log(error);
@@ -220,7 +203,7 @@ export default {
       } else {
         // Add a new classroom
         http
-          .post("/api/classrooms", newclassroom)
+          .post("/classrooms", newclassroom)
           .then(() => {
             // Reset the form and close the dialog
             this.cancelForm();
@@ -236,9 +219,30 @@ export default {
       this.formAction = "Edit Classroom";
       this.editing = true;
       this.editId = classroom.id;
-      this.classroom = { ...classroom };
-      this.selectedTeacher = classroom.teacherId;
+      this.className = classroom.class_name;
+      this.selectedTeacher = classroom.teacher_id;
       this.dialog = true;
+    },
+
+    updateClassroom() {
+      const id = this.editId;
+      // Send a PUT request to update the classroom
+      http
+        .put(`/classrooms/${id}`, {
+          class_name: this.className,
+          teacher_id: this.selectedTeacher,
+        })
+        .then((response) => {
+          this.fetchClassrooms();
+          console.log("Classroom updated:", response.data);
+          this.className = null;
+          this.selectedTeacher = null;
+          // Reload the list of classrooms
+          this.dialog = false;
+        })
+        .catch((error) => {
+          console.log("Error updating classroom:", error);
+        });
     },
 
     cancelForm() {
@@ -252,7 +256,7 @@ export default {
 
     deleteClassroom(id) {
       http
-        .delete(`/api/classrooms/${id}`)
+        .delete(`/classrooms/${id}`)
         .then(() => {
           const index = this.classrooms.findIndex((c) => c.id === id);
           if (index !== -1) {
@@ -262,26 +266,29 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-      }
     },
+  },
 
   mounted() {
-    http
-      .get("/api/getTeachers")
-      .then((response) => {
-        this.teachers = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    this.getURL();
+    this.fetchClassrooms();
+    this.getTeacher();
+    this.addTeacher();
   },
 };
 </script>
 <style scoped>
 @import "~vuetify/dist/vuetify.css";
+
 .main {
   margin-left: 18%;
   margin-top: 15px;
+}
+
+.action {
+  display: flex;
+}
+.manage {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

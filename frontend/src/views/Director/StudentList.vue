@@ -99,7 +99,7 @@ export default {
   data() {
 
     return {
-      URL: "http://127.0.0.1:8000/api/getStudents",
+      URL: "http://127.0.0.1:8000/api/get-students",
       listUser: [],
       errorMessage: "",
       searchQuery: "",

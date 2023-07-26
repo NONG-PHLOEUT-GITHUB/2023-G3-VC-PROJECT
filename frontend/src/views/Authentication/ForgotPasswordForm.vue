@@ -1,61 +1,40 @@
 <template>
-
-    <v-snackbar v-model="snackbarVisible" :timeout="5000" color="success">
-      Password reset email sent successfully!
-    </v-snackbar>
-
   <v-layout class="d-flex justify-center align-center" style="height: 100vh">
+    <v-snackbar class="snackbar" v-model="snackbarVisible" :timeout="1500" color="success">
+      Password reset email sent successfully!
+      <span>Please check your Email {{ this.email }}</span>
+    </v-snackbar>
     <v-container class="d-flex justify-center align-center">
       <v-flex xs12 md6 class="mb-7 w-50">
         <v-img
           src="https://static.vecteezy.com/system/resources/previews/005/879/539/original/cloud-computing-modern-flat-concept-for-web-banner-design-man-enters-password-and-login-to-access-cloud-storage-for-uploading-and-processing-files-illustration-with-isolated-people-scene-free-vector.jpg"
-          max-width="500"
-        >
+          max-width="500">
         </v-img>
       </v-flex>
       <v-flex xs14 md6>
-        <v-card
-          width="500"
-          class="mx-auto border--5 mx-auto pa-12 pb-8 mt-9"
-          elevation="10"
-          max-width="448"
-          rounded="lg"
-        >
+        <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8 mt-9" elevation="10" max-width="448" rounded="lg">
+          <v-progress-linear
+            :active="loading"
+            :indeterminate="loading"
+            absolute
+            bottom
+            color="deep-purple-accent-4"
+          ></v-progress-linear>
+
           <v-form ref="form" @submit.prevent="forgotPassword">
             <h2>Forgot password</h2>
             <div class="text-subtitle-1 text-medium-emphasis mt-8">Email</div>
 
-            <v-text-field
-              ref="emailField"
-              density="compact"
-              placeholder="Email address"
-              prepend-inner-icon="mdi-email-outline"
-              v-model="email"
-              :rules="emailRules"
-              variant="outlined"
-              no-validation
-            ></v-text-field>
+            <v-text-field ref="emailField" density="compact" placeholder="Email address"
+              prepend-inner-icon="mdi-email-outline" v-model="email" :rules="emailRules" variant="outlined"
+              no-validation></v-text-field>
             <span :rules="emailRules[0]"></span>
             <v-row no-gutters>
               <v-col>
-                <v-btn
-                  to="/"
-                  class="text-none mt-4"
-                  color="blue-darken-4"
-                  block
-                  variant="outlined"
-                  >Cancel</v-btn
-                >
+                <v-btn to="/login" class="mt-4" color="teal-darken-4" block variant="outlined">Cancel</v-btn>
               </v-col>
               <v-col>
-                <v-btn
-                  ref="button"
-                  type="submit"
-                  color="primary"
-                  block
-                  class="mt-4 ms-1"
-                  >Next</v-btn
-                >
+                <v-btn  ref="button" type="submit" color="teal-darken-4" block class="mt-4 ms-1 ">Next</v-btn>
               </v-col>
             </v-row>
           </v-form>
@@ -67,13 +46,13 @@
 
 <script>
 import http from "@/htpp.common";
-import Swal from "sweetalert2";
 //  https://vee-validate.logaretm.com/v4/tutorials/basics/
 
 export default {
   data: () => ({
     visible: false,
     snackbarVisible: false,
+    loading: false,
     email: "",
     emailRules: [
       (v) => !!v || "E-mail is required",
@@ -83,36 +62,18 @@ export default {
 
   methods: {
     forgotPassword() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.email && this.emailRules ) {
+        this.loading = true;
+
         http
-          .post("/api/forgot-password", {
+        .post("forgot-password", {
             email: this.email,
           })
           .then(() => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 500,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
-
-            Toast.fire({
-              icon: "success",
-              title: "Your password has been changed successfully!",
-              html: "<p>Pleas check your email</p>",
-            }).then(() => {
-                this.email = "";
-                this.snackbarVisible = true;
-            });
+            this.snackbarVisible = true;
+            // this.email = "";
+            this.loading = false;
           })
-          //   .then(() => {
-          //       this.email = "";
-          //   })
           .catch((error) => {
             if (error.response.status === 404) {
               if (this.emailRules !== "") {
@@ -129,4 +90,15 @@ export default {
 </script>
 <style>
 @import "~vuetify/dist/vuetify.css";
+
+.snackbar {
+  margin-bottom: 40%;
+}
+.reload{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 999;
+}
 </style>

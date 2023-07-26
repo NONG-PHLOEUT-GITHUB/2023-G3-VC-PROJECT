@@ -209,7 +209,7 @@ export default {
           });
         })
         .then(() => {
-          this.$router.push({ path: "/student" });
+          this.$router.push({ path: "/add-student" });
         })
         .catch((error) => {
           console.error("User update failed:", error);

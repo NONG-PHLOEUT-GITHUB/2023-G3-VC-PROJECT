@@ -111,7 +111,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 import http from "../../htpp.common";
@@ -136,7 +135,6 @@ export default {
         { label: "Grade 12C", value: "12C" },
       ],
       selectedClass: null,
-      getClassURL:"http://127.0.0.1:8000/api/getuserInClass"
     };
   },
 
@@ -169,7 +167,7 @@ export default {
   methods: {
     //===================get data from Database =================
     getStudents() {
-      http.get('/api/get-students')
+      http.get('/get-students')
       .then((response) => {
         this.listUser = response.data.data;
       });
@@ -184,8 +182,8 @@ export default {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          axios
-            .delete(this.URL + `/${id}`)
+          http
+            .delete('/delete-user' + `/${id}`)
             .then(() => {
               swal("Deleted!", "Your user has been deleted.", "success");
               // call mounted
@@ -238,7 +236,7 @@ export default {
       formData.append("file", file);
 
       http
-        .post("/api/users_import", formData, {
+        .post("/users-import", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             "Cache-Control": "no-cache",
@@ -276,8 +274,8 @@ export default {
         });
     },
     getStudentInClass(classId) {
-      axios
-        .get(this.getClassURL + "/" + `${classId}`)
+      http
+        .get('/getuserInClass'+ "/" + `${classId}`)
         .then((response) => {
           this.listUser = response.data.data;
           for (let user of this.listUser) {
@@ -298,7 +296,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card{
   margin-left: 20%;
   background: #000;

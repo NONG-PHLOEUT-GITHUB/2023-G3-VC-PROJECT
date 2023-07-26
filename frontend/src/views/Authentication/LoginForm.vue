@@ -57,7 +57,7 @@
 
         <router-link to="/forgot-password">Forgot login password?</router-link>
 
-        <v-btn type="submit" color="primary" block class="mt-4">login</v-btn>
+        <v-btn type="submit" color="teal-darken-4" block class="mt-4">login</v-btn>
       </v-form>
     </v-card>
   </div>
@@ -90,7 +90,7 @@ export default {
     login() {
       if (this.$refs.form.validate()) {
         http
-          .post("/api/v1/auth/login", {
+          .post("/v1/auth/login", {
             email: this.email,
             password: this.password,
           })
