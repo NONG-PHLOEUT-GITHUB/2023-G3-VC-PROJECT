@@ -57,7 +57,7 @@
             <th scope="col" class="fs-6 text-light">Age</th>
             <th scope="col" class="fs-6 text-light">Email</th>
             <th scope="col" class="fs-6 text-light">Phone Number</th>
-            <th></th>
+            <th scope="col" class="fs-6 text-light">Action</th>
           </tr>
         </thead>
         <tbody>

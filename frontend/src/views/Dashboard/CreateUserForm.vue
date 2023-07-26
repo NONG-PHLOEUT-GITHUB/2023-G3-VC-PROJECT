@@ -81,7 +81,7 @@
         <img v-bind:src="profilePreview">
         <div class="col-12 d-flex justify-content-end">
           <router-link type="submit" class="btn btn-warning text-white mr-2"
-            :to="{ path: '/student' }">Cancel</router-link>
+            :to="{ path: '/student-list' }">Cancel</router-link>
           <button type="submit" class="btn btn-primary text-white">Add User</button>
         </div>
       </form>

@@ -136,7 +136,7 @@
         <div class="col-12 d-flex justify-content-end">
           <router-link
             class="btn btn-warning text-white mr-2"
-            :to="{ path: '/student' }"
+            :to="{ path: '/student-list' }"
             >Cancel</router-link
           >
           <button type="submit" class="btn btn-primary text-white">
