@@ -14,7 +14,6 @@ class Score extends Model
         'score',
         'subject_id',
         'user_id',
-        'subject_name',
     ];
 
     public static function store($request, $id = null)

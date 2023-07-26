@@ -23,10 +23,6 @@ class ScoreController extends Controller
         //
         $scores = Score::store($request);
 
-        $scores->subject()->create([
-            'subject_name' => $request->input('subject_name')
-        ]);
-
         return response()->json(['success' => true, 'data' => $scores], 201);
 
     }
