@@ -76,9 +76,9 @@
 
       <div class="action">
         <v-col cols="auto">
-          <v-btn to="/monthly_report" class="me-4">
+          <!-- <v-btn to="/studnet-scores" class="me-4">
             <v-icon>mdi-chart-line</v-icon> Score report
-          </v-btn>
+          </v-btn> -->
           <v-btn to="/attendance_list">
             <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn
           >

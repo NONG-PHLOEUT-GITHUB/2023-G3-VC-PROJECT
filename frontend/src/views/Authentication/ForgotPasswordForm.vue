@@ -1,10 +1,4 @@
 <template>
-  <div class="reload d-flex justify-center align-center" style="background-color: aqua;">
-    <v-btn color="teal-darken-4" icon :disabled="loading" @click="reload">
-      <v-icon v-if="!loading">mdi-refresh</v-icon>
-      <v-progress-circular v-if="loading" indeterminate size="24"></v-progress-circular>
-    </v-btn>
-  </div>
   <v-layout class="d-flex justify-center align-center" style="height: 100vh">
     <v-snackbar class="snackbar" v-model="snackbarVisible" :timeout="1500" color="success">
       Password reset email sent successfully!
@@ -19,7 +13,14 @@
       </v-flex>
       <v-flex xs14 md6>
         <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8 mt-9" elevation="10" max-width="448" rounded="lg">
-          
+          <v-progress-linear
+            :active="loading"
+            :indeterminate="loading"
+            absolute
+            bottom
+            color="deep-purple-accent-4"
+          ></v-progress-linear>
+
           <v-form ref="form" @submit.prevent="forgotPassword">
             <h2>Forgot password</h2>
             <div class="text-subtitle-1 text-medium-emphasis mt-8">Email</div>
@@ -61,10 +62,11 @@ export default {
 
   methods: {
     forgotPassword() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.email && this.emailRules ) {
         this.loading = true;
+
         http
-          .post("forgot-password", {
+        .post("forgot-password", {
             email: this.email,
           })
           .then(() => {

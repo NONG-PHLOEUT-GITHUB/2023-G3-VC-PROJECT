@@ -2,8 +2,7 @@
   <teacher-dashboard></teacher-dashboard>
   <div class="container mt-5">
     <v-card>
-      <v-btn block variant="plain" size="large">attendance check list</v-btn>
-    <!-- <h2>Attendance Check List</h2> -->
+      <v-btn block variant="outlined" size="large">attendance check list</v-btn>
     <br />
     <div>
       <select
@@ -31,8 +30,8 @@
             value="red"
             label="Attendance Today"
             hide-details
-          ></v-checkbox>{{ this.date }}
-          
+          >
+      </v-checkbox>{{ this.date }}
     </div>
 
     <table>

@@ -54,7 +54,6 @@
 
 <!-- https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
 <script>
-// import Swal from "sweetalert2";
 
 import http from "../../htpp.common";
 export default {

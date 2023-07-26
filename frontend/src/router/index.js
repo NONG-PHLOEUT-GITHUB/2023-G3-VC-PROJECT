@@ -1,13 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Cookies from 'js-cookie';
 //admind dashboard router =================================================================
 import DashboardHomeView from '@/views/Director/DirectorDashboard.vue';
 import AddTeacher from '../views/Teacher/TeacherList.vue';
 //admind dashboard router =================================================================
 import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
-import ScheduleView from '../views/Director/ScheduleView.vue';
 import StudentList from '../views/Student/StudentList.vue';
-import MonthlyReport from '../views/Director/MonthlyReport.vue';
-import ReportView from '../views/Director/ReportView.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
@@ -19,14 +17,9 @@ import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
 import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
 import DashboardView from '../components/Navigation/DashboardView.vue';
-
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
-
-//authentication router
-import FormResetNewPassword from '@/views/Authentication/ResetNewPasswordForm.vue';
-
 import GiveFeedBackForm from '../views/Teacher/GiveFeedBackForm.vue'
 //authentication router =================================================================
 import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vue';
@@ -47,7 +40,7 @@ import StudentAttendanceView from '@/views/Student/StudentAttendanceView.vue';
 import StudentScoreView from '@/views/Student/StudentScoreView.vue';
 //teacher dashboard router =============================================================
 import ClassroomView from '@/views/Teacher/ClassroomView.vue';
-import Cookies from 'js-cookie';
+
 
 
 const routes = [
@@ -163,11 +156,6 @@ const routes = [
     component: ClassView
   },
   {
-    path: '/schedule',
-    name: 'schedule',
-    component: ScheduleView
-  },
-  {
     path: '/createUser',
     name: '/createUser',
     component: CreateUserForm
@@ -228,12 +216,6 @@ const routes = [
   },
   {
 
-    path: '/monthly_report',
-    name: 'monthly_report',
-    component: MonthlyReport
-  },
-  {
-
     path: '/attendance_list',
     name: 'attendance_list',
     component: AttendanceList
@@ -244,11 +226,6 @@ const routes = [
     name: 'edit',
     path: '/edit/:id',
     component: EditUserForm
-  },
-  {
-    path: '/report_view',
-    name: 'report_view',
-    component: ReportView
   },
   {
     path: '/teacher_list',
@@ -262,11 +239,6 @@ const routes = [
       auth: true
     },
     component: StudentList
-  },
-  {
-    path: '/reset_new_password',
-    name: 'reset_new_password',
-    component: FormResetNewPassword
   },
   {
     path: '/feedback',
@@ -294,7 +266,7 @@ const router = createRouter({
 // https://beginnersoftwaredeveloper.com/how-do-i-protect-my-vue-router/?expand_article=1
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = checkAuth(); // your authentication check function
+  const isAuthenticated = checkAuth(); 
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
   if (requiresAuth && !isAuthenticated) {
