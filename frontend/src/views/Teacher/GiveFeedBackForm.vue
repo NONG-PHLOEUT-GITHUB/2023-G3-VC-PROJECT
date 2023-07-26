@@ -6,11 +6,15 @@
         <label for="student-name">Student</label>
         <div class="select-container">
           <select
-            v-model="selectedStudent" 
+            v-model="selectedStudent"
             class="form-select"
             aria-label="Default select example"
           >
-            <option v-for="student in listUser" :key="student.id" :value="student.id">
+            <option
+              v-for="student in listUser"
+              :key="student.id"
+              :value="student.id"
+            >
               {{ student.first_name }} {{ student.last_name }}
             </option>
           </select>
@@ -34,47 +38,50 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
-// import swal from 'sweetalert';
+import http from "@/htpp.common";
 export default {
   data() {
     return {
-      URL: "http://127.0.0.1:8000/api/getStudents",
       listUser: [],
-      selectedStudent: null, 
+      selectedStudent: null,
       commentURL: "http://127.0.0.1:8000/api/comments",
-      comment: ''
+      comment: "",
+      teacherID: null,
     };
   },
   methods: {
-    getData() {
-      axios.get(this.URL).then((response) => {
-        this.listUser = response.data;
-      });
-    },
     giveComment() {
       const commentData = {
-        'body': this.comment,
-        'user_id': this.selectedStudent, // Use only the selected student's ID in the POST request
+        body: this.comment,
+        teacher_id: this.teacherID, 
+        student_id: this.selectedStudent,
       };
 
-      axios
-        .post(this.commentURL, commentData)
-        .then((response) => {
-          console.log(response);
-        })
-        Swal.fire({
-          icon: "success",
-          title: "Message sent successfully!",
-          text: "Your Comment successfully to student",
-          timer: 2000,
-        })
-      // Reset form fields after submission
+      axios.post(this.commentURL, commentData)
+      .then((response) => {
+        console.log(response);
+        console.log(commentData);
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Message sent successfully!",
+        text: "Your Comment successfully to student",
+        timer: 2000,
+      });
       this.selectedStudent = null;
-      this.comment = '';
+      this.comment = "";
+    },
+    fetchData() {
+      http.get("/api/get-students").then((response) => {
+        this.listUser = response.data.data;
+        for(let user of this.listUser){
+          this.teacherID = user.id
+        }
+      });
     },
   },
   mounted() {
-    this.getData();
+    this.fetchData();
   },
 };
 </script>

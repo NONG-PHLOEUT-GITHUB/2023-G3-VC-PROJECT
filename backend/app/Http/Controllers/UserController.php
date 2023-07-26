@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\GuardianResource;
 use App\Http\Resources\UserResource;
 use App\Models\Comment;
+use App\Models\Guardian;
 use App\Models\Role;
 use App\Models\Score;
 use App\Models\Subject;
@@ -41,10 +43,10 @@ class UserController extends Controller
         $image->move(public_path('images'), $new_name);
         $path = asset('images/' . $new_name);
         return $path;
-
-    } /**
-      * Display the specified resource.
-      */
+    }
+    /**
+     * Display the specified resource.
+     */
     public function getEmails($id)
     {
         return User::select('email')->where('id', '!=', $id)->where('role', '!=', 'admin')->get();
@@ -146,9 +148,10 @@ class UserController extends Controller
 
 
     /**
-    * show total of student failed of each month.
-    */
-    public function getPercentageOfFaildedStudentByMonth($year) {
+     * show total of student failed of each month.
+     */
+    public function getPercentageOfFaildedStudentByMonth($year)
+    {
 
         $users = User::where('role', '=', 3)->get();
 
@@ -188,9 +191,9 @@ class UserController extends Controller
         // $failedPercentage = [20, 30, 10, 45, 28, 54, 34, 45, 28, 54, 34, 9];
         // return response()->json(['data' => $failedPercentage], 200);
 
-        
+
     }
-    
+
     // --------------------------------Teacher Detail--------------------------------
 
     // public function getTeacherDetail($teacher_id){
@@ -208,5 +211,19 @@ class UserController extends Controller
     {
         $comments = Comment::where('student_id', $id)->get();
         return $comments;
+    }
+
+    public function getUserIdFromGuardianId($id)
+    {
+        $user = User::where('id', $id)->first();
+        $guardian = Guardian::all();
+        $guardian = GuardianResource::collection($guardian);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        return response()->json([
+            'user_id' => $user->id,
+            'guardian_id' => $user->guardian->chatId ,
+        ]);
     }
 }

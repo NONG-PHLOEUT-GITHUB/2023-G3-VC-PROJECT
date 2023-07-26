@@ -1,62 +1,87 @@
 <template>
   <admin-dashboard></admin-dashboard>
   <v-card class="table-container mt-4">
-      <h3 class="ms-6">TEACHER LIST</h3>
-      <table id="my-table" >
-        <v-table class="pa-6">
-          <thead>
-            <tr>
-              <th class="text-white">No</th>
-              <th class="text-white">FirstName</th>
-              <th class="text-white">LastName</th>
-              <th class="text-white">Gender</th>
-              <th class="text-white">Age</th>
-              <th class="text-white">DateofBirth</th>
-              <th class="text-white">PhoneNumber</th>
-              <th class="text-white">Address</th>
-              <th class="text-white">Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(student, index) in students" :key="index">
-              <td>{{ index + 1 }}</td>
-              <td>{{ student.first_name }}</td>
-              <td>{{ student.last_name }}</td>
-              <td>{{ student.gender }}</td>
-              <td>{{ student.age }}</td>
-              <td>{{ student.date_of_birth }}</td>
-              <td>{{ student.phone_number }}</td>
-              <td>{{ student.address }}</td>
-              <td>{{ student.email }}</td>
-            </tr>
-          </tbody>
-        </v-table>
-      </table>
-      <div class="icon pa-1">
-      <v-btn class='mb-4 me-6' v-if="!isDownloading" @click="downloadPDF()">
+    <h3 class="ms-6">STUDENT LIST</h3>
+    <select
+      class="form-select mb-3"
+      aria-label="Default select example"
+      style="width: 30%"
+      v-model="selectedClass"
+      @click="getTeacher(selectedClass)"
+    >
+      <option selected disabled>Select class</option>
+      <option
+        v-for="classroom in classrooms"
+        :key="classroom.id"
+        :value="classroom.id"
+      >
+        {{ classroom.class_name }}
+      </option>
+    </select>
+    <table id="my-table">
+      <v-table class="pa-6">
+        <thead>
+          <tr>
+            <th class="text-white">No</th>
+            <th class="text-white">First Name</th>
+            <th class="text-white">Last Name</th>
+            <th class="text-white">Gender</th>
+            <th class="text-white">Age</th>
+            <th class="text-white">Date of Birth</th>
+            <th class="text-white">Phone Number</th>
+            <th class="text-white">Address</th>
+            <th class="text-white">Email</th>
+          </tr>
+        </thead>
+        <tbody v-if="listUser && listUser.length">
+          <tr v-for="(student, index) in listUser" :key="student.id">
+            <td>{{ index + 1 }}</td>
+            <td>{{ student.first_name }}</td>
+            <td>{{ student.last_name }}</td>
+            <td>{{ student.gender }}</td>
+            <td>{{ student.age }}</td>
+            <td>{{ student.date_of_birth }}</td>
+            <td>{{ student.phone_number }}</td>
+            <td>{{ student.address }}</td>
+            <td>{{ student.email }}</td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="9">No Teachers found in the selected class.</td>
+          </tr>
+        </tbody>
+      </v-table>
+    </table>
+    <div class="icon pa-4">
+      <v-btn v-if="!isDownloading" @click="downloadPDF()">
         <v-icon size="24">mdi-download</v-icon>
-         Download PDF
-        </v-btn>
+        Download PDF
+      </v-btn>
       <div v-else>
         <p>Generating PDF...</p>
         <i class="fa fa-spinner fa-spin"></i>
       </div>
       <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
     </div>
-    </v-card>
+  </v-card>
 </template>
 
 <script>
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import http from '../../htpp.common'
+import http from "../../htpp.common";
+import AdminDashboard from "../../components/AdminDashboard.vue";
 export default {
+  components: { AdminDashboard },
   data() {
     return {
       isDownloading: false,
       isDetail: false,
       pdfUrl: null,
-      students: [],
+      listUser: [],
+      selectedClass: null,
+      classrooms: [],
     };
   },
   // https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI
@@ -65,9 +90,9 @@ export default {
     downloadPDF() {
       this.isDetail = true;
       http
-        .get('/api/get-teachers')
+        .get("/api/get-teachers")
         .then((response) => {
-          this.students = response.data.data;
+          this.teachers = response.data.data;
           const element = document.getElementById("my-table");
           html2canvas(element).then((canvas) => {
             const imgData = canvas.toDataURL("image/png");
@@ -87,9 +112,31 @@ export default {
     },
     fetchData() {
       http
-        .get('api/get-teachers')
+        .get("api/get-teachers")
         .then((response) => {
-          this.students = response.data.data;
+          this.listUser = response.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getClassrooms() {
+      http
+        .get("/api/classrooms")
+        .then((response) => {
+          this.classrooms = response.data.data;
+        })
+        .catch((error) => {
+          console.log("Error fetching classrooms:", error);
+        });
+    },
+    getTeacher(classId) {
+      http
+        .get(`/api/get-teachers`)
+        .then((response) => {
+          this.listUser = response.data.data.filter(
+            (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
+          );
         })
         .catch((error) => {
           console.log(error);
@@ -97,6 +144,8 @@ export default {
     },
   },
   mounted() {
+    this.getClassrooms();
+    this.getTeacher();
     this.fetchData();
   },
 };
@@ -107,7 +156,6 @@ export default {
 
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
-
 
 /* Set styles for the table */
 table {
@@ -127,13 +175,12 @@ th {
   color: white;
 }
 
-
-.table-container{
+.table-container {
   margin-left: 18%;
   margin-right: 2px;
 }
 
-.icon{
+.icon {
   display: flex;
   justify-content: flex-end;
 }

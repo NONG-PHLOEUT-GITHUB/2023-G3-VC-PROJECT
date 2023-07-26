@@ -7,17 +7,21 @@
     <br />
     <div>
       <select
-        class="form-select mb-3"
-        aria-label="Default select example"
-        style="width: 30%"
-        v-model="selectedClass"
-        @click="getStudentInClass(selectedClass)"
+      class="form-select mb-3"
+      aria-label="Default select example"
+      style="width: 30%"
+      v-model="selectedClass"
+      @click="getStudentInClass(selectedClass)"
+    >
+      <option selected disabled>Select class</option>
+      <option
+        v-for="classroom in classrooms"
+        :key="classroom.id"
+        :value="classroom.id"
       >
-        <option selected disabled>Select grade</option>
-        <option v-for="grade in grades" :key="grade.value" :value="grade.value">
-          {{ grade.label }}
-        </option>
-      </select>
+        {{ classroom.class_name }}
+      </option>
+    </select>
     </div>
     <div class="checkToday">
       <!-- <input
@@ -28,6 +32,7 @@
       {{ this.date }} -->
       <v-checkbox
             @click="SelectAttendace()"
+            class="selectattendance"
             value="red"
             label="Attendance Today"
             hide-details
@@ -58,6 +63,7 @@
             <v-checkbox
               @click="getChatId(student.id)"
               v-model="student.selected"
+              class="selectstudent"
               color="red"
               value="red"
               hide-details
@@ -96,11 +102,14 @@
           </td>
         </tr>
       </tbody>
-      <tr v-else>
+      <tbody v-else>
+
+      <tr >
         <td colspan="6" class="text-center text-danger">
           This class does not have any students.
         </td>
       </tr>
+      </tbody>
     </table>
 
     <div class="col-12 d-flex justify-content-end btn">
@@ -126,8 +135,9 @@ export default {
       students: [],
       date: null,
       chat_id: null,
+      classrooms:[],
       URL: "http://127.0.0.1:8000/api/checkStudentAttendance",
-      gurdianURL: "http://127.0.0.1:8000/api/getGuardian",
+      gurdianURL: "http://127.0.0.1:8000/api/guardian",
       getClassURL:"http://127.0.0.1:8000/api/getuserInClass",
       grades: [
         { label: "Grade 9A", value: "9A" },
@@ -197,9 +207,9 @@ export default {
     // https://www.youtube.com/watch?v=aNmRNjME6mE
     async getChatId(id) {
       try {
-        const response = await axios.get(this.gurdianURL + `/${id}`);
-        this.chat_id = response.data.chat_id;
-        console.log(this.chat_id);
+        const response = await http.get('/api/guardian' + "/" + `${id}`);
+        this.chat_id = response.data.guardian_id;
+        console.log(response.data.guardian_id);
       } catch (error) {
         console.error("Error getting chat ID:", error);
       }
@@ -268,17 +278,27 @@ export default {
       });
     },
     getStudentInClass(classId) {
-      axios
-        .get(this.getClassURL + "/" +`${classId}`)
+      http
+        .get(`/api/get-students`)
         .then((response) => {
-          this.students = response.data.data;
-          console.log(this.students);
-          for (let user of this.students) {
-            this.students = user.students;
-          }
+          console.log(response.data.data);
+          this.students = response.data.data
+          this.students = response.data.data.filter(
+            (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
+          );
         })
         .catch((error) => {
-          console.error(error);
+          console.log(error);
+        });
+    },
+    getClassrooms() {
+      http
+        .get("/api/classrooms")
+        .then((response) => {
+          this.classrooms = response.data.data;
+        })
+        .catch((error) => {
+          console.log("Error fetching classrooms:", error);
         });
     },
   },
@@ -287,6 +307,8 @@ export default {
     setInterval(this.getCurrentDateTime, 1000);
   },
   mounted() {
+    this.getStudentInClass()
+    this.getClassrooms()
     this.getStudentData();
   },
 };
