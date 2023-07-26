@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\GuardianResource;
 use App\Http\Resources\UserResource;
 use App\Models\ClassRoom;
 use App\Models\Comment;
+use App\Models\Guardian;
 use App\Models\Role;
 use App\Models\Score;
 use App\Models\Subject;
@@ -225,4 +227,19 @@ class UserController extends Controller
         $comments = Comment::where('student_id', $id)->get();
         return $comments;
     }
+
+    public function getUserIdFromGuardianId($id)
+    {
+        $user = User::where('id', $id)->first();
+        $guardian = Guardian::all();
+        $guardian = GuardianResource::collection($guardian);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        return response()->json([
+            'user_id' => $user->id,
+            'guardian_id' => $user->guardian->chatId ,
+        ]);
+    }
+
 }

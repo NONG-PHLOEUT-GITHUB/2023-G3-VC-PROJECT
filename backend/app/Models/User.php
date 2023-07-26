@@ -180,7 +180,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Attendance::class, 'user_id');
     }
-
+    public function getParentFullnameAttribute(){
+        return $this->guardian->first_name.' '.$this->teacher->last_name;
+    }
 }
 
 

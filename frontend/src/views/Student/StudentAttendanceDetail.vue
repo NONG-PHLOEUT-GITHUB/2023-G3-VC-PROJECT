@@ -1,5 +1,5 @@
 <template>
-  <admin-dashboard></admin-dashboard>
+  <!-- <admin-dashboard></admin-dashboard> -->
   <main class="table">
     <h3>
       Attendance Records
@@ -21,22 +21,21 @@
         </tr>
       </tbody>
     </v-table>
-    <button @click="generatePDF()" class="button">save</button>
   </main>
+    <button @click="generatePDF()" class="button">save</button>
 </template>
 
 <script>
 import axios from "axios";
 import swal from "sweetalert2";
 import jsPDF from "jspdf";
+import http from '../../htpp.common'
 import "jspdf-autotable";
 export default {
   data() {
     return {
       user: {},
       attendanceRecords: [],
-      URL: "http://127.0.0.1:8000/api/getAttendance",
-      gurdianURL: "http://127.0.0.1:8000/api/getGuardian",
       pdfFile: null,
       telegramAPI:
         "https://api.telegram.org/bot6394729253:AAEuIrWM_GEvRqJ5kJ6Mpk4ZB7J0lmKMnfI/sendDocument", // replace with your Telegram bot token
@@ -44,8 +43,8 @@ export default {
   },
   methods: {
     listattendance(id) {
-      axios
-        .get(this.URL + "/" + id)
+      http
+        .get('/getAttendance' + "/" + id)
         .then((response) => {
           this.user = response.data.user;
           this.attendanceRecords = response.data.attendanceRecords;
@@ -56,12 +55,14 @@ export default {
     },
     async getChatId(id) {
       try {
-        const response = await axios.get(this.gurdianURL + "/" + `${id}`);
-        this.chat_id = response.data.chat_id;
+        const response = await http.get('/guardian' + "/" + `${id}`);
+        this.chat_id = response.data.guardian_id;
+        console.log(response.data.guardian_id);
       } catch (error) {
         console.error("Error getting chat ID:", error);
       }
     },
+
     // -----------ASK AI "how to sent pdf file to telagrambot"==================
     async sendPDF(chatId, pdfOutput) {
       try {

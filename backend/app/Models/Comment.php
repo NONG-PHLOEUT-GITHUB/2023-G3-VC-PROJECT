@@ -21,7 +21,8 @@ class Comment extends Model
         $comments = $request->only(
             'id',
             'body',
-            'user_id'
+            'student_id',
+            'teacher_id'
         );
         if ($id) {
             $comment = self::find($id);
@@ -37,8 +38,20 @@ class Comment extends Model
         // ================token user password=================
         return response()->json(['success' => true, 'data' => $comment], 201);
     }
-    public function user()
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
+    public function teacher()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'teacher_id','id');
+    }
+    public function student()
+    {
+        return $this->belongsTo(User::class,'student_id','id');
+    }
+
+    public function getTeacherFullnameAttribute(){
+        return $this->teacher->first_name.' '.$this->teacher->last_name;
     }
 }
