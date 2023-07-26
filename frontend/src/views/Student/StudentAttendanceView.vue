@@ -56,12 +56,6 @@ import http from '@/htpp.common'
 export default {
   data: () => ({
     tab: null,
-<<<<<<< HEAD
-=======
-    isDownloading: false,
-    isDetail: false,
-    pdfUrl: null,
->>>>>>> 0d125bbe793f5b90c10e6877c2d5902b64aab8b9
     attendances: []
   }),
   computed: {
@@ -120,17 +114,10 @@ export default {
   },
 };
 </script>
-<<<<<<< HEAD
 
 <style scoped>
 @import "~vuetify/dist/vuetify.css";
 .card {
-=======
-  
-<style scoped>
-  @import "~vuetify/dist/vuetify.css";
-.card{
->>>>>>> 0d125bbe793f5b90c10e6877c2d5902b64aab8b9
   margin-left: 17%;
 }
 .table th {
