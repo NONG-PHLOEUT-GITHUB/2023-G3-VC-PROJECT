@@ -1,5 +1,5 @@
 # Use the official PHP 8 image as the base image
-FROM php:8.1-cli
+FROM php:8.1.6-cli
 
 # Set the working directory inside the container
 WORKDIR /var/www/html
@@ -20,8 +20,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY . .
 
 # Install Laravel dependencies
-RUN composer update
-# RUN composer install
+# RUN composer update
+RUN composer install
 
 # Run migrations and seed the database
 # RUN php artisan migrate && php artisan db:seed
