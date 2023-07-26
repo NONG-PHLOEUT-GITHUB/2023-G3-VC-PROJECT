@@ -22,7 +22,9 @@
             cover
           >
           </v-img>
-          <!-- {{ users.first_name }} {{ users.last_name }} -->
+          <div class="user ms-12">
+           <h4 class="ms-12">{{ users.first_name }} {{ users.last_name }}</h4> 
+          </div>
           <v-btn class="ms-10 mt-5">
             <v-icon size="24"> mdi-account-edit </v-icon>Change profile
           </v-btn>
