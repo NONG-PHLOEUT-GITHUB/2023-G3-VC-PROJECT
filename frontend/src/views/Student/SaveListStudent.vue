@@ -1,24 +1,25 @@
 <template>
-  <div>
-    <h3>STUDENT LIST</h3>
-    <div class="table-container ">
-      <table id="my-table">
-        <thead class="bg-primary">
+<admin-dashboard></admin-dashboard>
+  <v-card class="table-container mt-4">
+    <h3 class="ms-6">STUDENT LIST</h3>
+    <table id="my-table">
+      <v-table class="pa-6">
+        <thead>
           <tr>
-            <th>No</th>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>Gender</th>
-            <th>Age</th>
-            <th>DateofBirth</th>
-            <th>PhoneNumber</th>
-            <th>Address</th>
-            <th>Email</th>
+            <th class="text-white">No</th>
+            <th class="text-white">FirstName</th>
+            <th class="text-white">LastName</th>
+            <th class="text-white">Gender</th>
+            <th class="text-white">Age</th>
+            <th class="text-white">DateofBirth</th>
+            <th class="text-white">PhoneNumber</th>
+            <th class="text-white">Address</th>
+            <th class="text-white">Email</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(student, index) in students" :key="index">
-            <td>{{index +1}}</td>
+            <td>{{ index + 1 }}</td>
             <td>{{ student.first_name }}</td>
             <td>{{ student.last_name }}</td>
             <td>{{ student.gender }}</td>
@@ -29,41 +30,44 @@
             <td>{{ student.email }}</td>
           </tr>
         </tbody>
-      </table>
-      <button class="button" v-if="!isDownloading" @click="downloadPDF()">
-        <i class="bi bi-download"></i> Download PDF
-      </button>
+      </v-table>
+    </table>
+    <div class="icon pa-4">
+      <v-btn v-if="!isDownloading" @click="downloadPDF()">
+        <v-icon size="24">mdi-download</v-icon>
+        Download PDF
+      </v-btn>
       <div v-else>
         <p>Generating PDF...</p>
         <i class="fa fa-spinner fa-spin"></i>
       </div>
       <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
     </div>
-  </div>
+  </v-card>
 </template>
 
 <script>
-import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import http from '../../htpp.common'
+import AdminDashboard from '../../components/AdminDashboard.vue';
 export default {
+  components: { AdminDashboard },
   data() {
     return {
       isDownloading: false,
       isDetail: false,
       pdfUrl: null,
       students: [],
-      url: "http://127.0.0.1:8000/api/getStudents",
     };
   },
+  // https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI
   methods: {
     // download pdf ==================================
     downloadPDF() {
       this.isDetail = true;
-      axios({
-        url: "http://127.0.0.1:8000/api/getStudents",
-        method: "GET",
-      })
+      http
+        .get('/get-students')
         .then((response) => {
           this.students = response.data.data;
           const element = document.getElementById("my-table");
@@ -84,10 +88,10 @@ export default {
         });
     },
     fetchData() {
-      axios
-        .get("http://127.0.0.1:8000/api/getStudents")
+      http
+        .get('/get-students')
         .then((response) => {
-          this.students = response.data;
+          this.students = response.data.data;
         })
         .catch((error) => {
           console.log(error);
@@ -106,121 +110,33 @@ export default {
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 
-.table-container {
-  font-family: "Poppins", sans-serif;
-  margin: 0 auto;
-  margin-top: 10px;
-}
 
-#my-table {
+/* Set styles for the table */
+table {
   border-collapse: collapse;
-  border-spacing: 0;
   width: 100%;
+  margin-bottom: 20px;
 }
 
-#my-table th,
-#my-table td {
-  padding: 15px;
-  text-align: center;
-}
-
-#my-table th {
-  border-bottom: 2px solid #fff;
-  color: #fff;
-  font-weight: 600;
-  text-transform: uppercase;
-  border: 1px solid #ddd;
-}
-
-#my-table td {
+td {
+  text-align: left;
+  padding: 8px;
   border-bottom: 1px solid #ddd;
-  border: 1px solid #ddd;
 }
 
-#my-table tr:last-child td {
-  border-bottom: none;
-  border: 1px solid #ddd;
+th {
+  background-color: blue;
+  color: white;
 }
 
-#my-table tr:nth-child(even) td {
-  background-color: #f4f4f4;
-  border: 1px solid #ddd;
+
+.table-container{
+  margin-left: 18%;
+  margin-right: 2px;
 }
 
-#my-table tr:hover td {
-  background-color: #eaeaea;
-  border: 1px solid #ddd;
-}
-
-@media only screen and (max-width: 768px) {
-  .my-table {
-    font-size: 0.9rem;
-  }
-}
-
-.my-table td:nth-child(2),
-.my-table td:nth-child(3) {
-  text-align: left;
-}
-
-.my-table td:nth-child(2) {
-  color: #add8e6;
-}
-
-.my-table td:nth-child(3) {
-  color: #999;
-}
-
-.detail {
-  background: #58c3e7;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 8px 20px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
-}
-
-.detail:hover {
-  background: #fff;
-  color: #add8e6;
-}
-
-.button {
-  background: blue;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 10px 22px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
-  margin-top: 10px;
-  margin-left: 83%;
-}
-
-.button:hover {
-  background: #fff;
-  color: #add8e6;
-}
-
-.button-container {
-  text-align: left;
-}
-
-.fa-spinner {
-  animation: fa-spin 2s infinite linear;
-}
-
-@keyframes fa-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.icon{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

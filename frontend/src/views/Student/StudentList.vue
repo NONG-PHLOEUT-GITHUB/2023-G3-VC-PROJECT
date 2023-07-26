@@ -1,48 +1,28 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <div class="card shadow border-0 mb-7">
     <div class="card-header">
       <h3 class="mb-0 text-primary">STUDENTS LIST</h3>
     </div>
     <div class="card-header">
       <div>
-        <select
-          class="form-select mb-3"
-          aria-label="Default select example"
-          style="width: 30%"
-          v-model="selectedClass"
-          @click="getStudentInClass(selectedClass)"
-        >
+        <select class="form-select mb-3" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
+          @click="getStudentInClass(selectedClass)">
           <option selected disabled>Select grade</option>
-          <option
-            v-for="grade in grades"
-            :key="grade.value"
-            :value="grade.value"
-            
-          >
+          <option v-for="grade in grades" :key="grade.value" :value="grade.value">
             {{ grade.label }}
           </option>
         </select>
       </div>
-      <div
-        class="form-group d-flex justify-content-between mb-3"
-        style="width: 100%"
-      >
+      <div class="form-group d-flex justify-content-between mb-3" style="width: 100%">
         <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search student"
-            aria-label="Search"
-            style="width: 78%"
-          />
+          <input class="form-control mr-sm-2" type="search" placeholder="Search student" aria-label="Search"
+            style="width: 78%" />
           <button class="btn btn-outline-warning my-2 my-sm-0" type="button">
             <i class="bi bi-search"></i> Search
           </button>
         </form>
-        <form
-          class="input-file ms-4 me-3 border border-4 rounded-1 p-2"
-          @submit.prevent="importFile"
-        >
+        <form class="input-file ms-4 me-3 border border-4 rounded-1 p-2" @submit.prevent="importFile">
           <label for="file-input">Upload Excel file</label>
           <input type="file" ref="fileInput" id="file-input" />
           <i class="bi bi-cloud-arrow-up ms-2 mt-4"></i>
@@ -50,8 +30,7 @@
         <router-link :to="{ path: '/createUser' }" class="text-white">
           <button type="button" class="btn btn-primary align-self-end ms-2">
             <i class="bi bi-person-plus-fill"></i> Add new student
-          </button></router-link
-        >
+          </button></router-link>
       </div>
     </div>
     <div class="card-header">
@@ -71,7 +50,7 @@
             <th></th>
           </tr>
         </thead>
-        
+
         <tbody v-if="listUser && listUser.length">
           <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
             <td>
@@ -79,7 +58,7 @@
               <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
                 class="avatar avatar-sm rounded-circle me-2">
               <a class="text-heading font-semibold" href="#">
-                {{ user.first_name}} {{ user.last_name}} 
+                {{ user.first_name }} {{ user.last_name }}
               </a>
             </td>
             <td>
@@ -99,28 +78,19 @@
             </td>
             <td class="text-end d-flex justify-content-end">
               <router-link :to="{ path: '/student_detail/' + user.id }">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300"
-                >
+                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
                   <i class="bi bi-person-circle text-warning"></i> View Profile
                 </button>
               </router-link>
 
               <router-link :to="{ path: '/edit/' + user.id }">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2"
-                >
+                <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
                   <i class="bi bi-pencil-square"></i> Edit
                 </button>
               </router-link>
 
-              <button
-                type="button"
-                class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
-                @click="deleteUser(user.id)"
-              >
+              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
+                @click="deleteUser(user.id)">
                 <i class="bi bi-trash-fill"></i> Delete
               </button>
             </td>
@@ -130,25 +100,23 @@
             <td colspan="6" class="text-center text-danger">
               This class does not have any students.
             </td>
-          </tr>
+          </tr> 
       </table>
       <div class="card-footer border-0 py-5">
         <span class="text-muted text-sm">   
-          All Students in class {{ selectedClass }} :
-        {{ listUser?.length }} member</span>
+          Total Students in class {{ selectedClass }} :
+        {{ listUser?.length }} people</span>
       </div>
     </div>
   </div>
 </template>
 <script>
-import axios from "axios";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 import http from "../../htpp.common";
 export default {
   data() {
     return {
-      URL: "http://127.0.0.1:8000/api/getStudents",
       listUser: [],
       errorMessage: "",
       searchQuery: "",
@@ -198,10 +166,10 @@ export default {
   },
   methods: {
     //===================get data from Database =================
-    getData() {
-      axios.get(this.URL).then((response) => {
-        this.listUser = response.data;
-        console.log(this.listUser);
+    getStudents() {
+      http.get('/get-students')
+      .then((response) => {
+        this.listUser = response.data.data;
       });
     },
     //================== Delete a user =================
@@ -214,12 +182,12 @@ export default {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          axios
-            .delete(this.URL + `/${id}`)
+          http
+            .delete('/delete-user' + `/${id}`)
             .then(() => {
               swal("Deleted!", "Your user has been deleted.", "success");
               // call mounted
-              this.getData();
+              this.getStudents();
             })
             .catch((error) => {
               swal(
@@ -268,9 +236,10 @@ export default {
       formData.append("file", file);
 
       http
-        .post("/api/users_import", formData, {
+        .post("/users-import", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Cache-Control": "no-cache",
           },
         })
         .then((response) => {
@@ -293,20 +262,24 @@ export default {
             icon: "success",
             title: "Upload successful",
           });
+
+          // Reset the file input field
+          this.$refs.fileInput.value = '';
           // call mounted
-          this.getData();
+          this.getStudents();
+
         })
         .catch((error) => {
           console.error(error.response.data);
         });
     },
     getStudentInClass(classId) {
-      axios
-        .get(`http://127.0.0.1:8000/api/getuserInClass/${classId}`)
+      http
+        .get('/getuserInClass'+ "/" + `${classId}`)
         .then((response) => {
           this.listUser = response.data.data;
           for (let user of this.listUser) {
-              this.listUser = user.students;
+            this.listUser = user.students;
           }
         })
         .catch((error) => {
@@ -318,12 +291,16 @@ export default {
   mounted() {
     this.getStudentInClass();
     this.$refs.fileInput.addEventListener("change", this.importFile);
-    return this.getData();
+    return this.getStudents();
   },
 };
 </script>
 
-<style>
+<style scoped>
+.card{
+  margin-left: 20%;
+  background: #000;
+}
 .input-file {
   position: relative;
   overflow: hidden;
@@ -367,5 +344,9 @@ export default {
 .bi-cloud-arrow-up {
   font-size: 20px;
   margin-top: 20px;
+}
+
+.card{
+  padding: 20px;
 }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <main class="table">
     <h3>
       Attendance Records for
@@ -16,7 +17,7 @@
         <tr v-for="record in attendanceRecords" :key="record.id">
           <td>{{ record.date }}</td>
           <td>{{ record.reason }}</td>
-          <td>{{ record.attendace_status }}</td>
+          <td>{{ record.attendance_status }}</td>
         </tr>
       </tbody>
     </table>
@@ -30,12 +31,13 @@ export default {
     return {
       user: {},
       attendanceRecords: [],
+      URL: "http://127.0.0.1:8000/api/getteacherDetail",
     };
   },
   methods: {
     listattendance(id) {
       axios
-        .get(`http://127.0.0.1:8000/api/getteacherDetail/${id}`)
+        .get(this.URL + "/" + `${id}`)
         .then((response) => {
           this.user = response.data.user;
           this.attendanceRecords = response.data.attendanceRecords;
@@ -69,12 +71,14 @@ main.table {
   margin: auto;
   border-radius: 10px;
   padding: 2%;
+  width: 80%;
+  margin-left: 18%;
+  margin-top: 10px;
 }
 h3 {
-  
   margin-bottom: 20px;
   text-transform: uppercase;
-  color:  #0000FF;
+  color: #0000ff;
 }
 span {
   padding: 2%;
@@ -107,7 +111,7 @@ thead th {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #0000FF;
+  background-color: #0000ff;
   cursor: pointer;
   text-transform: uppercase;
   color: white;

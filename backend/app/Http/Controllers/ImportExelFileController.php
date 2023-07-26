@@ -20,20 +20,12 @@ class ImportExelFileController extends Controller
                 'message' => 'No file uploaded'
             ], 400);
         }
-
         $filePath = Storage::putFile('files', $file);
-        // $import = new ImportUsers();
+        
         Excel::import(new ImportUsers, storage_path('app/' . $filePath));
 
         Storage::delete($filePath);
 
-        // $importCount = $import->getImportCount();
-        // dd($importCount);
-        // return response()->json([
-        //     'message' => 'Import successful',
-        //     'imported' => $importCount['imported'],
-        //     'skipped' => $importCount['skipped'],
-        // ]);
         return response()->json([
             'message' => 'import successfully',
             'data' => $filePath

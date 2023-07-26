@@ -14,6 +14,8 @@ class ClassRoom extends Model
         'description',
         
     ];
+
+    
     public static function store($request, $id = null)
     {
         $classRooms = $request->only(
@@ -30,11 +32,22 @@ class ClassRoom extends Model
             $classRoom = self::create($classRooms);
             $id = $classRoom->$id;
         }
+        // Sync the related teachers
+        $teacherIds = $request->input('user_id', []);
+        if (empty($teacherIds)) {
+            return response()->json(['error' => 'No teachers selected'], 400);
+        }
+        if (!$classRoom->save()) {
+            return response()->json(['error' => 'Error saving class room record'], 500);
+        }
+        $classRoom->teachers()->sync($teacherIds);
+
         return response()->json(['success' => true, 'data' => $classRoom], 201);
     }
 
-    public function teachers(){
-        return $this->belongsToMany(User::class,'class_room_teacher', 'user_id', 'class_room_id');
+    public function teachers()
+    {
+        return $this->belongsToMany(User::class, 'class_room_teachers', 'class_room_id', 'user_id');
     }
 
     public function students(){

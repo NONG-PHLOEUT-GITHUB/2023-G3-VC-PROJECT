@@ -11,10 +11,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
 class ForgotPasswordController extends Controller
 {
-   public function send_reset_password_email(Request $request){
+    //  || REFERENCE|| // https://youtu.be/rLt_RkSfqDc
+    public function send_reset_password_email(Request $request){
         $request->validate([
             'email' => 'required|email',
         ]);
@@ -30,7 +30,6 @@ class ForgotPasswordController extends Controller
         }
 
         // Generate Token
-        // $token = Str::random(60);
         $token = JWTAuth::fromUser($user, ['reset_password' => true]);
         // If email is already has in table delete it
         PasswordReset::where('email', $email)->delete();
@@ -56,7 +55,7 @@ class ForgotPasswordController extends Controller
 
 
 
-    public function resetPassword(Request $request)
+    public function resetPassword(Request $request, $token)
     {
         $formatted = Carbon::now()->subMinutes(2)->toDateTimeString();
         PasswordReset::where('created_at', '<=', $formatted)->delete();
@@ -65,7 +64,9 @@ class ForgotPasswordController extends Controller
             'password' => 'required|confirmed',
         ]);
 
+    
         $passwordreset = PasswordReset::where('token', $token)->first();
+
 
         if(!$passwordreset){
             return response([

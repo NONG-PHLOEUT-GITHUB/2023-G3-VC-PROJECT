@@ -14,11 +14,8 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->string('subject_name', 255);
-            $table->string('description', 255)->nullable();
-            $table->unsignedBigInteger('schedule_id');
             $table->timestamps();
 
-            $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
         });
     }
 

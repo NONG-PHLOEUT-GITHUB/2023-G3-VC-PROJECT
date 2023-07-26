@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <section class="container-fluid px-4 py-4">
     <div class="card bg-gray-300">
       <div class="p-5 pb-1">
@@ -40,7 +41,12 @@
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Password</label>
-          <input type="password" v-model="user.password" class="form-control" id="validationCustom02" />
+          <input
+            type="password"
+            v-model="user.password"
+            class="form-control"
+            id="validationCustom02"
+          />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
@@ -75,6 +81,7 @@
             type="date"
             class="form-control"
             v-model="user.date_of_birth"
+            :max="max_date"
             id="dateOfBirth"
             placeholder=""
           />
@@ -86,7 +93,7 @@
             type="number"
             class="form-control"
             id="dateOfBirth"
-            v-model="user.age"
+            v-model="updatedAge"
             placeholder=""
           />
           <div class="valid-feedback">Looks good!</div>
@@ -118,13 +125,12 @@
 
         <div class="mb-3 col-md-6">
           <label for="formFileDisabled" class="form-label">Profile</label>
-          <input 
+          <input
             class="form-control"
             type="file"
             id="formFileDisabled"
             @change="getImage"
           />
-  
         </div>
 
         <div class="col-12 d-flex justify-content-end">
@@ -145,14 +151,14 @@
 <script>
 import axios from "axios";
 import swal from "sweetalert2";
-
 export default {
   data() {
     return {
-      user: [],
+      user: {},
       isUpate: true,
       image: null,
-      profile: [],
+      profile: {},
+      updatedAge: null,
     };
   },
   mounted() {
@@ -160,6 +166,7 @@ export default {
       .get(`http://127.0.0.1:8000/api/users/${this.$route.params.id}`)
       .then((response) => {
         this.user = response.data.data;
+        this.calculateAge(); // Call calculateAge method on mount to set the initial value of updatedAge
       });
   },
   methods: {
@@ -178,37 +185,60 @@ export default {
         first_name: this.user.first_name,
         last_name: this.user.last_name,
         email: this.user.email,
-        password:this.user.password,
+        password: this.user.password,
         phone_number: this.user.phone_number,
         address: this.user.address,
         date_of_birth: this.user.date_of_birth,
-        age: this.user.age,
+        age: this.updatedAge,
         gender: this.user.gender,
         profile: this.profile,
       };
-// console.log(newData);
+
       axios
         .put(
           `http://127.0.0.1:8000/api/users/${this.$route.params.id}`,
-          newData,
+          newData
         )
         .then((response) => {
           console.log(response);
           swal.fire({
-              icon: "success",
-              title: "Success!",
-              text: "User updated successfully",
-              timer: 2000,
-            })
-
+            icon: "success",
+            title: "Success!",
+            text: "User updated successfully",
+            timer: 2000,
+          });
         })
-        .then(()=>{
-            this.$router.push({ path: "/student" })
+        .then(() => {
+          this.$router.push({ path: "/add-student" });
         })
         .catch((error) => {
           console.error("User update failed:", error);
         });
-    // 
+    },
+    calculateAge() {
+      const dob = new Date(this.user.date_of_birth);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const monthDiff = today.getMonth() - dob.getMonth();
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < dob.getDate())
+      ) {
+        age--;
+      }
+      this.updatedAge = age;
+    },
+  },
+  watch: {
+    "user.date_of_birth": function () {
+      this.calculateAge();
+      this.user.date_of_birth = new Date(
+        new Date().getFullYear() - this.updatedAge,
+        new Date().getMonth(),
+        new Date().getDate()
+      )
+        .toISOString()
+        .substr(0, 10);
     },
   },
 };

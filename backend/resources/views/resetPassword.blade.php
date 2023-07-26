@@ -80,7 +80,7 @@
 			display: inline-block;
 			margin: 20px 0;
 			padding: 10px 20px;
-			background-color: #007BFF;
+			background-color: teal;
 			color: #FFFFFF;
 			text-decoration: none;
 			border-radius: 5px;
@@ -106,7 +106,6 @@
 	<div class="container">
 		<h1>Password Reset</h1>
 		<p>You are receiving this email because we received a password reset request for your account.</p>
-		{{-- <a href="http://127.0.0.1:3000/api/forgot-password/{{}}">Reset Password</a> --}}
 		<a href="{{ config('app.admin_url') }}/{{$token}}"><span>Reset Password</span></a>
 		<p>If you did not request a password reset, no further action is required.</p>
 		<div class="footer">

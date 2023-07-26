@@ -1,164 +1,294 @@
 <template>
-  <div class="card shadow border-0 mb-7">
-    <div class="card-header">
-      <h3 class="mb-0 text-primary">CLASSES LIST</h3>
-    </div>
-    <div class="card-header">
-      <div
-        class="form-group d-flex justify-content-between mb-3"
-        style="width: 100%"
+  <admin-dashboard></admin-dashboard>
+  <div class="main">
+    <h3 class="mb-0 text-primary mt-4">CLASSES LIST</h3>
+    <v-card class="d-flex mt-5 pa-5">
+      <v-select
+        class="w-10"
+        label="Select class"
+        v-model="selectedClass"
+        variant="solo"
+      ></v-select>
+      <v-btn color="primary" class="mt-4 ms-5" @click="dialog = true"
+        ><v-icon>mdi-plus-outline</v-icon> add new class</v-btn
       >
-        <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search class room"
-            aria-label="Search"
-            style="width: 78%"
-            v-model="searchQuery"
-          />
-          <button
-            class="btn btn-outline-warning my-2 my-sm-0"
-            type="button"
-            @click="searchClasses"
-          >
-            <i class="bi bi-search"></i> Search
-          </button>
-        </form>
-        <router-link
-          :to="{ path: '/createClass' }"
-          class="text-white"
-          style="width: 20%"
-        >
-          <button
-            type="button"
-            class="btn btn-primary align-self-end"
-            style="width: 100%"
-          >
-            <i class="bi bi-building"></i> Add new class
-          </button>
-        </router-link>
-      </div>
-      
-    </div>
-    <div class="table-responsive">
-      <table class="table table-hover table-nowrap">
-        <thead class="bg-primary">
-          <tr>
-            <th scope="col" class="fs-6 text-light">Class</th>
-            <th scope="col" class="fs-6 text-light">Teacher</th>
-            <th scope="col" class="fs-6 text-light">Total students</th>
-            <th scope="col" class="fs-6 text-light">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr @click="showStudents(classRoom.name)" v-for="classRoom in listClasses" :key="classRoom.name" class="border-2-dark">
-            <!-- <div v-if="selectedClass">
-              <student-list :selectedClass="selectedClass" />
-          </div> -->
-            <td>
-              <i class="bi bi-building"></i>
-              {{classRoom.class_name}}
-              
-            </td>  
-            <td>
-              {{ classRoom.user_id }}
-            </td>
-            <td>
-              {{ numberStudent }}
-            </td>
-            <td  class="text-end d-flex justify-content-start">
-              <router-link :to="{ path: '/monthly_report' }">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300"
+      <v-row justify="center">
+        <v-dialog v-model="dialog" persistent width="40%">
+          <v-card>
+            <v-form @submit.prevent="saveClassroom">
+              <v-card-title>
+                <span class="text-h5">{{ formAction }}</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="className"
+                        label="Class name"
+                        required
+                        variant="outlined"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <label for="" class="mb-4">Pleas chose teacher</label>
+                      <select
+                        v-model="selectedTeacher"
+                        class="form-select"
+                        aria-label="Default select example"
+                      >
+                        <option
+                          v-for="teacher in teacherList"
+                          :key="teacher.id"
+                          :value="teacher.id"
+                        >
+                          {{ teacher.first_name }} {{ teacher.last_name }}
+                        </option>
+                      </select>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="blue-darken-1"
+                  variant="text"
+                  @click="dialog = false"
+                  >Cancel</v-btn
                 >
-                  <i class="bi bi-table text-warning"></i> View Score List
-                </button>
-              </router-link>
-              <router-link :to="{ path: '/attendance_list' }">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300"
-                >
-                  <i class="bi bi-calendar2-week-fill text-warning"></i> Show
-                  list Attendace
-                </button>
-              </router-link>
-              <router-link :to="{ path: '/checkAttendance' }">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-neutral text-dark text-primary-hover ml-2 bg-gray-300"
-                >
-                  <i class="bi bi-calendar2-week-fill text-warning"></i> Check
-                  Attendance
-                </button>
-              </router-link>
-            </td>
-          </tr>      
-        </tbody>          
-        
-      </table>
-    </div>
-    <div class="card-header">
-          <div class="form-group d-flex justify-content-between mb-3" style="width: 100%;">
-            <form class="form-inline my-2 my-lg-0 d-flex" style="width: 100%;">
-              <div v-if="selectedClass">
-                <student-list :selectedClass="selectedClass" />
-              </div>
-            </form>
-        </div>
-    </div>
-  </div>
+                <v-btn type="submit" color="blue-darken-1">Save</v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </v-card>
 
+    <v-card
+      v-for="classroom in classrooms"
+      :key="classroom.id"
+      class="card mx-auto mt-2"
+      width="96%"
+      prepend-icon="mdi-home"
+    >
+      <template v-slot:title> Class : {{ classroom.class_name }} </template>
+
+      <div class="action">
+        <v-col cols="auto">
+          <!-- <v-btn to="/studnet-scores" class="me-4">
+            <v-icon>mdi-chart-line</v-icon> Score report
+          </v-btn> -->
+          <v-btn to="/attendance_list">
+            <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn
+          >
+          <v-btn to="/feedback" class="ms-4">
+            <v-icon>mdi-poll</v-icon> Studen feedback
+          </v-btn>
+        </v-col>
+        <v-col class="manage">
+          <v-btn @click="editClassroom(classroom)" color="green" class="me-2">
+            <v-icon>mdi-pencil</v-icon>Edit
+          </v-btn>
+          <v-btn
+            @click="deleteClassroom(classroom.id)"
+            color="red"
+            class="text-white"
+          >
+            <v-icon>mdi-delete</v-icon> Delete
+          </v-btn>
+        </v-col>
+      </div>
+      <!-- <v-card-text>
+          This is content
+        </v-card-text> -->
+    </v-card>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
-import StudentList from '../Student/StudentList.vue'; // Import the StudentList component
+import http from "@/htpp.common";
 
 export default {
-  components: {
-    StudentList, // Register the StudentList component
-  },
   data() {
     return {
-      students:[],
-      listClasses: [],
-      numberStudent: 0,
-      URL: "http://127.0.0.1:8000/api/classes",
-      searchQuery: '',
-      selectedClass: '',
+      selectedClass: "",
+      dialog: false,
+      teachers: [],
+      selectedTeacher: null,
+      classrooms: [],
+      teacherList: [],
+      className: "",
+      formAction: "Add Classroom",
+      editing: false,
+      editId: null,
+      listClass: [],
     };
   },
-  // computed: {
-  //   filteredClassesList() {
-  //     // Filter the classes list based on the search query
-  //     return this.listClasses.filter(classRoom => classRoom.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
-  //   },
-  // },
-  methods: {
-    getURL() {
-      axios.get(this.URL).then((response) => {
-          this.listClasses = response.data.data;
-          console.log(this.listClasses);
-      });
-    },
-    showStudents() {
-      axios.get(`http://127.0.0.1:8000/api/getuserInClass`)
-        .then(response => {
-         console.log(response.data);
-          this.error = null;
-        })
-        .catch(error => {
-          this.studentName = null;
-          this.error = error.response.data.error;
-        });
-    
+
+  computed: {
+    fullName() {
+      return `${this.first_name} ${this.last_name}`;
     },
   },
+
+  methods: {
+    showStudents(classId) {
+      http
+        .get(`api/getuserInClass/${classId}`)
+        .then((response) => {
+          console.log(classId);
+          this.listUser = response;
+        })
+        .catch((error) => {
+          this.listUser = [];
+          console.log(error.response.data.error);
+        });
+    },
+    addTeacher() {
+      // Send a POST request to create a new classroom
+      http
+        .post("/api/classrooms", {
+          class_name: this.className,
+          teacher_id: this.selectedTeacher,
+        })
+        .then((response) => {
+          console.log("New classroom created:", response.data);
+          // Reset the form fields
+          this.className = null;
+          this.selectedTeacher = null;
+          // Reload the list of classrooms
+          this.fetchClassrooms();
+        })
+        .catch((error) => {
+          console.log("Error creating classroom:", error);
+        });
+    },
+    getTeacher() {
+      http.get("/get-teachers").then((response) => {
+        this.teacherList = response.data.data;
+      });
+    },
+    onTeacherSelected(teacher) {
+      // this.selectedTeacher = teacher.text;
+      this.selectedTeacher = teacher.value;
+    },
+
+    fetchClassrooms() {
+      http.get("/classrooms").then((response) => {
+        this.classrooms = response.data.data;
+        console.log("class", this.classrooms);
+      });
+    },
+
+    saveClassroom() {
+      // Create a new classroom object with the selected teacher object and other form data
+      const newclassroom = {
+        class_name: this.className,
+        user_id: this.selectedTeacher,
+      };
+
+      if (this.editing) {
+        // Update an existing classroom
+        http
+          .put(`/classrooms/${this.editId}`, newclassroom)
+          .then(() => {
+            // Reset the form and close the dialog
+            this.cancelForm();
+            this.fetchClassrooms();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        // Add a new classroom
+        http
+          .post("/classrooms", newclassroom)
+          .then(() => {
+            // Reset the form and close the dialog
+            this.cancelForm();
+            this.fetchClassrooms();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+
+    editClassroom(classroom) {
+      this.formAction = "Edit Classroom";
+      this.editing = true;
+      this.editId = classroom.id;
+      this.className = classroom.class_name;
+      this.selectedTeacher = classroom.teacher_id;
+      this.dialog = true;
+    },
+
+    updateClassroom() {
+      const id = this.editId;
+      // Send a PUT request to update the classroom
+      http
+        .put(`/classrooms/${id}`, {
+          class_name: this.className,
+          teacher_id: this.selectedTeacher,
+        })
+        .then((response) => {
+          this.fetchClassrooms();
+          console.log("Classroom updated:", response.data);
+          this.className = null;
+          this.selectedTeacher = null;
+          // Reload the list of classrooms
+          this.dialog = false;
+        })
+        .catch((error) => {
+          console.log("Error updating classroom:", error);
+        });
+    },
+
+    cancelForm() {
+      this.formAction = "Add Classroom";
+      this.editing = false;
+      this.editId = null;
+      this.classroom = { className: "", teacher: "" };
+      this.selectedTeacher = null;
+      this.dialog = false;
+    },
+
+    deleteClassroom(id) {
+      http
+        .delete(`/classrooms/${id}`)
+        .then(() => {
+          const index = this.classrooms.findIndex((c) => c.id === id);
+          if (index !== -1) {
+            this.classrooms.splice(index, 1);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+
   mounted() {
-    return this.getURL();
+    this.fetchClassrooms();
+    this.getTeacher();
+    this.addTeacher();
   },
 };
 </script>
+<style scoped>
+@import "~vuetify/dist/vuetify.css";
+
+.main {
+  margin-left: 18%;
+  margin-top: 15px;
+}
+
+.action {
+  display: flex;
+}
+.manage {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

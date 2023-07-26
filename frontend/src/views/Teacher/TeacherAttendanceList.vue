@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import http from '@/htpp.common'
 export default {
   data() {
     return {
@@ -35,8 +35,8 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get("http://127.0.0.1:8000/api/getTeacherAttendance")
+    http
+      .get('/getTeacherAttendance')
       .then((response) => {
         this.attendanceData = response.data;
       })
@@ -110,7 +110,7 @@ thead th {
 }
 
 .status.detail {
-  padding: 10px;
+  padding: 10px 25px;
   margin-left: 10px;
   border-radius: 3px;
   background-color: #0000FF;

@@ -1,4 +1,5 @@
 <template>
+  <admin-dashboard></admin-dashboard>
   <section class="container-fluid px-4 py-4 ">
     <div class="card bg-gray-300">
       <div class="p-5 pb-1">
@@ -112,6 +113,7 @@ export default {
     };
   },
   methods: {
+    // resferent :  https://www.youtube.com/watch?v=chCtrNGrQhk
     getImage(event) {
       // this.profile = event.target.files[0];
       var file = event.target.files[0];
@@ -147,10 +149,10 @@ export default {
           timer: 2000,
         })
           .then(() => {
-            if(this.role==3){
-              this.$router.push({ path: '/student' });
-            }else if(this.role==2){
-              this.$router.push({ path: '/teacher' });
+            if(this.role == 3){
+              this.$router.push('/student-list');
+            }else if(this.role == 2){
+              this.$router.push('/add-teacher');
             }
           }).catch(error => {
             console.log(error)

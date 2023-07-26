@@ -175,33 +175,42 @@ class AttendanceController extends Controller
     /**
      * show average of student attendance of each month.
      */
-    public function getAbsentPercentageByMonth($month) {
+    public function getAbsentPercentageByMonth($month)
+    {
         // Calculate the start and end date of the given month
         $startDate = date('Y-m-01', strtotime($month));
         $endDate = date('Y-m-t', strtotime($month));
-        
+
         // Get the total number of attendance records for all students in the given month
         $totalAttendance = Attendance::join('users', 'attendances.user_id', '=', 'users.id')
-                                      ->where('users.role', 3)
-                                      ->whereBetween('date', [$startDate, $endDate])
-                                      ->count();
-        
+            ->where('users.role', 3)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->count();
+
         // Get the number of absent attendance records for all students in the given month
         $absentAttendance = Attendance::join('users', 'attendances.user_id', '=', 'users.id')
-                                        ->where('users.role', 3)
-                                        ->where('attendances.attendance_status', 'absent')
-                                        ->whereBetween('date', [$startDate, $endDate])
-                                        ->count();
-        
+            ->where('users.role', 3)
+            ->where('attendances.attendance_status', 'absent')
+            ->whereBetween('month', [$startDate, $endDate])
+            ->count();
+
         // Calculate the absent percentage for all students in the given month
         $absentPercentage = ($absentAttendance / $totalAttendance) * 100;
-        
+
         // Return the absent percentage as a JSON response
         return response()->json(['absentPercentage' => $absentPercentage], 200);
     }
     /**
-    * show total of student absent of each month.
-    */
+     * show total of student failed of each month.
+     */
+    public function getPercentageOfFaildedStudentByMonth()
+    {
+        $percentage = [];
+        return response()->json(['data' => $percentage], 200);
+    }
+    /**
+     * show total of student absent of each month.
+     */
     public function totalAbsentDaysByMonth($user_id, $month)
     {
         $month = Carbon::createFromFormat('Y-m', $month);
@@ -210,13 +219,44 @@ class AttendanceController extends Controller
             ->whereMonth('date', $month->month)
             ->whereYear('date', $month->year)
             ->get();
-
         $totalAbsentDays = count($absentAttendances);
 
         if (empty($totalAbsentDays)) {
             return response()->json(['message' => "No absent this month"], 404);
         }
         return response()->json(['totalAbsentDays' => $totalAbsentDays]);
+    }
+    /**
+     * show total of students absent of all month.
+     */
+    public function getTotalAttendanceOfStudentsAllMonths()
+    {
+        $attendanceCounts = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $totalAttendance = User::where('role', 3)
+                ->whereHas('roleAttendances', function ($query) use ($month) {
+                    $query->whereMonth('date', $month);
+                })
+                ->count();
+            $attendanceCounts[date('F', mktime(0, 0, 0, $month, 1))] = $totalAttendance;
+        }
+        return response()->json($attendanceCounts);
+    }
+    /**
+     * show total of specific student absent of all month.
+     */
+    public function getTotalAttendanceOfSpecificStudentAllMonths($id)
+    {
+        $attendanceCounts = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $totalAttendance = User::where('id', $id)
+                ->whereHas('roleAttendances', function ($query) use ($month) {
+                    $query->whereMonth('created_at', $month);
+                })
+                ->count();
+            $attendanceCounts[date('F', mktime(0, 0, 0, $month, 1))] = $totalAttendance;
+        }
+        return response()->json($attendanceCounts);
     }
 
 }
