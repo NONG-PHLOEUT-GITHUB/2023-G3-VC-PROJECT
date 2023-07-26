@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\Guardian;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ class GuardianController extends Controller
     {
         //
         $guardian = Guardian::all();
+        $guardian = UserResource::collection($guardian);
         return $guardian;
     }
 
