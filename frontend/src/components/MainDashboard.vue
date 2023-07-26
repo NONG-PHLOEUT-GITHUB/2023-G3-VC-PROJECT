@@ -34,14 +34,6 @@
               </v-icon>
               {{ menu.title }}
             </v-btn>
-            <!-- <v-list>
-                            <v-list-item v-for="(item, i) in menubar" :key="i" :value="item" color="primary" class="mt-2" rounded="xl">
-                                <template v-slot:prepend>
-                                    <v-icon :icon="item.icon"></v-icon>
-                                </template>
-                                <v-list-item-title class="text-button mt-1" v-text="item.title"></v-list-item-title>
-                            </v-list-item>
-                        </v-list> -->
           </v-list-item>
         </v-list-item>
       </v-list>
@@ -59,6 +51,15 @@
         </template>
 
         <v-card>
+          <div class="mx-auto text-center mt-4">
+            <v-avatar  size="100" color="" class="avatar">
+              <v-img class="image" :src="users.profile" alt="Avatar" cover> </v-img>
+            </v-avatar>
+              <h4 class="user-name mt-3">{{ users.first_name }} {{ users.last_name }}</h4>
+              <p class="text-caption mt-1">
+                {{ users.email }}
+              </p>
+          </div>
           <v-card-text>
             <div class="mx-auto text-center">
               <v-btn
@@ -105,7 +106,6 @@
 
     <v-main class="main">
       <router-view></router-view>
-      <!-- <user-details></user-details> -->
     </v-main>
   </v-layout>
 
@@ -123,13 +123,12 @@ import http from "@/htpp.common";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import ChangePasswordDialog from "@/views/Authentication/ChangePasswordForm.vue";
-// import UserDetails from '@/views/UserInfo/UserProfile.vue';
+
 export default {
   props: ["menubar"],
   name: "LayoutDashboard",
   components: {
     ChangePasswordDialog,
-    // UserDetails
   },
   data: () => ({
     users: [],
@@ -141,7 +140,7 @@ export default {
   },
   methods: {
     fetchData() {
-      http.get("/api/v1/auth/user").then((response) => {
+      http.get("/v1/auth/user").then((response) => {
         this.users = response.data.data;
       });
     },
@@ -149,7 +148,7 @@ export default {
     logout() {
       http
         .post(
-          "/api/v1/auth/logout",
+          "/v1/auth/logout",
           {},
           {
             headers: {
@@ -176,14 +175,10 @@ export default {
             title: "Logout successfully",
           }).then(() => {
             Cookies.remove("access_token");
-            this.$router.push("/");
+            Cookies.remove("user_role");
+            this.$router.push("/login");
           });
         })
-        // .then(() => {
-        //     Cookies.remove('access_token');
-        //     this.$router.push('/');
-        // })
-
         .catch((error) => {
           console.log(error);
         });
@@ -209,6 +204,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   border: solid 1px gray;
+  font-size: 12px;
 }
 
 .image {
@@ -217,5 +213,13 @@ export default {
 
 .user-name span {
   text-transform: uppercase;
+}
+
+.user-name{
+  text-transform: uppercase;
+}
+
+.image{
+  border: solid 1px rgb(122, 148, 154);
 }
 </style>

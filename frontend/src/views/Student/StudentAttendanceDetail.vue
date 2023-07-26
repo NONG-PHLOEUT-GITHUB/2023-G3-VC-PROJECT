@@ -2,7 +2,7 @@
   <admin-dashboard></admin-dashboard>
   <main class="table">
     <h3>
-      Attendance Records 
+      Attendance Records
       <span> {{ user.first_name }} {{ user.last_name }}</span>
     </h3>
     <v-table>
@@ -128,12 +128,11 @@ export default {
   font-family: sans-serif;
 }
 
-main{
-  width: 80%;
-  margin-left: 20%;
-  margin-top: 20px;
+main {
+  margin-top: 10px;
+  margin-left: 19%;
 }
-.button{
+.button {
   margin-left: 90%;
   border: 1px solid gray;
   width: 10%;

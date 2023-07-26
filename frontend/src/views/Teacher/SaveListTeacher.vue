@@ -90,7 +90,11 @@ export default {
     downloadPDF() {
       this.isDetail = true;
       http
+<<<<<<< HEAD
         .get("/api/get-teachers")
+=======
+        .get('/get-teachers')
+>>>>>>> 3b83bed9155a272599fe0d376777edbb6a23aab3
         .then((response) => {
           this.teachers = response.data.data;
           const element = document.getElementById("my-table");
@@ -112,7 +116,11 @@ export default {
     },
     fetchData() {
       http
+<<<<<<< HEAD
         .get("api/get-teachers")
+=======
+        .get('/get-teachers')
+>>>>>>> 3b83bed9155a272599fe0d376777edbb6a23aab3
         .then((response) => {
           this.listUser = response.data.data;
         })

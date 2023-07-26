@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Score;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,9 +26,8 @@ class AuthenticationController extends Controller
             $first_name = $user->first_name;
             $last_name = $user->last_name;
             $attendances = $user->attendances;
-            // $subjects = $user->subjects;
-            // $scores = $user->scores;
-            // $scores = $user->scores;
+            $scores = $user->scores;
+
             return response()->json(
                 [
                     'status' => 'success',
@@ -34,10 +35,8 @@ class AuthenticationController extends Controller
                     'role' => $role,
                     'first_name' => $first_name,
                     'last_name' => $last_name,
-                    // 'data' => auth()->user(),
                     'attendance' => $attendances,
-                    // 'subject' => $subjects,
-                    // 'score' => $scores,
+                    'score' => $scores,
                     'access_token' => $token
                 ],
                 200
@@ -67,7 +66,7 @@ class AuthenticationController extends Controller
     public function user(Request $request)
     {
      
-        $user = User::with('guardian','classroom','attendances', 'scores',)->find(Auth::user()->id);
+        $user = User::with('guardian','attendances', 'scores',)->find(Auth::user()->id);
         
         return response()->json([
             'status' => 'success',

@@ -2,8 +2,7 @@
   <teacher-dashboard></teacher-dashboard>
   <div class="container mt-5">
     <v-card>
-      <v-btn size="30" block>attendance check list</v-btn>
-    <!-- <h2>Attendance Check List</h2> -->
+      <v-btn block variant="outlined" size="large">attendance check list</v-btn>
     <br />
     <div>
       <select
@@ -36,8 +35,8 @@
             value="red"
             label="Attendance Today"
             hide-details
-          ></v-checkbox>{{ this.date }}
-          
+          >
+      </v-checkbox>{{ this.date }}
     </div>
 
     <table>
@@ -203,7 +202,7 @@ export default {
       }
     },
 
-    // ASk AI and copy from it "how to sent attendance of stundet to parent"
+    // ASk AI "how to sent attendance of stundet to parent"
     // https://www.youtube.com/watch?v=aNmRNjME6mE
     async getChatId(id) {
       try {
@@ -272,7 +271,7 @@ export default {
     },
 
     getStudentData() {
-      http.get('/api/get-students')
+      http.get('/get-students')
       .then((response) => {
         this.students = response.data.data;
       });

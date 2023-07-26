@@ -2,7 +2,7 @@
   <main class="table">
     <h3>Teacher Most Absence List</h3>
     <table>
-      <thead>
+      <thead class="no">
         <tr>
           <th>First Name</th>
           <th>Last Name</th>
@@ -28,18 +28,17 @@
   </main>
 </template>
 <script>
-import axios from "axios";
+import http from '@/htpp.common'
 
 export default {
   data() {
     return {
       attendanceData: [],
-      getTeacherMostAbsenceURL:"http://127.0.0.1:8000/api/getTeacherMostAbsence"
     };
   },
   mounted() {
-    axios
-      .get(this.getTeacherMostAbsenceURL)
+    http
+      .get('/getTeacherMostAbsence')
       .then((response) => {
         this.attendanceData = response.data;
       })
@@ -87,7 +86,7 @@ td {
   font-weight: bold;
   font-size: 15px;
 }
-thead th {
+.no {
   position: sticky;
   top: 0;
   left: 0;

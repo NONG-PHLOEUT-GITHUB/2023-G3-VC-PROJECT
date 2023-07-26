@@ -115,8 +115,8 @@ export default {
   methods: {
     // resferent :  https://www.youtube.com/watch?v=chCtrNGrQhk
     getImage(event) {
-      // this.profile = event.target.files[0];
       var file = event.target.files[0];
+      console.log(event.target.files[0]);
       var form = new FormData();
       form.append('profile', file);
       axios.post(this.imgURL, form).then((response) => {
@@ -149,10 +149,10 @@ export default {
           timer: 2000,
         })
           .then(() => {
-            if(this.role==3){
-              this.$router.push({ path: '/student-list' });
-            }else if(this.role==2){
-              this.$router.push({ path: '/add-teacher' });
+            if(this.role == 3){
+              this.$router.push('/student-list');
+            }else if(this.role == 2){
+              this.$router.push('/add-teacher');
             }
           }).catch(error => {
             console.log(error)

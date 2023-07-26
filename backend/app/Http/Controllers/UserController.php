@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\GuardianResource;
 use App\Http\Resources\UserResource;
+use App\Models\ClassRoom;
 use App\Models\Comment;
 use App\Models\Guardian;
 use App\Models\Role;
@@ -37,7 +38,6 @@ class UserController extends Controller
 
     public function getImage(StoreUserRequest $request)
     {
-
         $image = $request->file('profile');
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images'), $new_name);
@@ -131,7 +131,22 @@ class UserController extends Controller
             ->get();
         return response()->json(["message" => true, "data" => $teachers], 200);
     }
-
+    public function updateClass(Request $request, $id)
+    {
+        $classroom = ClassRoom::findOrFail($id);
+        $classroom->update([
+            'class_name' => $request->input('class_name'),
+            'teacher_id' => $request->input('teacher_id'),
+        ]);
+        return response()->json([
+            'message' => 'Classroom updated successfully',
+            'classroom' => $classroom,
+        ]);
+    }
+    public function getStudentId($id){
+        $user = User::find($id);
+        return response()->json($user);
+    }
     public function getTeacherBySubject($subject)
     {
         $users = User::where('role', 2)
@@ -226,4 +241,5 @@ class UserController extends Controller
             'guardian_id' => $user->guardian->chatId ,
         ]);
     }
+
 }

@@ -27,18 +27,17 @@
   </main>
 </template>
 <script>
-import axios from "axios";
+import http from '@/htpp.common'
 
 export default {
   data() {
     return {
       attendanceData: [],
-      URL: "http://127.0.0.1:8000/api/getAttendance",
     };
   },
   mounted() {
-    axios
-      .get(this.URL)
+    http
+      .get('/getAttendance')
       .then((response) => {
         this.attendanceData = response.data;
         console.log(this.attendanceData);

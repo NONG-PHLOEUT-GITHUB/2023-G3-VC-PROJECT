@@ -24,7 +24,7 @@ class SubjectTeacherController extends Controller
     public function store(Request $request)
     {
         $subjects = SubjectTeacher::store($request);
-        return response()->json(['success' => true, 'data' => $subjects], 200);
+        return response()->json(['success' => true, 'data' => $subjects], 201);
     }
     /**
      * Display the specified resource.
