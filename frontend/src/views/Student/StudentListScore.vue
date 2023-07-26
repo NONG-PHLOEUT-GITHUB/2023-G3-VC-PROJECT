@@ -1,6 +1,5 @@
 <template>
-<student-dashboard></student-dashboard>
-  <v-card class="card">
+  <v-card>
     <v-tabs v-model="tab" bg-color="primary">
       <v-tab v-for="month in months" :key="month.value" :value="month.value">{{ month.name }}</v-tab>
     </v-tabs>
@@ -71,18 +70,5 @@ export default {
 };
 </script>
 
-  <style scoped>
-@import "~vuetify/dist/vuetify.css";
-
-.sheet {
-  margin-top: 10px;
-  margin-left: 19%;
-}
-.card{
-  margin-left: 16%;
-  padding: 2%;
-}
-.table th {
-  font-size: 20px;
-}
+<style>
 </style>

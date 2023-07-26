@@ -25,16 +25,17 @@
     <!-- <v-card-text>
               This is content
             </v-card-text>  -->
-  </v-card>
-</div>
+    </v-card>
+  </div>
 </template>
 
 <script>
-import http from '@/htpp.common'
+import http from "@/htpp.common";
 export default {
   data() {
     return {
       classrooms: [],
+      class_name: "",
     };
   },
   methods: {
@@ -45,14 +46,13 @@ export default {
       });
     },
   },
-  mounted () {
+  mounted() {
     this.getTeacherClassroom();
-  }
+  },
 };
 </script>
 
 <style>
-
 .main {
   margin-left: 18%;
   margin-top: 15px;

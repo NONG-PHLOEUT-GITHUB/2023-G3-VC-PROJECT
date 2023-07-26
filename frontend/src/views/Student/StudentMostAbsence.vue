@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       attendanceData: [],
-      URL:"http://127.0.0.1:8000/api/getMostAbsence"
+      URL: "http://127.0.0.1:8000/api/getMostAbsence",
     };
   },
   mounted() {
@@ -104,7 +104,7 @@ thead th {
 .status.detail {
   padding: 10px 25px;
   border-radius: 3px;
-  background-color: #0000FF;
+  background-color: #0000ff;
   color: white;
   font-weight: bold;
 }

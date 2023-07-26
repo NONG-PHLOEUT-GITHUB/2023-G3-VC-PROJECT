@@ -70,6 +70,7 @@ Route::get('/classrooms', [ClassRoomController::class, 'index']);
 
 Route::put('/classrooms/{id}', [UserController::class,"updateClass"]);
 // Route::get('/get_student', [ClassRoomController::class, 'getStudentInClassroom']);
+// Route::get('/get_student', [ClassRoomController::class, 'g']);
 Route::post('/classroom', [ClassRoomController::class, 'store']);
 Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
@@ -120,6 +121,8 @@ Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, 
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
 Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
 Route::get("/studentattendancedetail/{user_id}", [AttendanceController::class, "showDetail"]);
+Route::get("/totalattendanceofstudent", [AttendanceController::class, "getTotalAttendanceOfStudentsAllMonths"]);
+Route::get("/totalattendancespecificstudent/{id}", [AttendanceController::class, "getTotalAttendanceOfSpecificStudentAllMonths"]);
 
 // ========================router=====================================================
 

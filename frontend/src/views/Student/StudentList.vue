@@ -296,7 +296,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card{
   margin-left: 20%;
   background: #000;

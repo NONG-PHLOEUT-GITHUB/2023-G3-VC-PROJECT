@@ -9,9 +9,11 @@ import StudentList from '../views/Student/StudentList.vue';
 import ClassView from '../views/Director/ClassView.vue';
 import CreateUserForm from '../views/Dashboard/CreateUserForm.vue';
 import AttendanceList from '../views/Student/AttendanceList.vue';
+import StudentGraph from '../views/Student/StudentGraph.vue';
 import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue';
 import StudentDetail from '../views/Student/StudentDetial.vue';
 import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vue';
+import StudentListScore from '../views/Student/StudentListScore.vue';
 import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vue';
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
@@ -164,6 +166,7 @@ const routes = [
     path: '/attendance-list',
     name: '/AttendanceList',
     component: AttendanceList
+    
   },
   {
     path: '/studentmostabsence',
@@ -196,7 +199,7 @@ const routes = [
     component: TeacherAttendanceList
   },
   {
-    path: '/teachermostabsence',
+    path: '/teacher-most-absence',
     name: '/teachermostabsence',
     component: TeacherMostAbsence
   },
@@ -239,6 +242,27 @@ const routes = [
       auth: true
     },
     component: StudentList
+  },
+  {
+    path: '/check_student_attendance',
+    name: 'check_student_attendance',
+    component: CheckStudentAttendacne
+  },
+  {
+    path: '/reset_new_password',
+    name: 'reset_new_password',
+    component: FormResetNewPassword
+  },
+
+  {
+    path: '/studentgraph',
+    name: '/studentgraph',
+    component: StudentGraph,
+  },
+  {
+    path: '/studentlistscore',
+    name: '/studentlistscore',
+    component: StudentListScore,
   },
   {
     path: '/feedback',
