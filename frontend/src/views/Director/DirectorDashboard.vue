@@ -152,7 +152,7 @@ ChartJS.register(
   CategoryScale,
   LinearScale
 );
-
+import axios from "axios";
 export default {
   name: "BarChart",
   components: { Bar },

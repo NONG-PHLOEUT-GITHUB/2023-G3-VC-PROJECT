@@ -244,17 +244,6 @@ const routes = [
     component: StudentList
   },
   {
-    path: '/check_student_attendance',
-    name: 'check_student_attendance',
-    component: CheckStudentAttendacne
-  },
-  {
-    path: '/reset_new_password',
-    name: 'reset_new_password',
-    component: FormResetNewPassword
-  },
-
-  {
     path: '/studentgraph',
     name: '/studentgraph',
     component: StudentGraph,
