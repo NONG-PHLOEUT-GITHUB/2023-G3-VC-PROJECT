@@ -42,7 +42,7 @@ export default {
     getTeacherClassroom() {
       http.get("/v1/auth/user").then((response) => {
         this.classrooms = response.data.data.classroom;
-        console.log('class room of teacher 1',response.data.data.classroom)
+        console.log('class room of teacher 1',response.data.data)
       });
     },
   },

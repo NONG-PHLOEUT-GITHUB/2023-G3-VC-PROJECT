@@ -10,8 +10,8 @@ use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\ImportExelFileController;
-use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -120,9 +120,44 @@ Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, 
 Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
 Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
-Route::get("/studentattendancedetail/{user_id}", [AttendanceController::class, "showDetail"]);
-Route::get("/totalattendanceofstudent", [AttendanceController::class, "getTotalAttendanceOfStudentsAllMonths"]);
-Route::get("/totalattendancespecificstudent/{id}", [AttendanceController::class, "getTotalAttendanceOfSpecificStudentAllMonths"]);
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users', [UserController::class, 'store']);
+Route::post('/getImage', [UserController::class, 'getImage']);
+Route::get('/users/{id}', [UserController::class,"show"]);
+Route::put('/users/{id}', [UserController::class,"update"]);
+Route::resource('users' , UserController::class);
+Route::get('/studentattendancedetail/{user_id}', [AttendanceController::class, 'showDetail']);
+Route::post('/password/change', [ChangePasswordController::class,'change']);
+
+Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmail']);
+Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
+
+
+
+Route::get('/getuserInClass/{class}', [ClassRoomController::class, 'getClassNameUserId']);
+
+Route::get("/users/subject/{subject}", [UserController::class, "getTeacherBySubject"]);
+
+
+Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
+// ->where('class_name', '[a-zA-Z0-10]+')->where('user_id', '[0-10]+');
+
+// Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
+// get student
+Route::get('/getStudents', [UserController::class,"getStudent"]);
+Route::get('/getStudents/{id}', [UserController::class,"getStudentId"]);
+Route::delete('/getStudents/{id}', [UserController::class,"destroy"]);
+
+//   score
+Route::get('/scores' , [ScoreController::class,"index"]);
+Route::post('/scores' , [ScoreController::class,"store"]);
+
+// get teachers
+Route::get('/getTeachers', [UserController::class,"getTeachers"]);
+Route::delete('/getTeachers/{id}', [UserController::class,"destroy"]);
+
+Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
+Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
 
 // ========================router=====================================================
 
