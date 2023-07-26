@@ -20,7 +20,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY . .
 
 # Install Laravel dependencies
-RUN composer install
+RUN composer update
+# RUN composer install
 
 # Run migrations and seed the database
 # RUN php artisan migrate && php artisan db:seed
