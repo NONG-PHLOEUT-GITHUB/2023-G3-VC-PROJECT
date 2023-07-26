@@ -21,8 +21,15 @@ class ScoreController extends Controller
      */
     public function store(Request $request)
     {
+        //
         $scores = Score::store($request);
-        return response()->json(['success' => true, 'data' => $scores], 200);
+
+        $scores->subject()->create([
+            'subject_name' => $request->input('subject_name')
+        ]);
+
+        return response()->json(['success' => true, 'data' => $scores], 201);
+
     }
 
     /**
@@ -56,7 +63,7 @@ class ScoreController extends Controller
         $startDate = date('Y-m-01', strtotime($month));
         $endDate = date('Y-m-t', strtotime($month));
 
-        $user_scores = Score::select('subjects.subject_name', 'scores.score')
+        $user_scores = Score::select('subjects.subject_name', 'scores.score', "month")
             ->join('users', 'scores.user_id', '=', 'users.id')
             ->join('subjects', 'scores.subject_id', '=', 'subjects.id')
             ->where('users.id', '=', $id)
@@ -67,7 +74,7 @@ class ScoreController extends Controller
         foreach ($user_scores as $score) {
             $total_score += $score->score;
         }
-        $average_score = $total_score / 14;
+        $average_score = $total_score / 12;
 
         return response()->json([
             'user_id' => $id,

@@ -133,7 +133,7 @@ export default {
   },
 
   methods: {
-    showStudents() {
+    showStudents(classId) {
       http
         .get(`api/getuserInClass/${classId}`)
         .then((response) => {
