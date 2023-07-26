@@ -21,7 +21,7 @@ COPY . .
 
 # Install Laravel dependencies
 # RUN composer update
-RUN composer install
+RUN composer install --ignore-platform-req=ext-gd
 
 # Run migrations and seed the database
 # RUN php artisan migrate && php artisan db:seed
