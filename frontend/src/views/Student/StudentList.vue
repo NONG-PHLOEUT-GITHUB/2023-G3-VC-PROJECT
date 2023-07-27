@@ -1,6 +1,6 @@
 <template>
   <admin-dashboard></admin-dashboard>
-  <div class="card shadow border-0 mb-7">
+  <div class="card shadow border-0 mb-7 bg-light">
     <div class="card-header">
       <h3 class="mb-0 text-primary">STUDENTS LIST</h3>
     </div>

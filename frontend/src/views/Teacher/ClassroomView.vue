@@ -1,6 +1,17 @@
 <template>
   <teacher-dashboard></teacher-dashboard>
   <div class="main">
+    <div class="text-center">
+      <v-snackbar v-model="snackbar" multi-line>
+        {{ text }}
+        <template v-slot:actions>
+          <v-btn color="teal" variant="text" @click="snackbar = false">
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+    </div>
+
     <v-btn block variant="outlined" size="large" color="">Class list</v-btn>
 
     <v-card v-for="classroom of classrooms" :key="classroom" class="card mx-auto mt-2" width="96%"
@@ -36,6 +47,8 @@ export default {
     return {
       classrooms: [],
       class_name: "",
+      snackbar: false,
+      text: `You do not have the class yet.`,
     };
   },
   methods: {
@@ -54,7 +67,11 @@ export default {
       } catch (error) {
         console.error(error);
       }
+      if (this.classrooms.length === 0) {
+        this.snackbar = true;
+      }
     },
+
   },
   mounted() {
     this.getTeacherClassroom();
