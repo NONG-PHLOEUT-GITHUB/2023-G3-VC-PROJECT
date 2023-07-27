@@ -1,21 +1,24 @@
 <template>
-  <student-dashboard/>
+  <student-dashboard />
   <h3 class="title mb-2">MY ATTENDANCES RECORDS</h3>
-  <v-card class="card mt-3" v-if="displayTabs">
-    <v-tabs
-      v-model="tab"
-      bg-color="deep-purple-darken-4"
-      center-active
-    >
-      <v-tab v-for="(month, index) in monthsWithAttendance" :key="month" :value="index + 1">
+  <v-card class="card mt-3">
+    <v-tabs v-model="tab" bg-color="deep-purple-darken-4" center-active>
+      <v-tab
+        v-for="(month, index) in monthsWithAttendance"
+        :key="month"
+        :value="index + 1"
+      >
         {{ month }}
       </v-tab>
     </v-tabs>
   </v-card>
-
   <v-card-text class="card">
     <v-window v-model="tab">
-      <v-window-item v-for="(month, index) in monthsWithAttendance" :key="month" :value="index + 1">
+      <v-window-item
+        v-for="(month, index) in monthsWithAttendance"
+        :key="month"
+        :value="index + 1"
+      >
         <div class="table-responsive">
           <table class="table table-hover table-nowrap mt-2">
             <thead class="bg-primary">
@@ -28,13 +31,15 @@
             <tbody>
               <template v-if="getAttendanceByMonth(index + 1).length === 0">
                 <tr>
-                  <td colspan="5" class="text-center text-md text-dark">There is no absent yet in this month</td>
+                  <td colspan="3" class="text-center text-md text-dark">
+                    There is no attendance yet in this month
+                  </td>
                 </tr>
               </template>
               <template v-else>
                 <tr
-                  v-for="attendance of getAttendanceByMonth(index + 1)"
-                  :key="attendance"
+                  v-for="attendance in getAttendanceByMonth(index + 1)"
+                  :key="attendance.id"
                   class="border-2-dark"
                 >
                   <td class="text-sm text-black">{{ attendance.date }}</td>
@@ -51,12 +56,12 @@
 </template>
 
 <script>
-import http from '@/htpp.common'
+import http from "@/htpp.common";
 
 export default {
   data: () => ({
     tab: null,
-    attendances: []
+    attendances: [],
   }),
   computed: {
     months() {
@@ -72,7 +77,7 @@ export default {
         "September",
         "October",
         "November",
-        "December"
+        "December",
       ];
     },
     attendancesByMonth() {
@@ -86,13 +91,19 @@ export default {
       }
       return attendancesByMonth;
     },
+
     monthsWithAttendance() {
-      return this.months.filter(month => {
-        return this.attendancesByMonth[month.indexOf(month) + 1]?.length;
-      });
-    },
-    displayTabs() {
-      return this.monthsWithAttendance.length > 0;
+      const monthsWithAttendance = [];
+      for (let i = 1; i <= 12; i++) {
+        if (this.attendancesByMonth[i]?.length) {
+          monthsWithAttendance.push(this.months[i - 1]);
+        } else {
+          monthsWithAttendance.push(
+            this.months[i - 1] 
+          );
+        }
+      }
+      return monthsWithAttendance;
     },
   },
   methods: {
