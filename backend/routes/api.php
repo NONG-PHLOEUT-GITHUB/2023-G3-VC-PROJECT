@@ -123,6 +123,7 @@ Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsen
 Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOfRole3ByUserId"]);
 Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
 Route::get("/getteacherDetail/{id}", [AttendanceController::class, "getAttendanceOfRole2ByUserId"]);
+Route::get("/getstudentattendanceeverymonth/{userId}", [AttendanceController::class, "getTotalAttendanceOfSpecificStudentAllMonths"]);
 Route::post("/checkStudentAttendance", [AttendanceController::class, "store"]);
 Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
 Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
@@ -166,6 +167,9 @@ Route::delete('/getTeachers/{id}', [UserController::class,"destroy"]);
 
 Route::post('/forgot-password', [ForgotPasswordController::class,'send_reset_password_email']);
 Route::post('/reset-password', [ForgotPasswordController::class,'resetPassword']);
+
+// show detail attendance for specific student every month.
+Route::get("/showAttendanceDetaileverymonth/{id}", [AttendanceController::class, "showAttendanceDetaileverymonth"]);
 
 // ========================router=====================================================
 

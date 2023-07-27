@@ -14,7 +14,7 @@
   </main>
 </template>
 <script>
-import axios from "axios";
+import http from "@/htpp.common.js";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -39,7 +39,7 @@ export default {
   components: { Bar },
   data() {
     return {
-      URL: "http://127.0.0.1:8000/api",
+      userId: null,
       attendance: "",
       chartData: {
         labels: [
@@ -92,35 +92,34 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get("http://127.0.0.1:8000/api/getTotal")
+    http
+      .get("/v1/auth/user")
       .then((response) => {
-        this.results = response.data.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-      this.fetchAttendanceData();
-  },
-  methods:{
-    fetchAttendanceData() {
-    axios
-      .get("http://127.0.0.1:8000/api/totalattendancespecificstudent/9")
-      .then((response) => {
-        const mydata = Object.values(response.data);
-        for (let i = 0; i < mydata.length; i++) {
-            this.chartData.datasets[0].data[i] = mydata[i];
-        }
-        console.log(mydata)
+        this.userId = response.data.data.id;
+        this.fetchAttendanceData();
+        console.log(response.data.data.id);
       })
       .catch((error) => {
         console.error(error);
       });
-    }
+  },
+  methods: {
+    fetchAttendanceData() {
+      http
+        .get(`/getstudentattendanceeverymonth/${this.userId}`)
+        .then((response) => {
+          const mydata = Object.values(response.data);
+          for (let i = 0; i < mydata.length; i++) {
+            this.chartData.datasets[0].data[i] = mydata[i];
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
-  };
+  },
+};
 </script>
-
 <style>
 .main {
   margin-left: 19%;
