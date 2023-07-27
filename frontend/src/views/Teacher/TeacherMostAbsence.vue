@@ -28,18 +28,17 @@
   </main>
 </template>
 <script>
-import axios from "axios";
+import htpp from '@/htpp.common'
 
 export default {
   data() {
     return {
       attendanceData: [],
-      getTeacherMostAbsenceURL:"http://127.0.0.1:8000/api/getTeacherMostAbsence"
     };
   },
   mounted() {
-    axios
-      .get(this.getTeacherMostAbsenceURL)
+    htpp
+      .get('/getTeacherMostAbsence')
       .then((response) => {
         this.attendanceData = response.data;
       })

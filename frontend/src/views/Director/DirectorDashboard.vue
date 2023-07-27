@@ -132,7 +132,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import { Bar } from "vue-chartjs";
 import http from "../../htpp.common";
 import {
@@ -153,15 +152,12 @@ ChartJS.register(
   CategoryScale,
   LinearScale
 );
-
+import axios from "axios";
 export default {
   name: "BarChart",
   components: { Bar },
   data() {
     return {
-      URL: "http://127.0.0.1:8000/api",
-      attendanceTeacherData: [],
-      attendanceStudentData: [],
       results: "",
       attendance: "",
       chartData: {
@@ -216,22 +212,32 @@ export default {
   },
   mounted() {
     http
-      .get("/api/getTotal")
+      .get("/getTotal")
       .then((response) => {
         this.results = response.data.data;
       })
       .catch((error) => {
         console.log(error);
       });
-    this.fetchAttendanceData();
-    this.fetchFaildedStudentData();
-    this.fetchMostAbsenceStudentData();
-    this.fetchMostAbsenceTeacherData();
+
+      http
+      .get("/getPercentageOfFaildedStudentByMonth")
+      .then((response) => {
+        const mydata = response.data.failed_users_percentage;
+        console.log(mydata);
+        for (let i = 0; i < mydata.length; i++) {
+          this.chartData1.datasets[0].data[i] = mydata[i];
+        }
+        console.log(this.chartData1.datasets[0].data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   methods: {
     fetchAttendanceData() {
-      axios
-        .get(this.URL + "/totalattendanceofstudent/9")
+      http
+        .get("/totalattendanceofstudent/9")
         .then((response) => {
           const mydata = Object.values(response.data);
           for (let i = 0; i < mydata.length; i++) {
@@ -243,8 +249,8 @@ export default {
         });
     },
     fetchFaildedStudentData() {
-      axios
-        .get(this.URL + "/getPercentageOfFaildedStudentByMonth")
+      http
+        .get("/getPercentageOfFaildedStudentByMonth")
         .then((response) => {
           const mydata = response.data.failed_users_percentage;
           console.log(mydata);

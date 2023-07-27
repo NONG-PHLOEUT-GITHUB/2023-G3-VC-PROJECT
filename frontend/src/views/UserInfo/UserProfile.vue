@@ -1,8 +1,8 @@
 <template>
 
-  <!-- <admin-dashboard></admin-dashboard>
-  <teacher-dashboard></teacher-dashboard> -->
-  <student-dashboard></student-dashboard>
+  <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
+  <teacher-dashboard v-else-if="this.role === '2'"></teacher-dashboard>
+  <student-dashboard v-else></student-dashboard>
   <v-sheet
     border="lg opacity-12"
     class="detail mt-6"
@@ -22,7 +22,9 @@
             cover
           >
           </v-img>
-          <!-- {{ users.first_name }} {{ users.last_name }} -->
+          <div class="user ms-12">
+           <h4 class="ms-12">{{ users.first_name }} {{ users.last_name }}</h4> 
+          </div>
           <v-btn class="ms-10 mt-5">
             <v-icon size="24"> mdi-account-edit </v-icon>Change profile
           </v-btn>
@@ -81,24 +83,31 @@
 
 <script>
 import http from "@/htpp.common";
-
+import Cookies from 'js-cookie';
 export default {
   name: "UserDetails",
   data() {
     return {
       users: " ",
+      role: "",
     };
   },
   methods: {
     fetchData() {
-      http.get("/api/v1/auth/user").then((response) => {
+      http.get("/v1/auth/user").then((response) => {
         this.users = response.data.data;
       });
     },
+    getRole() {
+     let cookies = Cookies.get('user_role');
+     this.role = cookies
+     console.log(cookies); 
+    }
   },
 
   mounted() {
     this.fetchData();
+    this.getRole();
   },
 };
 </script>

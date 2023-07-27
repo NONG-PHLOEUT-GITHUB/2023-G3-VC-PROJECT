@@ -1,6 +1,6 @@
 <template>
   <admin-dashboard></admin-dashboard>
-  <section class="container-fluid px-4 py-4">
+  <section class="container">
     <div class="card bg-gray-300">
       <div class="p-5 pb-1">
         <div>
@@ -136,7 +136,7 @@
         <div class="col-12 d-flex justify-content-end">
           <router-link
             class="btn btn-warning text-white mr-2"
-            :to="{ path: '/student' }"
+            :to="{ path: '/student-list' }"
             >Cancel</router-link
           >
           <button type="submit" class="btn btn-primary text-white">
@@ -209,7 +209,7 @@ export default {
           });
         })
         .then(() => {
-          this.$router.push({ path: "/student" });
+          this.$router.push({ path: "/student-list"});
         })
         .catch((error) => {
           console.error("User update failed:", error);
@@ -243,3 +243,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.container{
+  margin-left: 16%;
+  width: 85%;
+}
+</style>

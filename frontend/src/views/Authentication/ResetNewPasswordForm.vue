@@ -1,19 +1,11 @@
 <template>
-    <!-- <div class="d-flex justify-center">
-        <v-dialog v-model="dialog" width="auto" class="dailog">
-            <v-alert type="error" icon="mdi-alert-circle" class="alter">
-                Pleas enter your email for reset password
-            </v-alert>
-        </v-dialog>
-    </div> -->
-
-
     <div class="container d-flex align-center justify-center" style="height: 100vh;">
         <div class="ma-4">
             <h2>SCHOOL MANAGEMENT</h2>
             <v-img class="bg-white" width="300" :aspect-ratio="1"
                 src="https://img.freepik.com/free-vector/key-concept-illustration_114360-6305.jpg?w=740&t=st=1688968989~exp=1688969589~hmac=3df727a833bf7fda300b7187397feb313d8ae5e060a5cec4ccf7c3f3e6872185"
                 cover></v-img>
+
         </div>
         <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8" elevation="10" max-width="448" rounded="lg">
             <v-form ref="form" @submit.prevent="resetPassword">
@@ -38,7 +30,8 @@
                     @click:append-inner="visibleConfirm = !visibleConfirm">
                 </v-text-field>
 
-                <v-btn :disabled="!isPasswordValid" type="submit" color="primary" block class="mt-4">Reset Password</v-btn>
+                <v-btn :disabled="!isPasswordValid" type="submit" color="teal-darken-4" block class="mt-4">Reset
+                    Password</v-btn>
             </v-form>
         </v-card>
     </div>
@@ -81,37 +74,33 @@ export default {
                 password_confirmation: this.confirmPassword,
                 token: this.token
             };
-            http.post(`/api/reset-new-password/${this.token}`, data, {
+            http.post(`/reset-new-password/${this.token}`, data, {
 
             })
-            .then(() => {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 500,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
+                .then(() => {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 500,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener("mouseenter", Swal.stopTimer);
+                            toast.addEventListener("mouseleave", Swal.resumeTimer);
+                        },
+                    });
 
-            Toast.fire({
-              icon: "success",
-              title: "Your password has been reset successfully!",
-              html: "<p>You can now login with your new password.</p>",
-            }).then(() => {
-                this.newPassword = '';
-                this.confirmPassword = '';
-                this.$router.push('/')
-            });
-          })
-            // .then(() => {
-            //     this.newPassword = '';
-            //     this.confirmPassword = '';
-            //     this.$router.push('/')
-            // })
+                    Toast.fire({
+                        icon: "success",
+                        title: "Your password has been reset successfully!",
+                        html: "<p>You can now login with your new password.</p>",
+                    }).then(() => {
+                        this.newPassword = '';
+                        this.confirmPassword = '';
+                        this.$router.push('/login')
+                    });
+                })
+
                 .catch(error => {
                     if (error.response.status === 422) {
                         // this.dialog = true;

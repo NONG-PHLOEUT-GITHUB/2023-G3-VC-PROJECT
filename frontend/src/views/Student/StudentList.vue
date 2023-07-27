@@ -1,8 +1,8 @@
 <template>
   <admin-dashboard></admin-dashboard>
-  <div class="card shadow border-0 mb-7">
+  <div class="card shadow border-0 mb-7 bg-light">
     <div class="card-header">
-      <h3 class="mb-0 text-primary">STUDENTS LIST</h3>
+      <h2 class="mb-0 text-primary text-center">USER LIST</h2>
     </div>
     <div class="card-header">
       <div>
@@ -16,7 +16,7 @@
       </div>
       <div class="form-group d-flex justify-content-between mb-3" style="width: 100%">
         <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search student" aria-label="Search"
+          <input class="form-control mr-sm-2" type="search" placeholder="Search user" aria-label="Search"
             style="width: 78%" />
           <button class="btn btn-outline-warning my-2 my-sm-0" type="button">
             <i class="bi bi-search"></i> Search
@@ -29,14 +29,9 @@
         </form>
         <router-link :to="{ path: '/createUser' }" class="text-white">
           <button type="button" class="btn btn-primary align-self-end ms-2">
-            <i class="bi bi-person-plus-fill"></i> Add new student
+            <i class="bi bi-person-plus-fill"></i> Add new user
           </button></router-link>
       </div>
-    </div>
-    <div class="card-header">
-      <h5 class="mb-0 p-0 text-primary">
-        STUDENT LIST CLASS {{ selectedClass }}
-      </h5>
     </div>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
@@ -47,7 +42,8 @@
             <th scope="col" class="fs-6 text-light">Age</th>
             <th scope="col" class="fs-6 text-light">Email</th>
             <th scope="col" class="fs-6 text-light">Phone Number</th>
-            <th></th>
+            <th scope="col" class="fs-6 text-light">Action</th>
+        
           </tr>
         </thead>
 
@@ -98,20 +94,19 @@
         </tbody>
           <tr v-else>
             <td colspan="6" class="text-center text-danger">
-              This class does not have any students.
+              This class does not have any user.
             </td>
           </tr> 
       </table>
       <div class="card-footer border-0 py-5">
         <span class="text-muted text-sm">   
-          Total Students in class {{ selectedClass }} :
+          Total Users  {{ selectedClass }} :
         {{ listUser?.length }} people</span>
       </div>
     </div>
   </div>
 </template>
 <script>
-import axios from "axios";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 import http from "../../htpp.common";
@@ -136,7 +131,6 @@ export default {
         { label: "Grade 12C", value: "12C" },
       ],
       selectedClass: null,
-      getClassURL:"http://127.0.0.1:8000/api/getuserInClass"
     };
   },
 
@@ -169,7 +163,7 @@ export default {
   methods: {
     //===================get data from Database =================
     getStudents() {
-      http.get('/api/get-students')
+      http.get('/users')
       .then((response) => {
         this.listUser = response.data.data;
       });
@@ -184,8 +178,8 @@ export default {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          axios
-            .delete(this.URL + `/${id}`)
+          http
+            .delete('/delete-user' + `/${id}`)
             .then(() => {
               swal("Deleted!", "Your user has been deleted.", "success");
               // call mounted
@@ -238,7 +232,7 @@ export default {
       formData.append("file", file);
 
       http
-        .post("/api/users_import", formData, {
+        .post("/users-import", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             "Cache-Control": "no-cache",
@@ -276,8 +270,8 @@ export default {
         });
     },
     getStudentInClass(classId) {
-      axios
-        .get(this.getClassURL + "/" + `${classId}`)
+      http
+        .get('/getuserInClass'+ "/" + `${classId}`)
         .then((response) => {
           this.listUser = response.data.data;
           for (let user of this.listUser) {
@@ -300,7 +294,8 @@ export default {
 
 <style scoped>
 .card{
-  margin-left: 20%;
+  margin-left: 18%;
+  margin-right: 10px;
   background: #000;
 }
 .input-file {

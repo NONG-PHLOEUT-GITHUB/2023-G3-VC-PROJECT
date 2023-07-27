@@ -67,7 +67,7 @@ export default {
     downloadPDF() {
       this.isDetail = true;
       http
-        .get('api/get-students')
+        .get('/get-students')
         .then((response) => {
           this.students = response.data.data;
           const element = document.getElementById("my-table");
@@ -89,7 +89,7 @@ export default {
     },
     fetchData() {
       http
-        .get('api/get-students')
+        .get('/get-students')
         .then((response) => {
           this.students = response.data.data;
         })

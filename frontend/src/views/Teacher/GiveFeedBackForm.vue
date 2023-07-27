@@ -1,4 +1,5 @@
 <template>
+<admin-dashboard></admin-dashboard>
   <div class="give-feedback-container">
     <h2>Give Feedback</h2>
     <form @submit.prevent="giveComment">
@@ -6,11 +7,15 @@
         <label for="student-name">Student</label>
         <div class="select-container">
           <select
-            v-model="selectedStudent" 
+            v-model="selectedStudent"
             class="form-select"
             aria-label="Default select example"
           >
-            <option v-for="student in listUser" :key="student.id" :value="student.id">
+            <option
+              v-for="student in listUser"
+              :key="student.id"
+              :value="student.id"
+            >
               {{ student.first_name }} {{ student.last_name }}
             </option>
           </select>
@@ -32,33 +37,33 @@
 </template>
 
 <script>
-import axios from "axios";
+
 import Swal from "sweetalert2";
-// import swal from 'sweetalert';
+import http from "@/htpp.common";
+import AdminDashboard from '../../components/AdminDashboard.vue';
 export default {
+  components: { AdminDashboard },
   data() {
     return {
-      URL: "http://127.0.0.1:8000/api/getStudents",
       listUser: [],
       selectedStudent: null, 
-      commentURL: "http://127.0.0.1:8000/api/comments",
       comment: ''
     };
   },
   methods: {
     getData() {
-      axios.get(this.URL).then((response) => {
+      http.get('/get-students').then((response) => {
         this.listUser = response.data;
       });
     },
     giveComment() {
       const commentData = {
-        'body': this.comment,
-        'user_id': this.selectedStudent, // Use only the selected student's ID in the POST request
+        body: this.comment,
+        teacher_id: this.teacherID, 
+        user_id: this.selectedStudent,
       };
-
-      axios
-        .post(this.commentURL, commentData)
+      http
+        .post('/comments', commentData)
         .then((response) => {
           console.log(response);
         })
@@ -68,13 +73,20 @@ export default {
           text: "Your Comment successfully to student",
           timer: 2000,
         })
-      // Reset form fields after submission
       this.selectedStudent = null;
-      this.comment = '';
+      this.comment = "";
+    },
+    fetchData() {
+      http.get("/get-students").then((response) => {
+        this.listUser = response.data.data;
+        for(let user of this.listUser){
+          this.teacherID = user.id
+        }
+      });
     },
   },
   mounted() {
-    this.getData();
+    this.fetchData();
   },
 };
 </script>

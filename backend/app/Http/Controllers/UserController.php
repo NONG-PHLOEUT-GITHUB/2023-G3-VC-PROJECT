@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\GuardianResource;
 use App\Http\Resources\UserResource;
+use App\Models\ClassRoom;
 use App\Models\Comment;
+use App\Models\Guardian;
 use App\Models\Role;
 use App\Models\Score;
 use App\Models\Subject;
@@ -35,16 +38,15 @@ class UserController extends Controller
 
     public function getImage(StoreUserRequest $request)
     {
-
         $image = $request->file('profile');
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images'), $new_name);
         $path = asset('images/' . $new_name);
         return $path;
-
-    } /**
-      * Display the specified resource.
-      */
+    }
+    /**
+     * Display the specified resource.
+     */
     public function getEmails($id)
     {
         return User::select('email')->where('id', '!=', $id)->where('role', '!=', 'admin')->get();
@@ -129,7 +131,22 @@ class UserController extends Controller
             ->get();
         return response()->json(["message" => true, "data" => $teachers], 200);
     }
-
+    public function updateClass(Request $request, $id)
+    {
+        $classroom = ClassRoom::findOrFail($id);
+        $classroom->update([
+            'class_name' => $request->input('class_name'),
+            'teacher_id' => $request->input('teacher_id'),
+        ]);
+        return response()->json([
+            'message' => 'Classroom updated successfully',
+            'classroom' => $classroom,
+        ]);
+    }
+    public function getStudentId($id){
+        $user = User::find($id);
+        return response()->json($user);
+    }
     public function getTeacherBySubject($subject)
     {
         $users = User::where('role', 2)
@@ -146,9 +163,10 @@ class UserController extends Controller
 
 
     /**
-    * show total of student failed of each month.
-    */
-    public function getPercentageOfFaildedStudentByMonth($year) {
+     * show total of student failed of each month.
+     */
+    public function getPercentageOfFaildedStudentByMonth($year)
+    {
 
         $users = User::where('role', '=', 3)->get();
 
@@ -188,9 +206,9 @@ class UserController extends Controller
         // $failedPercentage = [20, 30, 10, 45, 28, 54, 34, 45, 28, 54, 34, 9];
         // return response()->json(['data' => $failedPercentage], 200);
 
-        
+
     }
-    
+
     // --------------------------------Teacher Detail--------------------------------
 
     // public function getTeacherDetail($teacher_id){
@@ -208,5 +226,32 @@ class UserController extends Controller
     {
         $comments = Comment::where('student_id', $id)->get();
         return $comments;
+    }
+
+    public function getUserIdFromGuardianId($id)
+    {
+        $user = User::where('id', $id)->first();
+        $guardian = Guardian::all();
+        $guardian = GuardianResource::collection($guardian);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        return response()->json([
+            'user_id' => $user->id,
+            'guardian_id' => $user->guardian->chatId ,
+        ]);
+    }
+
+    public function getParentsByuser($id){
+        $user = User::where('id', $id)->first();
+        $guardian = Guardian::all();
+        $guardian = GuardianResource::collection($guardian);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        return response()->json([
+            'user_id' => $user->id,
+            'guardian' => $user->guardian,
+        ]);
     }
 }

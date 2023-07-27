@@ -42,7 +42,6 @@ class ClassRoomController extends Controller
     {
         $classrooms = ClassRoom::store($request);
         return $classrooms;
-
     }
 
     /**
@@ -83,18 +82,34 @@ class ClassRoomController extends Controller
     }
 
     public function getClassNameUserId(string $className)
-{
-    $classRooms = ClassRoom::where('class_name', $className)
-        ->whereHas('students', function ($query) {
-            $query->where('role', 3);
-        })
-        ->with('students')
-        ->get();
+    {
+        $classRooms = ClassRoom::where('class_name', $className)
+            ->whereHas('students', function ($query) {
+                $query->where('role', 3);
+            })
+            ->with('students')
+            ->get();
 
-    if ($classRooms->isEmpty()) {
-        return "not found";
-    } else {
-        return response()->json(['success' => true, 'data' => $classRooms], 200);
+        if ($classRooms->isEmpty()) {
+            return "not found";
+        } else {
+            return response()->json(['success' => true, 'data' => $classRooms], 200);
+        }
     }
-}
+
+    public function getClassNameTeacherId(string $className)
+    {
+        $classRooms = ClassRoom::where('class_name', $className)
+            ->whereHas('students', function ($query) {
+                $query->where('role', 2);
+            })
+            ->with('students')
+            ->get();
+    
+        if ($classRooms->isEmpty()) {
+            return "not found";
+        } else {
+            return response()->json(['success' => true, 'data' => $classRooms], 200);
+        }
+    }
 }
