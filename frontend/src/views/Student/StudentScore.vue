@@ -1,6 +1,22 @@
 <template>
   <teacher-dashboard></teacher-dashboard>
   <div class="card shadow border-0 mb-7">
+    <select
+      class="form-select mb-3"
+      aria-label="Default select example"
+      style="width: 30%"
+      v-model="selectedClass"
+      @click="getStudentInClass(selectedClass)"
+    >
+      <option selected disabled>Select class</option>
+      <option
+        v-for="classroom in classrooms"
+        :key="classroom.id"
+        :value="classroom.id"
+      >
+        {{ classroom.class_name }}
+      </option>
+    </select>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="bg-primary">
@@ -23,7 +39,7 @@
           </tr>
         </thead>
 
-        <tbody>
+        <tbody  v-if="listUser && listUser.length">
           <tr
             class="border-secondary"
             v-for="student in listUser"
@@ -138,6 +154,11 @@
             <td>{{ getAverageScore(student) }}</td>
           </tr>
         </tbody>
+        <tr v-else>
+        <td colspan="6" class="text-center text-danger">
+          This class does not have any students.
+        </td>
+      </tr>
       </table>
       <div class="d-flex align-items-end">
         <button
@@ -155,6 +176,7 @@
 <script>
 import axios from "axios";
 import swal from "sweetalert2";
+import http from '../../htpp.common'
 export default {
   data() {
     return {
@@ -166,6 +188,7 @@ export default {
       score: "",
       subjectName: "",
       subjects: [],
+      classrooms: [],
     };
   },
   methods: {
@@ -249,16 +272,40 @@ export default {
       axios
         .post("http://127.0.0.1:8000/api/scores", postData)
         .then((response) => {
-            response.data
-            swal.fire({
+          response.data;
+          swal.fire({
             icon: "success",
             title: "Send score successfully!",
             text: "you already send score with subject.",
             timer: 2000,
-          })
+          });
         })
         .catch((error) => {
           console.error(error);
+        });
+    },
+    getStudentInClass(classId) {
+      http
+        .get(`/get-students`)
+        .then((response) => {
+          console.log(response.data.data);
+          this.listUser = response.data.data;
+          this.listUser = response.data.data.filter(
+            (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getClassrooms() {
+      http
+        .get("/classrooms")
+        .then((response) => {
+          this.classrooms = response.data.data;
+        })
+        .catch((error) => {
+          console.log("Error fetching classrooms:", error);
         });
     },
   },
@@ -321,6 +368,8 @@ export default {
     },
   },
   mounted() {
+    this.getStudentInClass()
+    this.getClassrooms()
     return this.getStudent();
   },
 };
@@ -334,7 +383,7 @@ export default {
   width: 50px;
   height: 30px;
 }
-.btn-submit{
+.btn-submit {
   margin: 1%;
   margin-left: 40%;
   color: white;

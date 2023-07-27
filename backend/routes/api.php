@@ -109,6 +109,7 @@ Route::get("/getGuardian/{id}", [GuardianController::class,"getGuardianChatId"])
 Route::get("/getGuardians", [GuardianController::class,"index"]);
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
 Route::get("/guardian/{id}", [UserController::class,"getUserIdFromGuardianId"]);
+Route::get("/getParents/{id}", [UserController::class,"getParentsByuser"]);
 
 // ========================attendance router===========================================
 

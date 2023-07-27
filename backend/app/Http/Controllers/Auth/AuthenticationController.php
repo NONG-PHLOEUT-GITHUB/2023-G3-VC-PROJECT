@@ -27,7 +27,7 @@ class AuthenticationController extends Controller
             $last_name = $user->last_name;
             $attendances = $user->attendances;
             $scores = $user->scores;
-
+            // $subjects = $user->subjects;
             return response()->json(
                 [
                     'status' => 'success',
@@ -35,7 +35,9 @@ class AuthenticationController extends Controller
                     'role' => $role,
                     'first_name' => $first_name,
                     'last_name' => $last_name,
+                    // 'data' => auth()->user(),
                     'attendance' => $attendances,
+                    // 'subject' => $subjects,
                     'score' => $scores,
                     'access_token' => $token
                 ],
@@ -66,7 +68,9 @@ class AuthenticationController extends Controller
     public function user(Request $request)
     {
      
-        $user = User::with('guardian','attendances', 'scores',)->find(Auth::user()->id);
+        $user = User::with('guardian','attendances', 'scores','classTeacher')
+        
+        ->find(Auth::user()->id);   
         
         return response()->json([
             'status' => 'success',

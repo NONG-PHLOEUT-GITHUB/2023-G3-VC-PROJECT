@@ -28,7 +28,7 @@
   </main>
 </template>
 <script>
-import http from '@/htpp.common'
+import htpp from '@/htpp.common'
 
 export default {
   data() {
@@ -37,7 +37,7 @@ export default {
     };
   },
   mounted() {
-    http
+    htpp
       .get('/getTeacherMostAbsence')
       .then((response) => {
         this.attendanceData = response.data;

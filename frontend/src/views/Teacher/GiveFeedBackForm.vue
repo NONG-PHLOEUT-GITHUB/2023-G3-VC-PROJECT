@@ -1,4 +1,5 @@
 <template>
+<admin-dashboard></admin-dashboard>
   <div class="give-feedback-container">
     <h2>Give Feedback</h2>
     <form @submit.prevent="giveComment">
@@ -39,7 +40,9 @@
 
 import Swal from "sweetalert2";
 import http from "@/htpp.common";
+import AdminDashboard from '../../components/AdminDashboard.vue';
 export default {
+  components: { AdminDashboard },
   data() {
     return {
       listUser: [],
@@ -71,12 +74,11 @@ export default {
           text: "Your Comment successfully to student",
           timer: 2000,
         })
-      // Reset form fields after submission
       this.selectedStudent = null;
       this.comment = "";
     },
     fetchData() {
-      http.get("/api/get-students").then((response) => {
+      http.get("/get-students").then((response) => {
         this.listUser = response.data.data;
         for(let user of this.listUser){
           this.teacherID = user.id
