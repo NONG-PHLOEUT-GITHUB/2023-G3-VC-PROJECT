@@ -5,21 +5,21 @@
     <v-table>
       <thead>
         <tr>
-          <th class="text-left">Id</th>
-          <th class="text-left">First Name</th>
-          <th class="text-left">Last Names</th>
-          <th class="text-left">Total Absence</th>
-          <th class="text-left">See More</th>
+          <th class="text-white">Id</th>
+          <th class="text-white">First Name</th>
+          <th class="text-white">Last Names</th>
+          <th class="text-white">Total Absence</th>
+          <th class="text-white">See More</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="attendanceItem in attendanceData" :key="attendanceItem.id">
-          <td>{{ attendanceItem.id }}</td>
+        <tr v-for="(attendanceItem, index) in attendanceData" :key="index">
+          <td>{{ index + 1 }}</td>
           <td>{{ attendanceItem.first_name }}</td>
           <td>{{ attendanceItem.last_name }}</td>
           <td>{{ attendanceItem.role_attendances_count }}</td>
           <td>
-            <router-link class="status detail" :to="{ path: '/studentattendancedetail/'+ attendanceItem.id }">Detail</router-link>
+            <router-link class="status detail bg-warning" :to="{ path: '/studentattendancedetail/'+ attendanceItem.id }">See Details</router-link>
           </td>
         </tr>
       </tbody>
@@ -35,16 +35,27 @@ export default {
       attendanceData: [],
     };
   },
-  mounted() {
-    http
-      .get('/getAttendance')
+  methods: {
+    getStudents(id){
+      http
+      .get(`/getAllStudents/${id}`)
       .then((response) => {
-        this.attendanceData = response.data;
+        this.attendanceData = response.data.data;
+        this.attendanceData = response.data.data;
+        this.attendanceData.forEach(element => {
+          console.log(element.students);
+          this.attendanceData = element.students;
+        });
         console.log(this.attendanceData);
       })
       .catch((error) => {
         console.log(error);
       });
+    }
+  },
+  mounted() {
+    const id = this.$route.params.id;
+    this.getStudents(id);
   },
 };
 </script>

@@ -73,7 +73,7 @@ class AttendanceController extends Controller
     public static function getAttendanceListOfStudents()
     {
         $users = User::where('role', 3)
-            ->select('id', 'first_name', 'last_name')
+            ->select('id', 'first_name', 'last_name', 'class_room_id')
             ->withCount('roleAttendances')
             ->get();
         return response()->json($users);
