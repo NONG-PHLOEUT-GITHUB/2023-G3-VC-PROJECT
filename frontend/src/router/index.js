@@ -22,6 +22,7 @@ import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
 import GiveFeedBackForm from '../views/Teacher/GiveFeedBackForm.vue'
+import StudentScoreReport from '../views/Teacher/StudentScoreReport.vue'
 //authentication router =================================================================
 import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vue';
 import LoginForm from '../views/Authentication/LoginForm.vue';
@@ -158,7 +159,7 @@ const routes = [
     component: CreateUserForm
   },
   {
-    path: '/attendance-list',
+    path: '/attendance-list/:id',
     name: '/AttendanceList',
     component: AttendanceList
     
@@ -213,10 +214,10 @@ const routes = [
     component: TeacherDetail,
   },
   {
-
-    path: '/attendance_list',
-    name: 'attendance_list',
-    component: AttendanceList
+    path: '/attendance_list/:id',
+    name: 'attendance-list',
+    component: AttendanceList,
+    props: true
   },
 
 
@@ -244,9 +245,16 @@ const routes = [
     component: StudentGraph,
   },
   {
-    path: '/feedback',
+    path: '/feedback/:id',
     name: 'feedback',
-    component: GiveFeedBackForm
+    component: GiveFeedBackForm,
+    props: true
+  },
+  {
+    path: '/student-score-report/:id',
+    name: 'student-score-report',
+    component: StudentScoreReport,
+    props: true
   },
   {
     path: '/teacher-classroom',

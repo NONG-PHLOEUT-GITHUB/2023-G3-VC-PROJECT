@@ -96,6 +96,24 @@ class ClassRoomController extends Controller
             return response()->json(['success' => true, 'data' => $classRooms], 200);
         }
     }
+    public function getStudentsInClass(string $id)
+{
+    $classRooms = ClassRoom::where('id', $id)
+        ->whereHas('students', function ($query) {
+            $query->where('role', 3);
+        })
+        ->with(['students' => function ($query) {
+            $query->withCount('roleAttendances');
+            $query->orderByDesc('role_attendances_count');
+        }])
+        ->get();
+
+    if ($classRooms->isEmpty()) {
+        return "not found";
+    } else {
+        return response()->json(['success' => true, 'data' => $classRooms], 200);
+    }
+}
 
     public function getClassNameTeacherId(string $className)
     {

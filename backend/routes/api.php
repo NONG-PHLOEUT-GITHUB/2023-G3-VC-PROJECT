@@ -77,6 +77,7 @@ Route::delete('/delete-user/{id}', [UserController::class,"destroy"]);
 Route::get('/getuserInClass/{class}', [ClassRoomController::class, 'getClassNameUserId']);
 Route::get('/get-students-in-class/{class}', [ClassRoomController::class, 'getClassNameTeacherId']);
 Route::get('/get-students-by-class', [ClassRoomController::class, 'getClassName']);
+Route::get('/getAllStudents/{class_id}', [ClassRoomController::class, 'getStudentsInClass']);
 
 // ========================subject router===============================================
 
