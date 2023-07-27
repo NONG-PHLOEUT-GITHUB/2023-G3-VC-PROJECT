@@ -66,7 +66,6 @@ Route::delete("/classrooms/{id}", [ClassRoomController::class, 'destroy']);
 Route::put("/classrooms/{id}", [ClassRoomController::class, 'update']);
 Route::get("/classrooms/{id}", [ClassRoomController::class, 'show']);
 Route::get("/classrooms", [ClassRoomController::class, 'index']);
-Route::get('/classrooms', [ClassRoomController::class, 'index']);
 
 Route::put('/classrooms/{id}', [UserController::class,"updateClass"]);
 // Route::get('/get_student', [ClassRoomController::class, 'getStudentInClassroom']);

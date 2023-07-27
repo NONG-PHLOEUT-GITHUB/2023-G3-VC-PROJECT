@@ -68,7 +68,7 @@ class AuthenticationController extends Controller
     public function user(Request $request)
     {
      
-        $user = User::with('guardian','attendances', 'scores','classTeacher')
+        $user = User::with('guardian','attendances', 'scores','classTeacher','comments')
         
         ->find(Auth::user()->id);   
         

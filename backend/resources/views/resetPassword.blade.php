@@ -1,45 +1,3 @@
-{{-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
-</head>
-
-<body style="margin: 100px;">
-    <h1>You have requested to reset your password</h1>
-    <hr>
-    <p>We cannot simply send you your old password. A unique link to reset your
-        password has been generated for you. To reset your password, click the
-        following link and follow the instructions.</p>
-    <h1><a href="http://127.0.0.1:3000/api/forgot-password/{{$token}}">Click Here to Reset Password</a></h1>
-</body>
-
-</html> --}}
-
-
-{{-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ $subject }}</title>
-</head>
-<body>
-    <p>Hello {{ $user->name }},</p>
-
-    <p>You are receiving this email because we received a password reset request for your account.</p>
-
-    <p>Please click the following link to reset your password:</p>
-
-    <p><a href="http://127.0.0.1:3000/api/forgot-password/{{$token}}">Reset Password</p>
-
-    <p>If you did not request a password reset, no further action is required.</p>
-</body>
-</html> --}}
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,10 +43,6 @@
 			text-decoration: none;
 			border-radius: 5px;
 			transition: background-color 0.2s;
-		}
-
-		a:hover {
-			background-color: #0069D9;
 		}
 
 		.footer {

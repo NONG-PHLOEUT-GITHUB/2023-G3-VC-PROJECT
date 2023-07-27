@@ -389,4 +389,9 @@ export default {
   color: white;
   width: 30%;
 }
+
+.card{
+  margin-left: 18%;
+  margin-right: 10px;
+}
 </style>
