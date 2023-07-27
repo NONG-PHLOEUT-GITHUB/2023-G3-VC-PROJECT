@@ -294,7 +294,8 @@ export default {
 
 <style scoped>
 .card{
-  margin-left: 20%;
+  margin-left: 18%;
+  margin-right: 10px;
   background: #000;
 }
 .input-file {
