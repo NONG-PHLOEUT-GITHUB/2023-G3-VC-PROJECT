@@ -1,7 +1,7 @@
 <template>
   <teacher-dashboard></teacher-dashboard>
   <div class="card shadow border-0 mb-7">
-    
+    <label for="file-input">Choose each for input score</label>
     <select
       class="form-select mb-3"
       aria-label="Default select example"
@@ -9,7 +9,7 @@
       v-model="selectedClass"
       @click="getStudentInClass(selectedClass)"
     >
-      <option selected disabled>Select class</option>
+    <option value="noChoosen" >No choosen</option>
       <option
         v-for="classroom in classrooms"
         :key="classroom.id"
@@ -291,11 +291,13 @@ export default {
       http
         .get(`/get-students`)
         .then((response) => {
-          console.log(response.data.data);
-          this.listUser = response.data.data;
-          this.listUser = response.data.data.filter(
-            (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
-          );
+          if(!this.selectedClass || this.selectedClass=="noChoosen"){
+            this.listUser = response.data.data;
+          }else{      
+            this.listUser = response.data.data.filter(
+              (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
+            );
+          }
         })
         .catch((error) => {
           console.log(error);
