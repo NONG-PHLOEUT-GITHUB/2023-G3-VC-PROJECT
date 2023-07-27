@@ -11,7 +11,7 @@ class Comment extends Model
     protected $fillable = [
         'id',
         'body',
-        'student_id',
+        'user_id',
         'teacher_id',
     ];
 
@@ -21,7 +21,7 @@ class Comment extends Model
         $comments = $request->only(
             'id',
             'body',
-            'student_id',
+            'user_id',
             'teacher_id'
         );
         if ($id) {

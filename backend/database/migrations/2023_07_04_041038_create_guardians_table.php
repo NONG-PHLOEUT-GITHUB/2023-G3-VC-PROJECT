@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('age');
             $table->date('date_of_birth');
             $table->string('phone_number', 24);
+            $table->string('chatId');
             $table->string('address', 255);
             $table->string('job', 100);
             $table->timestamps();
