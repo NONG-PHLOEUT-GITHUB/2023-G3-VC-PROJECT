@@ -107,6 +107,10 @@ Route::post('/subjectsTeachers', [SubjectTeacherController::class, 'store']);
 
 Route::get("/getGuardian/{id}", [GuardianController::class,"getGuardianChatId"]);
 Route::get("/getGuardians", [GuardianController::class,"index"]);
+Route::get("/Guardians/{id}", [GuardianController::class,"show"]);
+Route::post("/Guardians", [GuardianController::class,"store"]);
+Route::put("/Guardians/{id}", [GuardianController::class,"update"]);
+Route::delete("/Guardians/{id}", [GuardianController::class,"destroy"]);
 Route::get("/getTotal", [UserController::class, "getTotalByRoleAndGender"]);
 Route::get("/guardian/{id}", [UserController::class,"getUserIdFromGuardianId"]);
 Route::get("/getParents/{id}", [UserController::class,"getParentsByuser"]);

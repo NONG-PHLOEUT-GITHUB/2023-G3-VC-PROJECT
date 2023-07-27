@@ -25,7 +25,9 @@ class GuardianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $guardian = Guardian::store($request);
+        return $guardian;
     }
 
     /**
@@ -33,16 +35,21 @@ class GuardianController extends Controller
      */
     public function show(string $id)
     {
-        //
-        
+        $guardian = Guardian::find($id);
+
+        if (!$guardian) {
+            return response()->json(['message' => 'The record with ID ' . $id . ' was not found.'], 404);
+        }
+        return response()->json(['success' => true, 'data' => $guardian], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request ,string $id)
     {
-        //
+        $guardian = Guardian::store($request ,$id);
+        return $guardian;
     }
 
     /**
@@ -50,7 +57,9 @@ class GuardianController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $guardian = Guardian::find($id);
+        $guardian->delete();
+        return response()->json(['success' => true, 'data' => "delete successfully"], 200);
     }
     public function getGuardianChatId($id)
     {
@@ -59,9 +68,8 @@ class GuardianController extends Controller
             return response()->json(['error' => 'Guardian not found'], 404);
         }
         return response()->json([
-            "id"=>$guardian->id,
+            "id" => $guardian->id,
             'chat_id' => $guardian->chatId
         ]);
     }
-
 }
