@@ -136,7 +136,7 @@
         <div class="col-12 d-flex justify-content-end">
           <router-link
             class="btn btn-warning text-white mr-2"
-            :to="{ path: '/student' }"
+            :to="{ path: '/student-list' }"
             >Cancel</router-link
           >
           <button type="submit" class="btn btn-primary text-white">
@@ -209,7 +209,7 @@ export default {
           });
         })
         .then(() => {
-          this.$router.push({ path: "/add-student" });
+          this.$router.push({ path: "/student-list"});
         })
         .catch((error) => {
           console.error("User update failed:", error);

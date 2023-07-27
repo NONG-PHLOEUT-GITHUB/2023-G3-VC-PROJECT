@@ -5,6 +5,7 @@ const api = axios.create({
   // baseURL: process.env.VUE_APP_API_BASE_URL,
   baseURL:"http://127.0.0.1:8000/api/",
   // baseURL: "http://100.26.194.150:8000/api/",
+  
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-type": "application/json",
