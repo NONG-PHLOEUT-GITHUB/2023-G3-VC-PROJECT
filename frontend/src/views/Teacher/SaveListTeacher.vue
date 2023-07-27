@@ -1,7 +1,7 @@
 <template>
   <admin-dashboard></admin-dashboard>
   <v-card class="table-container mt-4">
-    <h3 class="ms-6">STUDENT LIST</h3>
+    <h3 class="ms-6">TEACHER LIST</h3>
     <select
       class="form-select mb-3"
       aria-label="Default select example"
