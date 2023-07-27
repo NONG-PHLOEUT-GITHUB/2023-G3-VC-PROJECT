@@ -258,5 +258,4 @@ class AttendanceController extends Controller
         }
         return response()->json($attendanceCounts);
     }
-
 }

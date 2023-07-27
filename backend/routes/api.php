@@ -120,6 +120,9 @@ Route::get("/studentattendancedetail/{user_id}", [AttendanceController::class, "
 Route::get("/totalattendanceofstudent", [AttendanceController::class, "getTotalAttendanceOfStudentsAllMonths"]);
 Route::get("/totalattendancespecificstudent/{id}", [AttendanceController::class, "getTotalAttendanceOfSpecificStudentAllMonths"]);
 
+// show detail attendance for specific student every month.
+Route::get("/showAttendanceDetaileverymonth/{id}", [AttendanceController::class, "showAttendanceDetaileverymonth"]);
+
 // ========================router=====================================================
 
 Route::prefix('v1')->group(function () {

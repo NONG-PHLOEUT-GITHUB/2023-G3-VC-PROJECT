@@ -1,102 +1,120 @@
 <template>
-  <student-dashboard />
-  <v-card class="card mt-3">
-    <v-tabs 
-      v-model="tab"
-      bg-color="deep-purple-darken-4"
-      center-active
-    >
-      <v-tab value="1">January</v-tab>
-      <v-tab value="2">February</v-tab>
-      <v-tab value="3">March</v-tab>
-      <v-tab value="4">April</v-tab>
-      <v-tab value="5">May</v-tab>
-      <v-tab value="6">June</v-tab>
-      <v-tab value="7">July</v-tab>
-      <v-tab value="8">August</v-tab>
-      <v-tab value="9">September</v-tab>
-      <v-tab value="10">October</v-tab>
-      <v-tab value="11">November</v-tab>
-      <v-tab value="12">December</v-tab>
-    </v-tabs>
-  </v-card>
-  <v-card-text class="card">
-      <v-window v-model="tab">
-        <v-window-item value="1">
-          <div class="table-responsive">
-            <table class="table table-hover table-nowrap mt-2">
-              <thead class="bg-primary">
-                <tr>
-                  <th scope="col" class="text-sm text-light">Date</th>
-                  <th scope="col" class="text-sm text-light">status</th>
-                  <th scope="col" class="text-sm text-light">Reason</th>
-                  <th scope="col" class="text-sm text-light">Subject</th>
-                  <th scope="col" class="text-sm text-light">Teacher</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="attendance of attendances"
-                  :key="attendance"
-                  class="border-2-dark"
-                >
-                  <td class="text-sm text-black">{{ attendance.date}}</td>
-                  <td class="text-sm text-black">{{ attendance.status}}</td>
-                  <td class="text-sm text-black">{{ attendance.reason}}</td>
-                  <td class="text-sm text-black">{{ attendance.subject}}</td>
-                  <td class="text-sm text-black">{{ attendance.teacher }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </v-window-item>
-
-        <v-window-item value="2">
-          Two
-        </v-window-item>
-
-        <v-window-item value="3">
-          Three
-        </v-window-item>
-      </v-window>
-  </v-card-text>
+  <student-dashboard></student-dashboard>
+  <div>
+    <h3 class="text">ABSENCE MONTHLY RECORD</h3>
+    <v-card class="card mt-3">
+      <v-tabs v-model="tab" bg-color="primary">
+        <v-tab v-for="(month, index) in months" :key="index" :value="index + 1">
+          {{ month }}
+        </v-tab>
+      </v-tabs>
+      <v-card-text class="container">
+        <v-window v-model="tab">
+          <v-window-item
+            v-for="(month, index) in months"
+            :key="index"
+            :value="index + 1"
+          >
+            <div class="table-responsive">
+              <table class="table table-hover table-nowrap">
+                <thead>
+                  <tr>
+                    <th scope="col" class="text-sm text-primary">Date</th>
+                    <th scope="col" class="text-sm text-primary">Status</th>
+                    <th scope="col" class="text-sm text-primary">Reason</th>
+                    <th scope="col" class="text-sm text-primary">Subject</th>
+                    <th scope="col" class="text-sm text-primary">Teacher</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(detail, index) in filteredAttendanceDetails"
+                    :key="index"
+                  >
+                    <td class="text-sm text-black">{{ detail.date }}</td>
+                    <td class="text-sm text-black">
+                      {{ detail.attendance_status }}
+                    </td>
+                    <td class="text-sm text-black">{{ detail.reason }}</td>
+                    <td class="text-sm text-black">
+                      {{ detail.subject_name }}
+                    </td>
+                    <td class="text-sm text-black">
+                      {{ detail.teacher_name }}
+                    </td>
+                  </tr>
+                  <tr v-if="filteredAttendanceDetails.length === 0">
+                    <td colspan="5" class="text-center text-base text-dark">
+                      No absence records for this month.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </v-window-item>
+        </v-window>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
+
 <script>
-import http from '@/htpp.common'
+import http from "@/htpp.common.js";
 
 export default {
-  data: () => ({
-    tab: null,
-    isDownloading: false,
-    isDetail: false,
-    pdfUrl: null,
-    url: "http://127.0.0.1:8000/api/getTeachers",
-    attendances: []
-  }),
+  data() {
+    return {
+      tab: 1,
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+      attendanceDetails: [],
+    };
+  },
+  computed: {
+    filteredAttendanceDetails() {
+      return this.attendanceDetails.filter(
+        (detail) => parseInt(detail.date.split("-")[1]) === this.tab
+      );
+    },
+  },
   methods: {
-    getAttendance() {
+    getAttendanceDetails() {
       http.get("/api/v1/auth/user").then((response) => {
-        this.attendances = response.data.data.attendances;
-        console.log('attendacne',response.data.data.attendances)
+        this.attendanceDetails = response.data.data.attendances;
       });
     },
   },
   mounted() {
-    this.getAttendance();
+    this.getAttendanceDetails();
   },
-}
+};
 </script>
-  
+
 <style scoped>
-  @import "~vuetify/dist/vuetify.css";
-.card{
+.card {
   margin-left: 17%;
 }
+.text {
+  margin-left: 47%;
+  padding: 1%;
+}
+.container {
+  padding: 10px;
+}
+
 .table th {
   font-size: 20px;
 }
 </style>
-  
-
-
-
