@@ -118,6 +118,7 @@ Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsen
 Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOfRole3ByUserId"]);
 Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
 Route::get("/getteacherDetail/{id}", [AttendanceController::class, "getAttendanceOfRole2ByUserId"]);
+Route::get("/getstudentattendanceeverymonth/{userId}", [AttendanceController::class, "getTotalAttendanceOfSpecificStudentAllMonths"]);
 Route::post("/checkStudentAttendance", [AttendanceController::class, "store"]);
 Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
 Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
