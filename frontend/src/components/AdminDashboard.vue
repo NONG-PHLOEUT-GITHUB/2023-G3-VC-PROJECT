@@ -19,7 +19,7 @@ export default {
       },
       {
         path: '/add-teacher',
-        title: "Add teacher",
+        title: "Add guardian",
         icon: 'mdi-plus'
       },
       {
@@ -29,7 +29,7 @@ export default {
       },
       {
         path: '/student-list',
-        title: "Add student",
+        title: "Add user",
         icon: 'mdi-plus'
       },
       // {
