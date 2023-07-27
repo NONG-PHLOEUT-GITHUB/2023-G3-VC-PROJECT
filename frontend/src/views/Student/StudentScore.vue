@@ -1,6 +1,7 @@
 <template>
   <teacher-dashboard></teacher-dashboard>
   <div class="card shadow border-0 mb-7">
+    
     <select
       class="form-select mb-3"
       aria-label="Default select example"
@@ -17,6 +18,7 @@
         {{ classroom.class_name }}
       </option>
     </select>
+    <input v-model="month" class="w-40" type="date">
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="bg-primary">
@@ -262,15 +264,16 @@ export default {
 
       // Create an object with user_id and subjects properties
       const postData = {
-        user_id: this.id_user,
-        subject_id: subjectInput,
         score: scoreInput,
+        subject_id: subjectInput,
+        month:this.month,
+        user_id: this.id_user,
       };
-      // console.log(postData);
+      console.log(postData);
 
       // Send a POST request to the API endpoint with the postData as the request body
-      axios
-        .post("http://127.0.0.1:8000/api/scores", postData)
+      http
+        .post("/scores", postData)
         .then((response) => {
           response.data;
           swal.fire({

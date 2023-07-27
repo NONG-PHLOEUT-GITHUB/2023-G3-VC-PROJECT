@@ -22,8 +22,6 @@
                     <th scope="col" class="text-sm text-primary">Date</th>
                     <th scope="col" class="text-sm text-primary">Status</th>
                     <th scope="col" class="text-sm text-primary">Reason</th>
-                    <th scope="col" class="text-sm text-primary">Subject</th>
-                    <th scope="col" class="text-sm text-primary">Teacher</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -36,12 +34,6 @@
                       {{ detail.status }}
                     </td>
                     <td class="text-sm text-black">{{ detail.reason }}</td>
-                    <td class="text-sm text-black">
-                      {{ detail.subject_name }}
-                    </td>
-                    <td class="text-sm text-black">
-                      {{ detail.teacher_name }}
-                    </td>
                   </tr>
                   <tr v-if="filteredAttendanceDetails.length === 0">
                     <td colspan="5" class="text-center text-base text-dark">
