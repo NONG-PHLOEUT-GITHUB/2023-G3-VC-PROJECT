@@ -13,6 +13,7 @@ class Score extends Model
         'id',
         'score',
         'subject_id',
+        'month',
         'user_id',
     ];
 
@@ -22,6 +23,7 @@ class Score extends Model
             'id',
             'score',
             'subject_id',
+            'month',
             'user_id',
         );
         if ($id) {

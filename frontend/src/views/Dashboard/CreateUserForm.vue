@@ -167,9 +167,22 @@
           </select>
         </div>
         <div class="mb-3 col-md-6">
-          <label for="formFileDisabled" class="form-label">Parent</label>
-          <input class="form-control" type="text" />
+          <label for="formFileDisabled" class="form-label">Guardian</label>
+          <select
+            v-model="guardian_id"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            <option
+              v-for="guardian in guardians"
+              :key="guardian"
+              :value="guardian.id"
+            >
+             <strong>{{ guardian.first_name}}  {{ guardian.last_name}}</strong> 
+            </option>
+          </select>
         </div>
+
 
         <img v-bind:src="profilePreview" />
         <div class="col-12 d-flex justify-content-end">
@@ -191,6 +204,7 @@
 <script>
 import axios from "axios";
 import swal from "sweetalert2";
+import http from "../../htpp.common";
 export default {
   data() {
     return {
@@ -210,8 +224,10 @@ export default {
       imgURL: "http://127.0.0.1:8000/api/getImage",
       classRoomURL: "http://127.0.0.1:8000/api/classrooms",
       class_room_id : null,
+      guardian_id:null,
       listUser: [],
       classrooms: [],
+      guardians: []
     };
   },
   methods: {
@@ -248,6 +264,7 @@ export default {
           password: this.password,
           profile: this.profile,
           class_room_id :this.class_room_id ,
+          guardian_id: this.guardian_id
         };
         axios.post(this.URL, newUser).then((response) => {
           this.listUser.push(response.data);
@@ -259,13 +276,6 @@ export default {
             text: "you already save your user",
             timer: 2000,
           })
-          .then(() => {
-            if (this.role == 3) {
-              this.$router.push("/student-list");
-            } else if (this.role == 2) {
-              this.$router.push("/add-teacher");
-            }
-          })
           .catch((error) => {
             console.log(error);
           });
@@ -273,13 +283,20 @@ export default {
         swal.fire("Complete first", "complete all input", "info");
       }
     },
-    // get class room for createing
+    // get class room for create
     getClassRoom() {
       axios.get(this.classRoomURL).then((response) => {
         this.classrooms = response.data.data;
-        console.log(this.classrooms);
       });
     },
+    // get guardian for create
+    getGuardian() {
+      http.get('/getGuardians')
+      .then((response) => {
+        this.guardians = response.data.data;
+      });
+    },
+
   },
 
   computed: {
@@ -308,6 +325,7 @@ export default {
     },
   },
   mounted() {
+    this.getGuardian();
     this.getClassRoom();
   },
 

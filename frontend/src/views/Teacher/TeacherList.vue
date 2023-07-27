@@ -1,6 +1,6 @@
 <template>
   <admin-dashboard></admin-dashboard>
-
+  
 </template>
   
 

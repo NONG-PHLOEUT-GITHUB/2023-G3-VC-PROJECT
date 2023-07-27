@@ -18,9 +18,9 @@ export default {
         icon: 'mdi-format-list-bulleted'
       },
       {
-        path: '/add-teacher',
-        title: "Add guardian",
-        icon: 'mdi-plus'
+        path: '/guardian-list',
+        title: "guardian list",
+        icon: 'mdi-format-list-bulleted'
       },
       {
         path: '/student_list',

@@ -1,13 +1,24 @@
 <template>
   <teacher-dashboard></teacher-dashboard>
-  <div class="card shadow border-0 mb-7 mt-4">
-    <select class="form-select mb-3" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
-      @click="getStudentInClass(selectedClass)">
-      <option selected disabled>Select class</option>
-      <option v-for="classroom in classrooms" :key="classroom.id" :value="classroom.id">
+  <div class="card shadow border-0 mb-7">
+    <label for="file-input">Choose each for input score</label>
+    <select
+      class="form-select mb-3"
+      aria-label="Default select example"
+      style="width: 30%"
+      v-model="selectedClass"
+      @click="getStudentInClass(selectedClass)"
+    >
+    <option value="noChoosen" >No choosen</option>
+      <option
+        v-for="classroom in classrooms"
+        :key="classroom.id"
+        :value="classroom.id"
+      >
         {{ classroom.class_name }}
       </option>
     </select>
+    <input v-model="month" class="w-40" type="date">
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="bg-primary">
@@ -190,15 +201,16 @@ export default {
 
       // Create an object with user_id and subjects properties
       const postData = {
-        user_id: this.id_user,
-        subject_id: subjectInput,
         score: scoreInput,
+        subject_id: subjectInput,
+        month:this.month,
+        user_id: this.id_user,
       };
-      // console.log(postData);
+      console.log(postData);
 
       // Send a POST request to the API endpoint with the postData as the request body
-      axios
-        .post("http://127.0.0.1:8000/api/scores", postData)
+      http
+        .post("/scores", postData)
         .then((response) => {
           response.data;
           swal.fire({
@@ -216,11 +228,13 @@ export default {
       http
         .get(`/get-students`)
         .then((response) => {
-          console.log(response.data.data);
-          this.listUser = response.data.data;
-          this.listUser = response.data.data.filter(
-            (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
-          );
+          if(!this.selectedClass || this.selectedClass=="noChoosen"){
+            this.listUser = response.data.data;
+          }else{      
+            this.listUser = response.data.data.filter(
+              (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
+            );
+          }
         })
         .catch((error) => {
           console.log(error);
