@@ -14,12 +14,9 @@ class Guardian extends Model
         'first_name',
         'last_name',
         'gender',
-        'age',
-        'date_of_birth',
-        'phone_number',
         'chatId',
+        'phone_number',
         'address',
-        'job',
     ];
     public function users()
     {
@@ -33,12 +30,9 @@ class Guardian extends Model
             'first_name',
             'last_name',
             'gender',
-            'age',
-            'date_of_birth',
-            'phone_number',
             'chatId',
+            'phone_number',
             'address',
-            'job',
         );
 
         if ($id) {
@@ -52,7 +46,7 @@ class Guardian extends Model
             $id = $guardian->$id;
         }
 
-        return response()->json(['success' => true, 'data' => $guardians], 201);
+        return response()->json(['success' => true, 'data' => $guardian], 201);
     }
     public function user()
     {

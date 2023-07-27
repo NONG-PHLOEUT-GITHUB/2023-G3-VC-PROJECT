@@ -166,7 +166,7 @@ export default {
     getScore() {
       http.get("/v1/auth/user").then((response) => {
         this.scores = response.data.data.scores;
-        console.log(this.scores);
+        console.log(response.data.data);
       });
     },
     getScoreByMonth(month) {
