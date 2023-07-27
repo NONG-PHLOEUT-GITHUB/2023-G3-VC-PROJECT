@@ -13,7 +13,6 @@
           v-model="selectedClass"
           @click="getStudentInClass(selectedClass)"
         >
-          <option selected disabled>Select class</option>
           <option
             v-for="classroom in classrooms"
             :key="classroom.id"
@@ -34,6 +33,7 @@
             placeholder="Search user"
             aria-label="Search"
             style="width: 78%"
+            v-model="searchQuery"
           />
           <button class="btn btn-outline-warning my-2 my-sm-0" type="button">
             <i class="bi bi-search"></i> Search
@@ -68,7 +68,11 @@
         </thead>
 
         <tbody v-if="listUser && listUser.length">
-          <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
+          <tr
+            v-for="(user, id) of filteredStudentsList"
+            :key="id"
+            class="border-2-dark"
+          >
             <td>
               <img
                 v-if="user.profile"
@@ -152,20 +156,6 @@ export default {
       listUser: [],
       errorMessage: "",
       searchQuery: "",
-      grades: [
-        { label: "Grade 9A", value: "9A" },
-        { label: "Grade 9B", value: "9B" },
-        { label: "Grade 9C", value: "9C" },
-        { label: "Grade 10A", value: "10A" },
-        { label: "Grade 10B", value: "10B" },
-        { label: "Grade 10C", value: "10C" },
-        { label: "Grade 11A", value: "11A" },
-        { label: "Grade 11B", value: "11B" },
-        { label: "Grade 11C", value: "11C" },
-        { label: "Grade 12A", value: "12A" },
-        { label: "Grade 12B", value: "12B" },
-        { label: "Grade 12C", value: "12C" },
-      ],
       selectedClass: null,
     };
   },
@@ -180,19 +170,7 @@ export default {
             .toLowerCase()
             .includes(this.searchQuery.trim().toLowerCase())
         );
-        if (filtered.length === 0) {
-          return [
-            {
-              first_name: "Student not found",
-              last_name: "",
-              email: "",
-              phone_number: "",
-              etc: "",
-            },
-          ];
-        } else {
-          return filtered;
-        }
+        return filtered;
       }
     },
   },
@@ -304,18 +282,27 @@ export default {
         });
     },
     getStudentInClass(classId) {
-      http
-        .get(`/get-students`)
-        .then((response) => {
-          console.log(response.data.data);
-          this.listUser = response.data.data
-          this.listUser = response.data.data.filter(
-            (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (!classId) {
+        http
+          .get(`/get-teachers`)
+          .then((response) => {
+            this.listUser = response.data.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        http
+          .get(`/get-teachers`)
+          .then((response) => {
+            this.listUser = response.data.data.filter(
+              (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
+            );
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
     getClassrooms() {
       http
