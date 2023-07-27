@@ -82,7 +82,7 @@
           <v-btn to="/attendance_list">
             <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn
           >
-          <v-btn to="/feedback" class="ms-4">
+          <v-btn to="/feedback" @click="getStudentInClass()" class="ms-4">
             <v-icon>mdi-poll</v-icon> Studen feedback
           </v-btn>
         </v-col>
@@ -267,9 +267,24 @@ export default {
           console.log(error);
         });
     },
+    getStudentInClass() {
+      http
+        .get(`/get-students`)
+        .then((response) => {
+          console.log(response.data.data);
+          // this.students = response.data.data;
+          // this.students = response.data.data.filter(
+          //   (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
+          // );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 
   mounted() {
+    this.getStudentInClass()
     this.fetchClassrooms();
     this.getTeacher();
     this.addTeacher();
