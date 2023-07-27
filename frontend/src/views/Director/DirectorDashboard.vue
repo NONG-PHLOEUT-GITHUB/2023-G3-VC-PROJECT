@@ -2,7 +2,7 @@
   <admin-dashboard></admin-dashboard>
   <div class="card-container">
     <v-row class="mt-7 ms-24">
-      <v-card width="400"  class="me-2 user-total elevation-4" prepend-icon="mdi-account-tie">
+      <v-card width="400" class="me-2 user-total elevation-4" prepend-icon="mdi-account-tie">
         <template v-slot:title>Students </template>
 
         <v-card-text class="card-text " v-for="(result, index) in results" :key="index">
@@ -58,7 +58,7 @@
       <thead class="t-head bg-primary" style="background-color: aqua;">
         <tr class="tr">
           <th>
-            Name
+            Full name
           </th>
           <th>
             Gender
@@ -75,18 +75,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in attendanceMostAbsencData" :key="user.id">
-        <template>
-          <h1>Hello</h1>
-          <v-avatar size="large">
+        <tr v-for="user in filteredAttendanceMostAbsencData" :key="user.id">
+
+          <td> <v-avatar size="large">
               <v-img :src="user.profile" alt="Avatar" cover> </v-img>
-            </v-avatar>
-        </template>
-          <td>{{ user.first_name }} {{ user.last_name }}</td>
+            </v-avatar> {{ user.first_name }} {{ user.last_name }}</td>
           <td>{{ user.gender }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.role_attendances_count }}</td>
-          <td> <v-btn :to="'/studentattendancedetail/' + user.id">Details</v-btn> </td>
+          <td> <v-btn :to="'/studentattendancedetail/' + user.id"> Details<v-icon
+                class="mt-1 ms-1">mdi-eye</v-icon></v-btn> </td>
         </tr>
       </tbody>
     </v-table>
@@ -173,75 +171,132 @@ export default {
       },
     };
   },
-  mounted() {
-    http
-      .get("/getTotal")
-      .then((response) => {
-        this.results = response.data.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    http
-      .get("/show-graph-of-student-fail/9")
-      .then((response) => {
-        const mydata = response.data.failed_users_percentage;
-        console.log(mydata);
-        for (let i = 0; i < mydata.length; i++) {
-          this.chartData1.datasets[0].data[i] = mydata[i];
-        }
-        console.log(this.chartData1.datasets[0].data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-      this.getMostAbsentStudents();
-  },
-
-
-  methods: {
-    fetchAttendanceData() {
-      http
-        .get("/totalattendanceofstudent/9")
-        .then((response) => {
-          const mydata = Object.values(response.data);
-          for (let i = 0; i < mydata.length; i++) {
-            this.chartData.datasets[0].data[i] = mydata[i];
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+  computed: {
+    filteredAttendanceMostAbsencData() {
+      return this.attendanceMostAbsencData.filter(user => user.role_attendances_count > 0);
     },
-    fetchFaildedStudentData() {
-      http
-        .get("/show-graph-of-student-fail/9")
-        .then((response) => {
+  },
+    mounted() {
+      this.fetchTotalData();
+      this.fetchFailedStudentData();
+      this.getMostAbsentStudents();
+    },
+
+    methods: {
+      async fetchTotalData() {
+        try {
+          const response = await http.get('/getTotal');
+          this.results = response.data.data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      async fetchFailedStudentData() {
+        try {
+          const response = await http.get('/show-graph-of-student-fail/9');
           const mydata = response.data.failed_users_percentage;
           console.log(mydata);
           for (let i = 0; i < mydata.length; i++) {
             this.chartData1.datasets[0].data[i] = mydata[i];
           }
           console.log(this.chartData1.datasets[0].data);
-        })
-        .catch((error) => {
+        } catch (error) {
           console.log(error);
-        });
-    },
+        }
+      },
 
-    async getMostAbsentStudents() {
-      try {
-        const response = await http.get('/get-most-absence-student');
-        this.attendanceMostAbsencData = response.data;
-        console.log('student absent', response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  },
-}
+      async getMostAbsentStudents() {
+        try {
+          const response = await http.get('/get-most-absence-student');
+          this.attendanceMostAbsencData = response.data;
+          console.log('student absent', response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      async fetchAttendanceData() {
+        try {
+          const response = await http.get('/totalattendanceofstudent/9');
+          const mydata = Object.values(response.data);
+          for (let i = 0; i < mydata.length; i++) {
+            this.chartData.datasets[0].data[i] = mydata[i];
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }
+    // mounted() {
+    //   http
+    //     .get("/getTotal")
+    //     .then((response) => {
+    //       this.results = response.data.data;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+
+    //   http
+    //     .get("/show-graph-of-student-fail/9")
+    //     .then((response) => {
+    //       const mydata = response.data.failed_users_percentage;
+    //       console.log(mydata);
+    //       for (let i = 0; i < mydata.length; i++) {
+    //         this.chartData1.datasets[0].data[i] = mydata[i];
+    //       }
+    //       console.log(this.chartData1.datasets[0].data);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+
+    //     this.getMostAbsentStudents();
+    // },
+
+
+    // methods: {
+    //   fetchAttendanceData() {
+    //     http
+    //       .get("/totalattendanceofstudent/9")
+    //       .then((response) => {
+    //         const mydata = Object.values(response.data);
+    //         for (let i = 0; i < mydata.length; i++) {
+    //           this.chartData.datasets[0].data[i] = mydata[i];
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //       });
+    //   },
+    //   fetchFaildedStudentData() {
+    //     http
+    //       .get("/show-graph-of-student-fail/9")
+    //       .then((response) => {
+    //         const mydata = response.data.failed_users_percentage;
+    //         console.log(mydata);
+    //         for (let i = 0; i < mydata.length; i++) {
+    //           this.chartData1.datasets[0].data[i] = mydata[i];
+    //         }
+    //         console.log(this.chartData1.datasets[0].data);
+    //       })
+    //       .catch((error) => {
+    //         console.log(error);
+    //       });
+    //   },
+
+    //   async getMostAbsentStudents() {
+    //     try {
+    //       const response = await http.get('/get-most-absence-student');
+    //       this.attendanceMostAbsencData = response.data;
+    //       console.log('student absent', response.data);
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   },
+    // },
+  }
 </script>
 <style scoped>
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
@@ -280,16 +335,26 @@ h3 {
   text-transform: uppercase;
   color: #0000ff;
 }
-.user-total{
+
+.user-total {
   border-left: solid teal 5px;
 }
 
-.table{
+.table {
   border-left: solid teal 5px;
   border-radius: 10px;
 }
-.img{
+
+.th {
+  color: red;
+  font-weight: 200;
+}
+
+.img {
   width: 50%;
 }
-</style>
+
+h3 {
+  color: teal;
+}</style>
    
