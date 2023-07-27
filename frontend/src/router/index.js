@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Cookies from 'js-cookie';
 //admind dashboard router =================================================================
 import DashboardHomeView from '@/views/Director/DirectorDashboard.vue';
-import AddTeacher from '../views/Teacher/TeacherList.vue';
+import AddGuardian from '../views/Guardians/CreateGuardian.vue';
+import EditGuardian from '../views/Guardians/EditGuardian.vue';
 //admind dashboard router =================================================================
 import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import StudentList from '../views/Student/StudentList.vue';
@@ -44,6 +45,8 @@ import StudentScore from '@/views/Student/StudentScore.vue';
 //teacher dashboard router =============================================================
 import ClassroomView from '@/views/Teacher/ClassroomView.vue';
 
+//guadian  router =============================================================
+import GuardianListView from '../views/Guardians/GuardianList.vue';
 
 
 
@@ -146,11 +149,6 @@ const routes = [
     component: StudentList
   },
   {
-    path: '/add-teacher',
-    name: 'AddTeacher',
-    component: AddTeacher
-  },
-  {
     path: '/class_list',
     name: 'class_list',
     component: ClassView
@@ -228,11 +226,11 @@ const routes = [
     path: '/edit/:id',
     component: EditUserForm
   },
-  {
-    path: '/teacher_list',
-    name: 'teacher_list',
-    component: TeacherListView
-  },
+  // {
+  //   path: '/teacher_list',
+  //   name: 'teacher_list',
+  //   component: TeacherListView
+  // },
   {
     path: '/class_rooms/:id',
     name: 'class_rooms',
@@ -265,6 +263,26 @@ const routes = [
     path: '/student-score',
     name: 'StudentScore',
     component: StudentScore
+  },
+  {
+    path: '/teacher_list',
+    name: 'Teacher List',
+    component: TeacherListView
+  },
+  {
+    path: '/guardian-list',
+    name: 'GuardianList',
+    component: GuardianListView
+  },
+  {
+    path: '/add-guadian',
+    name: 'AddGuadian',
+    component: AddGuardian
+  },
+  {
+    path: '/edit-guadian/:id',
+    name: 'EditGuadian',
+    component: EditGuardian
   },
   // {
   //   path: '/:pathMatch(.*)*', // matches any unknown path

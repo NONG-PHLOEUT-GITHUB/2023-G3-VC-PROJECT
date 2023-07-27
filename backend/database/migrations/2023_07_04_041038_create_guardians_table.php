@@ -16,12 +16,9 @@ return new class extends Migration
             $table->string('first_name', 500);
             $table->string('last_name', 500);
             $table->string('gender', 200);
-            $table->integer('age');
-            $table->date('date_of_birth');
-            $table->string('phone_number', 24);
             $table->string('chatId');
+            $table->string('phone_number', 24);
             $table->string('address', 255);
-            $table->string('job', 100);
             $table->timestamps();
         });
     }
