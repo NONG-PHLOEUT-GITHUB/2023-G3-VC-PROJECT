@@ -52,23 +52,27 @@
                   <td v-if="score.subject_id == 11" class="text-sm text-black">Sport</td>
                   <td v-if="score.subject_id == 12" class="text-sm text-black">ICT (information communication technology)</td>
 
-                  <td v-if="score.score < 25" class="text-sm text-red">{{ score.score }}</td>
-                  <td v-if="score.score >= 25 && score.score < 40" class="text-sm text-yellow">{{ score.score }}</td>
-                  <td v-else class="text-sm text-green">{{ score.score }}</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score < 50" class="text-sm text-red">{{ score.score }}</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 50 && score.score < 80" class="text-sm text-warning">{{ score.score }}</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 80 && score.score < 100" class="text-sm text-green">{{ score.score }}</td>
+
+                  <td v-if="score.subject_id > 2 && score.score < 25" class="text-sm text-red">{{ score.score }}</td>
+                  <td v-if="score.subject_id > 2 && score.score >= 25 && score.score < 40" class="text-sm text-warning">{{ score.score }}</td>
+                  <td v-if="score.subject_id > 2 && score.score >= 40 && score.score < 50" class="text-sm text-green">{{ score.score }}</td>
 
                   <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score < 50" class="text-sm text-red">F</td>
-                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 50 && score.score < 60" class="text-sm text-yellow">E</td>
-                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 60 && score.score < 70" class="text-sm text-yellow">D</td>
-                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 70 && score.score < 80" class="text-sm text-yellow">C</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 50 && score.score < 60" class="text-sm text-warning">E</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 60 && score.score < 70" class="text-sm text-warning">D</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 70 && score.score < 80" class="text-sm text-warning">C</td>
                   <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 80 && score.score < 90" class="text-sm text-green">B</td>
                   <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 90 && score.score < 100" class="text-sm text-green">A</td>
                   
                   <td v-if="score.subject_id > 2 && score.score < 25" class="text-sm text-red">F</td>
-                  <td v-if="score.subject_id > 2 && score.score >= 25 && score.score < 30" class="text-sm text-yellow">E</td>
-                  <td v-if="score.subject_id > 2 && score.score >= 30 && score.score < 35" class="text-sm text-yellow">D</td>
-                  <td v-if="score.subject_id > 2 && score.score >= 35 && score.score < 40" class="text-sm text-yellow">C</td>
-                  <td v-if="score.subject_id > 2 && score.score >= 40 && score.score < 45" class="text-sm text-green">B</td>
-                  <td v-if="score.subject_id > 2 && score.score >= 45 && score.score < 50" class="text-sm text-green">A</td>
+                  <td v-if="score.subject_id > 2 && (score.score >= 25 && score.score < 30)" class="text-sm text-warning">E</td>
+                  <td v-if="score.subject_id > 2 && (score.score >= 30 && score.score < 35)" class="text-sm text-warning">D</td>
+                  <td v-if="score.subject_id > 2 && (score.score >= 35 && score.score < 40)" class="text-sm text-warning">C</td>
+                  <td v-if="score.subject_id > 2 && (score.score >= 40 && score.score < 45)" class="text-sm text-green">B</td>
+                  <td v-if="score.subject_id > 2 && (score.score >= 45 && score.score < 50)" class="text-sm text-green">A</td>
 
                   <td v-if="score.score < 25" class="text-sm text-red">Failed</td>
                   <td v-else class="text-sm text-green">Passed</td>
