@@ -1,6 +1,6 @@
 <template>
   <admin-dashboard></admin-dashboard>
-  <section class="container-fluid px-4 py-4">
+  <section class="container">
     <div class="card bg-gray-300">
       <div class="p-5 pb-1">
         <div>
@@ -243,3 +243,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.container{
+  margin-left: 16%;
+  width: 85%;
+}
+</style>
