@@ -5,19 +5,19 @@
       Attendance Records
       <span> {{ user.first_name }} {{ user.last_name }}</span>
     </h3>
-    <v-table>
+    <v-table class="mt-4">
       <thead>
-        <tr>
-          <th class="text-white">date</th>
-          <th class="text-white">reason</th>
-          <th class="text-white">attendance status</th>
+        <tr class="bg-primary">
+          <th class="text-white fs-6">date</th>
+          <th class="text-white fs-6">reason</th>
+          <th class="text-white fs-6">attendance status</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="record in attendanceRecords" :key="record.id">
           <td>{{ record.date }}</td>
-          <td>{{ record.reason }}</td>
           <td>{{ record.status }}</td>
+          <td>{{ record.reason }}</td>
         </tr>
       </tbody>
     </v-table>
