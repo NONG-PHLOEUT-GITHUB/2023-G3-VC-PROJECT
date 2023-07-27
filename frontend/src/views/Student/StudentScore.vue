@@ -1,19 +1,10 @@
 <template>
   <teacher-dashboard></teacher-dashboard>
-  <div class="card shadow border-0 mb-7">
-    <select
-      class="form-select mb-3"
-      aria-label="Default select example"
-      style="width: 30%"
-      v-model="selectedClass"
-      @click="getStudentInClass(selectedClass)"
-    >
+  <div class="card shadow border-0 mb-7 mt-4">
+    <select class="form-select mb-3" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
+      @click="getStudentInClass(selectedClass)">
       <option selected disabled>Select class</option>
-      <option
-        v-for="classroom in classrooms"
-        :key="classroom.id"
-        :value="classroom.id"
-      >
+      <option v-for="classroom in classrooms" :key="classroom.id" :value="classroom.id">
         {{ classroom.class_name }}
       </option>
     </select>
@@ -39,136 +30,73 @@
           </tr>
         </thead>
 
-        <tbody  v-if="listUser && listUser.length">
-          <tr
-            class="border-secondary"
-            v-for="student in listUser"
-            :key="student.id"
-          >
+        <tbody v-if="listUser && listUser.length">
+          <tr class="border-secondary" v-for="student in listUser" :key="student.id">
             <td>
-              <input
-                class="form-check-input"
-                type="checkbox"
-                @click="getStudentId(student.id)"
-                v-model="student.selected"
-              />
+              <input class="form-check-input" type="checkbox" @click="getStudentId(student.id)"
+                v-model="student.selected" />
               {{ student.first_name }} {{ student.last_name }}
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.K"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.K" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.M"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.M" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.E"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.E" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.H"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.H" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.B"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.B" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.GEO"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)"
+                v-model="student.GEO" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.ES"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.ES" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.MC"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.MC" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.CH"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.CH" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.P"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.P" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.SP"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.SP" />
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control score_input"
-                v-on:keyup="getScore(student)"
-                v-model="student.ICT"
-              />
+              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)"
+                v-model="student.ICT" />
             </td>
             <td>{{ getTotalScore(student) }}</td>
             <td>{{ getAverageScore(student) }}</td>
           </tr>
         </tbody>
         <tr v-else>
-        <td colspan="6" class="text-center text-danger">
-          This class does not have any students.
-        </td>
-      </tr>
+          <td colspan="6" class="text-center text-danger">
+            This class does not have any students.
+          </td>
+        </tr>
       </table>
-      <div class="d-flex align-items-end">
-        <button
+    </div>
+    <div class="submit-score  w-100">
+      <!-- <button
           type="submit"
           @click="SubmitScoreSubject"
           class="btn btn-primary btn-submit"
         >
           Submit Score
-        </button>
-      </div>
+        </button> -->
+      <v-btn type="submit" color="teal-darken-4" @click="SubmitScoreSubject">
+        Submit score</v-btn>
+
     </div>
   </div>
 </template>
@@ -383,6 +311,7 @@ export default {
   width: 50px;
   height: 30px;
 }
+
 .btn-submit {
   margin: 1%;
   margin-left: 40%;
@@ -390,8 +319,15 @@ export default {
   width: 30%;
 }
 
-.card{
+.card {
   margin-left: 18%;
   margin-right: 10px;
+  padding: 10px;
+}
+
+.submit-score {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 </style>

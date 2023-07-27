@@ -58,6 +58,8 @@ export default {
     tab: null,
     attendances: []
   }),
+
+
   computed: {
     months() {
       return [
@@ -95,6 +97,8 @@ export default {
       return this.monthsWithAttendance.length > 0;
     },
   },
+
+
   methods: {
     getAttendance() {
       http.get("/v1/auth/user").then((response) => {
@@ -109,9 +113,12 @@ export default {
       });
     },
   },
+
+
   mounted() {
     this.getAttendance();
   },
+
 };
 </script>
 

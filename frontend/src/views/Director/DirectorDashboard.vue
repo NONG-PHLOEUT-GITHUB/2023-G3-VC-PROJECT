@@ -2,14 +2,10 @@
   <admin-dashboard></admin-dashboard>
   <div class="card-container">
     <v-row class="mt-7 ms-24">
-      <v-card width="390" class="me-2" prepend-icon="mdi-account-tie">
-        <template v-slot:title>Teachers </template>
+      <v-card width="400"  class="me-2 user-total elevation-4" prepend-icon="mdi-account-tie">
+        <template v-slot:title>Students </template>
 
-        <v-card-text
-          class="card-text"
-          v-for="(result, index) in results"
-          :key="index"
-        >
+        <v-card-text class="card-text " v-for="(result, index) in results" :key="index">
           <h5 v-if="result.role == 3">
             Total : {{ result.total }}
             <v-spacer></v-spacer>
@@ -19,13 +15,9 @@
           </h5>
         </v-card-text>
       </v-card>
-      <v-card width="390" prepend-icon="mdi-account">
-        <template v-slot:title> Students </template>
-        <v-card-text
-          class="card-text"
-          v-for="(result, index) in results"
-          :key="index"
-        >
+      <v-card width="400" class="user-total me-4 elevation-4" prepend-icon="mdi-account">
+        <template v-slot:title>Teachers </template>
+        <v-card-text class="card-text" v-for="(result, index) in results" :key="index">
           <h5 v-if="result.role == 2">
             Total : {{ result.total }}
             <v-spacer></v-spacer>
@@ -35,7 +27,7 @@
           </h5>
         </v-card-text>
       </v-card>
-      <v-card width="400" class="ms-2" prepend-icon="mdi-school">
+      <v-card width="400" class="ms-4 user-total elevation-4" prepend-icon="mdi-school">
         <template v-slot:title> Class </template>
 
         <v-card-text class="ms-14">
@@ -44,90 +36,60 @@
       </v-card>
     </v-row>
   </div>
-  <main class="main mt-6">
+
+  <main class="main mt-6 ">
     <h3>REPORTS</h3>
     <v-row class="mt-8">
-      <v-card class="bar1">
+      <v-card class="bar1 ms-4 elevation-4">
         <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
         <h5 class="text-center m-3 text-warning">STUDENT ATTENDANCE</h5>
       </v-card>
-      <v-card class="bar2 ms-4">
+      <v-card class="bar2 ms-4 elevation-4">
         <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
         <h5 class="text-center m-3 text-warning">FAILED STUDENT</h5>
       </v-card>
     </v-row>
   </main>
+
+
   <main class="main mt-6">
-    <v-row class="mt-8">
-      <v-card class="bar1">
-        <main class="table">
-          <h4 class="m-3 text-warning">STUDENT MOST ABSENCE LIST</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Total Absence</th>
-                <th>See More</th>
-              </tr>
-            </thead>
-            <tbody
-              v-for="attendanceItem in attendanceStudentData"
-              :key="attendanceItem.id"
-            >
-              <tr v-if="attendanceItem.role_attendances_count >= 1">
-                <td>{{ attendanceItem.first_name }}</td>
-                <td>{{ attendanceItem.last_name }}</td>
-                <td>{{ attendanceItem.role_attendances_count }}</td>
-                <td>
-                  <router-link
-                    class="status detail"
-                    :to="{
-                      path: '/studentattendancedetail/' + attendanceItem.id,
-                    }"
-                    >Detail</router-link
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </main>
-      </v-card>
-      <v-card class="bar2 ms-4">
-        <main class="table">
-          <h4 class="m-3 text-warning">TEACHER MOST ABSENCE LIST</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Total Absence</th>
-                <th>See More</th>
-              </tr>
-            </thead>
-            <tbody
-              v-for="attendanceItem in attendanceTeacherData"
-              :key="attendanceItem.id"
-            >
-              <tr v-if="attendanceItem.role_attendances_count >= 1">
-                <td>{{ attendanceItem.first_name }}</td>
-                <td>{{ attendanceItem.last_name }}</td>
-                <td>{{ attendanceItem.role_attendances_count }}</td>
-                <td>
-                  <router-link
-                    class="status detail"
-                    :to="{
-                      path: '/teacherattendancedetail/' + attendanceItem.id,
-                    }"
-                    >Detail</router-link
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </main>
-      </v-card>
-    </v-row>
+    <v-btn class="mt-10 elevation-4" color="teal-darken-4" outlined block>STUDENT MOST ABSENCE LIST</v-btn>
+    <v-table elevation-6 fixed-header height="300px" class="mt-2 mb-10 table">
+      <thead class="t-head bg-primary" style="background-color: aqua;">
+        <tr class="tr">
+          <th>
+            Name
+          </th>
+          <th>
+            Gender
+          </th>
+          <th class="text-left">
+            Gender
+          </th>
+          <th class="text-left">
+            Total
+          </th>
+          <th class="text-left">
+            Seemore
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in attendanceMostAbsencData" :key="user.id">
+        <template>
+          <h1>Hello</h1>
+          <v-avatar size="large">
+              <v-img :src="user.profile" alt="Avatar" cover> </v-img>
+            </v-avatar>
+        </template>
+          <td>{{ user.first_name }} {{ user.last_name }}</td>
+          <td>{{ user.gender }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role_attendances_count }}</td>
+          <td> <v-btn :to="'/studentattendancedetail/' + user.id">Details</v-btn> </td>
+        </tr>
+      </tbody>
+    </v-table>
   </main>
 </template>
 
@@ -152,7 +114,7 @@ ChartJS.register(
   CategoryScale,
   LinearScale
 );
-import axios from "axios";
+// import axios from "axios";
 export default {
   name: "BarChart",
   components: { Bar },
@@ -160,6 +122,7 @@ export default {
     return {
       results: "",
       attendance: "",
+      attendanceMostAbsencData: [],
       chartData: {
         labels: [
           "January",
@@ -220,8 +183,8 @@ export default {
         console.log(error);
       });
 
-      http
-      .get("/getPercentageOfFaildedStudentByMonth")
+    http
+      .get("/show-graph-of-student-fail/9")
       .then((response) => {
         const mydata = response.data.failed_users_percentage;
         console.log(mydata);
@@ -233,7 +196,11 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+
+      this.getMostAbsentStudents();
   },
+
+
   methods: {
     fetchAttendanceData() {
       http
@@ -250,7 +217,7 @@ export default {
     },
     fetchFaildedStudentData() {
       http
-        .get("/getPercentageOfFaildedStudentByMonth")
+        .get("/show-graph-of-student-fail/9")
         .then((response) => {
           const mydata = response.data.failed_users_percentage;
           console.log(mydata);
@@ -263,38 +230,18 @@ export default {
           console.log(error);
         });
     },
-    fetchMostAbsenceStudentData() {
-      axios
-        .get(this.URL + "/getMostAbsence")
-        .then((response) => {
-          this.attendanceStudentData = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    fetchMostAbsenceTeacherData() {
-      axios
-        .get(this.URL + "/getTeacherMostAbsence")
-        .then((response) => {
-          this.attendanceTeacherData = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+
+    async getMostAbsentStudents() {
+      try {
+        const response = await http.get('/get-most-absence-student');
+        this.attendanceMostAbsencData = response.data;
+        console.log('student absent', response.data);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
-  // mounted() {
-  //   axios.get(this.URL + "/getAbsentPercentageByMonth")
-  //     .then(response => {
-  //       this.attendance = response.data.absentPercentage;
-  //       this.chartData.datasets[0].data = Object.values(this.attendance);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }
-};
+}
 </script>
 <style scoped>
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
@@ -303,7 +250,7 @@ export default {
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 
 .main {
-  margin-left: 19%;
+  margin-left: 18%;
   margin-right: 10px;
 }
 
@@ -311,6 +258,7 @@ export default {
   padding: 10px;
   margin-left: 11%;
 }
+
 .card-text {
   margin-top: -25px;
   margin-left: 60px;
@@ -318,54 +266,30 @@ export default {
 
 .bar1 {
   width: 48%;
+  border-left: solid teal 5px;
 }
+
 .bar2 {
   width: 49%;
+  border-left: solid teal 5px;
 }
-main.table {
-  margin: auto;
-  border-radius: 10px;
-  padding: 2%;
-}
+
+
 h3 {
   margin-bottom: 20px;
   text-transform: uppercase;
   color: #0000ff;
 }
-table {
-  padding: 2%;
-  width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+.user-total{
+  border-left: solid teal 5px;
 }
-table,
-th,
-td {
-  border-collapse: collapse;
-  padding: 1rem;
-  text-align: left;
+
+.table{
+  border-left: solid teal 5px;
+  border-radius: 10px;
 }
-td {
-  font-weight: bold;
-  font-size: 15px;
-}
-thead th {
-  position: sticky;
-  top: 0;
-  left: 0;
-  background-color: #0000ff;
-  cursor: pointer;
-  text-transform: uppercase;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-}
-.status.detail {
-  padding: 10px 25px;
-  margin-left: 10px;
-  border-radius: 3px;
-  background-color: #0000ff;
-  color: white;
-  font-weight: bold;
+.img{
+  width: 50%;
 }
 </style>
    

@@ -161,7 +161,7 @@ export default {
 };
 </script>
   
-  <style scoped>
+<style scoped>
 .detail {
   margin-left: 18%;
 }
