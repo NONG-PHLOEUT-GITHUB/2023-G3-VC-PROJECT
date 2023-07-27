@@ -22,13 +22,7 @@
       </option>
     </select>
     </div>
-    <div class="checkToday">
-      <!-- <input
-        type="checkbox"
-        class="selectattendance"
-        @click="SelectAttendace()"
-      />Attendance Today
-      {{ this.date }} -->
+    <div class="checkToday d-flex w-25">
       <v-checkbox
             @click="SelectAttendace()"
             class="selectattendance"
@@ -36,7 +30,7 @@
             label="Attendance Today"
             hide-details
           >
-      </v-checkbox>{{ this.date }}
+      </v-checkbox> : {{ this.date }} 
     </div>
 
     <table>
@@ -53,12 +47,6 @@
       <tbody v-if="students && students.length">
         <tr v-for="student in students" :key="student.id">
           <td class="text-center">
-            <!-- <input
-              @click="getChatId(student.id)"
-              type="checkbox"
-              class="selectstudent"
-              v-model="student.selected"
-            /> -->
             <v-checkbox
               @click="getChatId(student.id)"
               v-model="student.selected"
@@ -354,5 +342,9 @@ td.status {
 .container{
   width: 84%;
   margin-left: 17%;
+}
+.checkToday{
+  justify-content: center;
+  align-items: center;
 }
 </style>

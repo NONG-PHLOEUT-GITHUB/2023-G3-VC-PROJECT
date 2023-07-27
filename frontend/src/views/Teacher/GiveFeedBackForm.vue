@@ -60,9 +60,8 @@ export default {
       const commentData = {
         body: this.comment,
         teacher_id: this.teacherID, 
-        student_id: this.selectedStudent,
+        user_id: this.selectedStudent,
       };
-      console.log(commentData);
       http
         .post('/comments', commentData)
         .then((response) => {

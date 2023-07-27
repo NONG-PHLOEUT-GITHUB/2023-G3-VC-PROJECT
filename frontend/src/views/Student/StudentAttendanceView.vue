@@ -38,7 +38,7 @@
                   class="border-2-dark"
                 >
                   <td class="text-sm text-black">{{ attendance.date }}</td>
-                  <td class="text-sm text-red">{{ attendance.attendance_status }}</td>
+                  <td class="text-sm text-red">{{ attendance.status }}</td>
                   <td class="text-sm text-black">{{ attendance.reason }}</td>
                 </tr>
               </template>
