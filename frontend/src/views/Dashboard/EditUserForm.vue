@@ -244,7 +244,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container{
   margin-left: 16%;
   width: 85%;
