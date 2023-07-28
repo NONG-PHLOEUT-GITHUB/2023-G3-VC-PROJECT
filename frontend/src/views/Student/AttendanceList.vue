@@ -52,19 +52,10 @@ export default {
         console.log(error);
       });
     },
-    fetchData(){
-      http
-      .get('/getAttendance')
-      .then(response=>{
-        this.attendanceData = response.data
-        console.log(response.data);
-      })
-    }
   },
   mounted() {
     const id = this.$route.params.id;
     this.getStudents(id);
-    this.fetchData()
   },
 };
 </script>
