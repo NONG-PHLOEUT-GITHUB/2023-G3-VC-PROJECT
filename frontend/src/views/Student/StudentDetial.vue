@@ -72,10 +72,10 @@
               <v-icon class="me-2"> mdi-account </v-icon>Parent
               Information</v-btn
             >
-            <div >
+            <div v-if="parents" class="mt-4">
               <v-card variant="text" class="mt-4">
                 <v-icon class="me-2">mdi-account </v-icon>Full name :
-                {{ this.parents.first_name}}{{this.parents.last_name}}
+                {{ this.parents.first_name }}{{ this.parents.last_name }}
               </v-card>
               <v-card variant="text" class="mt-4">
                 <v-icon class="me-2">mdi-gender-transgender </v-icon>Gender :
@@ -90,18 +90,23 @@
                 {{ this.parents.address }}
               </v-card>
             </div>
+            <div v-else>
+              <p>No parent information available.</p>
+            </div>
           </v-col>
         </v-col>
       </v-row>
     </v-container>
-    <v-card class="ml-5 mb-5" max-width="340" elevation="4">
+    <v-card class="box mb-5 bg-teal-darken-4" max-width="340" elevation="4">
+      <v-card-title class="text-h5 font-weight-bold">Feedback</v-card-title>
       <v-card-text v-for="comment in comments" :key="comment">
-        <div class="text-h5 font-weight-bold">Feedback</div>
-        <p class="text--primary">
-          Comment by Teacher: {{ comment.teacher_fullname }}
-        </p>
-        <p class="text--primary">Body:{{ comment.body }}</p>
-        <p></p>
+        <div class="text--primary mb-2">
+          <span class="font-weight-bold mr-2">Comment by Teacher:</span
+          >{{ comment.teacher_fullname }}
+        </div>
+        <div class="text--primary mb-2">
+          <span class="font-weight-bold mr-2">Body:</span>{{ comment.body }}
+        </div>
       </v-card-text>
     </v-card>
   </v-sheet>
@@ -114,48 +119,71 @@ export default {
   name: "UserDetails",
   data() {
     return {
-      users: " ",
+      users: [],
       reveal: false,
       comments: [],
       parents: [],
+      teacherID: [],
+      listUser: [],
     };
   },
   methods: {
-    fetchData() {
-      http.get("/v1/auth/user").then((response) => {
-        this.users = response.data.data;
-      });
+    async getCommentByTeacher() {
+      try {
+        const response = await http.get("/get-students");
+        this.listUser = response.data.data;
+        for (let user of this.listUser) {
+          this.teacherID = user.id;
+          const id = this.$route.params.id;
+          const response = await http.get(
+            `/get-comments-student/${id}/${this.teacherID}`
+          );
+          this.comments = response.data.comments;
+          console.log(this.comments);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
-    methods: {
-      fetchData() {
-        http.get("/v1/auth/user").then((response) => {
+    fetchDataById(id) {
+      http
+        .get(`/users/${id}`)
+        .then((response) => {
           this.users = response.data.data;
+          console.log(this.responseData);
+        })
+        .catch((error) => {
+          console.error(error);
         });
-      },
     },
+
     getParents(id) {
       http.get(`/getParents/${id}`).then((response) => {
-        this.parents = response.data.guardian
+        this.parents = response.data.guardian;
         console.log(this.parents);
       });
     },
-    getCommentByTeacher() {
-      http.get("/getComments").then((response) => {
-        this.comments = response.data.data;
+    getTeacherId() {
+      http.get("/get-students").then((response) => {
+        this.listUser = response.data.data;
+        for (let user of this.listUser) {
+          this.teacherID = user.id;
+          console.log(this.teacherID);
+        }
       });
     },
   },
-
-  mounted() {
-   const id = this.$route.params.id;
+  async mounted() {
+    const id = this.$route.params.id;
+    this.fetchDataById(id);
+    await this.getCommentByTeacher();
     this.getParents(id);
-    this.getCommentByTeacher();
-    this.fetchData();
+    this.getTeacherId();
   },
 };
 </script>
   
-  <style scoped>
+<style scoped>
 .detail {
   margin-left: 18%;
 }
@@ -190,6 +218,9 @@ export default {
   opacity: 1 !important;
   position: absolute;
   width: 100%;
+}
+.box{
+  margin-left: 27%;
 }
 </style>
   

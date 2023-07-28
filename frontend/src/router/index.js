@@ -17,7 +17,6 @@ import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vu
 import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vue';
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
-import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
@@ -32,8 +31,9 @@ import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
 //user router ===========================================================================
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================
-import AdminDashboard from '@/components/AdminDashboard.vue';
-import TeacherDashboard from '@/components/TeacherDashboard.vue';
+// import AdminDashboard from '@/components/AdminDashboard.vue';
+// import TeacherDashboard from '@/components/TeacherDashboard.vue';
+import TeacherHome from '@/views/Teacher/TeacherHome.vue';
 import StudentDashboard from '@/components/StudentDashboard.vue';
 //student dashboard router ==============================================================
 import StudentAcadmics from '@/views/Student/StudentView.vue';
@@ -86,7 +86,7 @@ const routes = [
     }
   },
   {
-    path: '/home',
+    path: '/admin-dashboard',
     name: 'home',
     component: DashboardHomeView,
     meta:{
@@ -117,11 +117,11 @@ const routes = [
   },
   
 // ============main dashboard=======
-  {
-    path: '/admin-dashboard',
-    name: 'AdmindDashboard',
-    component: AdminDashboard
-  },
+  // {
+  //   path: '/admin-dashboard',
+  //   name: 'AdmindDashboard',
+  //   component: AdminDashboard
+  // },
   {
     path: '/student-dashboard',
     name: 'StudentDashboard',
@@ -139,7 +139,7 @@ const routes = [
   {
     path: '/teacher-dashboard',
     name: 'TeacherDashboard',
-    component: TeacherDashboard
+    component: TeacherHome
   },
 
 
@@ -159,8 +159,8 @@ const routes = [
     component: CreateUserForm
   },
   {
-    path: '/attendance-list/:id',
-    name: '/AttendanceList',
+    path: '/attendance-list',
+    name: '/attendance-list',
     component: AttendanceList
     
   },
@@ -195,12 +195,6 @@ const routes = [
     component: TeacherAttendanceList
   },
   {
-    path: '/teacher-most-absence',
-    name: '/teachermostabsence',
-    component: TeacherMostAbsence
-  },
-
-  {
     path: '/student_list',
     name: 'student_list',
     component: SaveListStudent
@@ -215,22 +209,22 @@ const routes = [
   },
   {
     path: '/attendance_list/:id',
-    name: 'attendance-list',
+    name: 'AttendanceList',
     component: AttendanceList,
     props: true
   },
-
+  // {
+  //   path: '/attendance',
+  //   name: 'AttendanceList',
+  //   component: AttendanceList,
+  //   props: true
+  // },
 
   {
     name: 'edit',
     path: '/edit/:id',
     component: EditUserForm
   },
-  // {
-  //   path: '/teacher_list',
-  //   name: 'teacher_list',
-  //   component: TeacherListView
-  // },
   {
     path: '/class_rooms/:id',
     name: 'class_rooms',
@@ -286,11 +280,7 @@ const routes = [
     name: 'EditGuadian',
     component: EditGuardian
   },
-  // {
-  //   path: '/:pathMatch(.*)*', // matches any unknown path
-  //   name: 'not-found',
-  //   component: NotFoundView
-  // }
+ 
   
 
 ]

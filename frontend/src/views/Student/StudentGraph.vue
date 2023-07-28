@@ -40,7 +40,6 @@ export default {
   data() {
     return {
       userId: null,
-      attendance: "",
       chartData: {
         labels: [
           "January",
@@ -80,24 +79,24 @@ export default {
         ],
         datasets: [
           {
-            label: "Score",
-            data: [40, 20, 12, 45, 32, 22, 11, 33, 44, 59, 55, 43],
+            label: "Average Score",
+            data: [],
           },
         ],
       },
       chartOptions: {
-        backgroundColor: "#1E90FF",
+        backgroundColor: "teal",
         responsive: true,
       },
     };
   },
-  mounted() {
+  mounted(){
     http
       .get("/v1/auth/user")
       .then((response) => {
         this.userId = response.data.data.id;
         this.fetchAttendanceData();
-        console.log(response.data.data.id);
+        this.fetchScoreData();
       })
       .catch((error) => {
         console.error(error);
@@ -114,13 +113,28 @@ export default {
           }
         })
         .catch((error) => {
+
+          console.error(error);
+        });
+    },
+    fetchScoreData() {
+      http
+        .get(`/getStudentScoreEveryMonth/${this.userId}`)
+        .then((response) => {
+          const mydata = Object.values(response.data.average_scores);
+          for (let i = 0; i < mydata.length; i++) {
+            this.chartData1.datasets[0].data[i] = mydata[i];
+          }
+        })
+        .catch((error) => {
           console.error(error);
         });
     },
   },
 };
 </script>
-<style>
+
+<style scoped>
 .main {
   margin-left: 19%;
   margin-right: 10px;

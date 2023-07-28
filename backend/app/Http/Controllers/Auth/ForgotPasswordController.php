@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tymon\JWTAuth\Facades\JWTAuth;
+
 class ForgotPasswordController extends Controller
 {
     //  || REFERENCE|| // https://youtu.be/rLt_RkSfqDc
@@ -84,7 +85,9 @@ class ForgotPasswordController extends Controller
 
         return response([
             'message'=>'Password Reset Success',
-            'status'=>'success'
+            'status'=>'success',
+            'access_token' => auth()->guard('api')->login($user),
+            'data' => $user
         ], 200);
     }
 }

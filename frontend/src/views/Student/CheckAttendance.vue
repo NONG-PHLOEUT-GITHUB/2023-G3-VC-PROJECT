@@ -230,14 +230,13 @@ export default {
             reason: student.reason,
             date: this.date,
           };
-          console.log(attendanceData);
+    
           // Send the attendance data to your API
           http
             .post('/checkStudentAttendance', attendanceData)
             .then((response) => {
-              console.log(response.data);
-              // Redirect the user to the attendance list page
-              this.$router.push({ path: "/attendance_list" });
+               const id = response.data.data.id;
+              this.$router.push({ path: '/attendance_list/' + id });
             })
             .catch((error) => {
               console.log(error);

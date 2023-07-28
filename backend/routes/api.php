@@ -46,7 +46,7 @@ Route::get('/users/{id}', [UserController::class,"show"]);
 Route::put('/users/{id}', [UserController::class,"update"]);
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
-Route::get("/getPercentageOfFaildedStudentByMonth/{year}", [UserController::class, "getPercentageOfFaildedStudentByMonth"]);
+Route::get("/show-graph-of-student-fail/{year}", [UserController::class, "getPercentageOfFaildedStudentByMonth"]);
 Route::post('/getImage', [UserController::class, 'getImage']);
 Route::get("/users/subject/{subject}", [UserController::class, "getTeacherBySubject"]);
 Route::get('/get-teachers', [UserController::class,"getTeachers"]);
@@ -66,10 +66,9 @@ Route::delete("/classrooms/{id}", [ClassRoomController::class, 'destroy']);
 Route::put("/classrooms/{id}", [ClassRoomController::class, 'update']);
 Route::get("/classrooms/{id}", [ClassRoomController::class, 'show']);
 Route::get("/classrooms", [ClassRoomController::class, 'index']);
+Route::get("/classrooms-total", [ClassRoomController::class, 'getTotalOfClass']);
 
 Route::put('/classrooms/{id}', [UserController::class,"updateClass"]);
-// Route::get('/get_student', [ClassRoomController::class, 'getStudentInClassroom']);
-// Route::get('/get_student', [ClassRoomController::class, 'g']);
 Route::post('/classroom', [ClassRoomController::class, 'store']);
 Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
 Route::get('/class_rooms/{id}', [ClassRoomController::class,"show"]);
@@ -89,7 +88,7 @@ Route::post('/subjects', [SubjectController::class, 'store']);
 Route::get('/getComments', [CommentController::class, 'index']);
 Route::post('/comments', [CommentController::class, 'store']);
 Route::put("/comments", [CommentController::class, 'update']);
-Route::get("/getcommentforspecificstudent/{id}", [UserController::class, "getCommentForStudent"]);
+Route::get("/get-comments-student/{user_id}/{teacher_id}", [UserController::class, "getCommentForStudent"]);
 
 // ========================score router=============================================
 
@@ -120,7 +119,7 @@ Route::get("/getParents/{id}", [UserController::class,"getParentsByuser"]);
 // ========================attendance router===========================================
 
 Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfStudents"]);
-Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsence"]);
+Route::get("/get-most-absence-student", [AttendanceController::class, "getStudentMostAbsence"]);
 Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOfRole3ByUserId"]);
 Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
 Route::get("/getteacherDetail/{id}", [AttendanceController::class, "getAttendanceOfRole2ByUserId"]);
@@ -128,6 +127,7 @@ Route::get("/getstudentattendanceeverymonth/{userId}", [AttendanceController::cl
 Route::post("/checkStudentAttendance", [AttendanceController::class, "store"]);
 Route::get("/getTotalAbsentByMonth/{id}/{month}", [AttendanceController::class, "totalAbsentDaysByMonth"]);
 Route::get("/getAbsentPercentageByMonth/{month}", [AttendanceController::class, "getAbsentPercentageByMonth"]);
+Route::get("/show-grahp-of-student-attendance", [AttendanceController::class, "getTotalAttendanceOfStudentsAllMonths"]);
 Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
 Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
 Route::get('/users', [UserController::class, 'index']);
@@ -150,9 +150,7 @@ Route::get("/users/subject/{subject}", [UserController::class, "getTeacherBySubj
 
 
 Route::get('/getClassStudents', [ClassRoomController::class, 'getClassStudents']);
-// ->where('class_name', '[a-zA-Z0-10]+')->where('user_id', '[0-10]+');
 
-// Route::post('/getClassStudents', [ClassRoomController::class,"store"]);
 // get student
 Route::get('/getStudents', [UserController::class,"getStudent"]);
 Route::get('/getStudents/{id}', [UserController::class,"getStudentId"]);
