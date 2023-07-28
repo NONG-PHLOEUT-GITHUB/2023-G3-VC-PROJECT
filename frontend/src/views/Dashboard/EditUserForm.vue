@@ -298,6 +298,12 @@ export default {
 </script>
 
 <style scoped>
+.gender {
+  background: #f8f7f7;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+}
 .container{
   margin-left: 16%;
   width: 85%;

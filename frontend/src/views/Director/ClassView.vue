@@ -2,13 +2,7 @@
   <admin-dashboard></admin-dashboard>
   <div class="main">
     <h3 class="mb-0 text-primary mt-4">CLASSES LIST</h3>
-    <v-card class="d-flex mt-5 pa-5">
-      <v-select
-        class="w-10"
-        label="Select class"
-        v-model="selectedClass"
-        variant="solo"
-      ></v-select>
+    <v-card class="d-flex mt-4 m-7 pa-5">
       <v-btn color="primary" class="mt-4 ms-5" @click="dialog = true"
         ><v-icon>mdi-plus-outline</v-icon> add new class</v-btn
       >
@@ -271,11 +265,7 @@ export default {
       http
         .get(`/get-students`)
         .then((response) => {
-          console.log(response.data.data);
-          // this.students = response.data.data;
-          // this.students = response.data.data.filter(
-          //   (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
-          // );
+          response.data.data
         })
         .catch((error) => {
           console.log(error);
