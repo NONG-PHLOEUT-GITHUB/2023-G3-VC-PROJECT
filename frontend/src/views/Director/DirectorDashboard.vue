@@ -31,7 +31,7 @@
         <template v-slot:title> Class </template>
 
         <v-card-text class="ms-14">
-          <h5>Total 10 class</h5>
+          <h5>Total : {{ classroom }}</h5>
         </v-card-text>
       </v-card>
     </v-row>
@@ -42,58 +42,25 @@
     <v-row class="mt-8">
       <v-card class="bar1 ms-4 elevation-4">
         <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
-        <h5 class="text-center m-3 text-warning">STUDENT ATTENDANCE</h5>
+        <h5 class="text-center m-3">STUDENT ATTENDANCE</h5>
       </v-card>
       <v-card class="bar2 ms-4 elevation-4">
         <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
-        <h5 class="text-center m-3 text-warning">FAILED STUDENT</h5>
+        <h5 class="text-center m-3">FAILED STUDENT</h5>
       </v-card>
     </v-row>
   </main>
 
 
   <main class="main mt-6">
-    <v-btn class="mt-10 elevation-4" color="teal-darken-4" outlined block>STUDENT MOST ABSENCE LIST</v-btn>
-    <v-table elevation-6 fixed-header height="300px" class="mt-2 mb-10 table">
-      <thead class="t-head bg-primary" style="background-color: aqua;">
-        <tr class="tr">
-          <th>
-            Full name
-          </th>
-          <th>
-            Gender
-          </th>
-          <th class="text-left">
-            Gender
-          </th>
-          <th class="text-left">
-            Total
-          </th>
-          <th class="text-left">
-            Seemore
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in filteredAttendanceMostAbsencData" :key="user.id">
-
-          <td> <v-avatar size="large">
-              <v-img :src="user.profile" alt="Avatar" cover> </v-img>
-            </v-avatar> {{ user.first_name }} {{ user.last_name }}</td>
-          <td>{{ user.gender }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role_attendances_count }}</td>
-          <td> <v-btn :to="'/studentattendancedetail/' + user.id"> Details<v-icon
-                class="mt-1 ms-1">mdi-eye</v-icon></v-btn> </td>
-        </tr>
-      </tbody>
-    </v-table>
+    <StudentMostAbsence></StudentMostAbsence>
   </main>
 </template>
 
 <script>
 import { Bar } from "vue-chartjs";
 import http from "../../htpp.common";
+import StudentMostAbsence from "../Student/StudentMostAbsence.vue";
 import {
   Chart as ChartJS,
   Title,
@@ -115,12 +82,15 @@ ChartJS.register(
 // import axios from "axios";
 export default {
   name: "BarChart",
-  components: { Bar },
+  components: { 
+    StudentMostAbsence,
+    Bar
+   },
   data() {
     return {
       results: "",
+      classroom: "",
       attendance: "",
-      attendanceMostAbsencData: [],
       chartData: {
         labels: [
           "January",
@@ -166,20 +136,17 @@ export default {
         ],
       },
       chartOptions: {
-        backgroundColor: "#1E90FF",
+        backgroundColor: "teal",
         responsive: true,
       },
     };
   },
-  computed: {
-    filteredAttendanceMostAbsencData() {
-      return this.attendanceMostAbsencData.filter(user => user.role_attendances_count > 0);
-    },
-  },
+
     mounted() {
       this.fetchTotalData();
       this.fetchFailedStudentData();
-      this.getMostAbsentStudents();
+      this.fetchTotalOfClass();
+      this.showGraphOfStudentAttendance();
     },
 
     methods: {
@@ -191,34 +158,30 @@ export default {
           console.log(error);
         }
       },
+      async fetchTotalOfClass() {
+        try {
+          const response = await http.get('/classrooms-total');
+          this.classroom = response.data.data;
+        } catch (error) {
+          console.log(error);
+        }
+      },
 
       async fetchFailedStudentData() {
         try {
           const response = await http.get('/show-graph-of-student-fail/9');
           const mydata = response.data.failed_users_percentage;
-          console.log(mydata);
           for (let i = 0; i < mydata.length; i++) {
             this.chartData1.datasets[0].data[i] = mydata[i];
           }
-          console.log(this.chartData1.datasets[0].data);
         } catch (error) {
           console.log(error);
         }
       },
 
-      async getMostAbsentStudents() {
+      async showGraphOfStudentAttendance() {
         try {
-          const response = await http.get('/get-most-absence-student');
-          this.attendanceMostAbsencData = response.data;
-          console.log('student absent', response.data);
-        } catch (error) {
-          console.log(error);
-        }
-      },
-
-      async fetchAttendanceData() {
-        try {
-          const response = await http.get('/totalattendanceofstudent/9');
+          const response = await http.get('/show-grahp-of-student-attendance');
           const mydata = Object.values(response.data);
           for (let i = 0; i < mydata.length; i++) {
             this.chartData.datasets[0].data[i] = mydata[i];
@@ -228,74 +191,6 @@ export default {
         }
       },
     }
-    // mounted() {
-    //   http
-    //     .get("/getTotal")
-    //     .then((response) => {
-    //       this.results = response.data.data;
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-
-    //   http
-    //     .get("/show-graph-of-student-fail/9")
-    //     .then((response) => {
-    //       const mydata = response.data.failed_users_percentage;
-    //       console.log(mydata);
-    //       for (let i = 0; i < mydata.length; i++) {
-    //         this.chartData1.datasets[0].data[i] = mydata[i];
-    //       }
-    //       console.log(this.chartData1.datasets[0].data);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-
-    //     this.getMostAbsentStudents();
-    // },
-
-
-    // methods: {
-    //   fetchAttendanceData() {
-    //     http
-    //       .get("/totalattendanceofstudent/9")
-    //       .then((response) => {
-    //         const mydata = Object.values(response.data);
-    //         for (let i = 0; i < mydata.length; i++) {
-    //           this.chartData.datasets[0].data[i] = mydata[i];
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         console.error(error);
-    //       });
-    //   },
-    //   fetchFaildedStudentData() {
-    //     http
-    //       .get("/show-graph-of-student-fail/9")
-    //       .then((response) => {
-    //         const mydata = response.data.failed_users_percentage;
-    //         console.log(mydata);
-    //         for (let i = 0; i < mydata.length; i++) {
-    //           this.chartData1.datasets[0].data[i] = mydata[i];
-    //         }
-    //         console.log(this.chartData1.datasets[0].data);
-    //       })
-    //       .catch((error) => {
-    //         console.log(error);
-    //       });
-    //   },
-
-    //   async getMostAbsentStudents() {
-    //     try {
-    //       const response = await http.get('/get-most-absence-student');
-    //       this.attendanceMostAbsencData = response.data;
-    //       console.log('student absent', response.data);
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   },
-    // },
   }
 </script>
 <style scoped>
@@ -334,6 +229,9 @@ h3 {
   margin-bottom: 20px;
   text-transform: uppercase;
   color: #0000ff;
+}
+.text-center{
+  color: rgb(2, 74, 74);
 }
 
 .user-total {

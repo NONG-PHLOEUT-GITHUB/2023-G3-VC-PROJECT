@@ -7,6 +7,7 @@ use App\Models\ClassRoom;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\VarDumper\Caster\ClassStub;
 
 class ClassRoomController extends Controller
 {
@@ -130,9 +131,10 @@ class ClassRoomController extends Controller
             return response()->json(['success' => true, 'data' => $classRooms], 200);
         }
     }
-
-    // public function getClassName(string $className)
-    // {
-        
-    // }
+    
+    public function getTotalOfClass()
+    {
+        $classrooms = ClassRoom::count();
+        return response()->json(['success' => true, 'data' => $classrooms], 200);
+    }
 }

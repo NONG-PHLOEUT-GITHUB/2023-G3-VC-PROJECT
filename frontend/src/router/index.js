@@ -17,7 +17,6 @@ import StudentAttendanceDetail from '../views/Student/StudentAttendanceDetail.vu
 import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vue';
 import CheckAttendance from '../views/Student/CheckAttendance.vue'
 import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue';
-import TeacherMostAbsence from '../views/Teacher/TeacherMostAbsence.vue';
 import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
@@ -33,7 +32,8 @@ import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================
 // import AdminDashboard from '@/components/AdminDashboard.vue';
-import TeacherDashboard from '@/components/TeacherDashboard.vue';
+// import TeacherDashboard from '@/components/TeacherDashboard.vue';
+import TeacherHome from '@/views/Teacher/TeacherHome.vue';
 import StudentDashboard from '@/components/StudentDashboard.vue';
 //student dashboard router ==============================================================
 import StudentAcadmics from '@/views/Student/StudentView.vue';
@@ -139,7 +139,7 @@ const routes = [
   {
     path: '/teacher-dashboard',
     name: 'TeacherDashboard',
-    component: TeacherDashboard
+    component: TeacherHome
   },
 
 
@@ -194,12 +194,6 @@ const routes = [
     name: '/teacherattendancelist',
     component: TeacherAttendanceList
   },
-  {
-    path: '/teacher-most-absence',
-    name: '/teachermostabsence',
-    component: TeacherMostAbsence
-  },
-
   {
     path: '/student_list',
     name: 'student_list',

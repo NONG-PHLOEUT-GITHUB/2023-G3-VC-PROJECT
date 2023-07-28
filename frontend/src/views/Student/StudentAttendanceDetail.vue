@@ -1,32 +1,35 @@
 <template>
-  <admin-dashboard></admin-dashboard>
-  <main class="table">
-    <h3>
-      Attendance Records
+  <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
+  <teacher-dashboard v-else></teacher-dashboard>
+  <main class="table mt-5 ">
+    <h3 class="text-h5">
+      Attendance Records : 
       <span> {{ user.first_name }} {{ user.last_name }}</span>
     </h3>
     <v-table class="mt-4">
       <thead>
-        <tr class="bg-primary">
-          <th class="text-white fs-6">date</th>
-          <th class="text-white fs-6">reason</th>
-          <th class="text-white fs-6">attendance status</th>
+        <tr class="bg-teal-darken-4">
+          <th class="text-white text-subtitle-1">Date</th>
+          <th class="text-white text-subtitle-1">Reason</th>
+          <th class="text-white text-subtitle-1">Attendance status</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="record in attendanceRecords" :key="record.id">
-          <td>{{ record.date }}</td>
-          <td>{{ record.status }}</td>
-          <td>{{ record.reason }}</td>
+        <tr  v-for="record in attendanceRecords" :key="record.id">
+          <td class="text-subtitle-1">{{ record.date }}</td>
+          <td class="text-subtitle-1">{{ record.status }}</td>
+          <td class="text-subtitle-1">{{ record.reason }}</td>
         </tr>
       </tbody>
-    </v-table>
+    </v-table>  
+    <v-btn color="teal-darken-4" class="btn-container" :width="130" @click="generatePDF()">save </v-btn>
   </main>
-    <button @click="generatePDF()" class="button">save</button>
+  <!-- <button @click="generatePDF()" class="button">save</button> -->
 </template>
 
 <script>
 import axios from "axios";
+import Cookies from 'js-cookie';
 import swal from "sweetalert2";
 import jsPDF from "jspdf";
 import http from '../../htpp.common'
@@ -34,6 +37,7 @@ import "jspdf-autotable";
 export default {
   data() {
     return {
+      role: "",
       user: {},
       attendanceRecords: [],
       pdfFile: null,
@@ -94,9 +98,9 @@ export default {
       const document = new jsPDF("p", "pt", "a4");
       document.setFontSize(16);
       document.setFont("helvetica", "bold");
-      document.text("Attendance Records ", 40, 30);
+      document.text("Attendance Records", 40, 30);
       const name = `${this.user.first_name} ${this.user.last_name}`;
-      document.text(`FullName: ${name}`, 230, 30);
+      document.text(`: ${name}`, 230, 30);
       const table = this.attendanceRecords.map((record) => [
         record.date,
         record.reason,
@@ -112,11 +116,17 @@ export default {
       const fileName = `${name}_attendance.pdf`;
       document.save(fileName);
     },
+
+    getRole() {
+     let cookies = Cookies.get('user_role');
+     this.role = cookies
+    }
   },
   mounted() {
     const id = this.$route.params.id;
     this.listattendance(id);
     this.getChatId(id);
+    this.getRole();
   },
 };
 </script>
@@ -132,15 +142,14 @@ export default {
 main {
   margin-top: 10px;
   margin-left: 19%;
+  width: 80%;
 }
+
 .button {
-  margin-left: 90%;
-  border: 1px solid gray;
-  width: 10%;
-  padding: 9px;
+  margin-left: 89%;
+}
+.btn-container{
   margin-top: 10px;
-  background: blue;
-  color: white;
-  border-radius: 10px;
+  margin-left: 89%;
 }
 </style>
