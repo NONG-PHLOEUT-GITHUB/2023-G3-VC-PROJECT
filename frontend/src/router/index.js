@@ -32,7 +32,7 @@ import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
 //user router ===========================================================================
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================
-import AdminDashboard from '@/components/AdminDashboard.vue';
+// import AdminDashboard from '@/components/AdminDashboard.vue';
 import TeacherDashboard from '@/components/TeacherDashboard.vue';
 import StudentDashboard from '@/components/StudentDashboard.vue';
 //student dashboard router ==============================================================
@@ -86,7 +86,7 @@ const routes = [
     }
   },
   {
-    path: '/home',
+    path: '/admin-dashboard',
     name: 'home',
     component: DashboardHomeView,
     meta:{
@@ -117,11 +117,11 @@ const routes = [
   },
   
 // ============main dashboard=======
-  {
-    path: '/admin-dashboard',
-    name: 'AdmindDashboard',
-    component: AdminDashboard
-  },
+  // {
+  //   path: '/admin-dashboard',
+  //   name: 'AdmindDashboard',
+  //   component: AdminDashboard
+  // },
   {
     path: '/student-dashboard',
     name: 'StudentDashboard',

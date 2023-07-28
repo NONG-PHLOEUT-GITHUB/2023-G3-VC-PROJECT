@@ -157,7 +157,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .snackbar {
   margin-bottom: 38%;
 }

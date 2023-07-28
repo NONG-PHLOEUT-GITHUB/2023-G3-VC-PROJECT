@@ -47,25 +47,28 @@ export default {
     return {
       listUser: [],
       selectedStudent: null, 
-      comment: ''
+      comment: '',
+      teacher_id:null
     };
   },
   methods: {
     getData() {
       http.get('/get-students').then((response) => {
         this.listUser = response.data;
+        console.log(this.listUser);
       });
     },
     giveComment() {
       const commentData = {
         body: this.comment,
-        teacher_id: this.teacherID, 
         user_id: this.selectedStudent,
+        teacher_id: this.teacherID, 
       };
       http
         .post('/comments', commentData)
         .then((response) => {
           console.log(response);
+          console.log(commentData);
         })
         Swal.fire({
           icon: "success",
@@ -76,7 +79,7 @@ export default {
       this.selectedStudent = null;
       this.comment = "";
     },
-    fetchData() {
+    getTeacherId() {
       http.get("/get-students").then((response) => {
         this.listUser = response.data.data;
         for(let user of this.listUser){
@@ -84,9 +87,27 @@ export default {
         }
       });
     },
+    fetchData(id) {
+       http
+      .get(`/getAllStudents/${id}`)
+      .then((response) => {
+        this.listUser = response.data.data;
+        this.listUser = response.data.data;
+        this.listUser.forEach(element => {
+          console.log(element.students);
+          this.listUser = element.students;
+        });
+        console.log(this.listUser);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    },
   },
   mounted() {
-    this.fetchData();
+    this.getTeacherId();
+    const id = this.$route.params.id;
+    this.fetchData(id);
   },
 };
 </script>

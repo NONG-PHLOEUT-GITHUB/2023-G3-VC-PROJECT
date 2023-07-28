@@ -9,7 +9,7 @@ export default {
 data: () => ({
   menubar: [
     {
-      path: '/student-home',
+      path: '/student-dashboard',
       title: "Dashboard",
       icon: 'mdi-home'
     },
