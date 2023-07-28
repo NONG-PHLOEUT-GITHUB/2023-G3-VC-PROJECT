@@ -41,9 +41,7 @@ export default {
       .get(`/getAllStudents/${id}`)
       .then((response) => {
         this.attendanceData = response.data.data;
-        this.attendanceData = response.data.data;
         this.attendanceData.forEach(element => {
-          console.log(element.students);
           this.attendanceData = element.students;
         });
         console.log(this.attendanceData);

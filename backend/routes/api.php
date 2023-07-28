@@ -77,6 +77,7 @@ Route::get('/getuserInClass/{class}', [ClassRoomController::class, 'getClassName
 Route::get('/get-students-in-class/{class}', [ClassRoomController::class, 'getClassNameTeacherId']);
 Route::get('/get-students-by-class', [ClassRoomController::class, 'getClassName']);
 Route::get('/getAllStudents/{class_id}', [ClassRoomController::class, 'getStudentsInClass']);
+Route::get('/getTotalOfEachClass', [ClassRoomController::class, 'getTotalOfEachClass']);
 
 // ========================subject router===============================================
 
