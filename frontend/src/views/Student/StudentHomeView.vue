@@ -8,8 +8,7 @@
     max-width="80%"
   >
     <div>
-      <h2 class="text-h4 font-weight-black text-orange">Congratulations!</h2>
-
+      <h2 class="text-h4 font-weight-black text-orange">Welcome to our system!</h2>
       <div class="text-h5 font-weight-medium mb-2">
         You are officially a part of the Vuetify Community!
       </div>
@@ -18,7 +17,6 @@
         Please head over to your inbox/spam or others folder to find our
         verificaiton email.
       </p>
-
       <v-btn variant="text" color="orange">Go to Login</v-btn>
     </div>
   </v-sheet>

@@ -10,7 +10,7 @@
   >
     <v-container fluid>
       <v-row>
-        <v-col cols="12" md="3" class="text-center">
+        <v-col cols="12" md="3">
           <v-img
             :src="users.profile"
             alt="Avatar"
@@ -19,11 +19,11 @@
             cover
           >
           </v-img>
-          <v-title class="title">
+          <v-title class="title ms-20">
             {{ users.first_name }} {{ users.last_name }}</v-title
           >
 
-          <v-btn class="mt-5">
+          <v-btn class="ms-10 mt-5">
             <v-icon size="24"> mdi-account-edit </v-icon>Change profile
           </v-btn>
         </v-col>
@@ -72,10 +72,10 @@
               <v-icon class="me-2"> mdi-account </v-icon>Parent
               Information</v-btn
             >
-            <div >
+            <div v-if="parents" class="mt-4">
               <v-card variant="text" class="mt-4">
                 <v-icon class="me-2">mdi-account </v-icon>Full name :
-                {{ this.parents.first_name}}{{this.parents.last_name}}
+                {{ this.parents.first_name }}{{ this.parents.last_name }}
               </v-card>
               <v-card variant="text" class="mt-4">
                 <v-icon class="me-2">mdi-gender-transgender </v-icon>Gender :
@@ -90,18 +90,23 @@
                 {{ this.parents.address }}
               </v-card>
             </div>
+            <div v-else>
+              <p>No parent information available.</p>
+            </div>
           </v-col>
         </v-col>
       </v-row>
     </v-container>
-    <v-card class="ml-5 mb-5" max-width="340" elevation="4">
+    <v-card class="box mb-5 bg-teal-darken-4" max-width="340" elevation="4">
+      <v-card-title class="text-h5 font-weight-bold">Feedback</v-card-title>
       <v-card-text v-for="comment in comments" :key="comment">
-        <div class="text-h5 font-weight-bold">Feedback</div>
-        <p class="text--primary">
-          Comment by Teacher: {{ comment.teacher_fullname }}
-        </p>
-        <p class="text--primary">Body:{{ comment.body }}</p>
-        <p></p>
+        <div class="text--primary mb-2">
+          <span class="font-weight-bold mr-2">Comment by Teacher:</span
+          >{{ comment.teacher_fullname }}
+        </div>
+        <div class="text--primary mb-2">
+          <span class="font-weight-bold mr-2">Body:</span>{{ comment.body }}
+        </div>
       </v-card-text>
     </v-card>
   </v-sheet>
@@ -118,37 +123,62 @@ export default {
       reveal: false,
       comments: [],
       parents: [],
+      teacherID: [],
+      listUser: [],
     };
   },
   methods: {
+    async getCommentByTeacher() {
+      try {
+        const response = await http.get("/get-students");
+        this.listUser = response.data.data;
+        for (let user of this.listUser) {
+          this.teacherID = user.id;
+          const id = this.$route.params.id;
+          const response = await http.get(
+            `/get-comments-student/${id}/${this.teacherID}`
+          );
+          this.comments = response.data.comments;
+          console.log(this.comments);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     fetchDataById(id) {
-        http.get(`/users/${id}`)
-            .then(response => {
-            this.users = response.data.data;
-            console.log(this.responseData);
-            })
-            .catch(error => {
-            console.error(error);
-            });
-        },
+      http
+        .get(`/users/${id}`)
+        .then((response) => {
+          this.users = response.data.data;
+          console.log(this.responseData);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
     getParents(id) {
       http.get(`/getParents/${id}`).then((response) => {
-        this.parents = response.data.guardian
+        this.parents = response.data.guardian;
         console.log(this.parents);
       });
     },
-    getCommentByTeacher() {
-      http.get("/getComments").then((response) => {
-        this.comments = response.data.data;
+    getTeacherId() {
+      http.get("/get-students").then((response) => {
+        this.listUser = response.data.data;
+        for (let user of this.listUser) {
+          this.teacherID = user.id;
+          console.log(this.teacherID);
+        }
       });
     },
   },
-
-  mounted() {
-   const id = this.$route.params.id;
-    this.getParents(id);
-    this.getCommentByTeacher();
+  async mounted() {
+    const id = this.$route.params.id;
     this.fetchDataById(id);
+    await this.getCommentByTeacher();
+    this.getParents(id);
+    this.getTeacherId();
   },
 };
 </script>
@@ -188,6 +218,9 @@ export default {
   opacity: 1 !important;
   position: absolute;
   width: 100%;
+}
+.box{
+  margin-left: 27%;
 }
 </style>
   
