@@ -1,5 +1,5 @@
 <template>
-<admin-dashboard></admin-dashboard>
+  <admin-dashboard></admin-dashboard>
   <v-card class="table-container mt-4">
     <h3 class="ms-6">STUDENT LIST</h3>
     <table id="my-table">
@@ -19,15 +19,15 @@
         </thead>
         <tbody>
           <tr v-for="(student, index) in students" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td>{{ student.first_name }}</td>
-            <td>{{ student.last_name }}</td>
-            <td>{{ student.gender }}</td>
-            <td>{{ student.age }}</td>
-            <td>{{ student.date_of_birth }}</td>
-            <td>{{ student.phone_number }}</td>
-            <td>{{ student.address }}</td>
-            <td>{{ student.email }}</td>
+            <td class="text-subtitle-1">{{ index + 1 }}</td>
+            <td class="text-subtitle-1">{{ student.first_name }}</td>
+            <td class="text-subtitle-1">{{ student.last_name }}</td>
+            <td class="text-subtitle-1">{{ student.gender }}</td>
+            <td class="text-subtitle-1">{{ student.age }}</td>
+            <td class="text-subtitle-1">{{ student.date_of_birth }}</td>
+            <td class="text-subtitle-1">{{ student.phone_number }}</td>
+            <td class="text-subtitle-1">{{ student.address }}</td>
+            <td class="text-subtitle-1">{{ student.email }}</td>
           </tr>
         </tbody>
       </v-table>
@@ -125,17 +125,17 @@ td {
 }
 
 th {
-  background-color: blue;
+  background-color:#004D40;
   color: white;
 }
 
 
-.table-container{
+.table-container {
   margin-left: 18%;
   margin-right: 2px;
 }
 
-.icon{
+.icon {
   display: flex;
   justify-content: flex-end;
 }

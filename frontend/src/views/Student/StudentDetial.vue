@@ -23,9 +23,6 @@
             {{ users.first_name }} {{ users.last_name }}</v-title
           >
 
-          <v-btn class="mt-5">
-            <v-icon size="24"> mdi-account-edit </v-icon>Change profile
-          </v-btn>
         </v-col>
 
         <v-col cols="12" md="9">

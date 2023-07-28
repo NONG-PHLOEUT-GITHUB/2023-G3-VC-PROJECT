@@ -1,6 +1,6 @@
 <template>
   <admin-dashboard></admin-dashboard>
-  <section class="container">
+  <section class="container mt-4">
     <div class="card bg-gray-300">
       <div class="p-5 pb-1">
         <div>
@@ -11,89 +11,42 @@
         <!-- firstname -->
         <div class="col-md-6">
           <label for="validationCustom01" class="form-label">First name</label>
-          <input
-            type="text"
-            v-model="first_name"
-            class="form-control"
-            id="validationCustom01"
-          />
+          <input type="text" v-model="first_name" class="form-control" id="validationCustom01" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Last name</label>
-          <input
-            type="text"
-            v-model="last_name"
-            class="form-control"
-            id="validationCustom02"
-          />
+          <input type="text" v-model="last_name" class="form-control" id="validationCustom02" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Gender</label>
           <div class="gender">
-            <input
-              type="radio"
-              name="gender"
-              id="male"
-              value="male"
-              v-model="gender"
-              class="form-check-input"
-            />
+            <input type="radio" name="gender" id="male" value="male" v-model="gender" class="form-check-input" />
             <label class="form-check-label" for="male">Male</label>
-            <input
-              type="radio"
-              name="gender"
-              id="female"
-              value="female"
-              v-model="gender"
-              class="form-check-input ml-5"
-            />
+            <input type="radio" name="gender" id="female" value="female" v-model="gender" class="form-check-input ml-5" />
             <label class="form-check-label" for="female">Female</label>
           </div>
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Chat id of guadian</label>
-          <input
-            type="text"
-            v-model="chatId"
-            class="form-control"
-            id="validationCustom02"
-          />
+          <input type="text" v-model="chatId" class="form-control" id="validationCustom02" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
-          <label for="validationCustom02" class="form-label"
-            >Phone Number</label
-          >
-          <input
-            type="tel"
-            v-model="phone_number"
-            class="form-control"
-            id="phoneNumber"
-            placeholder=""
-          />
+          <label for="validationCustom02" class="form-label">Phone Number</label>
+          <input type="tel" v-model="phone_number" class="form-control" id="phoneNumber" placeholder="" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Address</label>
-          <input
-            type="tel"
-            class="form-control"
-            v-model="address"
-            id="addreess"
-            placeholder="   "
-          />
+          <input type="tel" class="form-control" v-model="address" id="addreess" placeholder="   " />
           <div class="valid-feedback">Looks good!</div>
         </div>
 
         <div class="col-12 d-flex justify-content-end">
-          <router-link
-            type="submit"
-            class="btn btn-warning text-white mr-2"
-            :to="{ path: '/guardian-list' }"
-            >Cancel</router-link
-          >
+          <router-link type="submit" class="btn btn-warning text-white mr-2"
+            :to="{ path: '/guardian-list' }">Cancel</router-link>
           <button type="submit" class="btn btn-primary text-white">
             Add Guardian
           </button>
@@ -123,10 +76,10 @@ export default {
       if (
         this.first_name &&
         this.last_name &&
-        this.gender&&
+        this.gender &&
         this.chatId &&
         this.phone_number &&
-        this.address 
+        this.address
       ) {
         const newGuadian = {
           first_name: this.first_name,
@@ -137,8 +90,8 @@ export default {
           address: this.address,
         };
         http.post('/Guardians', newGuadian).then((response) => {
-            this.listGuadian.push(response.data.data);
-            console.log(this.listGuadian);
+          this.listGuadian.push(response.data.data);
+          console.log(this.listGuadian);
         });
         swal
           .fire({
@@ -148,7 +101,7 @@ export default {
             timer: 2000,
           })
           .then(() => {
-            this.$router.push({ path: "/guardian-list"});
+            this.$router.push({ path: "/guardian-list" });
           })
           .catch((error) => {
             console.log(error);

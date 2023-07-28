@@ -2,16 +2,9 @@
   <admin-dashboard></admin-dashboard>
   <div class="main">
     <h3 class="mb-0 text-primary mt-4">CLASSES LIST</h3>
-    <v-card class="d-flex mt-5 pa-5">
-      <v-select
-        class="w-10"
-        label="Select class"
-        v-model="selectedClass"
-        variant="solo"
-      ></v-select>
-      <v-btn color="primary" class="mt-4 ms-5" @click="dialog = true"
-        ><v-icon>mdi-plus-outline</v-icon> add new class</v-btn
-      >
+    <v-card class="card d-flex mt-5 pa-5">
+      <v-btn color="teal-darken-4 w-25 mb-4" class="mt-4 ms-5" @click="dialog = true"><v-icon>mdi-plus-outline</v-icon> add new
+        class</v-btn>
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent width="40%">
           <v-card>
@@ -23,25 +16,12 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-text-field
-                        v-model="className"
-                        label="Class name"
-                        required
-                        variant="outlined"
-                      ></v-text-field>
+                      <v-text-field v-model="className" label="Class name" required variant="outlined"></v-text-field>
                     </v-col>
                     <v-col cols="12">
                       <label for="" class="mb-4">Pleas chose teacher</label>
-                      <select
-                        v-model="selectedTeacher"
-                        class="form-select"
-                        aria-label="Default select example"
-                      >
-                        <option
-                          v-for="teacher in teacherList"
-                          :key="teacher.id"
-                          :value="teacher.id"
-                        >
+                      <select v-model="selectedTeacher" class="form-select" aria-label="Default select example">
+                        <option v-for="teacher in teacherList" :key="teacher.id" :value="teacher.id">
                           {{ teacher.first_name }} {{ teacher.last_name }}
                         </option>
                       </select>
@@ -51,12 +31,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn
-                  color="blue-darken-1"
-                  variant="text"
-                  @click="dialog = false"
-                  >Cancel</v-btn
-                >
+                <v-btn color="blue-darken-1" variant="text" @click="dialog = false">Cancel</v-btn>
                 <v-btn type="submit" color="blue-darken-1">Save</v-btn>
               </v-card-actions>
             </v-form>
@@ -65,13 +40,8 @@
       </v-row>
     </v-card>
 
-    <v-card
-      v-for="classroom in classrooms"
-      :key="classroom.id"
-      class="card mx-auto mt-2"
-      width="96%"
-      prepend-icon="mdi-home"
-    >
+    <v-card v-for="classroom in classrooms" :key="classroom.id" class="card mx-auto mt-2" width="96%"
+      prepend-icon="mdi-home">
       <template v-slot:title> Class : {{ classroom.class_name }} </template>
 
       <div class="action">
@@ -80,8 +50,7 @@
             <v-icon>mdi-chart-line</v-icon> Score report
           </v-btn> -->
           <v-btn to="/attendance_list">
-            <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn
-          >
+            <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn>
           <v-btn to="/feedback" @click="getStudentInClass()" class="ms-4">
             <v-icon>mdi-poll</v-icon> Studen feedback
           </v-btn>
@@ -90,11 +59,7 @@
           <v-btn @click="editClassroom(classroom)" color="green" class="me-2">
             <v-icon>mdi-pencil</v-icon>Edit
           </v-btn>
-          <v-btn
-            @click="deleteClassroom(classroom.id)"
-            color="red"
-            class="text-white"
-          >
+          <v-btn @click="deleteClassroom(classroom.id)" color="red" class="text-white">
             <v-icon>mdi-delete</v-icon> Delete
           </v-btn>
         </v-col>
@@ -302,8 +267,13 @@ export default {
 .action {
   display: flex;
 }
+
 .manage {
   display: flex;
   justify-content: flex-end;
+}
+
+.card {
+  border-left: solid 5px #004D40;
 }
 </style>

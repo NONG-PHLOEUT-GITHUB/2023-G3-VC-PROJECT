@@ -1,8 +1,8 @@
 <template>
     <admin-dashboard></admin-dashboard>
-    <div class="card shadow border-0 mb-7 bg-light">
+    <div class="card shadow border-0 mb-7 mt-5 elevation-2">
     <div class="card-header">
-      <h2 class="mb-0 text-primary text-center">Guadian List</h2>
+      <h2 class="mb-0 text-teal ">Guadian List</h2>
     </div>
     <div class="card-header">
 
@@ -14,15 +14,12 @@
             <i class="bi bi-search"></i> Search
           </button>
         </form>
-        <router-link :to="{ path: '/add-guadian' }" class="text-white">
-          <button type="button" class="btn btn-primary align-self-end ms-2">
-            <i class="bi bi-person-plus-fill"></i> Add new guardian
-          </button></router-link>
+        <v-btn color="teal-darken-4"  :to="{ path: '/add-guadian' }">  Add new guardian <v-icon>mdi-account-plus</v-icon> </v-btn>
       </div>
     </div>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
-        <thead class="bg-primary">
+        <thead class="thead">
           <tr>
             <th scope="col" class="fs-6 text-light">Name</th>
             <th scope="col" class="fs-6 text-light">Gender</th>
@@ -58,7 +55,7 @@
                 </button>
               </router-link>
 
-              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
+              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-red ml-2"
                 @click="deleteUser(gardian.id)">
                 <i class="bi bi-trash-fill"></i> Delete
               </button>
@@ -138,7 +135,6 @@ export default {
 .card{
   margin-left: 18%;
   margin-right: 10px;
-  background: #000;
 }
 .input-file {
   position: relative;
@@ -187,5 +183,9 @@ export default {
 
 .card{
   padding: 20px;
+}
+
+.thead{
+  background: #004D40;
 }
 </style>

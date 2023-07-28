@@ -1,132 +1,88 @@
 <template>
   <admin-dashboard></admin-dashboard>
-  <div class="card shadow border-0 mb-7 bg-light">
+  <v-card class="card mt-5 elevation-4">
     <div class="card-header">
-      <h2 class="mb-0 text-primary text-center">USER LIST</h2>
+      <span class="mb-0 text-teal text-h5">USER LIST</span>
     </div>
     <div class="card-header">
       <div>
-        <select
-          class="form-select mb-3"
-          aria-label="Default select example"
-          style="width: 30%"
-          v-model="selectedClass"
-          @click="getStudentInClass(selectedClass)"
-        >
-          <option
-            v-for="classroom in classrooms"
-            :key="classroom.id"
-            :value="classroom.id"
-          >
+        <table>Select user</table>
+        <select class="form-select mb-3" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
+          @click="getStudentInClass(selectedClass)">
+          <option v-for="classroom in classrooms" :key="classroom.id" :value="classroom.id">
             {{ classroom.class_name }}
           </option>
         </select>
       </div>
-      <div
-        class="form-group d-flex justify-content-between mb-3"
-        style="width: 100%"
-      >
+      <div class="form-group d-flex justify-content-between mb-3" style="width: 100%">
         <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search user"
-            aria-label="Search"
-            style="width: 78%"
-            v-model="searchQuery"
-          />
+          <input class="form-control mr-sm-2" type="search" placeholder="Search user" aria-label="Search"
+            style="width: 78%" v-model="searchQuery" />
           <button class="btn btn-outline-warning my-2 my-sm-0" type="button">
             <i class="bi bi-search"></i> Search
           </button>
         </form>
-        <form
-          class="input-file ms-4 me-3 border border-4 rounded-1 p-2"
-          @submit.prevent="importFile"
-        >
+        <form class="input-file ms-4 me-3 border border-4 rounded-1 p-2" @submit.prevent="importFile">
           <label for="file-input">Upload Excel file</label>
           <input type="file" ref="fileInput" id="file-input" />
           <i class="bi bi-cloud-arrow-up ms-2 mt-4"></i>
         </form>
-        <router-link :to="{ path: '/createUser' }" class="text-white">
-          <button type="button" class="btn btn-primary align-self-end ms-2">
-            <i class="bi bi-person-plus-fill"></i> Add new user
-          </button></router-link
-        >
+          <v-btn size="large" :to="{ path: '/createUser' }" color="teal-darken-4">Add new user  <v-icon>mdi-account-plus</v-icon></v-btn>
       </div>
     </div>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
-        <thead class="bg-primary">
+        <thead class="thead">
           <tr>
             <th scope="col" class="fs-6 text-light">Name</th>
             <th scope="col" class="fs-6 text-light">Gender</th>
             <th scope="col" class="fs-6 text-light">Age</th>
             <th scope="col" class="fs-6 text-light">Email</th>
             <th scope="col" class="fs-6 text-light">Phone Number</th>
-            <th scope="col" class="fs-6 text-light">Action</th>
+            <th scope="col" class="fs-6 text-light"></th>
           </tr>
         </thead>
 
         <tbody v-if="listUser && listUser.length">
-          <tr
-            v-for="(user, id) of filteredStudentsList"
-            :key="id"
-            class="border-2-dark"
-          >
-            <td>
-              <img
-                v-if="user.profile"
-                :src="user.profile"
-                class="avatar avatar-sm rounded-circle me-2"
-              />
-              <img
-                v-else
-                src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
-                class="avatar avatar-sm rounded-circle me-2"
-              />
+          <tr v-for="(user, id) of filteredStudentsList" :key="id" class="border-1-dark">
+            <td class="text-subtitle-1">
+              <img v-if="user.profile" :src="user.profile" class="avatar avatar-sm rounded-circle me-2" />
+              <img v-else-if="!user.profile" src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
+                class="avatar avatar-sm rounded-circle me-2" />
               <a class="text-heading font-semibold" href="#">
                 {{ user.first_name }} {{ user.last_name }}
               </a>
             </td>
-            <td>
+            <td class="text-subtitle-1">
               {{ user.gender }}
             </td>
-            <td>
+            <td class="text-subtitle-1">
               {{ user.age }}
             </td>
-            <td>
+            <td class="text-subtitle-1">
               {{ user.email }}
             </td>
             <td hidden>
               {{ user.password }}
             </td>
-            <td>
+            <td class="text-subtitle-1">
               {{ user.phone_number }}
             </td>
             <td class="text-end d-flex justify-content-end">
               <router-link :to="{ path: '/student_detail/' + user.id }">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300"
-                >
+                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
                   <i class="bi bi-person-circle text-warning"></i> View Profile
                 </button>
               </router-link>
 
               <router-link :to="{ path: '/edit/' + user.id }">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2"
-                >
+                <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-green ml-2">
                   <i class="bi bi-pencil-square"></i> Edit
                 </button>
               </router-link>
 
-              <button
-                type="button"
-                class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
-                @click="deleteUser(user.id)"
-              >
+              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-red ml-2"
+                @click="deleteUser(user.id)">
                 <i class="bi bi-trash-fill"></i> Delete
               </button>
             </td>
@@ -140,11 +96,10 @@
       </table>
       <div class="card-footer border-0 py-5">
         <span class="text-muted text-sm">
-          Total Users {{ selectedClass }} : {{ listUser?.length }} people</span
-        >
+          Total Users {{ selectedClass }} : {{ listUser?.length }} people</span>
       </div>
     </div>
-  </div>
+  </v-card>
 </template>
 <script>
 import swal from "sweetalert";
@@ -329,14 +284,13 @@ export default {
 .card {
   margin-left: 18%;
   margin-right: 10px;
-  background: #000;
 }
+
 .input-file {
   position: relative;
   overflow: hidden;
-  width: 180px;
   border: none;
-  background-color: #3590df;
+  background-color: #1d6f42;
   border-radius: 3px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   cursor: pointer;
@@ -378,5 +332,8 @@ export default {
 
 .card {
   padding: 20px;
+}
+.thead{
+  background:#004D40;
 }
 </style>

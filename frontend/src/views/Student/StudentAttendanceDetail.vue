@@ -24,7 +24,6 @@
     </v-table>  
     <v-btn color="teal-darken-4" class="btn-container" :width="130" @click="generatePDF()">save </v-btn>
   </main>
-  <!-- <button @click="generatePDF()" class="button">save</button> -->
 </template>
 
 <script>

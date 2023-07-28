@@ -1,39 +1,31 @@
 <template>
-
   <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
   <teacher-dashboard v-else-if="this.role === '2'"></teacher-dashboard>
   <student-dashboard v-else></student-dashboard>
-  <v-sheet
-    border="lg opacity-12"
-    class="detail mt-6"
-    elevation="4"
-    height="auto"
-    rounded
-    max-width="80%"
-  >
+  <v-sheet border="lg opacity-12" class="detail mt-6" elevation="4" height="auto" rounded max-width="80%">
     <v-container fluid>
       <v-row>
         <v-col cols="12" md="3" class="text-center">
-          <v-img
-            :src="users.profile"
-            alt="Avatar"
-            class="img-fluid my-7 w-75 rounded-circle ms-10"
-            height="200"
-            cover
-          >
-          </v-img>
+          <!-- <v-img :src="users.profile" alt="Avatar" class="img-fluid my-7 w-75 rounded-circle ms-10" height="200" cover>
+          </v-img> -->
+
+          <label for="profilePictureInput">
+            <v-img :src="users.profile" alt="Avatar" class="img-fluid my-7 w-75 rounded-circle ms-10" height="200" cover>
+              <v-icon class="mdi mdi-camera position-absolute bottom-0 right-0 m-2" color="white"></v-icon>
+            </v-img>
+          </label>
+
+          <input id="profilePictureInput" type="file" accept="image/*" class="d-none" @change="handleFileUpload">
+
+
           <div class="user">
-           <h4 class="text-h5">{{ users.first_name }} {{ users.last_name }}</h4> 
+            <h4 class="text-h5">{{ users.first_name }} {{ users.last_name }}</h4>
           </div>
-          <v-btn class="mt-5">
-            <v-icon size="24"> mdi-account-edit </v-icon>Change profile
-          </v-btn>
         </v-col>
 
         <v-col cols="12" md="9">
           <v-col cols="auto" class="imformation">
-            <v-btn block density="default  bg-teal-darken-4"
-              ><v-icon> mdi-information </v-icon>Personal Information
+            <v-btn block density="default  bg-teal-darken-4"><v-icon> mdi-information </v-icon>Personal Information
             </v-btn>
 
             <v-card variant="text" class="mt-4 text-subtitle-1">
@@ -53,9 +45,8 @@
               <v-icon class="me-2"> mdi-numeric </v-icon>Age : {{ users.age }} years old
             </v-card>
 
-            <v-btn block density="default mt-4 bg-teal-darken-4"
-              ><v-icon>mdi-map-marker</v-icon> Contact Information</v-btn
-            >
+            <v-btn block density="default mt-4 bg-teal-darken-4"><v-icon>mdi-map-marker</v-icon> Contact
+              Information</v-btn>
 
             <v-card variant="text mt-4 " class="text-subtitle-1">
               <v-icon class="me-2"> mdi-phone </v-icon>Phone number :
@@ -72,8 +63,7 @@
           <v-col v-if="this.role != '1' && this.role != '2'" cols="auto">
             <v-btn block density="default  bg-teal-darken-4">
               <v-icon class="me-2"> mdi-account </v-icon>Parent
-              Information</v-btn
-            >
+              Information</v-btn>
           </v-col>
         </v-col>
       </v-row>
@@ -99,10 +89,38 @@ export default {
       });
     },
     getRole() {
-     let cookies = Cookies.get('user_role');
-     this.role = cookies
+      let cookies = Cookies.get('user_role');
+      this.role = cookies
+    },
+    // change profile
+    async handleFileUpload(event) {
+      const file = event.target.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append('profile_picture', file);
+
+        const response = await http.post('/users/me/profile-picture', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        if (response.status === 200) {
+          this.users.profile = response.data.profile_picture;
+          this.$socket.emit('updateProfilePicture', this.users.id, this.users.profile);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   },
+
+
 
   mounted() {
     this.fetchData();

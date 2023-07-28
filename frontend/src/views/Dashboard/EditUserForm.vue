@@ -1,6 +1,6 @@
 <template>
-  <!-- <admin-dashboard></admin-dashboard> -->
-  <section class="container">
+  <admin-dashboard></admin-dashboard>
+  <section class="container mt-4">
     <div class="card bg-gray-300">
       <div class="p-5 pb-1">
         <div>
@@ -11,166 +11,80 @@
         <!-- firstname -->
         <div class="col-md-6">
           <label for="validationCustom01" class="form-label">First name</label>
-          <input
-            type="text"
-            v-model="user.first_name"
-            class="form-control"
-            id="validationCustom01"
-          />
+          <input type="text" v-model="user.first_name" class="form-control" id="validationCustom01" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Last name</label>
-          <input
-            type="text"
-            v-model="user.last_name"
-            class="form-control"
-            id="validationCustom02"
-          />
+          <input type="text" v-model="user.last_name" class="form-control" id="validationCustom02" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Email</label>
-          <input
-            type="text"
-            v-model="user.email"
-            class="form-control"
-            id="validationCustom02"
-          />
+          <input type="text" v-model="user.email" class="form-control" id="validationCustom02" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Password</label>
-          <input
-            type="password"
-            v-model="user.password"
-            class="form-control"
-            id="validationCustom02"
-          />
+          <input type="password" v-model="user.password" class="form-control" id="validationCustom02" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
-          <label for="validationCustom02" class="form-label"
-            >Phone Number</label
-          >
-          <input
-            type="tel"
-            v-model="user.phone_number"
-            class="form-control"
-            id="phoneNumber"
-            placeholder=""
-          />
+          <label for="validationCustom02" class="form-label">Phone Number</label>
+          <input type="tel" v-model="user.phone_number" class="form-control" id="phoneNumber" placeholder="" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Address</label>
-          <input
-            type="tel"
-            class="form-control"
-            v-model="user.address"
-            id="addreess"
-            placeholder="   "
-          />
+          <input type="tel" class="form-control" v-model="user.address" id="addreess" placeholder="   " />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
-          <label for="validationCustom02" class="form-label"
-            >Date of Birth</label
-          >
-          <input
-            type="date"
-            class="form-control"
-            v-model="user.date_of_birth"
-            :max="max_date"
-            id="dateOfBirth"
-            placeholder=""
-          />
+          <label for="validationCustom02" class="form-label">Date of Birth</label>
+          <input type="date" class="form-control" v-model="user.date_of_birth" :max="max_date" id="dateOfBirth"
+            placeholder="" />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Age</label>
-          <input
-            type="number"
-            class="form-control"
-            id="dateOfBirth"
-            v-model="updatedAge"
-            placeholder=""
-          />
+          <input type="number" class="form-control" id="dateOfBirth" v-model="updatedAge" placeholder="" />
           <div class="valid-feedback">Looks good!</div>
         </div>
 
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Gender</label>
           <div class="gender">
-            <input
-              type="radio"
-              name="gender"
-              id="male"
-              value="male"
-              v-model="user.gender"
-              class="form-check-input"
-            />
+            <input type="radio" name="gender" id="male" value="male" v-model="user.gender" class="form-check-input" />
             <label class="form-check-label" for="male">Male</label>
-            <input
-              type="radio"
-              name="gender"
-              id="female"
-              value="female"
-              v-model="user.gender"
-              class="form-check-input ml-5"
-            />
+            <input type="radio" name="gender" id="female" value="female" v-model="user.gender"
+              class="form-check-input ml-5" />
             <label class="form-check-label" for="female">Female</label>
           </div>
         </div>
 
         <div class="mb-3 col-md-6">
           <label for="formFileDisabled" class="form-label">Profile</label>
-          <input
-            class="form-control"
-            type="file"
-            id="formFileDisabled"
-            @change="getImage"
-          />
+          <input class="form-control" type="file" id="formFileDisabled" @change="getImage" />
         </div>
         <div class="mb-3 col-md-6">
           <label for="formFileDisabled" class="form-label">Class</label>
-          <select
-            v-model="user.class_room_id"
-            class="form-select"
-            aria-label="Default select example"
-          >
-            <option
-              v-for="classroom in classrooms"
-              :key="classroom"
-              :value="classroom.id"
-            >
-              {{ classroom.class_name}}
+          <select v-model="user.class_room_id" class="form-select" aria-label="Default select example">
+            <option v-for="classroom in classrooms" :key="classroom" :value="classroom.id">
+              {{ classroom.class_name }}
             </option>
           </select>
         </div>
         <div class="mb-3 col-md-6">
           <label for="formFileDisabled" class="form-label">Guardian</label>
-          <select
-            v-model="user.guardian_id"
-            class="form-select"
-            aria-label="Default select example"
-          >
-            <option
-              v-for="guardian in guardians"
-              :key="guardian"
-              :value="guardian.id"
-            >
-             <strong>{{ guardian.first_name}}  {{ guardian.last_name}}</strong> 
+          <select v-model="user.guardian_id" class="form-select" aria-label="Default select example">
+            <option v-for="guardian in guardians" :key="guardian" :value="guardian.id">
+              <strong>{{ guardian.first_name }} {{ guardian.last_name }}</strong>
             </option>
           </select>
         </div>
 
         <div class="col-12 d-flex justify-content-end">
-          <router-link
-            class="btn btn-warning text-white mr-2"
-            :to="{ path: '/student-list' }"
-            >Cancel</router-link
-          >
+          <router-link class="btn btn-warning text-white mr-2" :to="{ path: '/student-list' }">Cancel</router-link>
           <button type="submit" class="btn btn-primary text-white">
             Update User
           </button>
@@ -193,8 +107,8 @@ export default {
       image: null,
       profile: {},
       updatedAge: null,
-      guardians:[],
-      classrooms:[],
+      guardians: [],
+      classrooms: [],
     };
   },
   mounted() {
@@ -247,7 +161,7 @@ export default {
           });
         })
         .then(() => {
-          this.$router.push({ path: "/student-list"});
+          this.$router.push({ path: "/student-list" });
         })
         .catch((error) => {
           console.error("User update failed:", error);
@@ -275,13 +189,13 @@ export default {
     // get guardian for create
     getGuardian() {
       http.get('/getGuardians')
-      .then((response) => {
-        this.guardians = response.data.data;
-        console.log(this.guardians);
-      });
+        .then((response) => {
+          this.guardians = response.data.data;
+          console.log(this.guardians);
+        });
     },
   },
-  
+
   watch: {
     "user.date_of_birth": function () {
       this.calculateAge();
@@ -298,7 +212,7 @@ export default {
 </script>
 
 <style scoped>
-.container{
+.container {
   margin-left: 16%;
   width: 85%;
 }

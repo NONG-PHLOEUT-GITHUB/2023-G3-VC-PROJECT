@@ -162,8 +162,12 @@ const routes = [
     path: '/attendance-list/:id',
     name: '/AttendanceList',
     component: AttendanceList
-    
   },
+  // {
+  //   path: '/attendance-list',
+  //   name: '/StudentAttendanceList',
+  //   component: AttendanceList
+  // },
   {
     path: '/studentmostabsence',
     name: '/studentmostabsence',
@@ -207,14 +211,6 @@ const routes = [
     },
     component: TeacherDetail,
   },
-  {
-    path: '/attendance_list/:id',
-    name: 'attendance-list',
-    component: AttendanceList,
-    props: true
-  },
-
-
   {
     name: 'edit',
     path: '/edit/:id',

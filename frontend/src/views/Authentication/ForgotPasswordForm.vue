@@ -4,6 +4,15 @@
       Password reset email sent successfully!
       <span>Please check your Email {{ this.email }}</span>
     </v-snackbar>
+
+
+    <div class="text-center">
+      <v-overlay :model-value="overlay" class="align-center justify-center">
+        <v-progress-circular color="primary" indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+    </div>
+
+
     <v-container class="d-flex justify-center align-center">
       <v-flex xs12 md6 class="mb-7 w-50">
         <v-img
@@ -13,13 +22,6 @@
       </v-flex>
       <v-flex xs14 md6>
         <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8 mt-9" elevation="10" max-width="448" rounded="lg">
-          <v-progress-linear
-            :active="loading"
-            :indeterminate="loading"
-            absolute
-            bottom
-            color="deep-purple-accent-4"
-          ></v-progress-linear>
 
           <v-form ref="form" @submit.prevent="forgotPassword">
             <h2>Forgot password</h2>
@@ -34,7 +36,8 @@
                 <v-btn to="/login" class="mt-4" color="teal-darken-4" block variant="outlined">Cancel</v-btn>
               </v-col>
               <v-col>
-                <v-btn  ref="button" type="submit" color="teal-darken-4" block class="mt-4 ms-1 ">Next</v-btn>
+                <v-btn ref="button" type="submit" color="teal-darken-4" block
+                  class="mt-4 ms-1 ">Next</v-btn>
               </v-col>
             </v-row>
           </v-form>
@@ -52,7 +55,7 @@ export default {
   data: () => ({
     visible: false,
     snackbarVisible: false,
-    loading: false,
+    overlay: false,
     email: "",
     emailRules: [
       (v) => !!v || "E-mail is required",
@@ -62,17 +65,17 @@ export default {
 
   methods: {
     forgotPassword() {
-      if (this.$refs.form.validate() && this.email && this.emailRules ) {
-        this.loading = true;
-
+      if (this.$refs.form.validate() && this.email && this.emailRules) {
+        if (this.email != "") {
+          this.overlay = true;
+        }
         http
-        .post("forgot-password", {
+          .post("forgot-password", {
             email: this.email,
           })
           .then(() => {
             this.snackbarVisible = true;
-            // this.email = "";
-            this.loading = false;
+            this.overlay = false;
           })
           .catch((error) => {
             if (error.response.status === 404) {
@@ -94,7 +97,8 @@ export default {
 .snackbar {
   margin-bottom: 40%;
 }
-.reload{
+
+.reload {
   display: flex;
   justify-content: center;
   align-items: center;

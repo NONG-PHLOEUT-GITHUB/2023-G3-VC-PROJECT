@@ -79,13 +79,14 @@ ChartJS.register(
   CategoryScale,
   LinearScale
 );
-// import axios from "axios";
+
 export default {
   name: "BarChart",
   components: { 
     StudentMostAbsence,
-    Bar
-   },
+    Bar 
+  },
+  // mixins: [mixins.reactiveProp],
   data() {
     return {
       results: "",

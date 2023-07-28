@@ -2,20 +2,10 @@
   <admin-dashboard></admin-dashboard>
   <v-card class="table-container mt-4">
     <h3 class="ms-6">TEACHER LIST</h3>
-    <select
-      class="form-select mb-3"
-      aria-label="Default select example"
-      style="width: 30%"
-      v-model="selectedClass"
-      @click="getTeacher(selectedClass)"
-    >
-      <!-- <option selected disabled>Select class</option> -->
+    <select class="form-select mb-3" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
+      @click="getTeacher(selectedClass)">
 
-      <option
-        v-for="classroom in classrooms"
-        :key="classroom.id"
-        :value="classroom.id"
-      >
+      <option v-for="classroom in classrooms" :key="classroom.id" :value="classroom.id">
         {{ classroom.class_name }}
       </option>
     </select>
@@ -36,15 +26,15 @@
         </thead>
         <tbody v-if="listUser && listUser.length">
           <tr v-for="(student, index) in listUser" :key="student.id">
-            <td>{{ index + 1 }}</td>
-            <td>{{ student.first_name }}</td>
-            <td>{{ student.last_name }}</td>
-            <td>{{ student.gender }}</td>
-            <td>{{ student.age }}</td>
-            <td>{{ student.date_of_birth }}</td>
-            <td>{{ student.phone_number }}</td>
-            <td>{{ student.address }}</td>
-            <td>{{ student.email }}</td>
+            <td class="text-subtitle-1">{{ index + 1 }}</td>
+            <td class="text-subtitle-1">{{ student.first_name }}</td>
+            <td class="text-subtitle-1">{{ student.last_name }}</td>
+            <td class="text-subtitle-1">{{ student.gender }}</td>
+            <td class="text-subtitle-1">{{ student.age }}</td>
+            <td class="text-subtitle-1">{{ student.date_of_birth }}</td>
+            <td class="text-subtitle-1">{{ student.phone_number }}</td>
+            <td class="text-subtitle-1">{{ student.address }}</td>
+            <td class="text-subtitle-1">{{ student.email }}</td>
           </tr>
         </tbody>
         <tbody v-else>
@@ -183,7 +173,7 @@ td {
 }
 
 th {
-  background-color: blue;
+  background-color:#004D40;
   color: white;
 }
 
