@@ -1,7 +1,5 @@
 <template>
   <teacher-dashboard></teacher-dashboard>
-<<<<<<< HEAD
-=======
   <div class="card-container">
     <v-row class="mt-7 ms-24">
       <v-card
@@ -39,24 +37,18 @@
       </v-card>
     </v-row>
   </div>
->>>>>>> 7c698fb279bb789ebdf4d98e346ba347696014c9
   <div class="main">
     <StudentMostAbsenceVue></StudentMostAbsenceVue>
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-=======
 import http from "@/htpp.common.js";
->>>>>>> 7c698fb279bb789ebdf4d98e346ba347696014c9
 import StudentMostAbsenceVue from "../Student/StudentMostAbsence.vue";
 export default {
   components: {
     StudentMostAbsenceVue,
   },
-<<<<<<< HEAD
-=======
   data() {
     return {
       classroomCounts: {},
@@ -78,7 +70,6 @@ export default {
         });
     },
   },
->>>>>>> 7c698fb279bb789ebdf4d98e346ba347696014c9
 };
 </script>
 
@@ -86,8 +77,6 @@ export default {
 .main {
   width: 80%;
   margin-left: 18%;
-<<<<<<< HEAD
-=======
 }
 .card-container {
   padding: 10px;
@@ -96,6 +85,5 @@ export default {
 .bar1 {
   width: 48%;
   border-left: solid teal 5px;
->>>>>>> 7c698fb279bb789ebdf4d98e346ba347696014c9
 }
 </style>
