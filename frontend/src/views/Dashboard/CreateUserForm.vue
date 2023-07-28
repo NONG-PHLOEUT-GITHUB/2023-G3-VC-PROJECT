@@ -220,9 +220,7 @@ export default {
       gender: "",
       profile: "",
       role: "",
-      URL: "http://127.0.0.1:8000/api/users",
       imgURL: "http://127.0.0.1:8000/api/getImage",
-      classRoomURL: "http://127.0.0.1:8000/api/classrooms",
       class_room_id : null,
       guardian_id:null,
       listUser: [],
@@ -266,7 +264,7 @@ export default {
           class_room_id :this.class_room_id ,
           guardian_id: this.guardian_id
         };
-        axios.post(this.URL, newUser).then((response) => {
+        http.post('/users', newUser).then((response) => {
           this.listUser.push(response.data);
         });
         swal
@@ -276,16 +274,19 @@ export default {
             text: "you already save your user",
             timer: 2000,
           })
-          .catch((error) => {
-            console.log(error);
-          });
+          .then(() => {
+          this.$router.push({ path: "/student-list"});
+        })
+        .catch((error) => {
+          console.error("User update failed:", error);
+        });
       } else {
         swal.fire("Complete first", "complete all input", "info");
       }
     },
     // get class room for create
     getClassRoom() {
-      axios.get(this.classRoomURL).then((response) => {
+      http.get('/classrooms').then((response) => {
         this.classrooms = response.data.data;
       });
     },

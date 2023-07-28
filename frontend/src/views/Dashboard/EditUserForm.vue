@@ -1,5 +1,5 @@
 <template>
-  <admin-dashboard></admin-dashboard>
+  <!-- <admin-dashboard></admin-dashboard> -->
   <section class="container">
     <div class="card bg-gray-300">
       <div class="p-5 pb-1">
@@ -132,6 +132,38 @@
             @change="getImage"
           />
         </div>
+        <div class="mb-3 col-md-6">
+          <label for="formFileDisabled" class="form-label">Class</label>
+          <select
+            v-model="user.class_room_id"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            <option
+              v-for="classroom in classrooms"
+              :key="classroom"
+              :value="classroom.id"
+            >
+              {{ classroom.class_name}}
+            </option>
+          </select>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label for="formFileDisabled" class="form-label">Guardian</label>
+          <select
+            v-model="user.guardian_id"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            <option
+              v-for="guardian in guardians"
+              :key="guardian"
+              :value="guardian.id"
+            >
+             <strong>{{ guardian.first_name}}  {{ guardian.last_name}}</strong> 
+            </option>
+          </select>
+        </div>
 
         <div class="col-12 d-flex justify-content-end">
           <router-link
@@ -149,8 +181,10 @@
 </template>
 
 <script>
-import axios from "axios";
 import swal from "sweetalert2";
+import http from "../../htpp.common";
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -159,14 +193,18 @@ export default {
       image: null,
       profile: {},
       updatedAge: null,
+      guardians:[],
+      classrooms:[],
     };
   },
   mounted() {
-    axios
-      .get(`http://127.0.0.1:8000/api/users/${this.$route.params.id}`)
+    http
+      .get(`/users/${this.$route.params.id}`)
       .then((response) => {
         this.user = response.data.data;
         this.calculateAge(); // Call calculateAge method on mount to set the initial value of updatedAge
+        this.getGuardian();
+        this.getClassRoom();
       });
   },
   methods: {
@@ -194,9 +232,9 @@ export default {
         profile: this.profile,
       };
 
-      axios
+      http
         .put(
-          `http://127.0.0.1:8000/api/users/${this.$route.params.id}`,
+          `/users/${this.$route.params.id}`,
           newData
         )
         .then((response) => {
@@ -228,7 +266,22 @@ export default {
       }
       this.updatedAge = age;
     },
+    // get class room for create
+    getClassRoom() {
+      http.get('/classrooms').then((response) => {
+        this.classrooms = response.data.data;
+      });
+    },
+    // get guardian for create
+    getGuardian() {
+      http.get('/getGuardians')
+      .then((response) => {
+        this.guardians = response.data.data;
+        console.log(this.guardians);
+      });
+    },
   },
+  
   watch: {
     "user.date_of_birth": function () {
       this.calculateAge();
