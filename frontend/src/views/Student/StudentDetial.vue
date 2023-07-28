@@ -10,7 +10,7 @@
   >
     <v-container fluid>
       <v-row>
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="3" class="text-center">
           <v-img
             :src="users.profile"
             alt="Avatar"
@@ -19,11 +19,11 @@
             cover
           >
           </v-img>
-          <v-title class="title ms-20">
+          <v-title class="title">
             {{ users.first_name }} {{ users.last_name }}</v-title
           >
 
-          <v-btn class="ms-10 mt-5">
+          <v-btn class="mt-5">
             <v-icon size="24"> mdi-account-edit </v-icon>Change profile
           </v-btn>
         </v-col>
