@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\CommentResource;
 use App\Http\Resources\GuardianResource;
 use App\Http\Resources\UserResource;
 use App\Models\ClassRoom;
@@ -222,10 +223,14 @@ class UserController extends Controller
     // }
 
     // ----------------------get comment for student------------------------
-    public function getCommentForStudent($id)
+    
+    public function getCommentForStudent($user_id, $teacher_id)
     {
-        $comments = Comment::where('student_id', $id)->get();
-        return $comments;
+        $comments = Comment::where('user_id', $user_id)
+                    ->where('teacher_id', $teacher_id)
+                    ->get();
+        $comment = CommentResource::collection($comments);
+        return response()->json(['comments' => $comment]);
     }
 
     public function getUserIdFromGuardianId($id)
