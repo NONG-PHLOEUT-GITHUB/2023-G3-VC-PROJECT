@@ -94,7 +94,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-card class="box mb-5 bg-teal-darken-4" max-width="340" elevation="4">
+    <v-card v-if="comments != ''" class="box mb-5 bg-teal-darken-4" max-width="340" elevation="4">
       <v-card-title class="text-h5 font-weight-bold">Feedback</v-card-title>
       <v-card-text v-for="comment in comments" :key="comment">
         <div class="text--primary mb-2">
@@ -107,6 +107,7 @@
       </v-card-text>
     </v-card>
   </v-sheet>
+
 </template>
 
 <script>

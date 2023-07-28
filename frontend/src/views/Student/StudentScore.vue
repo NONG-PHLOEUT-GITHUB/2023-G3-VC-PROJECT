@@ -1,9 +1,9 @@
 <template>
   <teacher-dashboard></teacher-dashboard>
   <div class="card shadow border-0 mb-7">
-    <label for="file-input">Choose each for input score</label>
+    <label for="file-input">Choose class for input score</label>
     <select
-      class="form-select mb-3"
+      class="form-select mb-3 mt-2"
       aria-label="Default select example"
       style="width: 30%"
       v-model="selectedClass"
@@ -18,36 +18,37 @@
         {{ classroom.class_name }}
       </option>
     </select>
-    <input v-model="month" class="w-40" type="date" />
+    <label for="">Select date</label>
+    <input v-model="month" class="date" type="date" />
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
-        <thead class="bg-primary">
+        <thead class="thead">
           <tr>
-            <th scope="col" class="fs-7 text-light">Name</th>
-            <th scope="col" class="fs-7 text-light">Khmer</th>
-            <th scope="col" class="fs-7 text-light">Math</th>
-            <th scope="col" class="fs-7 text-light">English</th>
-            <th scope="col" class="fs-7 text-light">History</th>
-            <th scope="col" class="fs-7 text-light">Biology</th>
-            <th scope="col" class="fs-7 text-light">Geo</th>
-            <th scope="col" class="fs-7 text-light">ES</th>
-            <th scope="col" class="fs-7 text-light">MC</th>
-            <th scope="col" class="fs-7 text-light">Chemish</th>
-            <th scope="col" class="fs-7 text-light">Physics</th>
-            <th scope="col" class="fs-7 text-light">Sport</th>
-            <th scope="col" class="fs-7 text-light">ICT</th>
-            <th scope="col" class="fs-7 text-light">Total</th>
-            <th scope="col" class="fs-7 text-light">Average</th>
+            <th scope="col" class="text-subtitle-2 text-light">Name</th>
+            <th scope="col" class="text-subtitle-2 text-light">Khmer</th>
+            <th scope="col" class="text-subtitle-2 text-light">Math</th>
+            <th scope="col" class="text-subtitle-2 text-light">English</th>
+            <th scope="col" class="text-subtitle-2 text-light">History</th>
+            <th scope="col" class="text-subtitle-2 text-light">Biology</th>
+            <th scope="col" class="text-subtitle-2 text-light">Geo</th>
+            <th scope="col" class="text-subtitle-2 text-light">ES</th>
+            <th scope="col" class="text-subtitle-2 text-light">MC</th>
+            <th scope="col" class="text-subtitle-2 text-light">Chemish</th>
+            <th scope="col" class="text-subtitle-2 text-light">Physics</th>
+            <th scope="col" class="text-subtitle-2 text-light">Sport</th>
+            <th scope="col" class="text-subtitle-2 text-light">ICT</th>
+            <th scope="col" class="text-subtitle-2 text-light">Total</th>
+            <th scope="col" class="text-subtitle-2 text-light">Average</th>
           </tr>
         </thead>
 
         <tbody v-if="listUser && listUser.length">
           <tr
-            class="border-secondary"
+            class="border-secondary "
             v-for="student in listUser"
             :key="student.id"
           >
-            <td>
+            <td class="text-subtitle-1">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -152,8 +153,8 @@
                 v-model="student.ICT"
               />
             </td>
-            <td>{{ getTotalScore(student) }}</td>
-            <td>{{ getAverageScore(student) }}</td>
+            <td class="text-subtitle-1">{{ getTotalScore(student) }}</td>
+            <td class="text-subtitle-1">{{ getAverageScore(student) }}</td>
           </tr>
         </tbody>
         <tr v-else>
@@ -410,5 +411,18 @@ export default {
   display: flex;
   justify-content: flex-end;
   width: 100%;
+}
+
+.thead{
+  background-color: #004D40;
+}
+
+.date{
+  border: solid 1px;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  padding: 10px;
+  width: 30%;
+  border-radius: 10px;
 }
 </style>

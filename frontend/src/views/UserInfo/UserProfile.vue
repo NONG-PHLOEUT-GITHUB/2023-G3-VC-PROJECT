@@ -6,14 +6,8 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12" md="3" class="text-center">
-          <!-- <v-img :src="users.profile" alt="Avatar" class="img-fluid my-7 w-75 rounded-circle ms-10" height="200" cover>
-          </v-img> -->
-
-          <label for="profilePictureInput">
-            <v-img :src="users.profile" alt="Avatar" class="img-fluid my-7 w-75 rounded-circle ms-10" height="200" cover>
-              <v-icon class="mdi mdi-camera position-absolute bottom-0 right-0 m-2" color="white"></v-icon>
-            </v-img>
-          </label>
+          <v-img :src="users.profile" alt="Avatar" class="img-fluid my-7 w-75 rounded-circle ms-10" height="200" cover>
+          </v-img>
 
           <input id="profilePictureInput" type="file" accept="image/*" class="d-none" @change="handleFileUpload">
 
