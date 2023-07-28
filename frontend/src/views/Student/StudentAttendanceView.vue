@@ -19,9 +19,9 @@
               <table class="table table-hover table-nowrap">
                 <thead>
                   <tr>
-                    <th scope="col" class="text-sm text-primary">Date</th>
-                    <th scope="col" class="text-sm text-primary">Status</th>
-                    <th scope="col" class="text-sm text-primary">Reason</th>
+                    <th scope="col" class="text-lg text-primary">Date</th>
+                    <th scope="col" class="text-lg text-primary">Status</th>
+                    <th scope="col" class="text-lg text-primary">Reason</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -29,14 +29,14 @@
                     v-for="(detail, index) in filteredAttendanceDetails"
                     :key="index"
                   >
-                    <td class="text-sm text-black">{{ detail.date }}</td>
-                    <td class="text-sm text-black">
+                    <td class="text-lg text-black">{{ detail.date }}</td>
+                    <td class="text-lg text-black">
                       {{ detail.status }}
                     </td>
-                    <td class="text-sm text-black">{{ detail.reason }}</td>
+                    <td class="text-lg text-black">{{ detail.reason }}</td>
                   </tr>
                   <tr v-if="filteredAttendanceDetails.length === 0">
-                    <td colspan="5" class="text-center text-base text-dark">
+                    <td colspan="5" class="text-center text-lg text-dark">
                       No absence records for this month.
                     </td>
                   </tr>
