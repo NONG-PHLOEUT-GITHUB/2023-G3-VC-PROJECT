@@ -88,14 +88,13 @@ Route::post('/subjects', [SubjectController::class, 'store']);
 Route::get('/getComments', [CommentController::class, 'index']);
 Route::post('/comments', [CommentController::class, 'store']);
 Route::put("/comments", [CommentController::class, 'update']);
-Route::get("/getcommentforspecificstudent/{id}", [UserController::class, "getCommentForStudent"]);
+Route::get("/get-comments-student/{user_id}/{teacher_id}", [UserController::class, "getCommentForStudent"]);
 
 // ========================score router=============================================
 
 Route::get('/scores', [ScoreController::class, 'index']);
 Route::post('/scores', [ScoreController::class, 'store']);
 Route::get('/getStudentScore/{id}/{month}', [ScoreController::class, 'getStudentScore']);
-Route::get('/getStudentScoreEveryMonth/{userId}', [ScoreController::class, 'getStudentScoreEveryMonth']);
 
 // ========================subject teachers router=================================== 
 

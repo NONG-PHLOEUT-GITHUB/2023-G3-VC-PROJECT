@@ -1,14 +1,15 @@
+
 <template>
   <student-dashboard />
   <h3 class="title mb-2">MY SCORES RECORDS</h3>
-  <v-card class="card mt-3" v-if="displayTabs">
+  <v-card class="card mt-3">
     <v-tabs v-model="tab" bg-color="deep-purple-darken-4" center-active>
       <v-tab
-        v-for="month in scoresByMonthWithSummary"
-        :key="month.month"
-        :value="month.month"
+        v-for="(month, index) in monthsWithAttendance"
+        :key="month"
+        :value="index + 1"
       >
-        {{ months[month.month - 1] }}
+        {{ month }}
       </v-tab>
     </v-tabs>
   </v-card>
@@ -285,24 +286,22 @@ export default {
     user: [],
     scores: [],
     subjects: [],
+    monthsWithAttendance: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
   }),
   computed: {
-    months() {
-      return [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-    },
     scoresByMonth() {
       const scoresByMonth = {};
       for (const score of this.scores) {
@@ -401,3 +400,4 @@ export default {
   margin-left: 18%;
 }
 </style>
+

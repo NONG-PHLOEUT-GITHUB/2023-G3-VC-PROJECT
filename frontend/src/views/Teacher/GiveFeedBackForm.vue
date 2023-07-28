@@ -1,5 +1,5 @@
 <template>
-<admin-dashboard></admin-dashboard>
+<teacher-dashboard></teacher-dashboard>
   <div class="give-feedback-container">
     <h2>Give Feedback</h2>
     <form @submit.prevent="giveComment">
@@ -21,7 +21,7 @@
           </select>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group ">
         <label for="feedback-text">Feedback</label>
         <textarea
           id="feedback-text"
@@ -40,9 +40,9 @@
 
 import Swal from "sweetalert2";
 import http from "@/htpp.common";
-import AdminDashboard from '../../components/AdminDashboard.vue';
+import TeacherDashboard from '../../components/TeacherDashboard.vue';
 export default {
-  components: { AdminDashboard },
+  components: { TeacherDashboard },
   data() {
     return {
       listUser: [],
@@ -68,7 +68,6 @@ export default {
         .post('/comments', commentData)
         .then((response) => {
           console.log(response);
-          console.log(commentData);
         })
         Swal.fire({
           icon: "success",
@@ -105,9 +104,9 @@ export default {
     },
   },
   mounted() {
-    this.getTeacherId();
     const id = this.$route.params.id;
     this.fetchData(id);
+    this.getTeacherId();
   },
 };
 </script>

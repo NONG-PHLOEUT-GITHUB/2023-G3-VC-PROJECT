@@ -3,32 +3,25 @@
   <div>
     <h3 class="text">ABSENCE MONTHLY RECORD</h3>
     <v-card class="card mt-3">
-      <v-tabs v-model="tab" bg-color="primary">
+      <v-tabs v-model="tab" class="tab">
         <v-tab v-for="(month, index) in months" :key="index" :value="index + 1">
           {{ month }}
         </v-tab>
       </v-tabs>
       <v-card-text class="container">
         <v-window v-model="tab">
-          <v-window-item
-            v-for="(month, index) in months"
-            :key="index"
-            :value="index + 1"
-          >
+          <v-window-item v-for="(month, index) in months" :key="index" :value="index + 1">
             <div class="table-responsive">
               <table class="table table-hover table-nowrap">
                 <thead>
                   <tr>
-                    <th scope="col" class="text-lg text-primary">Date</th>
-                    <th scope="col" class="text-lg text-primary">Status</th>
-                    <th scope="col" class="text-lg text-primary">Reason</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Reason</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    v-for="(detail, index) in filteredAttendanceDetails"
-                    :key="index"
-                  >
+                  <tr v-for="(detail, index) in filteredAttendanceDetails" :key="index">
                     <td class="text-lg text-black">{{ detail.date }}</td>
                     <td class="text-lg text-black">
                       {{ detail.status }}
@@ -36,7 +29,7 @@
                     <td class="text-lg text-black">{{ detail.reason }}</td>
                   </tr>
                   <tr v-if="filteredAttendanceDetails.length === 0">
-                    <td colspan="5" class="text-center text-lg text-dark">
+                    <td colspan="5" class="text-center text-lg text-red ">
                       No absence records for this month.
                     </td>
                   </tr>
@@ -75,9 +68,12 @@ export default {
   },
   computed: {
     filteredAttendanceDetails() {
-      return this.attendanceDetails.filter(
-        (detail) => parseInt(detail.date.split("-")[1]) === this.tab
-      );
+      return this.attendanceDetails.filter((detail) => {
+        if (detail.date) {
+          return parseInt(detail.date.split("-")[1]) === this.tab;
+        }
+        return false;
+      });
     },
   },
 
@@ -107,15 +103,22 @@ export default {
 .card {
   margin-left: 17%;
 }
+
 .text {
   margin-left: 47%;
   padding: 1%;
 }
+
 .container {
   padding: 5px;
 }
 
 .table th {
-  font-size: 20px;
+  font-size: 15px;
+}
+
+.tab{
+  color: white;
+  background: #004D40;
 }
 </style>

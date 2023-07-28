@@ -168,7 +168,6 @@ export default {
     getData() {
       axios.get(this.URL).then((response) => {
         this.listUser = response.data;
-        console.log(this.listUser);
       });
     },
     //================== Delete a user =================
@@ -236,14 +235,12 @@ export default {
       formData.append("file", file);
 
       http
-        .post("/api/users-import", formData, {
+        .post("/users-import", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((response) => {
-          console.log(response.data);
-
+        .then(() => {
           /// progressbar
           const Toast = Swal.mixin({
             toast: true,
@@ -263,6 +260,8 @@ export default {
           });
           // call mounted
           this.getData();
+                // Clear the file input
+          this.$refs.fileInput.value = '';
         })
         .catch((error) => {
           console.error(error.response.data);

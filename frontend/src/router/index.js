@@ -117,11 +117,6 @@ const routes = [
   },
   
 // ============main dashboard=======
-  // {
-  //   path: '/admin-dashboard',
-  //   name: 'AdmindDashboard',
-  //   component: AdminDashboard
-  // },
   {
     path: '/student-dashboard',
     name: 'StudentDashboard',
@@ -159,8 +154,8 @@ const routes = [
     component: CreateUserForm
   },
   {
-    path: '/attendance-list/:id',
-    name: '/AttendanceList',
+    path: '/attendance-list',
+    name: '/attendance-list',
     component: AttendanceList
   },
   // {
@@ -212,15 +207,23 @@ const routes = [
     component: TeacherDetail,
   },
   {
+    path: '/attendance_list/:id',
+    name: 'AttendanceList',
+    component: AttendanceList,
+    props: true
+  },
+  // {
+  //   path: '/attendance',
+  //   name: 'AttendanceList',
+  //   component: AttendanceList,
+  //   props: true
+  // },
+
+  {
     name: 'edit',
     path: '/edit/:id',
     component: EditUserForm
   },
-  // {
-  //   path: '/teacher_list',
-  //   name: 'teacher_list',
-  //   component: TeacherListView
-  // },
   {
     path: '/class_rooms/:id',
     name: 'class_rooms',
@@ -276,11 +279,7 @@ const routes = [
     name: 'EditGuadian',
     component: EditGuardian
   },
-  // {
-  //   path: '/:pathMatch(.*)*', // matches any unknown path
-  //   name: 'not-found',
-  //   component: NotFoundView
-  // }
+ 
   
 
 ]

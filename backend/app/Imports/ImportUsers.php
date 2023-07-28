@@ -38,6 +38,8 @@ class ImportUsers implements ToModel,WithHeadingRow
                 'address'=> $row['address'] ?? $row['Address'] ?? $row['address'],
                 'password' => Hash::make($row['password'] ?? $row['Password']),
                 'profile'=>$row['profile'] ?? $row['Profile'],
+                // 'class_room_id'=>$row['class room id'] ?? $row['Class room id'],
+                // 'guardian_id'=>$row['Guardian id'] ?? $row['guardian id'],
                 'role'=> 3,
             ]);
             $user->save();
