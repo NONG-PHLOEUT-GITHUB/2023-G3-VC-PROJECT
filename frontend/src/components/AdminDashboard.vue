@@ -8,7 +8,7 @@ export default {
   data: () => ({
     menubar: [
       {
-        path: '/home',
+        path: '/admin-dashboard',
         title: "Dashboard",
         icon: 'mdi-home'
       },

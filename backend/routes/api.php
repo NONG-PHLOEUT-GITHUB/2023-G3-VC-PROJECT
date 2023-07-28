@@ -46,7 +46,7 @@ Route::get('/users/{id}', [UserController::class,"show"]);
 Route::put('/users/{id}', [UserController::class,"update"]);
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
-Route::get("/getPercentageOfFaildedStudentByMonth/{year}", [UserController::class, "getPercentageOfFaildedStudentByMonth"]);
+Route::get("/show-graph-of-student-fail/{year}", [UserController::class, "getPercentageOfFaildedStudentByMonth"]);
 Route::post('/getImage', [UserController::class, 'getImage']);
 Route::get("/users/subject/{subject}", [UserController::class, "getTeacherBySubject"]);
 Route::get('/get-teachers', [UserController::class,"getTeachers"]);
@@ -77,6 +77,7 @@ Route::delete('/delete-user/{id}', [UserController::class,"destroy"]);
 Route::get('/getuserInClass/{class}', [ClassRoomController::class, 'getClassNameUserId']);
 Route::get('/get-students-in-class/{class}', [ClassRoomController::class, 'getClassNameTeacherId']);
 Route::get('/get-students-by-class', [ClassRoomController::class, 'getClassName']);
+Route::get('/getAllStudents/{class_id}', [ClassRoomController::class, 'getStudentsInClass']);
 
 // ========================subject router===============================================
 
@@ -120,7 +121,7 @@ Route::get("/getParents/{id}", [UserController::class,"getParentsByuser"]);
 // ========================attendance router===========================================
 
 Route::get("/getAttendance", [AttendanceController::class, "getAttendanceListOfStudents"]);
-Route::get("/getMostAbsence", [AttendanceController::class, "getStudentMostAbsence"]);
+Route::get("/get-most-absence-student", [AttendanceController::class, "getStudentMostAbsence"]);
 Route::get("/getAttendance/{id}", [AttendanceController::class, "getAttendanceOfRole3ByUserId"]);
 Route::get("/getStudentDetail/{id}", [AttendanceController::class, "showAttendanceDetail"]);
 Route::get("/getteacherDetail/{id}", [AttendanceController::class, "getAttendanceOfRole2ByUserId"]);

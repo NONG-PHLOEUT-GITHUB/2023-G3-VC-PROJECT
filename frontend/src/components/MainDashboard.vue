@@ -5,8 +5,8 @@
         <v-list-item class="drawer">
           <v-list-item>
             <div class="image">
-              <v-img class="image" :width="200" :height="130" aspect-ratio="16/9" cover
-                src="https://png.pngtree.com/png-clipart/20211017/original/pngtree-school-logo-png-image_6851480.png"
+              <v-img class="image" 
+                src="https://o.remove.bg/downloads/bf8de2f7-5da0-4277-a6be-6f94c888ed6a/image-removebg-preview.png"
                 rounded rounded-sm>
               </v-img>
             </div>
@@ -191,10 +191,9 @@ export default {
   font-size: 12px;
 }
 
-.image {
-  border-radius: 100%;
+.image{
+  margin-top: 10%;
 }
-
 .user-name span {
   text-transform: uppercase;
 }
@@ -203,9 +202,6 @@ export default {
   text-transform: uppercase;
 }
 
-.image {
-  border: solid 1px rgb(122, 148, 154);
-}
 
 .title-class {
   font-size: 15px !important;

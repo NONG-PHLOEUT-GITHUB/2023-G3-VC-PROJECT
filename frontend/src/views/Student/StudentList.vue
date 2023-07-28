@@ -6,23 +6,43 @@
     </div>
     <div class="card-header">
       <div>
-        <select class="form-select mb-3" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
-          @click="getStudentInClass(selectedClass)">
-          <option selected disabled>Select grade</option>
-          <option v-for="grade in grades" :key="grade.value" :value="grade.value">
-            {{ grade.label }}
+        <select
+          class="form-select mb-3"
+          aria-label="Default select example"
+          style="width: 30%"
+          v-model="selectedClass"
+          @click="getStudentInClass(selectedClass)"
+        >
+          <option
+            v-for="classroom in classrooms"
+            :key="classroom.id"
+            :value="classroom.id"
+          >
+            {{ classroom.class_name }}
           </option>
         </select>
       </div>
-      <div class="form-group d-flex justify-content-between mb-3" style="width: 100%">
+      <div
+        class="form-group d-flex justify-content-between mb-3"
+        style="width: 100%"
+      >
         <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search user" aria-label="Search"
-            style="width: 78%" />
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search user"
+            aria-label="Search"
+            style="width: 78%"
+            v-model="searchQuery"
+          />
           <button class="btn btn-outline-warning my-2 my-sm-0" type="button">
             <i class="bi bi-search"></i> Search
           </button>
         </form>
-        <form class="input-file ms-4 me-3 border border-4 rounded-1 p-2" @submit.prevent="importFile">
+        <form
+          class="input-file ms-4 me-3 border border-4 rounded-1 p-2"
+          @submit.prevent="importFile"
+        >
           <label for="file-input">Upload Excel file</label>
           <input type="file" ref="fileInput" id="file-input" />
           <i class="bi bi-cloud-arrow-up ms-2 mt-4"></i>
@@ -30,7 +50,8 @@
         <router-link :to="{ path: '/createUser' }" class="text-white">
           <button type="button" class="btn btn-primary align-self-end ms-2">
             <i class="bi bi-person-plus-fill"></i> Add new user
-          </button></router-link>
+          </button></router-link
+        >
       </div>
     </div>
     <div class="table-responsive">
@@ -43,16 +64,26 @@
             <th scope="col" class="fs-6 text-light">Email</th>
             <th scope="col" class="fs-6 text-light">Phone Number</th>
             <th scope="col" class="fs-6 text-light">Action</th>
-        
           </tr>
         </thead>
 
         <tbody v-if="listUser && listUser.length">
-          <tr v-for="(user, id) of listUser" :key="id" class="border-2-dark">
+          <tr
+            v-for="(user, id) of filteredStudentsList"
+            :key="id"
+            class="border-2-dark"
+          >
             <td>
-              <img v-if="user.profile" :src="user.profile" class="avatar avatar-sm rounded-circle me-2">
-              <img v-else src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
-                class="avatar avatar-sm rounded-circle me-2">
+              <img
+                v-if="user.profile"
+                :src="user.profile"
+                class="avatar avatar-sm rounded-circle me-2"
+              />
+              <img
+                v-else
+                src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
+                class="avatar avatar-sm rounded-circle me-2"
+              />
               <a class="text-heading font-semibold" href="#">
                 {{ user.first_name }} {{ user.last_name }}
               </a>
@@ -74,34 +105,43 @@
             </td>
             <td class="text-end d-flex justify-content-end">
               <router-link :to="{ path: '/student_detail/' + user.id }">
-                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300"
+                >
                   <i class="bi bi-person-circle text-warning"></i> View Profile
                 </button>
               </router-link>
 
               <router-link :to="{ path: '/edit/' + user.id }">
-                <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2"
+                >
                   <i class="bi bi-pencil-square"></i> Edit
                 </button>
               </router-link>
 
-              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
-                @click="deleteUser(user.id)">
+              <button
+                type="button"
+                class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
+                @click="deleteUser(user.id)"
+              >
                 <i class="bi bi-trash-fill"></i> Delete
               </button>
             </td>
           </tr>
         </tbody>
-          <tr v-else>
-            <td colspan="6" class="text-center text-danger">
-              This class does not have any user.
-            </td>
-          </tr> 
+        <tr v-else>
+          <td colspan="6" class="text-center text-danger">
+            This class does not have any user.
+          </td>
+        </tr>
       </table>
       <div class="card-footer border-0 py-5">
-        <span class="text-muted text-sm">   
-          Total Users  {{ selectedClass }} :
-        {{ listUser?.length }} people</span>
+        <span class="text-muted text-sm">
+          Total Users {{ selectedClass }} : {{ listUser?.length }} people</span
+        >
       </div>
     </div>
   </div>
@@ -116,20 +156,6 @@ export default {
       listUser: [],
       errorMessage: "",
       searchQuery: "",
-      grades: [
-        { label: "Grade 9A", value: "9A" },
-        { label: "Grade 9B", value: "9B" },
-        { label: "Grade 9C", value: "9C" },
-        { label: "Grade 10A", value: "10A" },
-        { label: "Grade 10B", value: "10B" },
-        { label: "Grade 10C", value: "10C" },
-        { label: "Grade 11A", value: "11A" },
-        { label: "Grade 11B", value: "11B" },
-        { label: "Grade 11C", value: "11C" },
-        { label: "Grade 12A", value: "12A" },
-        { label: "Grade 12B", value: "12B" },
-        { label: "Grade 12C", value: "12C" },
-      ],
       selectedClass: null,
     };
   },
@@ -144,27 +170,14 @@ export default {
             .toLowerCase()
             .includes(this.searchQuery.trim().toLowerCase())
         );
-        if (filtered.length === 0) {
-          return [
-            {
-              first_name: "Student not found",
-              last_name: "",
-              email: "",
-              phone_number: "",
-              etc: "",
-            },
-          ];
-        } else {
-          return filtered;
-        }
+        return filtered;
       }
     },
   },
   methods: {
     //===================get data from Database =================
     getStudents() {
-      http.get('/users')
-      .then((response) => {
+      http.get("/users").then((response) => {
         this.listUser = response.data.data;
       });
     },
@@ -179,7 +192,7 @@ export default {
       }).then((willDelete) => {
         if (willDelete) {
           http
-            .delete('/delete-user' + `/${id}`)
+            .delete("/delete-user" + `/${id}`)
             .then(() => {
               swal("Deleted!", "Your user has been deleted.", "success");
               // call mounted
@@ -260,31 +273,51 @@ export default {
           });
 
           // Reset the file input field
-          this.$refs.fileInput.value = '';
+          this.$refs.fileInput.value = "";
           // call mounted
           this.getStudents();
-
         })
         .catch((error) => {
           console.error(error.response.data);
         });
     },
     getStudentInClass(classId) {
+      if (!classId) {
+        http
+          .get(`/get-teachers`)
+          .then((response) => {
+            this.listUser = response.data.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        http
+          .get(`/get-teachers`)
+          .then((response) => {
+            this.listUser = response.data.data.filter(
+              (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
+            );
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    getClassrooms() {
       http
-        .get('/getuserInClass'+ "/" + `${classId}`)
+        .get("/classrooms")
         .then((response) => {
-          this.listUser = response.data.data;
-          for (let user of this.listUser) {
-            this.listUser = user.students;
-          }
+          this.classrooms = response.data.data;
         })
         .catch((error) => {
-          console.error(error);
+          console.log("Error fetching classrooms:", error);
         });
     },
   },
 
   mounted() {
+    this.getClassrooms();
     this.getStudentInClass();
     this.$refs.fileInput.addEventListener("change", this.importFile);
     return this.getStudents();
@@ -293,7 +326,7 @@ export default {
 </script>
 
 <style scoped>
-.card{
+.card {
   margin-left: 18%;
   margin-right: 10px;
   background: #000;
@@ -343,7 +376,7 @@ export default {
   margin-top: 20px;
 }
 
-.card{
+.card {
   padding: 20px;
 }
 </style>

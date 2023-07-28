@@ -82,18 +82,12 @@
                 {{ this.parents.gender }}
               </v-card>
               <v-card variant="text mt-4">
-                <v-icon class="me-2"> mdi-numeric </v-icon>Age : {{ this.parents.age }}
-              </v-card>
-              <v-card variant="text mt-4">
                 <v-icon class="me-2"> mdi-phone </v-icon>Phone number :
                 {{ this.parents.phone_number }}
               </v-card>
               <v-card variant="text mt-4">
                 <v-icon class="me-2"> mdi-map-marker </v-icon>Address :
                 {{ this.parents.address }}
-              </v-card>
-              <v-card variant="text mt-4">
-                <v-icon class="me-2"> mdi-email </v-icon>Job : {{ this.parents.job }}
               </v-card>
             </div>
           </v-col>
@@ -161,7 +155,7 @@ export default {
 };
 </script>
   
-  <style scoped>
+<style scoped>
 .detail {
   margin-left: 18%;
 }

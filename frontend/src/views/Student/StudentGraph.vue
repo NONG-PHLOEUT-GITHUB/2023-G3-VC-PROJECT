@@ -133,7 +133,8 @@ export default {
   },
 };
 </script>
-<style>
+
+<style scoped>
 .main {
   margin-left: 19%;
   margin-right: 10px;

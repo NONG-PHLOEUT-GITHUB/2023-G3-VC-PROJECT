@@ -1,7 +1,7 @@
 <template>
   <admin-dashboard></admin-dashboard>
   <v-card class="table-container mt-4">
-    <h3 class="ms-6">STUDENT LIST</h3>
+    <h3 class="ms-6">TEACHER LIST</h3>
     <select
       class="form-select mb-3"
       aria-label="Default select example"
@@ -9,7 +9,8 @@
       v-model="selectedClass"
       @click="getTeacher(selectedClass)"
     >
-      <option selected disabled>Select class</option>
+      <!-- <option selected disabled>Select class</option> -->
+
       <option
         v-for="classroom in classrooms"
         :key="classroom.id"
@@ -90,7 +91,7 @@ export default {
     downloadPDF() {
       this.isDetail = true;
       http
-        .get('/get-teachers')
+        .get("/get-teachers")
         .then((response) => {
           this.teachers = response.data.data;
           const element = document.getElementById("my-table");
@@ -112,7 +113,7 @@ export default {
     },
     fetchData() {
       http
-        .get('/get-teachers')
+        .get("/get-teachers")
         .then((response) => {
           this.listUser = response.data.data;
         })
@@ -131,16 +132,27 @@ export default {
         });
     },
     getTeacher(classId) {
-      http
-        .get(`/get-teachers`)
-        .then((response) => {
-          this.listUser = response.data.data.filter(
-            (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (!classId) {
+        http
+          .get(`/get-teachers`)
+          .then((response) => {
+            this.listUser = response.data.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        http
+          .get(`/get-teachers`)
+          .then((response) => {
+            this.listUser = response.data.data.filter(
+              (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
+            );
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
   },
   mounted() {

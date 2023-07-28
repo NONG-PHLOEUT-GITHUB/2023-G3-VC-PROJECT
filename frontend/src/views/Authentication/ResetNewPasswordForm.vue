@@ -42,7 +42,7 @@
 <!-- // https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
 <script>
 import Swal from 'sweetalert2'
-
+import Cookies from 'js-cookie';
 import http from '@/htpp.common';
 export default {
     data() {
@@ -77,7 +77,22 @@ export default {
             http.post(`/reset-new-password/${this.token}`, data, {
 
             })
-                .then(() => {
+                .then((response) => {
+                    const ROLE = response.data.data.role;
+                    const token = response.data.access_token;
+                    if (ROLE === 1) {
+                        this.$router.push("/admin-dashboard");
+                    } else if (ROLE === 2) {
+                        this.$router.push("/teacher-dashboard");
+                    } else {
+                        this.$router.push("/student-dashboard");
+                    }
+
+                    // Set cookies
+                    Cookies.set("access_token", token, { expires: 14 });
+                    Cookies.set("user_role", ROLE, { expires: 14 });
+                    console.log('data', response.data.data.role);
+                    
                     const Toast = Swal.mixin({
                         toast: true,
                         position: "top-end",
@@ -94,11 +109,14 @@ export default {
                         icon: "success",
                         title: "Your password has been reset successfully!",
                         html: "<p>You can now login with your new password.</p>",
-                    }).then(() => {
-                        this.newPassword = '';
-                        this.confirmPassword = '';
-                        this.$router.push('/login')
-                    });
+                    })
+                        .then(() => {
+
+                            this.newPassword = '';
+                            this.confirmPassword = '';
+
+                            // this.$router.push('/login')
+                        });
                 })
 
                 .catch(error => {

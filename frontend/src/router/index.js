@@ -22,6 +22,7 @@ import SaveListStudent from '@/views/Student/SaveListStudent.vue';
 import TeacherDetail from '../views/Student/StudentDetial.vue'
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
 import GiveFeedBackForm from '../views/Teacher/GiveFeedBackForm.vue'
+import StudentScoreReport from '../views/Teacher/StudentScoreReport.vue'
 //authentication router =================================================================
 import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vue';
 import LoginForm from '../views/Authentication/LoginForm.vue';
@@ -31,7 +32,7 @@ import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
 //user router ===========================================================================
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================
-import AdminDashboard from '@/components/AdminDashboard.vue';
+// import AdminDashboard from '@/components/AdminDashboard.vue';
 import TeacherDashboard from '@/components/TeacherDashboard.vue';
 import StudentDashboard from '@/components/StudentDashboard.vue';
 //student dashboard router ==============================================================
@@ -85,7 +86,7 @@ const routes = [
     }
   },
   {
-    path: '/home',
+    path: '/admin-dashboard',
     name: 'home',
     component: DashboardHomeView,
     meta:{
@@ -116,11 +117,11 @@ const routes = [
   },
   
 // ============main dashboard=======
-  {
-    path: '/admin-dashboard',
-    name: 'AdmindDashboard',
-    component: AdminDashboard
-  },
+  // {
+  //   path: '/admin-dashboard',
+  //   name: 'AdmindDashboard',
+  //   component: AdminDashboard
+  // },
   {
     path: '/student-dashboard',
     name: 'StudentDashboard',
@@ -158,7 +159,7 @@ const routes = [
     component: CreateUserForm
   },
   {
-    path: '/attendance-list',
+    path: '/attendance-list/:id',
     name: '/AttendanceList',
     component: AttendanceList
     
@@ -213,10 +214,10 @@ const routes = [
     component: TeacherDetail,
   },
   {
-
-    path: '/attendance_list',
-    name: 'attendance_list',
-    component: AttendanceList
+    path: '/attendance_list/:id',
+    name: 'attendance-list',
+    component: AttendanceList,
+    props: true
   },
 
 
@@ -244,9 +245,16 @@ const routes = [
     component: StudentGraph,
   },
   {
-    path: '/feedback',
+    path: '/feedback/:id',
     name: 'feedback',
-    component: GiveFeedBackForm
+    component: GiveFeedBackForm,
+    props: true
+  },
+  {
+    path: '/student-score-report/:id',
+    name: 'student-score-report',
+    component: StudentScoreReport,
+    props: true
   },
   {
     path: '/teacher-classroom',

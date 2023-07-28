@@ -28,24 +28,33 @@
   </main>
 </template>
 <script>
-import axios from "axios";
-
+import http from '@/htpp.common'
 export default {
   data() {
     return {
       attendanceData: [],
-      URL: "http://127.0.0.1:8000/api/getMostAbsence",
     };
   },
-  mounted() {
-    axios
-      .get(this.URL)
-      .then((response) => {
-        this.attendanceData = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+  // mounted() {
+  //   http
+  //     .get('/get-most-absence-student')
+  //     .then((response) => {
+  //       this.attendanceData = response.data;
+  //       console.log('studnet absent',response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // },
+  async mounted() {
+    try {
+      const response = await http.get('/get-most-absence-student');
+      this.attendanceData = response.data;
+      console.log('student absent', response);
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 </script>
