@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\CommentResource;
 use App\Http\Resources\GuardianResource;
 use App\Http\Resources\UserResource;
 use App\Models\ClassRoom;
@@ -203,29 +204,19 @@ class UserController extends Controller
             'failed_users_female_count' => $failed_users_female_count,
         ], 200);
 
-        // $failedPercentage = [20, 30, 10, 45, 28, 54, 34, 45, 28, 54, 34, 9];
-        // return response()->json(['data' => $failedPercentage], 200);
-
 
     }
 
-    // --------------------------------Teacher Detail--------------------------------
-
-    // public function getTeacherDetail($teacher_id){
-    //     $teacher = User::where('role', 2)
-    //         ->join('class_room_teacher', 'users.id', '=', 'class_room_teacher.user_id')
-    //         ->join('class_rooms', 'class_room_teacher.class_room_id', '=', 'class_rooms.id')
-    //         ->where('users.id', $teacher_id)
-    //         ->get(['class_rooms.*']);
-
-    //     return response()->json(["message" => true, "data" => $teacher], 200);
-    // }
 
     // ----------------------get comment for student------------------------
-    public function getCommentForStudent($id)
+    
+    public function getCommentForStudent($user_id, $teacher_id)
     {
-        $comments = Comment::where('student_id', $id)->get();
-        return $comments;
+        $comments = Comment::where('user_id', $user_id)
+                    ->where('teacher_id', $teacher_id)
+                    ->get();
+        $comment = CommentResource::collection($comments);
+        return response()->json(['comments' => $comment]);
     }
 
     public function getUserIdFromGuardianId($id)
