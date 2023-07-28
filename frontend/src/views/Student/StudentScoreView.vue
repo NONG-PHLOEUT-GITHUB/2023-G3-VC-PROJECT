@@ -1,13 +1,13 @@
 <template>
-  <student-dashboard />
-  <h3 class="title mt-5">MY SCORES RECORDS</h3>
+  <student-dashboard/>
+  <h3 class="title mb-2">MY SCORES RECORDS</h3>
   <v-card class="card mt-3" v-if="displayTabs">
-    <v-tabs v-model="tab"  center-active>
-      <v-tab
-        v-for="month in scoresByMonthWithSummary"
-        :key="month.month"
-        :value="month.month"
-      >
+    <v-tabs
+      v-model="tab"
+      bg-color="deep-purple-darken-4"
+      center-active
+    >
+      <v-tab v-for="(month) in scoresByMonthWithSummary" :key="month.month" :value="month.month">
         {{ months[month.month - 1] }}
       </v-tab>
     </v-tabs>
@@ -15,14 +15,10 @@
 
   <v-card-text class="card">
     <v-window v-model="tab">
-      <v-window-item
-        v-for="month in scoresByMonthWithSummary"
-        :key="month.month"
-        :value="month.month"
-      >
+      <v-window-item v-for="(month) in scoresByMonthWithSummary" :key="month.month" :value="month.month">
         <div class="table-responsive">
           <table class="table table-hover table-nowrap mt-2">
-            <thead class="bg-teal">
+            <thead class="bg-primary">
               <tr>
                 <th scope="col" class="text-sm text-light">Subject</th>
                 <th scope="col" class="text-sm text-light">Score</th>
@@ -33,9 +29,7 @@
             <tbody>
               <template v-if="month.scores.length === 0">
                 <tr>
-                  <td colspan="5" class="text-center text-md text-dark">
-                    There is no score yet in this month
-                  </td>
+                  <td colspan="5" class="text-center text-md text-dark">There is no score yet in this month</td>
                 </tr>
               </template>
               <template v-else>
@@ -45,220 +39,42 @@
                   class="border-2-dark"
                 >
                   <!-- <td class="text-sm text-black">{{ score.subject_id }}</td> -->
-                  <td v-if="score.subject_id == 1" class="text-sm text-black">
-                    Khmer
-                  </td>
-                  <td v-if="score.subject_id == 2" class="text-sm text-black">
-                    Math
-                  </td>
-                  <td v-if="score.subject_id == 3" class="text-sm text-black">
-                    English
-                  </td>
-                  <td v-if="score.subject_id == 4" class="text-sm text-black">
-                    History
-                  </td>
-                  <td v-if="score.subject_id == 5" class="text-sm text-black">
-                    Biology
-                  </td>
-                  <td v-if="score.subject_id == 6" class="text-sm text-black">
-                    Geography
-                  </td>
-                  <td v-if="score.subject_id == 7" class="text-sm text-black">
-                    Earth Science
-                  </td>
-                  <td v-if="score.subject_id == 8" class="text-sm text-black">
-                    Morality-Civics
-                  </td>
-                  <td v-if="score.subject_id == 9" class="text-sm text-black">
-                    Chemisty
-                  </td>
-                  <td v-if="score.subject_id == 10" class="text-sm text-black">
-                    Physics
-                  </td>
-                  <td v-if="score.subject_id == 11" class="text-sm text-black">
-                    Sport
-                  </td>
-                  <td v-if="score.subject_id == 12" class="text-sm text-black">
-                    ICT (information communication technology)
-                  </td>
+                  <td v-if="score.subject_id == 1" class="text-sm text-black">Khmer</td>
+                  <td v-if="score.subject_id == 2" class="text-sm text-black">Math</td>
+                  <td v-if="score.subject_id == 3" class="text-sm text-black">English</td>
+                  <td v-if="score.subject_id == 4" class="text-sm text-black">History</td>
+                  <td v-if="score.subject_id == 5" class="text-sm text-black">Biology</td>
+                  <td v-if="score.subject_id == 6" class="text-sm text-black">Geography</td>
+                  <td v-if="score.subject_id == 7" class="text-sm text-black">Earth Science</td>
+                  <td v-if="score.subject_id == 8" class="text-sm text-black">Morality-Civics</td>
+                  <td v-if="score.subject_id == 9" class="text-sm text-black">Chemisty</td>
+                  <td v-if="score.subject_id == 10" class="text-sm text-black">Physics</td>
+                  <td v-if="score.subject_id == 11" class="text-sm text-black">Sport</td>
+                  <td v-if="score.subject_id == 12" class="text-sm text-black">ICT (information communication technology)</td>
 
-                  <td
-                    v-if="
-                      (score.subject_id == 1 || score.subject_id == 2) &&
-                      score.score < 50
-                    "
-                    class="text-sm text-red"
-                  >
-                    {{ score.score }}
-                  </td>
-                  <td
-                    v-if="
-                      (score.subject_id == 1 || score.subject_id == 2) &&
-                      score.score >= 50 &&
-                      score.score < 80
-                    "
-                    class="text-sm text-warning"
-                  >
-                    {{ score.score }}
-                  </td>
-                  <td
-                    v-if="
-                      (score.subject_id == 1 || score.subject_id == 2) &&
-                      score.score >= 80 &&
-                      score.score < 100
-                    "
-                    class="text-sm text-green"
-                  >
-                    {{ score.score }}
-                  </td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score < 50" class="text-sm text-red">{{ score.score }}</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 50 && score.score < 80" class="text-sm text-warning">{{ score.score }}</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 80 && score.score < 100" class="text-sm text-green">{{ score.score }}</td>
 
-                  <td
-                    v-if="score.subject_id > 2 && score.score < 25"
-                    class="text-sm text-red"
-                  >
-                    {{ score.score }}
-                  </td>
-                  <td
-                    v-if="
-                      score.subject_id > 2 &&
-                      score.score >= 25 &&
-                      score.score < 40
-                    "
-                    class="text-sm text-warning"
-                  >
-                    {{ score.score }}
-                  </td>
-                  <td
-                    v-if="
-                      score.subject_id > 2 &&
-                      score.score >= 40 &&
-                      score.score < 50
-                    "
-                    class="text-sm text-green"
-                  >
-                    {{ score.score }}
-                  </td>
+                  <td v-if="score.subject_id > 2 && score.score < 25" class="text-sm text-red">{{ score.score }}</td>
+                  <td v-if="score.subject_id > 2 && score.score >= 25 && score.score < 40" class="text-sm text-warning">{{ score.score }}</td>
+                  <td v-if="score.subject_id > 2 && score.score >= 40 && score.score < 50" class="text-sm text-green">{{ score.score }}</td>
 
-                  <td
-                    v-if="
-                      (score.subject_id == 1 || score.subject_id == 2) &&
-                      score.score < 50
-                    "
-                    class="text-sm text-red"
-                  >
-                    F
-                  </td>
-                  <td
-                    v-if="
-                      (score.subject_id == 1 || score.subject_id == 2) &&
-                      score.score >= 50 &&
-                      score.score < 60
-                    "
-                    class="text-sm text-warning"
-                  >
-                    E
-                  </td>
-                  <td
-                    v-if="
-                      (score.subject_id == 1 || score.subject_id == 2) &&
-                      score.score >= 60 &&
-                      score.score < 70
-                    "
-                    class="text-sm text-warning"
-                  >
-                    D
-                  </td>
-                  <td
-                    v-if="
-                      (score.subject_id == 1 || score.subject_id == 2) &&
-                      score.score >= 70 &&
-                      score.score < 80
-                    "
-                    class="text-sm text-warning"
-                  >
-                    C
-                  </td>
-                  <td
-                    v-if="
-                      (score.subject_id == 1 || score.subject_id == 2) &&
-                      score.score >= 80 &&
-                      score.score < 90
-                    "
-                    class="text-sm text-green"
-                  >
-                    B
-                  </td>
-                  <td
-                    v-if="
-                      (score.subject_id == 1 || score.subject_id == 2) &&
-                      score.score >= 90 &&
-                      score.score < 100
-                    "
-                    class="text-sm text-green"
-                  >
-                    A
-                  </td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score < 50" class="text-sm text-red">F</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 50 && score.score < 60" class="text-sm text-warning">E</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 60 && score.score < 70" class="text-sm text-warning">D</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 70 && score.score < 80" class="text-sm text-warning">C</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 80 && score.score < 90" class="text-sm text-green">B</td>
+                  <td v-if="(score.subject_id == 1 || score.subject_id == 2) && score.score >= 90 && score.score < 100" class="text-sm text-green">A</td>
+                  
+                  <td v-if="score.subject_id > 2 && score.score < 25" class="text-sm text-red">F</td>
+                  <td v-if="score.subject_id > 2 && (score.score >= 25 && score.score < 30)" class="text-sm text-warning">E</td>
+                  <td v-if="score.subject_id > 2 && (score.score >= 30 && score.score < 35)" class="text-sm text-warning">D</td>
+                  <td v-if="score.subject_id > 2 && (score.score >= 35 && score.score < 40)" class="text-sm text-warning">C</td>
+                  <td v-if="score.subject_id > 2 && (score.score >= 40 && score.score < 45)" class="text-sm text-green">B</td>
+                  <td v-if="score.subject_id > 2 && (score.score >= 45 && score.score < 50)" class="text-sm text-green">A</td>
 
-                  <td
-                    v-if="score.subject_id > 2 && score.score < 25"
-                    class="text-sm text-red"
-                  >
-                    F
-                  </td>
-                  <td
-                    v-if="
-                      score.subject_id > 2 &&
-                      score.score >= 25 &&
-                      score.score < 30
-                    "
-                    class="text-sm text-warning"
-                  >
-                    E
-                  </td>
-                  <td
-                    v-if="
-                      score.subject_id > 2 &&
-                      score.score >= 30 &&
-                      score.score < 35
-                    "
-                    class="text-sm text-warning"
-                  >
-                    D
-                  </td>
-                  <td
-                    v-if="
-                      score.subject_id > 2 &&
-                      score.score >= 35 &&
-                      score.score < 40
-                    "
-                    class="text-sm text-warning"
-                  >
-                    C
-                  </td>
-                  <td
-                    v-if="
-                      score.subject_id > 2 &&
-                      score.score >= 40 &&
-                      score.score < 45
-                    "
-                    class="text-sm text-green"
-                  >
-                    B
-                  </td>
-                  <td
-                    v-if="
-                      score.subject_id > 2 &&
-                      score.score >= 45 &&
-                      score.score < 50
-                    "
-                    class="text-sm text-green"
-                  >
-                    A
-                  </td>
-
-                  <td v-if="score.score < 25" class="text-sm text-red">
-                    Failed
-                  </td>
+                  <td v-if="score.score < 25" class="text-sm text-red">Failed</td>
                   <td v-else class="text-sm text-green">Passed</td>
                 </tr>
               </template>
@@ -266,10 +82,10 @@
           </table>
         </div>
         <div class="total mb-5 mt-5">
-          <h4 class="mb-2 text-teal">Total Score: {{ month.total }}</h4>
-          <h4 class="mb-2 text-teal">Average: {{ month.average }}</h4>
-          <h4 class="mb-2 text-teal">Grade: {{ month.grade }}</h4>
-          <h4 class="mb-2 text-teal">Status: {{ month.status }}</h4>
+          <h4 class="mb-2">Total Score: {{ month.total }}</h4>
+          <h4 class="mb-2">Average: {{ month.average }}</h4>
+          <h4 class="mb-2">Grade: {{ month.grade }}</h4>
+          <h4 class="mb-2">Status: {{ month.status }}</h4>
         </div>
       </v-window-item>
     </v-window>
@@ -277,7 +93,7 @@
 </template>
 
 <script>
-import http from "@/htpp.common";
+import http from '@/htpp.common'
 
 export default {
   data: () => ({
@@ -300,7 +116,7 @@ export default {
         "September",
         "October",
         "November",
-        "December",
+        "December"
       ];
     },
     scoresByMonth() {
@@ -324,34 +140,21 @@ export default {
         scoresByMonth[month].push(score);
       }
 
-      const scoresByMonthArray = Object.entries(scoresByMonth).map(
-        ([month, scores]) => {
-          const total = scores.reduce((acc, score) => acc + score.score, 0);
-          const average = (total / (scores.length + 2)).toFixed(2);
-          // const average = (total / 10).toFixed(3);
-          const grade =
-            average <= 25
-              ? "F"
-              : average <= 30
-              ? "E"
-              : average <= 35
-              ? "D"
-              : average <= 40
-              ? "C"
-              : average <= 47
-              ? "B"
-              : "A";
-          const status = average <= 25 ? "Fail" : "Pass";
-          return {
-            month: parseInt(month),
-            scores,
-            total,
-            average,
-            grade,
-            status,
-          };
-        }
-      );
+      const scoresByMonthArray = Object.entries(scoresByMonth).map(([month, scores]) => {
+        const total = scores.reduce((acc, score) => acc + score.score, 0);
+        const average = (total / (scores.length + 2)).toFixed(3);
+        // const average = (total / 10).toFixed(3);
+        const grade = average <= 25 ? "F" : average <= 30 ? "E" : average <= 35 ? "D" : average <= 40 ? "C" : average <= 47 ? "B" : "A";
+        const status = average <= 25 ? "Fail" : "Pass";
+        return {
+          month: parseInt(month),
+          scores,
+          total,
+          average,
+          grade,
+          status,
+        };
+      });
 
       return scoresByMonthArray.sort((a, b) => a.month - b.month);
     },
@@ -367,20 +170,16 @@ export default {
       });
     },
     getScoreByMonth(month) {
-      return this.scores
-        .filter((score) => {
-          const scoreMonth = new Date(score.month).getMonth() + 1;
-          return scoreMonth === month;
-        })
-        .map((score) => {
-          const subject = this.subjects
-            ? this.subjects.find((subject) => subject.id === score.subject_id)
-            : null;
-          return {
-            ...score,
-            subject_name: subject ? subject.subject_name : "Unknown Subject",
-          };
-        });
+      return this.scores.filter((score) => {
+        const scoreMonth = new Date(score.month).getMonth() + 1;
+        return scoreMonth === month;
+      }).map((score) => {
+        const subject = this.subjects ? this.subjects.find((subject) => subject.id === score.subject_id) : null;
+        return {
+          ...score,
+          subject_name: subject ? subject.subject_name : "Unknown Subject",
+        };
+      });
     },
   },
   mounted() {
@@ -397,7 +196,7 @@ export default {
 .table th {
   font-size: 20px;
 }
-.title {
-  margin-left:47%;
+.title{
+  margin-left: 18%;
 }
 </style>
