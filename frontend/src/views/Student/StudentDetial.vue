@@ -111,8 +111,8 @@
     </v-card>
   </v-sheet>
 </template>
-  
-  <script>
+
+<script>
 import http from "@/htpp.common";
 
 export default {
@@ -182,7 +182,7 @@ export default {
   },
 };
 </script>
-  
+
 <style scoped>
 .detail {
   margin-left: 18%;
@@ -219,8 +219,7 @@ export default {
   position: absolute;
   width: 100%;
 }
-.box{
+.box {
   margin-left: 27%;
 }
 </style>
-  

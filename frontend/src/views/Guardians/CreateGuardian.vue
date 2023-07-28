@@ -53,7 +53,9 @@
           </div>
         </div>
         <div class="col-md-6">
-          <label for="validationCustom02" class="form-label">Chat id of guadian</label>
+          <label for="validationCustom02" class="form-label"
+            >Chat id of guadian</label
+          >
           <input
             type="text"
             v-model="chatId"
@@ -123,10 +125,10 @@ export default {
       if (
         this.first_name &&
         this.last_name &&
-        this.gender&&
+        this.gender &&
         this.chatId &&
         this.phone_number &&
-        this.address 
+        this.address
       ) {
         const newGuadian = {
           first_name: this.first_name,
@@ -136,9 +138,9 @@ export default {
           phone_number: this.phone_number,
           address: this.address,
         };
-        http.post('/Guardians', newGuadian).then((response) => {
-            this.listGuadian.push(response.data.data);
-            console.log(this.listGuadian);
+        http.post("/Guardians", newGuadian).then((response) => {
+          this.listGuadian.push(response.data.data);
+          console.log(this.listGuadian);
         });
         swal
           .fire({
@@ -148,7 +150,7 @@ export default {
             timer: 2000,
           })
           .then(() => {
-            this.$router.push({ path: "/guardian-list"});
+            this.$router.push({ path: "/guardian-list" });
           })
           .catch((error) => {
             console.log(error);

@@ -3,118 +3,118 @@
   <div class="container mt-5">
     <v-card>
       <v-btn block variant="outlined" size="large">attendance check list</v-btn>
-    <br />
-    <div>
-      <select
-      class="form-select mb-3"
-      aria-label="Default select example"
-      style="width: 30%"
-      v-model="selectedClass"
-      @click="getStudentInClass(selectedClass)"
-    >
-      <option selected disabled>Select class</option>
-      <option
-        v-for="classroom in classrooms"
-        :key="classroom.id"
-        :value="classroom.id"
-      >
-        {{ classroom.class_name }}
-      </option>
-    </select>
-    </div>
-    <div class="checkToday d-flex w-25">
-      <v-checkbox
-            @click="SelectAttendace()"
-            class="selectattendance"
-            value="red"
-            label="Attendance Today"
-            hide-details
+      <br />
+      <div>
+        <select
+          class="form-select mb-3"
+          aria-label="Default select example"
+          style="width: 30%"
+          v-model="selectedClass"
+          @click="getStudentInClass(selectedClass)"
+        >
+          <option selected disabled>Select class</option>
+          <option
+            v-for="classroom in classrooms"
+            :key="classroom.id"
+            :value="classroom.id"
           >
-      </v-checkbox> : {{ this.date }} 
-    </div>
+            {{ classroom.class_name }}
+          </option>
+        </select>
+      </div>
+      <div class="checkToday d-flex w-25">
+        <v-checkbox
+          @click="SelectAttendace()"
+          class="selectattendance"
+          value="red"
+          label="Attendance Today"
+          hide-details
+        >
+        </v-checkbox>
+        : {{ this.date }}
+      </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Selected</th>
-          <th>FirstName</th>
-          <th>LastName</th>
-          <th>Gender</th>
-          <th>Status</th>
-          <th>Reason</th>
-        </tr>
-      </thead>
-      <tbody v-if="students && students.length">
-        <tr v-for="student in students" :key="student.id">
-          <td class="text-center">
-            <v-checkbox
-              @click="getChatId(student.id)"
-              v-model="student.selected"
-              class="selectstudent"
-              color="red"
-              value="red"
-              hide-details
-          ></v-checkbox>
-          </td>
-          <td>{{ student.first_name }}</td>
-          <td>{{ student.last_name }}</td>
-          <td>{{ student.gender }}</td>
-          <td>
-            <div class="dropdown rounded-1">
-              <select
-                class="form-select align-self-end"
-                v-model="student.status"
-                aria-label="Default select example"
-                id="validationCustom01"
-              >
-                <option selected disabled>Select status</option>
-                <option value="Present">Present</option>
-                <option value="Absent">Absent</option>
-                <option value="Early">Early</option>
-                <option value="Excused">Excused</option>
-                <option value="Unexcused">Unexcused</option>
-                <option value="On leave">On leave</option>
-                <option value="No show">No show</option>
-              </select>
-            </div>
-          </td>
-          <td>
-            <textarea
-              type="tel"
-              v-model="student.reason"
-              class="form-control"
-              id="reason"
-              placeholder=""
-            />
-          </td>
-        </tr>
-      </tbody>
-      <tbody v-else>
+      <table>
+        <thead>
+          <tr>
+            <th>Selected</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Gender</th>
+            <th>Status</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody v-if="students && students.length">
+          <tr v-for="student in students" :key="student.id">
+            <td class="text-center">
+              <v-checkbox
+                @click="getChatId(student.id)"
+                v-model="student.selected"
+                class="selectstudent"
+                color="red"
+                value="red"
+                hide-details
+              ></v-checkbox>
+            </td>
+            <td>{{ student.first_name }}</td>
+            <td>{{ student.last_name }}</td>
+            <td>{{ student.gender }}</td>
+            <td>
+              <div class="dropdown rounded-1">
+                <select
+                  class="form-select align-self-end"
+                  v-model="student.status"
+                  aria-label="Default select example"
+                  id="validationCustom01"
+                >
+                  <option selected disabled>Select status</option>
+                  <option value="Present">Present</option>
+                  <option value="Absent">Absent</option>
+                  <option value="Early">Early</option>
+                  <option value="Excused">Excused</option>
+                  <option value="Unexcused">Unexcused</option>
+                  <option value="On leave">On leave</option>
+                  <option value="No show">No show</option>
+                </select>
+              </div>
+            </td>
+            <td>
+              <textarea
+                type="tel"
+                v-model="student.reason"
+                class="form-control"
+                id="reason"
+                placeholder=""
+              />
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="6" class="text-center text-danger">
+              This class does not have any students.
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-      <tr >
-        <td colspan="6" class="text-center text-danger">
-          This class does not have any students.
-        </td>
-      </tr>
-      </tbody>
-    </table>
-
-    <div class="col-12 d-flex justify-content-end btn">
-      <button
-        type="submit"
-        class="btn btn-primary text-white"
-        @click="submitForm()"
-      >
-        Save
-      </button>
-    </div>
-  </v-card>
+      <div class="col-12 d-flex justify-content-end btn">
+        <button
+          type="submit"
+          class="btn btn-primary text-white"
+          @click="submitForm()"
+        >
+          Save
+        </button>
+      </div>
+    </v-card>
   </div>
 </template>
 <script>
 import swal from "sweetalert2";
 import axios from "axios";
-import http from '../../htpp.common'
+import http from "../../htpp.common";
 export default {
   name: "SweetAlert2",
   data() {
@@ -122,7 +122,7 @@ export default {
       students: [],
       date: null,
       chat_id: null,
-      classrooms:[],
+      classrooms: [],
       grades: [
         { label: "Grade 9A", value: "9A" },
         { label: "Grade 9B", value: "9B" },
@@ -168,7 +168,7 @@ export default {
                 reason: student.reason,
               };
               // console.log(newAttend);
-              return http.post('/checkStudentAttendance', newAttend);
+              return http.post("/checkStudentAttendance", newAttend);
             } else {
               swal.fire("Complete first", "complete all input", "info");
             }
@@ -191,7 +191,7 @@ export default {
     // https://www.youtube.com/watch?v=aNmRNjME6mE
     async getChatId(id) {
       try {
-        const response = await http.get('/guardian' + "/" + `${id}`);
+        const response = await http.get("/guardian" + "/" + `${id}`);
         this.chat_id = response.data.guardian_id;
         console.log(response.data.guardian_id);
       } catch (error) {
@@ -230,13 +230,13 @@ export default {
             reason: student.reason,
             date: this.date,
           };
-    
+
           // Send the attendance data to your API
           http
-            .post('/checkStudentAttendance', attendanceData)
+            .post("/checkStudentAttendance", attendanceData)
             .then((response) => {
-               const id = response.data.data.id;
-              this.$router.push({ path: '/attendance_list/' + id });
+              const id = response.data.data.id;
+              this.$router.push({ path: "/attendance_list/" + id });
             })
             .catch((error) => {
               console.log(error);
@@ -255,8 +255,7 @@ export default {
     },
 
     getStudentData() {
-      http.get('/get-students')
-      .then((response) => {
+      http.get("/get-students").then((response) => {
         this.students = response.data.data;
       });
     },
@@ -265,7 +264,7 @@ export default {
         .get(`/get-students`)
         .then((response) => {
           console.log(response.data.data);
-          this.students = response.data.data
+          this.students = response.data.data;
           this.students = response.data.data.filter(
             (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
           );
@@ -290,14 +289,14 @@ export default {
     setInterval(this.getCurrentDateTime, 1000);
   },
   mounted() {
-    this.getStudentInClass()
-    this.getClassrooms()
+    this.getStudentInClass();
+    this.getClassrooms();
     this.getStudentData();
   },
 };
 </script>
 
-<style  scoped>
+<style scoped>
 table {
   padding: 2%;
   width: 100%;
@@ -338,11 +337,11 @@ td.status {
   margin-left: 34px;
 }
 
-.container{
+.container {
   width: 84%;
   margin-left: 17%;
 }
-.checkToday{
+.checkToday {
   justify-content: center;
   align-items: center;
 }

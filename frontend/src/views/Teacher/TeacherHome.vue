@@ -1,22 +1,22 @@
 <template>
-    <teacher-dashboard></teacher-dashboard>
-    <div class="main">
-        <StudentMostAbsenceVue></StudentMostAbsenceVue>
-    </div>
+  <teacher-dashboard></teacher-dashboard>
+  <div class="main">
+    <StudentMostAbsenceVue></StudentMostAbsenceVue>
+  </div>
 </template>
 
 <script>
-import StudentMostAbsenceVue from '../Student/StudentMostAbsence.vue';
+import StudentMostAbsenceVue from "../Student/StudentMostAbsence.vue";
 export default {
-    components :{
-        StudentMostAbsenceVue
-    }
-}
+  components: {
+    StudentMostAbsenceVue,
+  },
+};
 </script>
 
 <style scoped>
-.main{
-    width: 80%;
-    margin-left: 18%;
+.main {
+  width: 80%;
+  margin-left: 18%;
 }
 </style>

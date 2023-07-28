@@ -57,7 +57,9 @@
 
         <router-link to="/forgot-password">Forgot login password?</router-link>
 
-        <v-btn type="submit" color="teal-darken-4" block class="mt-4">login</v-btn>
+        <v-btn type="submit" color="teal-darken-4" block class="mt-4"
+          >login</v-btn
+        >
       </v-form>
     </v-card>
   </div>

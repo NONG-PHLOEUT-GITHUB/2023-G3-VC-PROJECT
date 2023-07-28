@@ -1,9 +1,9 @@
 <template>
   <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
   <teacher-dashboard v-else></teacher-dashboard>
-  <main class="table mt-5 ">
+  <main class="table mt-5">
     <h3 class="text-h5">
-      Attendance Records : 
+      Attendance Records :
       <span> {{ user.first_name }} {{ user.last_name }}</span>
     </h3>
     <v-table class="mt-4">
@@ -15,24 +15,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr  v-for="record in attendanceRecords" :key="record.id">
+        <tr v-for="record in attendanceRecords" :key="record.id">
           <td class="text-subtitle-1">{{ record.date }}</td>
           <td class="text-subtitle-1">{{ record.status }}</td>
           <td class="text-subtitle-1">{{ record.reason }}</td>
         </tr>
       </tbody>
-    </v-table>  
-    <v-btn color="teal-darken-4" class="btn-container" :width="130" @click="generatePDF()">save </v-btn>
+    </v-table>
+    <v-btn
+      color="teal-darken-4"
+      class="btn-container"
+      :width="130"
+      @click="generatePDF()"
+      >save
+    </v-btn>
   </main>
   <!-- <button @click="generatePDF()" class="button">save</button> -->
 </template>
 
 <script>
 import axios from "axios";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import swal from "sweetalert2";
 import jsPDF from "jspdf";
-import http from '../../htpp.common'
+import http from "../../htpp.common";
 import "jspdf-autotable";
 export default {
   data() {
@@ -48,7 +54,7 @@ export default {
   methods: {
     listattendance(id) {
       http
-        .get('/getAttendance' + "/" + id)
+        .get("/getAttendance" + "/" + id)
         .then((response) => {
           this.user = response.data.user;
           this.attendanceRecords = response.data.attendanceRecords;
@@ -59,7 +65,7 @@ export default {
     },
     async getChatId(id) {
       try {
-        const response = await http.get('/guardian' + "/" + `${id}`);
+        const response = await http.get("/guardian" + "/" + `${id}`);
         this.chat_id = response.data.guardian_id;
         console.log(response.data.guardian_id);
       } catch (error) {
@@ -118,9 +124,9 @@ export default {
     },
 
     getRole() {
-     let cookies = Cookies.get('user_role');
-     this.role = cookies
-    }
+      let cookies = Cookies.get("user_role");
+      this.role = cookies;
+    },
   },
   mounted() {
     const id = this.$route.params.id;
@@ -148,7 +154,7 @@ main {
 .button {
   margin-left: 89%;
 }
-.btn-container{
+.btn-container {
   margin-top: 10px;
   margin-left: 89%;
 }

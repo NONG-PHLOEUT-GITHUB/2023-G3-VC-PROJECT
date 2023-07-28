@@ -9,7 +9,7 @@
       v-model="selectedClass"
       @click="getStudentInClass(selectedClass)"
     >
-    <option value="noChoosen" >No choosen</option>
+      <option value="noChoosen">No choosen</option>
       <option
         v-for="classroom in classrooms"
         :key="classroom.id"
@@ -18,7 +18,7 @@
         {{ classroom.class_name }}
       </option>
     </select>
-    <input v-model="month" class="w-40" type="date">
+    <input v-model="month" class="w-40" type="date" />
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="bg-primary">
@@ -42,49 +42,115 @@
         </thead>
 
         <tbody v-if="listUser && listUser.length">
-          <tr class="border-secondary" v-for="student in listUser" :key="student.id">
+          <tr
+            class="border-secondary"
+            v-for="student in listUser"
+            :key="student.id"
+          >
             <td>
-              <input class="form-check-input" type="checkbox" @click="getStudentId(student.id)"
-                v-model="student.selected" />
+              <input
+                class="form-check-input"
+                type="checkbox"
+                @click="getStudentId(student.id)"
+                v-model="student.selected"
+              />
               {{ student.first_name }} {{ student.last_name }}
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.K" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.K"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.M" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.M"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.E" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.E"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.H" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.H"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.B" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.B"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)"
-                v-model="student.GEO" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.GEO"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.ES" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.ES"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.MC" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.MC"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.CH" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.CH"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.P" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.P"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)" v-model="student.SP" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.SP"
+              />
             </td>
             <td>
-              <input type="number" class="form-control score_input" v-on:keyup="getScore(student)"
-                v-model="student.ICT" />
+              <input
+                type="number"
+                class="form-control score_input"
+                v-on:keyup="getScore(student)"
+                v-model="student.ICT"
+              />
             </td>
             <td>{{ getTotalScore(student) }}</td>
             <td>{{ getAverageScore(student) }}</td>
@@ -97,7 +163,7 @@
         </tr>
       </table>
     </div>
-    <div class="submit-score  w-100">
+    <div class="submit-score w-100">
       <!-- <button
           type="submit"
           @click="SubmitScoreSubject"
@@ -106,8 +172,8 @@
           Submit Score
         </button> -->
       <v-btn type="submit" color="teal-darken-4" @click="SubmitScoreSubject">
-        Submit score</v-btn>
-
+        Submit score</v-btn
+      >
     </div>
   </div>
 </template>
@@ -115,7 +181,7 @@
 <script>
 import axios from "axios";
 import swal from "sweetalert2";
-import http from '../../htpp.common'
+import http from "../../htpp.common";
 export default {
   data() {
     return {
@@ -203,7 +269,7 @@ export default {
       const postData = {
         score: scoreInput,
         subject_id: subjectInput,
-        month:this.month,
+        month: this.month,
         user_id: this.id_user,
       };
       console.log(postData);
@@ -213,6 +279,7 @@ export default {
         .post("/scores", postData)
         .then((response) => {
           response.data;
+          console.log(postData);
           swal.fire({
             icon: "success",
             title: "Send score successfully!",
@@ -228,9 +295,9 @@ export default {
       http
         .get(`/get-students`)
         .then((response) => {
-          if(!this.selectedClass || this.selectedClass=="noChoosen"){
+          if (!this.selectedClass || this.selectedClass == "noChoosen") {
             this.listUser = response.data.data;
-          }else{      
+          } else {
             this.listUser = response.data.data.filter(
               (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
             );
@@ -310,8 +377,8 @@ export default {
     },
   },
   mounted() {
-    this.getStudentInClass()
-    this.getClassrooms()
+    this.getStudentInClass();
+    this.getClassrooms();
     return this.getStudent();
   },
 };

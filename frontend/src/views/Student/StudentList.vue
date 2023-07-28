@@ -6,7 +6,9 @@
     </div>
     <div class="card-header">
       <div>
-        <label for="validationCustom02" class="form-label">Select by class</label>
+        <label for="validationCustom02" class="form-label"
+          >Select by class</label
+        >
         <select
           class="form-select mb-3"
           aria-label="Default select example"
@@ -14,7 +16,7 @@
           v-model="selectedClass"
           @click="getStudentInClass(selectedClass)"
         >
-        <option value="noChoose">All class</option>
+          <option value="noChoose">All class</option>
           <option
             v-for="classroom in classrooms"
             :key="classroom.id"
@@ -159,7 +161,7 @@ export default {
       errorMessage: "",
       searchQuery: "",
       selectedClass: null,
-      classrooms:[],
+      classrooms: [],
     };
   },
 
@@ -286,19 +288,19 @@ export default {
     },
     getStudentInClass(classId) {
       http
-          .get(`/users`)
-          .then((response) => {
-            if(!this.selectedClass || this.selectedClass=="noChoose"){
-              this.listUser= response.data.data;
-            }else{
-                this.listUser = response.data.data.filter(
-                (user) => parseInt(user.class_room_id) === parseInt(classId)
-              );
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        .get(`/users`)
+        .then((response) => {
+          if (!this.selectedClass || this.selectedClass == "noChoose") {
+            this.listUser = response.data.data;
+          } else {
+            this.listUser = response.data.data.filter(
+              (user) => parseInt(user.class_room_id) === parseInt(classId)
+            );
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     getClassrooms() {
       http

@@ -90,7 +90,7 @@ export default {
       },
     };
   },
-  mounted(){
+  mounted() {
     http
       .get("/v1/auth/user")
       .then((response) => {
@@ -113,7 +113,6 @@ export default {
           }
         })
         .catch((error) => {
-
           console.error(error);
         });
     },

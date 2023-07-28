@@ -1,16 +1,11 @@
 <template>
   <admin-dashboard></admin-dashboard>
-  
 </template>
-  
 
-<script>
-
-
-</script>
+<script></script>
 
 <style scoped>
-.card{
+.card {
   margin-left: 19%;
   margin-right: 14px;
 }

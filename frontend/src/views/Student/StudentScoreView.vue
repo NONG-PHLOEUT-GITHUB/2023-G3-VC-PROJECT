@@ -1,4 +1,3 @@
-
 <template>
   <student-dashboard />
   <h3 class="title mb-2">MY SCORES RECORDS</h3>
@@ -400,4 +399,3 @@ export default {
   margin-left: 18%;
 }
 </style>
-

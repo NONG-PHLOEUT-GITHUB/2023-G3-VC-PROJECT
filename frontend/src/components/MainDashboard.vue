@@ -5,15 +5,26 @@
         <v-list-item class="drawer">
           <v-list-item>
             <div class="image">
-              <v-img class="image" 
+              <v-img
+                class="image"
                 src="https://www.ayushmatrimony.com/Services/assets/images/SMSLogo.png"
-                rounded rounded-sm>
+                rounded
+                rounded-sm
+              >
               </v-img>
             </div>
           </v-list-item>
           <v-list-item class="mt-10">
-            <v-btn v-for="menu in menubar" :key="menu" class="btn mt-4" block rounded variant="outlined" :to="menu.path"
-              active-class="white--text">
+            <v-btn
+              v-for="menu in menubar"
+              :key="menu"
+              class="btn mt-4"
+              block
+              rounded
+              variant="outlined"
+              :to="menu.path"
+              active-class="white--text"
+            >
               <v-icon size="24" class="me-2">
                 {{ menu.icon }}
               </v-icon>
@@ -38,27 +49,51 @@
         <v-card>
           <div class="mx-auto text-center mt-4">
             <v-avatar size="100" color="" class="avatar">
-              <v-img class="image" :src="users.profile" alt="Avatar" cover> </v-img>
+              <v-img class="image" :src="users.profile" alt="Avatar" cover>
+              </v-img>
             </v-avatar>
-            <h4 class="user-name mt-3">{{ users.first_name }} {{ users.last_name }}</h4>
+            <h4 class="user-name mt-3">
+              {{ users.first_name }} {{ users.last_name }}
+            </h4>
             <p class="text-caption mt-1">
               {{ users.email }}
             </p>
           </div>
           <v-card-text>
             <div class="mx-auto text-center">
-              <v-btn size="small" class="btn mt-2" block variant="outlined" rounded to="/user-profile"
-                active-class="white--text">
+              <v-btn
+                size="small"
+                class="btn mt-2"
+                block
+                variant="outlined"
+                rounded
+                to="/user-profile"
+                active-class="white--text"
+              >
                 <v-icon> mdi-account </v-icon>Profile
               </v-btn>
 
-              <v-btn size="small" @click="dialogVisible = true" class="btn mt-2" block variant="outlined" rounded
-                active-class="white--text">
+              <v-btn
+                size="small"
+                @click="dialogVisible = true"
+                class="btn mt-2"
+                block
+                variant="outlined"
+                rounded
+                active-class="white--text"
+              >
                 <v-icon> mdi-lock </v-icon>
                 Change Password
               </v-btn>
-              <v-btn @click="logout" size="small" class="btn mt-2" block variant="outlined" rounded
-                active-class="white--text">
+              <v-btn
+                @click="logout"
+                size="small"
+                class="btn mt-2"
+                block
+                variant="outlined"
+                rounded
+                active-class="white--text"
+              >
                 <v-icon> mdi-logout </v-icon>
                 Logout
               </v-btn>
@@ -73,8 +108,15 @@
     </v-main>
   </v-layout>
 
-  <v-dialog v-model="dialogVisible" transition="dialog-top-transition" width="auto">
-    <change-password-dialog @cancel="dialogVisible = false" @password-changed="dialogVisible = false" />
+  <v-dialog
+    v-model="dialogVisible"
+    transition="dialog-top-transition"
+    width="auto"
+  >
+    <change-password-dialog
+      @cancel="dialogVisible = false"
+      @password-changed="dialogVisible = false"
+    />
   </v-dialog>
 </template>
 
@@ -99,9 +141,7 @@ export default {
     dialogVisible: false,
   }),
 
-
   methods: {
-  
     async fetchData() {
       const cachedResponse = cache.get("users");
 
@@ -132,31 +172,31 @@ export default {
         )
         .then(() => {
           Swal.fire({
-            title: 'Are you sure you want to logout?',
+            title: "Are you sure you want to logout?",
             // text: "You won't be able to revert this!",
             showCancelButton: true,
-            position: 'top-end',
+            position: "top-end",
             customClass: {
-              confirmButton: 'confirm-button-class',
-              title: 'title-class',
-              icon: 'icon-class'
+              confirmButton: "confirm-button-class",
+              title: "title-class",
+              icon: "icon-class",
             },
           }).then((result) => {
             if (result.isConfirmed) {
               const Toast = Swal.mixin({
                 toast: true,
-                position: 'top-end',
+                position: "top-end",
                 showConfirmButton: false,
                 timer: 500,
                 timerProgressBar: true,
               });
               Toast.fire({
-                icon: 'success',
-                title: 'You have been logged out',
+                icon: "success",
+                title: "You have been logged out",
               });
-              Cookies.remove('access_token');
-              Cookies.remove('user_role');
-              this.$router.push('/login');
+              Cookies.remove("access_token");
+              Cookies.remove("user_role");
+              this.$router.push("/login");
             }
           });
         })
@@ -191,7 +231,7 @@ export default {
   font-size: 12px;
 }
 
-.image{
+.image {
   margin-top: 10%;
 }
 .user-name span {
@@ -201,7 +241,6 @@ export default {
 .user-name {
   text-transform: uppercase;
 }
-
 
 .title-class {
   font-size: 15px !important;

@@ -19,7 +19,11 @@
           <td>{{ attendanceItem.last_name }}</td>
           <td>{{ attendanceItem.role_attendances_count }}</td>
           <td>
-            <router-link class="status detail bg-warning" :to="{ path: '/studentattendancedetail/'+ attendanceItem.id }">See Details</router-link>
+            <router-link
+              class="status detail bg-warning"
+              :to="{ path: '/studentattendancedetail/' + attendanceItem.id }"
+              >See Details</router-link
+            >
           </td>
         </tr>
       </tbody>
@@ -27,7 +31,7 @@
   </main>
 </template>
 <script>
-import http from '@/htpp.common'
+import http from "@/htpp.common";
 
 export default {
   data() {
@@ -36,43 +40,39 @@ export default {
     };
   },
   methods: {
-    getStudents(id){
+    getStudents(id) {
       http
-      .get(`/getAllStudents/${id}`)
-      .then((response) => {
-        this.attendanceData = response.data.data;
-        this.attendanceData = response.data.data;
-        this.attendanceData.forEach(element => {
-          console.log(element.students);
-          this.attendanceData = element.students;
+        .get(`/getAllStudents/${id}`)
+        .then((response) => {
+          this.attendanceData = response.data.data;
+          this.attendanceData = response.data.data;
+          this.attendanceData.forEach((element) => {
+            console.log(element.students);
+            this.attendanceData = element.students;
+          });
+          console.log(this.attendanceData);
+        })
+        .catch((error) => {
+          console.log(error);
         });
-        console.log(this.attendanceData);
-      })
-      .catch((error) => {
-        console.log(error);
+    },
+    fetchData() {
+      http.get("/getAttendance").then((response) => {
+        this.attendanceData = response.data;
+        console.log(response.data);
       });
     },
-    fetchData(){
-      http
-      .get('/getAttendance')
-      .then(response=>{
-        this.attendanceData = response.data
-        console.log(response.data);
-      })
-    }
   },
   mounted() {
     const id = this.$route.params.id;
     this.getStudents(id);
-    this.fetchData()
+    this.fetchData();
   },
 };
 </script>
 
 <style scoped>
-*
-
-thead th {
+* thead th {
   position: sticky;
   top: 0;
   left: 0;
@@ -98,7 +98,7 @@ tbody tr:hover {
 thead th:hover {
   color: #e8e8fa;
 }
-main{
+main {
   width: 80%;
   margin-left: 20%;
   margin-top: 20px;

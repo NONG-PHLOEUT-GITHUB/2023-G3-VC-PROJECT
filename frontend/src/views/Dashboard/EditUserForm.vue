@@ -144,7 +144,7 @@
               :key="classroom"
               :value="classroom.id"
             >
-              {{ classroom.class_name}}
+              {{ classroom.class_name }}
             </option>
           </select>
         </div>
@@ -160,7 +160,9 @@
               :key="guardian"
               :value="guardian.id"
             >
-             <strong>{{ guardian.first_name}}  {{ guardian.last_name}}</strong> 
+              <strong
+                >{{ guardian.first_name }} {{ guardian.last_name }}</strong
+              >
             </option>
           </select>
         </div>
@@ -183,7 +185,7 @@
 <script>
 import swal from "sweetalert2";
 import http from "../../htpp.common";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
@@ -193,19 +195,17 @@ export default {
       image: null,
       profile: {},
       updatedAge: null,
-      guardians:[],
-      classrooms:[],
+      guardians: [],
+      classrooms: [],
     };
   },
   mounted() {
-    http
-      .get(`/users/${this.$route.params.id}`)
-      .then((response) => {
-        this.user = response.data.data;
-        this.calculateAge(); // Call calculateAge method on mount to set the initial value of updatedAge
-        this.getGuardian();
-        this.getClassRoom();
-      });
+    http.get(`/users/${this.$route.params.id}`).then((response) => {
+      this.user = response.data.data;
+      this.calculateAge(); // Call calculateAge method on mount to set the initial value of updatedAge
+      this.getGuardian();
+      this.getClassRoom();
+    });
   },
   methods: {
     getImage(event) {
@@ -233,10 +233,7 @@ export default {
       };
 
       http
-        .put(
-          `/users/${this.$route.params.id}`,
-          newData
-        )
+        .put(`/users/${this.$route.params.id}`, newData)
         .then((response) => {
           console.log(response);
           swal.fire({
@@ -247,7 +244,7 @@ export default {
           });
         })
         .then(() => {
-          this.$router.push({ path: "/student-list"});
+          this.$router.push({ path: "/student-list" });
         })
         .catch((error) => {
           console.error("User update failed:", error);
@@ -268,20 +265,19 @@ export default {
     },
     // get class room for create
     getClassRoom() {
-      http.get('/classrooms').then((response) => {
+      http.get("/classrooms").then((response) => {
         this.classrooms = response.data.data;
       });
     },
     // get guardian for create
     getGuardian() {
-      http.get('/getGuardians')
-      .then((response) => {
+      http.get("/getGuardians").then((response) => {
         this.guardians = response.data.data;
         console.log(this.guardians);
       });
     },
   },
-  
+
   watch: {
     "user.date_of_birth": function () {
       this.calculateAge();
@@ -304,7 +300,7 @@ export default {
   border-radius: 5px;
   width: 100%;
 }
-.container{
+.container {
   margin-left: 16%;
   width: 85%;
 }

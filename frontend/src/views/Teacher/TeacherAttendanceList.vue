@@ -18,7 +18,11 @@
           <td>{{ attendanceItem.last_name }}</td>
           <td>{{ attendanceItem.role_attendances_count }}</td>
           <td>
-            <router-link class="status detail" :to="{ path: '/teacherattendancedetail/'+ attendanceItem.id }">Detail</router-link>
+            <router-link
+              class="status detail"
+              :to="{ path: '/teacherattendancedetail/' + attendanceItem.id }"
+              >Detail</router-link
+            >
           </td>
         </tr>
       </tbody>
@@ -27,7 +31,7 @@
 </template>
 
 <script>
-import http from '@/htpp.common'
+import http from "@/htpp.common";
 export default {
   data() {
     return {
@@ -36,7 +40,7 @@ export default {
   },
   mounted() {
     http
-      .get('/getTeacherAttendance')
+      .get("/getTeacherAttendance")
       .then((response) => {
         this.attendanceData = response.data;
       })
@@ -68,7 +72,7 @@ main.table {
 h3 {
   margin-bottom: 10px;
   text-transform: uppercase;
-  color:  #0000FF;
+  color: #0000ff;
 }
 span {
   padding: 2%;
@@ -101,7 +105,7 @@ thead th {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #0000FF;
+  background-color: #0000ff;
   cursor: pointer;
   text-transform: uppercase;
   color: white;
@@ -113,7 +117,7 @@ thead th {
   padding: 10px 25px;
   margin-left: 10px;
   border-radius: 3px;
-  background-color: #0000FF;
+  background-color: #0000ff;
   color: white;
   font-weight: bold;
 }

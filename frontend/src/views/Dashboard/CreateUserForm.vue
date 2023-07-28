@@ -150,41 +150,42 @@
             @change="getImage"
           />
         </div>
-        <div  v-if="HideElement" style="display: none;" class="hidden d-flex">
+        <div v-if="HideElement" style="display: none" class="hidden d-flex">
           <div class="mb-3 col-md-6 class">
-          <label for="formFileDisabled" class="form-label">Class</label>
-          <select
-            v-model="class_room_id"
-            class="form-select"
-            aria-label="Default select example"
-          >
-            <option
-              v-for="classroom in classrooms"
-              :key="classroom"
-              :value="classroom.id"
+            <label for="formFileDisabled" class="form-label">Class</label>
+            <select
+              v-model="class_room_id"
+              class="form-select"
+              aria-label="Default select example"
             >
-              {{ classroom.class_name}}
-            </option>
-          </select>
-        </div>
-        <div class="mb-3 col-md-6 ml-2  gaurdian" >
-          <label for="formFileDisabled" class="form-label">Guardian</label>
-          <select
-            v-model="guardian_id"
-            class="form-select"
-            aria-label="Default select example"
-          >
-            <option
-              v-for="guardian in guardians"
-              :key="guardian"
-              :value="guardian.id"
+              <option
+                v-for="classroom in classrooms"
+                :key="classroom"
+                :value="classroom.id"
+              >
+                {{ classroom.class_name }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3 col-md-6 ml-2 gaurdian">
+            <label for="formFileDisabled" class="form-label">Guardian</label>
+            <select
+              v-model="guardian_id"
+              class="form-select"
+              aria-label="Default select example"
             >
-             <strong>{{ guardian.first_name}}  {{ guardian.last_name}}</strong> 
-            </option>
-          </select>
+              <option
+                v-for="guardian in guardians"
+                :key="guardian"
+                :value="guardian.id"
+              >
+                <strong
+                  >{{ guardian.first_name }} {{ guardian.last_name }}</strong
+                >
+              </option>
+            </select>
+          </div>
         </div>
-        </div>
-
 
         <img v-bind:src="profilePreview" />
         <div class="col-12 d-flex justify-content-end">
@@ -223,11 +224,11 @@ export default {
       profile: "",
       role: "",
       imgURL: "http://127.0.0.1:8000/api/getImage",
-      class_room_id : null,
-      guardian_id:null,
+      class_room_id: null,
+      guardian_id: null,
       listUser: [],
       classrooms: [],
-      guardians: []
+      guardians: [],
     };
   },
   methods: {
@@ -263,10 +264,10 @@ export default {
           email: this.email,
           password: this.password,
           profile: this.profile,
-          class_room_id :this.class_room_id ,
-          guardian_id: this.guardian_id
+          class_room_id: this.class_room_id,
+          guardian_id: this.guardian_id,
         };
-        http.post('/users', newUser).then((response) => {
+        http.post("/users", newUser).then((response) => {
           this.listUser.push(response.data);
         });
         swal
@@ -277,34 +278,32 @@ export default {
             timer: 2000,
           })
           .then(() => {
-          this.$router.push({ path: "/student-list"});
-        })
-        .catch((error) => {
-          console.error("User update failed:", error);
-        });
+            this.$router.push({ path: "/student-list" });
+          })
+          .catch((error) => {
+            console.error("User update failed:", error);
+          });
       } else {
         swal.fire("Complete first", "complete all input", "info");
       }
     },
     // get class room for create
     getClassRoom() {
-      http.get('/classrooms').then((response) => {
+      http.get("/classrooms").then((response) => {
         this.classrooms = response.data.data;
       });
     },
     // get guardian for create
     getGuardian() {
-      http.get('/getGuardians')
-      .then((response) => {
+      http.get("/getGuardians").then((response) => {
         this.guardians = response.data.data;
       });
     },
-
   },
 
   computed: {
     HideElement() {
-      return this.role != '1' && this.role != '2'
+      return this.role != "1" && this.role != "2";
     },
     max_date() {
       const today = new Date();
@@ -355,7 +354,7 @@ img {
   width: 100px;
 }
 
-.container{
+.container {
   margin-left: 16%;
   width: 85%;
 }

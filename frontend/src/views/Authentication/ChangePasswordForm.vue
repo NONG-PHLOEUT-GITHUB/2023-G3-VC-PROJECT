@@ -1,9 +1,23 @@
 <template>
-  <v-snackbar class="snackbar" v-model="snackbarVisible" :timeout="10000" color="success">
+  <v-snackbar
+    class="snackbar"
+    v-model="snackbarVisible"
+    :timeout="10000"
+    color="success"
+  >
     Your password has been changed successfully!
   </v-snackbar>
-  <div class="container d-flex align-center justify-center" style="height: 100vh">
-    <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8" elevation="10" max-width="448" rounded="lg">
+  <div
+    class="container d-flex align-center justify-center"
+    style="height: 100vh"
+  >
+    <v-card
+      width="500"
+      class="mx-auto border--5 mx-auto pa-12 pb-8"
+      elevation="10"
+      max-width="448"
+      rounded="lg"
+    >
       <v-form ref="form" @submit.prevent="changePassword">
         <v-title>
           <h1>Change password</h1>
@@ -12,39 +26,72 @@
           Current password
         </div>
 
-        <v-text-field :append-inner-icon="visibleCurrent ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="visibleCurrent ? 'text' : 'password'" density="compact" placeholder="Enter current password"
-          prepend-inner-icon="mdi-lock-outline" v-model="currentPassword" :rules="newPasswordRole" variant="outlined"
-          @click:append-inner="visibleCurrent = !visibleCurrent">
+        <v-text-field
+          :append-inner-icon="visibleCurrent ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visibleCurrent ? 'text' : 'password'"
+          density="compact"
+          placeholder="Enter current password"
+          prepend-inner-icon="mdi-lock-outline"
+          v-model="currentPassword"
+          :rules="newPasswordRole"
+          variant="outlined"
+          @click:append-inner="visibleCurrent = !visibleCurrent"
+        >
         </v-text-field>
         <span :rules="currentPasswordRole"></span>
 
-        <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
+        <div
+          class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
+        >
           New password
         </div>
 
-        <v-text-field :append-inner-icon="visibleNew ? 'mdi-eye-off' : 'mdi-eye'" :type="visibleNew ? 'text' : 'password'"
-          density="compact" placeholder="Enter your new password" prepend-inner-icon="mdi-lock-outline"
-          v-model="newPassword" :rules="newPasswordRole" variant="outlined"
-          @click:append-inner="visibleNew = !visibleNew">
+        <v-text-field
+          :append-inner-icon="visibleNew ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visibleNew ? 'text' : 'password'"
+          density="compact"
+          placeholder="Enter your new password"
+          prepend-inner-icon="mdi-lock-outline"
+          v-model="newPassword"
+          :rules="newPasswordRole"
+          variant="outlined"
+          @click:append-inner="visibleNew = !visibleNew"
+        >
         </v-text-field>
 
-        <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
+        <div
+          class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
+        >
           Confirm new password
         </div>
-        <v-text-field :append-inner-icon="visibleConfirm ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="visibleConfirm ? 'text' : 'password'" density="compact" placeholder="Enter your confirm new password"
-          prepend-inner-icon="mdi-lock-outline" v-model="confirmPassword" :rules="confirmPasswordRoles" variant="outlined"
-          @click:append-inner="visibleConfirm = !visibleConfirm">
+        <v-text-field
+          :append-inner-icon="visibleConfirm ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visibleConfirm ? 'text' : 'password'"
+          density="compact"
+          placeholder="Enter your confirm new password"
+          prepend-inner-icon="mdi-lock-outline"
+          v-model="confirmPassword"
+          :rules="confirmPasswordRoles"
+          variant="outlined"
+          @click:append-inner="visibleConfirm = !visibleConfirm"
+        >
         </v-text-field>
 
         <v-row no-gutters>
           <v-col>
-            <v-btn @Click="cancel" class="mt-4 w-25" color="teal-darken-4" block
-              variant="outlined">Cancel</v-btn>
+            <v-btn
+              @Click="cancel"
+              class="mt-4 w-25"
+              color="teal-darken-4"
+              block
+              variant="outlined"
+              >Cancel</v-btn
+            >
           </v-col>
           <v-col>
-            <v-btn type="submit" color="teal-darken-4" block class="mt-4 ms-1">Save</v-btn>
+            <v-btn type="submit" color="teal-darken-4" block class="mt-4 ms-1"
+              >Save</v-btn
+            >
           </v-col>
         </v-row>
       </v-form>
@@ -54,7 +101,6 @@
 
 <!-- https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
 <script>
-
 import http from "../../htpp.common";
 export default {
   emits: ["cancel", "password-changed"],
@@ -155,7 +201,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .snackbar {
