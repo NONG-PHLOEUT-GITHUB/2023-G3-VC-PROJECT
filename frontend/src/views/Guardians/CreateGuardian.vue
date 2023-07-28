@@ -30,7 +30,12 @@
         </div>
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Chat id of guadian</label>
-          <input type="text" v-model="chatId" class="form-control" id="validationCustom02" />
+          <input
+            type="text"
+            v-model="chatId"
+            class="form-control"
+            id="validationCustom02"
+          />
           <div class="valid-feedback">Looks good!</div>
         </div>
         <div class="col-md-6">
@@ -90,8 +95,8 @@ export default {
           address: this.address,
         };
         http.post('/Guardians', newGuadian).then((response) => {
-          this.listGuadian.push(response.data.data);
-          console.log(this.listGuadian);
+            this.listGuadian.push(response.data.data);
+            console.log(this.listGuadian);
         });
         swal
           .fire({

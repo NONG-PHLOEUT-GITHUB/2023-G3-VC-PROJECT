@@ -68,17 +68,33 @@
         </div>
         <div class="mb-3 col-md-6">
           <label for="formFileDisabled" class="form-label">Class</label>
-          <select v-model="user.class_room_id" class="form-select" aria-label="Default select example">
-            <option v-for="classroom in classrooms" :key="classroom" :value="classroom.id">
-              {{ classroom.class_name }}
+          <select
+            v-model="user.class_room_id"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            <option
+              v-for="classroom in classrooms"
+              :key="classroom"
+              :value="classroom.id"
+            >
+              {{ classroom.class_name}}
             </option>
           </select>
         </div>
         <div class="mb-3 col-md-6">
           <label for="formFileDisabled" class="form-label">Guardian</label>
-          <select v-model="user.guardian_id" class="form-select" aria-label="Default select example">
-            <option v-for="guardian in guardians" :key="guardian" :value="guardian.id">
-              <strong>{{ guardian.first_name }} {{ guardian.last_name }}</strong>
+          <select
+            v-model="user.guardian_id"
+            class="form-select"
+            aria-label="Default select example"
+          >
+            <option
+              v-for="guardian in guardians"
+              :key="guardian"
+              :value="guardian.id"
+            >
+             <strong>{{ guardian.first_name}}  {{ guardian.last_name}}</strong> 
             </option>
           </select>
         </div>
@@ -97,7 +113,7 @@
 <script>
 import swal from "sweetalert2";
 import http from "../../htpp.common";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
@@ -112,14 +128,12 @@ export default {
     };
   },
   mounted() {
-    http
-      .get(`/users/${this.$route.params.id}`)
-      .then((response) => {
-        this.user = response.data.data;
-        this.calculateAge(); // Call calculateAge method on mount to set the initial value of updatedAge
-        this.getGuardian();
-        this.getClassRoom();
-      });
+    http.get(`/users/${this.$route.params.id}`).then((response) => {
+      this.user = response.data.data;
+      this.calculateAge(); // Call calculateAge method on mount to set the initial value of updatedAge
+      this.getGuardian();
+      this.getClassRoom();
+    });
   },
   methods: {
     getImage(event) {
@@ -147,10 +161,7 @@ export default {
       };
 
       http
-        .put(
-          `/users/${this.$route.params.id}`,
-          newData
-        )
+        .put(`/users/${this.$route.params.id}`, newData)
         .then((response) => {
           console.log(response);
           swal.fire({
@@ -182,17 +193,17 @@ export default {
     },
     // get class room for create
     getClassRoom() {
-      http.get('/classrooms').then((response) => {
+      http.get("/classrooms").then((response) => {
         this.classrooms = response.data.data;
       });
     },
     // get guardian for create
     getGuardian() {
       http.get('/getGuardians')
-        .then((response) => {
-          this.guardians = response.data.data;
-          console.log(this.guardians);
-        });
+      .then((response) => {
+        this.guardians = response.data.data;
+        console.log(this.guardians);
+      });
     },
   },
 
@@ -218,7 +229,7 @@ export default {
   border-radius: 5px;
   width: 100%;
 }
-.container{
+.container {
   margin-left: 16%;
   width: 85%;
 }

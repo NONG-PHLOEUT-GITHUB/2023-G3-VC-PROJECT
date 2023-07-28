@@ -49,8 +49,8 @@
 <script>
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import http from '../../htpp.common'
-import AdminDashboard from '../../components/AdminDashboard.vue';
+import http from "../../htpp.common";
+import AdminDashboard from "../../components/AdminDashboard.vue";
 export default {
   components: { AdminDashboard },
   data() {
@@ -67,7 +67,7 @@ export default {
     downloadPDF() {
       this.isDetail = true;
       http
-        .get('/get-students')
+        .get("/get-students")
         .then((response) => {
           this.students = response.data.data;
           const element = document.getElementById("my-table");
@@ -89,7 +89,7 @@ export default {
     },
     fetchData() {
       http
-        .get('/get-students')
+        .get("/get-students")
         .then((response) => {
           this.students = response.data.data;
         })
@@ -110,7 +110,6 @@ export default {
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 
-
 /* Set styles for the table */
 table {
   border-collapse: collapse;
@@ -128,7 +127,6 @@ th {
   background-color:#004D40;
   color: white;
 }
-
 
 .table-container {
   margin-left: 18%;

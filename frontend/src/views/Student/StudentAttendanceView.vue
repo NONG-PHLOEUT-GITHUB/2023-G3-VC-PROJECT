@@ -77,7 +77,6 @@ export default {
     },
   },
 
-
   methods: {
     getAttendanceDetails() {
       http
@@ -91,11 +90,9 @@ export default {
     },
   },
 
-
   mounted() {
     this.getAttendanceDetails();
   },
-
 };
 </script>
 

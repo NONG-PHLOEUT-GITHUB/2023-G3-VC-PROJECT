@@ -2,10 +2,18 @@
   <admin-dashboard></admin-dashboard>
   <div class="card-container">
     <v-row class="mt-7 ms-24">
-      <v-card width="400" class="me-2 user-total elevation-4" prepend-icon="mdi-account-tie">
+      <v-card
+        width="400"
+        class="me-2 user-total elevation-4"
+        prepend-icon="mdi-account-tie"
+      >
         <template v-slot:title>Students </template>
 
-        <v-card-text class="card-text " v-for="(result, index) in results" :key="index">
+        <v-card-text
+          class="card-text"
+          v-for="(result, index) in results"
+          :key="index"
+        >
           <h5 v-if="result.role == 3">
             Total : {{ result.total }}
             <v-spacer></v-spacer>
@@ -15,9 +23,17 @@
           </h5>
         </v-card-text>
       </v-card>
-      <v-card width="400" class="user-total me-4 elevation-4" prepend-icon="mdi-account">
+      <v-card
+        width="400"
+        class="user-total me-4 elevation-4"
+        prepend-icon="mdi-account"
+      >
         <template v-slot:title>Teachers </template>
-        <v-card-text class="card-text" v-for="(result, index) in results" :key="index">
+        <v-card-text
+          class="card-text"
+          v-for="(result, index) in results"
+          :key="index"
+        >
           <h5 v-if="result.role == 2">
             Total : {{ result.total }}
             <v-spacer></v-spacer>
@@ -27,7 +43,11 @@
           </h5>
         </v-card-text>
       </v-card>
-      <v-card width="400" class="ms-4 user-total elevation-4" prepend-icon="mdi-school">
+      <v-card
+        width="400"
+        class="ms-4 user-total elevation-4"
+        prepend-icon="mdi-school"
+      >
         <template v-slot:title> Class </template>
 
         <v-card-text class="ms-14">
@@ -37,7 +57,7 @@
     </v-row>
   </div>
 
-  <main class="main mt-6 ">
+  <main class="main mt-6">
     <h3>REPORTS</h3>
     <v-row class="mt-8">
       <v-card class="bar1 ms-4 elevation-4">
@@ -50,7 +70,6 @@
       </v-card>
     </v-row>
   </main>
-
 
   <main class="main mt-6">
     <StudentMostAbsence></StudentMostAbsence>
@@ -82,11 +101,10 @@ ChartJS.register(
 
 export default {
   name: "BarChart",
-  components: { 
+  components: {
     StudentMostAbsence,
     Bar 
   },
-  // mixins: [mixins.reactiveProp],
   data() {
     return {
       results: "",
@@ -143,56 +161,56 @@ export default {
     };
   },
 
-    mounted() {
-      this.fetchTotalData();
-      this.fetchFailedStudentData();
-      this.fetchTotalOfClass();
-      this.showGraphOfStudentAttendance();
+  mounted() {
+    this.fetchTotalData();
+    this.fetchFailedStudentData();
+    this.fetchTotalOfClass();
+    this.showGraphOfStudentAttendance();
+  },
+
+  methods: {
+    async fetchTotalData() {
+      try {
+        const response = await http.get("/getTotal");
+        this.results = response.data.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchTotalOfClass() {
+      try {
+        const response = await http.get("/classrooms-total");
+        this.classroom = response.data.data;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
-    methods: {
-      async fetchTotalData() {
-        try {
-          const response = await http.get('/getTotal');
-          this.results = response.data.data;
-        } catch (error) {
-          console.log(error);
+    async fetchFailedStudentData() {
+      try {
+        const response = await http.get("/show-graph-of-student-fail/9");
+        const mydata = response.data.failed_users_percentage;
+        for (let i = 0; i < mydata.length; i++) {
+          this.chartData1.datasets[0].data[i] = mydata[i];
         }
-      },
-      async fetchTotalOfClass() {
-        try {
-          const response = await http.get('/classrooms-total');
-          this.classroom = response.data.data;
-        } catch (error) {
-          console.log(error);
-        }
-      },
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
-      async fetchFailedStudentData() {
-        try {
-          const response = await http.get('/show-graph-of-student-fail/9');
-          const mydata = response.data.failed_users_percentage;
-          for (let i = 0; i < mydata.length; i++) {
-            this.chartData1.datasets[0].data[i] = mydata[i];
-          }
-        } catch (error) {
-          console.log(error);
+    async showGraphOfStudentAttendance() {
+      try {
+        const response = await http.get("/show-grahp-of-student-attendance");
+        const mydata = Object.values(response.data);
+        for (let i = 0; i < mydata.length; i++) {
+          this.chartData.datasets[0].data[i] = mydata[i];
         }
-      },
-
-      async showGraphOfStudentAttendance() {
-        try {
-          const response = await http.get('/show-grahp-of-student-attendance');
-          const mydata = Object.values(response.data);
-          for (let i = 0; i < mydata.length; i++) {
-            this.chartData.datasets[0].data[i] = mydata[i];
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      },
-    }
-  }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+};
 </script>
 <style scoped>
 @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
@@ -225,13 +243,12 @@ export default {
   border-left: solid teal 5px;
 }
 
-
 h3 {
   margin-bottom: 20px;
   text-transform: uppercase;
   color: #0000ff;
 }
-.text-center{
+.text-center {
   color: rgb(2, 74, 74);
 }
 
@@ -255,5 +272,5 @@ h3 {
 
 h3 {
   color: teal;
-}</style>
-   
+}
+</style>

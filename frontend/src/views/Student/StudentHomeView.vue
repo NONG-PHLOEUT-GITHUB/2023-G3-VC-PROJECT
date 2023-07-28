@@ -8,7 +8,9 @@
     max-width="80%"
   >
     <div>
-      <h2 class="text-h4 font-weight-black text-orange">Welcome to our system!</h2>
+      <h2 class="text-h4 font-weight-black text-orange">
+        Welcome to our system!
+      </h2>
       <div class="text-h5 font-weight-medium mb-2">
         You are officially a part of the Vuetify Community!
       </div>
@@ -22,18 +24,17 @@
   </v-sheet>
   <student-graph></student-graph>
 </template>
- <script>
+<script>
 import StudentGraph from "./StudentGraph.vue";
 
 export default {
   components: {
-    StudentGraph
+    StudentGraph,
   },
 };
 </script>
-  
 
-  <style scoped>
+<style scoped>
 @import "~vuetify/dist/vuetify.css";
 
 .sheet {
@@ -41,4 +42,3 @@ export default {
   margin-left: 19%;
 }
 </style>
-  

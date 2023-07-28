@@ -1,20 +1,31 @@
 <template>
     <admin-dashboard></admin-dashboard>
-    <div class="card shadow border-0 mb-7 mt-5 elevation-2">
+    <div class="card shadow border-0 mb-7 bg-light">
     <div class="card-header">
       <h2 class="mb-0 text-teal ">Guadian List</h2>
     </div>
     <div class="card-header">
-
-      <div class="form-group d-flex justify-content-between mb-3" style="width: 100%">
+      <div
+        class="form-group d-flex justify-content-between mb-3"
+        style="width: 100%"
+      >
         <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search user" aria-label="Search" v-model="searchQuery"
-            style="width: 78%" />
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search user"
+            aria-label="Search"
+            v-model="searchQuery"
+            style="width: 78%"
+          />
           <button class="btn btn-outline-warning my-2 my-sm-0" type="button">
             <i class="bi bi-search"></i> Search
           </button>
         </form>
-        <v-btn color="teal-darken-4"  :to="{ path: '/add-guadian' }">  Add new guardian <v-icon>mdi-account-plus</v-icon> </v-btn>
+        <router-link :to="{ path: '/add-guadian' }" class="text-white">
+          <button type="button" class="btn btn-primary align-self-end ms-2">
+            <i class="bi bi-person-plus-fill"></i> Add new guardian
+          </button></router-link>
       </div>
     </div>
     <div class="table-responsive">
@@ -27,15 +38,16 @@
             <th scope="col" class="fs-6 text-light">Phone Number</th>
             <th scope="col" class="fs-6 text-light">Address</th>
             <th scope="col" class="fs-6 text-light">Action</th>
-        
           </tr>
         </thead>
 
         <tbody v-if="listGuardian && listGuardian.length">
-          <tr v-for="(gardian, id) of  SearchGaurdian" :key="id" class="border-2-dark">
-            <td>
-                {{ gardian.first_name }} {{ gardian.last_name }}
-            </td>
+          <tr
+            v-for="(gardian, id) of SearchGaurdian"
+            :key="id"
+            class="border-2-dark"
+          >
+            <td>{{ gardian.first_name }} {{ gardian.last_name }}</td>
             <td>
               {{ gardian.gender }}
             </td>
@@ -50,28 +62,32 @@
             </td>
             <td class="text-end d-flex justify-content-start">
               <router-link :to="{ path: '/edit-guadian/' + gardian.id }">
-                <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-neutral text-white text-dark-hover bg-warning ml-2"
+                >
                   <i class="bi bi-pencil-square"></i> Edit
                 </button>
               </router-link>
 
-              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-red ml-2"
+              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
                 @click="deleteUser(gardian.id)">
                 <i class="bi bi-trash-fill"></i> Delete
               </button>
             </td>
           </tr>
         </tbody>
-          <tr v-else>
-            <td colspan="6" class="text-center text-danger">
-              This class does not have any user.
-            </td>
-          </tr> 
+        <tr v-else>
+          <td colspan="6" class="text-center text-danger">
+            This class does not have any user.
+          </td>
+        </tr>
       </table>
       <div class="card-footer border-0 py-5">
-        <span class="text-muted text-sm">   
-          Total guadian  :
-        {{ listGuardian?.length }} people</span>
+        <span class="text-muted text-sm">
+          Total guadian :
+          {{ listGuardian?.length }} people</span
+        >
       </div>
     </div>
   </div>
@@ -82,19 +98,18 @@ import swal from "sweetalert";
 import http from "../../htpp.common";
 
 export default {
-  data(){
-    return{
-      listGuardian:[],
+  data() {
+    return {
+      listGuardian: [],
       searchQuery: "",
-    }
+    };
   },
-  computed:{
+  computed: {
     SearchGaurdian() {
       if (this.searchQuery === "") {
         return this.listGuardian;
       } else {
         const filtered = this.listGuardian.filter((guardian) =>
-    
           (guardian.first_name + " " + guardian.last_name)
             .toLowerCase()
             .includes(this.searchQuery.trim().toLowerCase())
@@ -103,10 +118,9 @@ export default {
       }
     },
   },
-  methods:{
+  methods: {
     getGuardian() {
-      http.get('/getGuardians')
-      .then((response) => {
+      http.get("/getGuardians").then((response) => {
         this.listGuardian = response.data.data;
       });
     },
@@ -120,7 +134,7 @@ export default {
       }).then((willDelete) => {
         if (willDelete) {
           http
-            .delete('/Guardians' + `/${id}`)
+            .delete("/Guardians" + `/${id}`)
             .then(() => {
               swal("Deleted!", "The guardian has been deleted.", "success");
               // call mounted
@@ -140,14 +154,14 @@ export default {
       });
     },
   },
-  mounted(){
+  mounted() {
     this.getGuardian();
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-.card{
+.card {
   margin-left: 18%;
   margin-right: 10px;
 }
@@ -196,7 +210,7 @@ export default {
   margin-top: 20px;
 }
 
-.card{
+.card {
   padding: 20px;
 }
 

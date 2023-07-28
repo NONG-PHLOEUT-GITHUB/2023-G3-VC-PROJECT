@@ -1,5 +1,5 @@
 <template>
-<teacher-dashboard></teacher-dashboard>
+  <teacher-dashboard></teacher-dashboard>
   <div class="give-feedback-container">
     <h2>Give Feedback</h2>
     <form @submit.prevent="giveComment">
@@ -21,7 +21,7 @@
           </select>
         </div>
       </div>
-      <div class="form-group ">
+      <div class="form-group">
         <label for="feedback-text">Feedback</label>
         <textarea
           id="feedback-text"
@@ -37,23 +37,22 @@
 </template>
 
 <script>
-
 import Swal from "sweetalert2";
 import http from "@/htpp.common";
-import TeacherDashboard from '../../components/TeacherDashboard.vue';
+import TeacherDashboard from "../../components/TeacherDashboard.vue";
 export default {
   components: { TeacherDashboard },
   data() {
     return {
       listUser: [],
-      selectedStudent: null, 
-      comment: '',
-      teacher_id:null
+      selectedStudent: null,
+      comment: "",
+      teacher_id: null,
     };
   },
   methods: {
     getData() {
-      http.get('/get-students').then((response) => {
+      http.get("/get-students").then((response) => {
         this.listUser = response.data;
         console.log(this.listUser);
       });
@@ -62,45 +61,43 @@ export default {
       const commentData = {
         body: this.comment,
         user_id: this.selectedStudent,
-        teacher_id: this.teacherID, 
+        teacher_id: this.teacherID,
       };
-      http
-        .post('/comments', commentData)
-        .then((response) => {
-          console.log(response);
-        })
-        Swal.fire({
-          icon: "success",
-          title: "Message sent successfully!",
-          text: "Your Comment successfully to student",
-          timer: 2000,
-        })
+      http.post("/comments", commentData).then((response) => {
+        console.log(response);
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Message sent successfully!",
+        text: "Your Comment successfully to student",
+        timer: 2000,
+      });
       this.selectedStudent = null;
       this.comment = "";
     },
     getTeacherId() {
       http.get("/get-students").then((response) => {
         this.listUser = response.data.data;
-        for(let user of this.listUser){
-          this.teacherID = user.id
+        for (let user of this.listUser) {
+          this.teacherID = user.id;
         }
       });
     },
     fetchData(id) {
-       http
-      .get(`/getAllStudents/${id}`)
-      .then((response) => {
-        this.listUser = response.data.data;
-        this.listUser = response.data.data;
-        this.listUser.forEach(element => {
-          console.log(element.students);
-          this.listUser = element.students;
+      http
+        .get(`/getAllStudents/${id}`)
+        .then((response) => {
+          this.listUser = response.data.data;
+          this.listUser = response.data.data;
+          this.listUser.forEach((element) => {
+            console.log(element.students);
+            this.listUser = element.students;
+          });
+          console.log(this.listUser);
+        })
+        .catch((error) => {
+          console.log(error);
         });
-        console.log(this.listUser);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
     },
   },
   mounted() {

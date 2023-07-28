@@ -19,7 +19,9 @@
 
 
           <div class="user">
-            <h4 class="text-h5">{{ users.first_name }} {{ users.last_name }}</h4>
+            <h4 class="text-h5">
+              {{ users.first_name }} {{ users.last_name }}
+            </h4>
           </div>
         </v-col>
 
@@ -42,7 +44,8 @@
               {{ users.date_of_birth }}
             </v-card>
             <v-card variant="text mt-4" class="text-subtitle-1">
-              <v-icon class="me-2"> mdi-numeric </v-icon>Age : {{ users.age }} years old
+              <v-icon class="me-2"> mdi-numeric </v-icon>Age :
+              {{ users.age }} years old
             </v-card>
 
             <v-btn block density="default mt-4 bg-teal-darken-4"><v-icon>mdi-map-marker</v-icon> Contact
@@ -73,7 +76,7 @@
 
 <script>
 import http from "@/htpp.common";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 export default {
   name: "UserDetails",
   data() {
@@ -89,35 +92,9 @@ export default {
       });
     },
     getRole() {
-      let cookies = Cookies.get('user_role');
-      this.role = cookies
+      let cookies = Cookies.get("user_role");
+      this.role = cookies;
     },
-    // change profile
-    async handleFileUpload(event) {
-      const file = event.target.files[0];
-
-      if (!file) {
-        return;
-      }
-
-      try {
-        const formData = new FormData();
-        formData.append('profile_picture', file);
-
-        const response = await http.post('/users/me/profile-picture', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-
-        if (response.status === 200) {
-          this.users.profile = response.data.profile_picture;
-          this.$socket.emit('updateProfilePicture', this.users.id, this.users.profile);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
   },
 
 

@@ -259,7 +259,7 @@ export default {
       http
         .get(`/get-students`)
         .then((response) => {
-          response.data.data
+          response.data.data;
         })
         .catch((error) => {
           console.log(error);

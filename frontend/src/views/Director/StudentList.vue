@@ -41,7 +41,8 @@
         <router-link :to="{ path: '/createUser' }" class="text-white">
           <button type="button" class="btn btn-primary align-self-end ms-2">
             <i class="bi bi-person-plus-fill"></i> Add new student
-          </button></router-link>
+          </button></router-link
+        >
       </div>
     </div>
     <!-- get data form database to display -->

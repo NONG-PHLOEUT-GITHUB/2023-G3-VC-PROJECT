@@ -55,7 +55,13 @@
               </div>
             </td>
             <td>
-              <textarea type="tel" v-model="student.reason" class="form-control" id="reason" placeholder="" />
+              <textarea
+                type="tel"
+                v-model="student.reason"
+                class="form-control"
+                id="reason"
+                placeholder=""
+              />
             </td>
           </tr>
         </tbody>
@@ -78,7 +84,7 @@
 <script>
 import swal from "sweetalert2";
 import axios from "axios";
-import http from '../../htpp.common'
+import http from "../../htpp.common";
 export default {
   name: "SweetAlert2",
   data() {
@@ -132,7 +138,7 @@ export default {
                 reason: student.reason,
               };
               // console.log(newAttend);
-              return http.post('/checkStudentAttendance', newAttend);
+              return http.post("/checkStudentAttendance", newAttend);
             } else {
               swal.fire("Complete first", "complete all input", "info");
             }
@@ -155,7 +161,7 @@ export default {
     // https://www.youtube.com/watch?v=aNmRNjME6mE
     async getChatId(id) {
       try {
-        const response = await http.get('/guardian' + "/" + `${id}`);
+        const response = await http.get("/guardian" + "/" + `${id}`);
         this.chat_id = response.data.guardian_id;
         console.log(response.data.guardian_id);
       } catch (error) {
@@ -194,13 +200,13 @@ export default {
             reason: student.reason,
             date: this.date,
           };
-    
+
           // Send the attendance data to your API
           http
-            .post('/checkStudentAttendance', attendanceData)
+            .post("/checkStudentAttendance", attendanceData)
             .then((response) => {
-               const id = response.data.data.id;
-              this.$router.push({ path: '/attendance_list/' + id });
+              const id = response.data.data.id;
+              this.$router.push({ path: "/attendance_list/" + id });
             })
             .catch((error) => {
               console.log(error);
@@ -229,7 +235,7 @@ export default {
         .get(`/get-students`)
         .then((response) => {
           console.log(response.data.data);
-          this.students = response.data.data
+          this.students = response.data.data;
           this.students = response.data.data.filter(
             (teacher) => parseInt(teacher.class_room_id) === parseInt(classId)
           );
@@ -254,8 +260,8 @@ export default {
     setInterval(this.getCurrentDateTime, 1000);
   },
   mounted() {
-    this.getStudentInClass()
-    this.getClassrooms()
+    this.getStudentInClass();
+    this.getClassrooms();
     this.getStudentData();
   },
 };
@@ -308,7 +314,6 @@ td.status {
   width: 84%;
   margin-left: 17%;
 }
-
 .checkToday {
   justify-content: center;
   align-items: center;

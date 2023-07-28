@@ -1,4 +1,3 @@
-
 <template>
   <student-dashboard />
   <h3 class="title mb-2">MY SCORES RECORDS</h3>
@@ -260,7 +259,7 @@
                   <td v-if="score.score < 25" class="text-sm text-red">
                     Failed
                   </td>
-                  <td v-else class="text-sm text-green">Passed</td>
+                  <td v-if="score.score>25" class="text-sm text-green">Passed</td>
                 </tr>
               </template>
             </tbody>
@@ -400,4 +399,3 @@ export default {
   margin-left: 18%;
 }
 </style>
-

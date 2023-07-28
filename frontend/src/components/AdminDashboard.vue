@@ -1,36 +1,35 @@
 <template>
-    <main-dashboard :menubar="menubar"></main-dashboard>
+  <main-dashboard :menubar="menubar"></main-dashboard>
 </template>
 
 <script>
-
 export default {
   data: () => ({
     menubar: [
       {
-        path: '/admin-dashboard',
+        path: "/admin-dashboard",
         title: "Dashboard",
-        icon: 'mdi-home'
+        icon: "mdi-home",
       },
       {
-        path: '/teacher_list',
+        path: "/teacher_list",
         title: "teacher list",
-        icon: 'mdi-format-list-bulleted'
+        icon: "mdi-format-list-bulleted",
       },
       {
-        path: '/guardian-list',
+        path: "/guardian-list",
         title: "guardian list",
-        icon: 'mdi-format-list-bulleted'
+        icon: "mdi-format-list-bulleted",
       },
       {
-        path: '/student_list',
+        path: "/student_list",
         title: "Student list",
-        icon: 'mdi-format-list-bulleted'
+        icon: "mdi-format-list-bulleted",
       },
       {
-        path: '/student-list',
+        path: "/student-list",
         title: "Add user",
-        icon: 'mdi-plus'
+        icon: "mdi-plus",
       },
       // {
       //   path: '/student-attendance',
@@ -38,23 +37,23 @@ export default {
       //   icon: 'mdi-progress-check'
       // },
       {
-        path: '/student-acadamice',
+        path: "/student-acadamice",
         title: "Score",
-        icon: 'mdi-chart-bar'
+        icon: "mdi-chart-bar",
       },
       {
-        path: '/class_list',
+        path: "/class_list",
         title: "Class",
-        icon: 'mdi-clipboard-text'
+        icon: "mdi-clipboard-text",
       },
     ],
-    userProfile:[
+    userProfile: [
       {
-        path: '/user-profile',
+        path: "/user-profile",
         title: "Class",
-        icon: 'mdi-clipboard-text'
+        icon: "mdi-clipboard-text",
       },
     ],
-  })
-}
+  }),
+};
 </script>
