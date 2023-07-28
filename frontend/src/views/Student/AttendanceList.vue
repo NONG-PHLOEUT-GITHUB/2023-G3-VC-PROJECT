@@ -42,6 +42,7 @@ export default {
   methods: {
     getStudents(id) {
       http
+<<<<<<< HEAD
         .get(`/getAllStudents/${id}`)
         .then((response) => {
           this.attendanceData = response.data.data;
@@ -54,6 +55,13 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+=======
+      .get(`/getAllStudents/${id}`)
+      .then((response) => {
+        this.attendanceData = response.data.data;
+        this.attendanceData.forEach(element => {
+          this.attendanceData = element.students;
+>>>>>>> 7c698fb279bb789ebdf4d98e346ba347696014c9
         });
     },
     fetchData() {
