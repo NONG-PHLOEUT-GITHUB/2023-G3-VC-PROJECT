@@ -259,7 +259,7 @@
                   <td v-if="score.score < 25" class="text-sm text-red">
                     Failed
                   </td>
-                  <td v-else class="text-sm text-green">Passed</td>
+                  <td v-if="score.score>25" class="text-sm text-green">Passed</td>
                 </tr>
               </template>
             </tbody>
