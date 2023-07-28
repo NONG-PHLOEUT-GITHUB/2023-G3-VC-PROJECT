@@ -3,7 +3,7 @@
   <div>
     <h3 class="text">ABSENCE MONTHLY RECORD</h3>
     <v-card class="card mt-3">
-      <v-tabs v-model="tab" bg-color="primary">
+      <v-tabs v-model="tab" bg-color="teal">
         <v-tab v-for="(month, index) in months" :key="index" :value="index + 1">
           {{ month }}
         </v-tab>
@@ -19,9 +19,9 @@
               <table class="table table-hover table-nowrap">
                 <thead>
                   <tr>
-                    <th scope="col" class="text-lg text-primary">Date</th>
-                    <th scope="col" class="text-lg text-primary">Status</th>
-                    <th scope="col" class="text-lg text-primary">Reason</th>
+                    <th scope="col" class="text-base text-teal">Date</th>
+                    <th scope="col" class="text-base text-teal">Status</th>
+                    <th scope="col" class="text-base text-teal">Reason</th>
                   </tr>
                 </thead>
                 <tbody>

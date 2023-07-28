@@ -1,8 +1,8 @@
 <template>
   <student-dashboard />
-  <h3 class="title mb-2">MY SCORES RECORDS</h3>
+  <h3 class="title mt-5">MY SCORES RECORDS</h3>
   <v-card class="card mt-3" v-if="displayTabs">
-    <v-tabs v-model="tab" bg-color="deep-purple-darken-4" center-active>
+    <v-tabs v-model="tab"  center-active>
       <v-tab
         v-for="month in scoresByMonthWithSummary"
         :key="month.month"
@@ -22,7 +22,7 @@
       >
         <div class="table-responsive">
           <table class="table table-hover table-nowrap mt-2">
-            <thead class="bg-primary">
+            <thead class="bg-teal">
               <tr>
                 <th scope="col" class="text-sm text-light">Subject</th>
                 <th scope="col" class="text-sm text-light">Score</th>
@@ -266,10 +266,10 @@
           </table>
         </div>
         <div class="total mb-5 mt-5">
-          <h4 class="mb-2">Total Score: {{ month.total }}</h4>
-          <h4 class="mb-2">Average: {{ month.average }}</h4>
-          <h4 class="mb-2">Grade: {{ month.grade }}</h4>
-          <h4 class="mb-2">Status: {{ month.status }}</h4>
+          <h4 class="mb-2 text-teal">Total Score: {{ month.total }}</h4>
+          <h4 class="mb-2 text-teal">Average: {{ month.average }}</h4>
+          <h4 class="mb-2 text-teal">Grade: {{ month.grade }}</h4>
+          <h4 class="mb-2 text-teal">Status: {{ month.status }}</h4>
         </div>
       </v-window-item>
     </v-window>
@@ -327,7 +327,7 @@ export default {
       const scoresByMonthArray = Object.entries(scoresByMonth).map(
         ([month, scores]) => {
           const total = scores.reduce((acc, score) => acc + score.score, 0);
-          const average = (total / (scores.length + 2)).toFixed(3);
+          const average = (total / (scores.length + 2)).toFixed(2);
           // const average = (total / 10).toFixed(3);
           const grade =
             average <= 25
@@ -398,6 +398,6 @@ export default {
   font-size: 20px;
 }
 .title {
-  margin-left: 18%;
+  margin-left:47%;
 }
 </style>

@@ -5,10 +5,10 @@
         <v-list-item class="drawer">
           <v-list-item>
             <div class="image">
-              <v-img class="image" 
+              <!-- <v-img class="image" 
                 src="https://o.remove.bg/downloads/bf8de2f7-5da0-4277-a6be-6f94c888ed6a/image-removebg-preview.png"
                 rounded rounded-sm>
-              </v-img>
+              </v-img> -->
             </div>
           </v-list-item>
           <v-list-item class="mt-10">

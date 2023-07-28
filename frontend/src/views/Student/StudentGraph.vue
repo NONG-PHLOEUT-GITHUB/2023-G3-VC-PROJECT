@@ -85,12 +85,12 @@ export default {
         ],
       },
       chartOptions: {
-        backgroundColor: "#1E90FF",
+        backgroundColor: "teal",
         responsive: true,
       },
     };
   },
-  mounted() {
+  mounted(){
     http
       .get("/v1/auth/user")
       .then((response) => {
@@ -113,7 +113,7 @@ export default {
           }
         })
         .catch((error) => {
-          
+
           console.error(error);
         });
     },
