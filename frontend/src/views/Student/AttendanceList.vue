@@ -66,10 +66,6 @@ export default {
   mounted() {
     const id = this.$route.params.id;
     this.getStudents(id);
-<<<<<<< HEAD
-    this.fetchData();
-=======
->>>>>>> a1605b4b36b1338c63a6acd44ed6d863bccbc464
   },
 };
 </script>
