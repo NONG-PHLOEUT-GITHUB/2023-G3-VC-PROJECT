@@ -68,7 +68,6 @@ export default {
         .post('/comments', commentData)
         .then((response) => {
           console.log(response);
-          console.log(commentData);
         })
         Swal.fire({
           icon: "success",
@@ -105,9 +104,9 @@ export default {
     },
   },
   mounted() {
-    this.getTeacherId();
     const id = this.$route.params.id;
     this.fetchData(id);
+    this.getTeacherId();
   },
 };
 </script>

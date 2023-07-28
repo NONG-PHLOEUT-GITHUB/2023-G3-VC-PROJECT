@@ -79,10 +79,10 @@
           <!-- <v-btn to="/studnet-scores" class="me-4">
             <v-icon>mdi-chart-line</v-icon> Score report
           </v-btn> -->
-          <v-btn to="/attendance_list">
-            <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn
-          >
-          <v-btn to="/feedback" @click="getStudentInClass()" class="ms-4">
+          <v-btn :to="{ path: '/attendance_list/' + classroom.id }">
+            <v-icon>mdi-calendar-clock</v-icon> Attendance report
+          </v-btn>
+          <v-btn :to="{ path: '/feedback/' + classroom.id }" class="ms-4">
             <v-icon>mdi-poll</v-icon> Studen feedback
           </v-btn>
         </v-col>
@@ -108,7 +108,7 @@
 
 <script>
 import http from "@/htpp.common";
-
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -145,6 +145,9 @@ export default {
           console.log(error.response.data.error);
         });
     },
+
+    // ...
+
     addTeacher() {
       // Send a POST request to create a new classroom
       http
@@ -159,9 +162,11 @@ export default {
           this.selectedTeacher = null;
           // Reload the list of classrooms
           this.fetchClassrooms();
+          // Show a success message using sweetalert2
         })
         .catch((error) => {
           console.log("Error creating classroom:", error);
+          // Show an error message using sweetalert2
         });
     },
     getTeacher() {
@@ -182,18 +187,15 @@ export default {
     },
 
     saveClassroom() {
-      // Create a new classroom object with the selected teacher object and other form data
       const newclassroom = {
         class_name: this.className,
         user_id: this.selectedTeacher,
       };
 
       if (this.editing) {
-        // Update an existing classroom
         http
           .put(`/classrooms/${this.editId}`, newclassroom)
           .then(() => {
-            // Reset the form and close the dialog
             this.cancelForm();
             this.fetchClassrooms();
           })
@@ -201,13 +203,16 @@ export default {
             console.log(error);
           });
       } else {
-        // Add a new classroom
         http
           .post("/classrooms", newclassroom)
           .then(() => {
-            // Reset the form and close the dialog
             this.cancelForm();
             this.fetchClassrooms();
+            Swal.fire({
+              title: "Teacher added",
+              icon: "success",
+              timer: 3000,
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -254,18 +259,36 @@ export default {
       this.dialog = false;
     },
 
+    // ...
+
     deleteClassroom(id) {
-      http
-        .delete(`/classrooms/${id}`)
-        .then(() => {
-          const index = this.classrooms.findIndex((c) => c.id === id);
-          if (index !== -1) {
-            this.classrooms.splice(index, 1);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You will not be able to recover this classroom!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "Cancel",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          http
+            .delete(`/classrooms/${id}`)
+            .then(() => {
+              const index = this.classrooms.findIndex((c) => c.id === id);
+              if (index !== -1) {
+                this.classrooms.splice(index, 1);
+              }
+              Swal.fire({
+                title: "Deleted!",
+                text: "The classroom has been deleted.",
+                icon: "success",
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      });
     },
     getStudentInClass() {
       http
@@ -281,10 +304,26 @@ export default {
           console.log(error);
         });
     },
+    // getStudents(id) {
+    //   http
+    //     .get(`/getAllStudents/${id}`)
+    //     .then((response) => {
+    //       this.classrooms = response.data.data;
+    //       this.classrooms = response.data.data;
+    //       this.classrooms.forEach((element) => {
+    //         console.log(element.students);
+    //         this.classrooms = element.students;
+    //       console.log(this.classrooms);
+    //       });
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
   },
 
   mounted() {
-    this.getStudentInClass()
+    this.getStudentInClass();
     this.fetchClassrooms();
     this.getTeacher();
     this.addTeacher();
