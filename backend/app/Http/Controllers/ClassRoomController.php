@@ -107,6 +107,11 @@ class ClassRoomController extends Controller
                 'students' => function ($query) {
                     $query->withCount('roleAttendances');
                     $query->orderByDesc('role_attendances_count');
+                    $query->with([
+                        'scores' => function ($query) {
+                            $query->orderBy('subject_id', 'asc');
+                        }
+                    ]);
                 }
             ])
             ->get();

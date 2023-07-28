@@ -8,7 +8,7 @@
 
       <div class="form-group d-flex justify-content-between mb-3" style="width: 100%">
         <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search user" aria-label="Search"
+          <input class="form-control mr-sm-2" type="search" placeholder="Search user" aria-label="Search" v-model="searchQuery"
             style="width: 78%" />
           <button class="btn btn-outline-warning my-2 my-sm-0" type="button">
             <i class="bi bi-search"></i> Search
@@ -35,7 +35,7 @@
         </thead>
 
         <tbody v-if="listGuardian && listGuardian.length">
-          <tr v-for="(gardian, id) of listGuardian" :key="id" class="border-2-dark">
+          <tr v-for="(gardian, id) of  SearchGaurdian" :key="id" class="border-2-dark">
             <td>
                 {{ gardian.first_name }} {{ gardian.last_name }}
             </td>
@@ -87,15 +87,30 @@ import http from "../../htpp.common";
 export default {
   data(){
     return{
-      listGuardian:[]
+      listGuardian:[],
+      searchQuery: "",
     }
+  },
+  computed:{
+    SearchGaurdian() {
+      if (this.searchQuery === "") {
+        return this.listGuardian;
+      } else {
+        const filtered = this.listGuardian.filter((guardian) =>
+    
+          (guardian.first_name + " " + guardian.last_name)
+            .toLowerCase()
+            .includes(this.searchQuery.trim().toLowerCase())
+        );
+        return filtered;
+      }
+    },
   },
   methods:{
     getGuardian() {
       http.get('/getGuardians')
       .then((response) => {
         this.listGuardian = response.data.data;
-        console.log(this.listGuardian);
       });
     },
     deleteUser(id) {

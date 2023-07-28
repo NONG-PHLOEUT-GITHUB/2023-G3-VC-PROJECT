@@ -41,6 +41,7 @@
 // https://snyk.io/advisor/npm-package/lru-cache/functions/lru-cache
 import http from "@/htpp.common";
 import LRU from "lru-cache";
+
 const cache = new LRU(100);
 
 export default {

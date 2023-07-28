@@ -150,7 +150,8 @@
             @change="getImage"
           />
         </div>
-        <div class="mb-3 col-md-6">
+        <div  v-if="HideElement" style="display: none;" class="hidden d-flex">
+          <div class="mb-3 col-md-6 class">
           <label for="formFileDisabled" class="form-label">Class</label>
           <select
             v-model="class_room_id"
@@ -166,7 +167,7 @@
             </option>
           </select>
         </div>
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md-6 ml-2  gaurdian" >
           <label for="formFileDisabled" class="form-label">Guardian</label>
           <select
             v-model="guardian_id"
@@ -181,6 +182,7 @@
              <strong>{{ guardian.first_name}}  {{ guardian.last_name}}</strong> 
             </option>
           </select>
+        </div>
         </div>
 
 
@@ -301,6 +303,9 @@ export default {
   },
 
   computed: {
+    HideElement() {
+      return this.role != '1' && this.role != '2'
+    },
     max_date() {
       const today = new Date();
       const year = today.getFullYear() - 10;
