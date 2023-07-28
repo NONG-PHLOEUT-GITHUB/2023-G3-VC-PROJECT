@@ -96,6 +96,7 @@ Route::get("/getcommentforspecificstudent/{id}", [UserController::class, "getCom
 Route::get('/scores', [ScoreController::class, 'index']);
 Route::post('/scores', [ScoreController::class, 'store']);
 Route::get('/getStudentScore/{id}/{month}', [ScoreController::class, 'getStudentScore']);
+Route::get('/getStudentScoreEveryMonth/{userId}', [ScoreController::class, 'getStudentScoreEveryMonth']);
 
 // ========================subject teachers router=================================== 
 
