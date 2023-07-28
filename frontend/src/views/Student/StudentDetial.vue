@@ -114,25 +114,23 @@ export default {
   name: "UserDetails",
   data() {
     return {
-      users: " ",
+      users: [],
       reveal: false,
       comments: [],
       parents: [],
     };
   },
   methods: {
-    fetchData() {
-      http.get("/v1/auth/user").then((response) => {
-        this.users = response.data.data;
-      });
-    },
-    methods: {
-      fetchData() {
-        http.get("/v1/auth/user").then((response) => {
-          this.users = response.data.data;
-        });
-      },
-    },
+    fetchDataById(id) {
+        http.get(`/users/${id}`)
+            .then(response => {
+            this.users = response.data.data;
+            console.log(this.responseData);
+            })
+            .catch(error => {
+            console.error(error);
+            });
+        },
     getParents(id) {
       http.get(`/getParents/${id}`).then((response) => {
         this.parents = response.data.guardian
@@ -150,7 +148,7 @@ export default {
    const id = this.$route.params.id;
     this.getParents(id);
     this.getCommentByTeacher();
-    this.fetchData();
+    this.fetchDataById(id);
   },
 };
 </script>
