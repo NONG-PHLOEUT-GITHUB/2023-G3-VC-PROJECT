@@ -36,11 +36,11 @@ export default {
       //   title: "Attendance",
       //   icon: 'mdi-progress-check'
       // },
-      {
-        path: "/student-acadamice",
-        title: "Score",
-        icon: "mdi-chart-bar",
-      },
+      // {
+      //   path: "/student-acadamice",
+      //   title: "Score",
+      //   icon: "mdi-chart-bar",
+      // },
       {
         path: "/class_list",
         title: "Class",

@@ -2,12 +2,12 @@
   <teacher-dashboard></teacher-dashboard>
   <div class="container mt-5 ">
     <v-card class="elevation-4 mb-4">
-      <v-btn block  color="teal-darken-4">attendance check list</v-btn>
+      <v-btn block color="teal-darken-4">attendance check list</v-btn>
       <br />
       <div>
         <label for="" class="ms-8">Select class</label>
-        <select class="form-select mb-3 ms-8" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
-          @click="getStudentInClass(selectedClass)">
+        <select class="form-select mb-3 ms-8" aria-label="Default select example" style="width: 30%"
+          v-model="selectedClass" @click="getStudentInClass(selectedClass)">
           <option selected disabled>Select class</option>
           <option v-for="classroom in classrooms" :key="classroom.id" :value="classroom.id">
             {{ classroom.class_name }}
@@ -55,13 +55,7 @@
               </div>
             </td>
             <td>
-              <textarea
-                type="tel"
-                v-model="student.reason"
-                class="form-control"
-                id="reason"
-                placeholder=""
-              />
+              <textarea type="tel" v-model="student.reason" class="form-control" id="reason" placeholder="" />
             </td>
           </tr>
         </tbody>
@@ -85,6 +79,9 @@
 import swal from "sweetalert2";
 import axios from "axios";
 import http from "../../htpp.common";
+import LRU from "lru-cache";
+
+const cache = new LRU(100);
 export default {
   name: "SweetAlert2",
   data() {
@@ -93,20 +90,7 @@ export default {
       date: null,
       chat_id: null,
       classrooms: [],
-      grades: [
-        { label: "Grade 9A", value: "9A" },
-        { label: "Grade 9B", value: "9B" },
-        { label: "Grade 9C", value: "9C" },
-        { label: "Grade 10A", value: "10A" },
-        { label: "Grade 10B", value: "10B" },
-        { label: "Grade 10C", value: "10C" },
-        { label: "Grade 11A", value: "11A" },
-        { label: "Grade 11B", value: "11B" },
-        { label: "Grade 11C", value: "11C" },
-        { label: "Grade 12A", value: "12A" },
-        { label: "Grade 12B", value: "12B" },
-        { label: "Grade 12C", value: "12C" },
-      ],
+
     };
   },
   methods: {
@@ -172,7 +156,7 @@ export default {
     async submitForm() {
       try {
         const telegramAPI =
-          "https://api.telegram.org/bot6394729253:AAEuIrWM_GEvRqJ5kJ6Mpk4ZB7J0lmKMnfI/sendMessage"; // replace <bot_token> with your Telegram bot token
+          "https://api.telegram.org/bot6394729253:AAEuIrWM_GEvRqJ5kJ6Mpk4ZB7J0lmKMnfI/sendMessage"; 
         const selectedStudents = this.students.filter(
           (student) =>
             student.selected && student.status !== "" && student.reason !== ""
@@ -188,29 +172,28 @@ export default {
             chat_id: this.chat_id,
             text: message,
           });
-          console.log(response);
           if (!response.data.ok) {
             swal.fire("Failed", "Failed to send message", "error");
             return;
           }
           // Create an attendance object for the current student
           const attendanceData = {
+            id: this.selectedClass,
             user_id: student.id,
             status: student.status,
             reason: student.reason,
             date: this.date,
           };
-
-          // Send the attendance data to your API
-          http
-            .post("/checkStudentAttendance", attendanceData)
-            .then((response) => {
-              const id = response.data.data.id;
-              this.$router.push({ path: "/attendance_list/" + id });
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          student.status = "",
+            student.reason = "",
+            this.reason = "",
+            student.selected = "",
+            this.date = "",
+            // Send the attendance data to your API
+            http.post("/checkStudentAttendance", attendanceData)
+              .catch((error) => {
+                console.log(error);
+              });
         }
         swal.fire({
           icon: "success",
@@ -228,6 +211,7 @@ export default {
       http.get('/get-students')
         .then((response) => {
           this.students = response.data.data;
+
         });
     },
     getStudentInClass(classId) {
@@ -244,15 +228,25 @@ export default {
           console.log(error);
         });
     },
-    getClassrooms() {
-      http
-        .get("/classrooms")
-        .then((response) => {
-          this.classrooms = response.data.data;
-        })
-        .catch((error) => {
-          console.log("Error fetching classrooms:", error);
-        });
+
+    async getClassrooms() {
+      const cachedResponse = cache.get("teacher_classroom");
+
+      if (cachedResponse) {
+        this.classrooms = cachedResponse;
+        return;
+      }
+
+      try {
+        const response = await http.get("/v1/auth/user");
+        this.classrooms = response.data.data.class_teacher;
+        cache.set("teacher_classroom", this.classrooms);
+      } catch (error) {
+        console.error(error);
+      }
+      if (this.classrooms.length === 0) {
+        this.snackbar = true;
+      }
     },
   },
 
@@ -268,7 +262,6 @@ export default {
 </script>
 
 <style  scoped>
-
 table {
   padding: 2%;
   width: 100%;
@@ -314,6 +307,7 @@ td.status {
   width: 84%;
   margin-left: 17%;
 }
+
 .checkToday {
   justify-content: center;
   align-items: center;

@@ -1,10 +1,11 @@
 <template>
-  <teacher-dashboard></teacher-dashboard>
+  <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
+  <teacher-dashboard v-else-if="this.role === '2'"></teacher-dashboard>
   <div class="main mt-3">
     <h3 class="text">Score monthly reports</h3>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
-        <thead class="bg-primary">
+        <thead class="thead">
           <tr>
             <th class="fs-7 text-white">NO</th>
             <th class="fs-7 text-white">Name</th>
@@ -36,62 +37,37 @@
               {{ scores.score }}
             </td>
 
-            <td
-              v-if="student.scores.length > 0 && getTotal(student.id) > 350"
-              class="font-weight-bold text-green"
-            >
+            <td v-if="student.scores.length > 0 && getTotal(student.id) > 350" class="font-weight-bold text-green">
               {{ getTotal(student.id) }}
             </td>
             <td v-else class="font-weight-bold text-red">
               {{ getTotal(student.id) }}
             </td>
 
-            <td
-              v-if="student.scores.length > 0 && getAverage(student.id) > 25.0"
-              class="font-weight-bold text-green"
-            >
+            <td v-if="student.scores.length > 0 && getAverage(student.id) > 25.0" class="font-weight-bold text-green">
               {{ getAverage(student.id) }}
             </td>
             <td v-else class="font-weight-bold text-red">
               {{ getAverage(student.id) }}
             </td>
 
-            <td
-              v-if="getAverage(student.id) < 25.0"
-              class="font-weight-bold text-red"
-            >
+            <td v-if="getAverage(student.id) < 25.0" class="font-weight-bold text-red">
               F
             </td>
-            <td
-              v-if="getAverage(student.id) >= 25 && getAverage(student.id) < 30"
-              class="font-weight-bold text-green"
-            >
+            <td v-if="getAverage(student.id) >= 25 && getAverage(student.id) < 30" class="font-weight-bold text-green">
               E
             </td>
-            <td
-              v-if="getAverage(student.id) >= 30 && getAverage(student.id) < 35"
-              class="font-weight-bold text-green"
-            >
+            <td v-if="getAverage(student.id) >= 30 && getAverage(student.id) < 35" class="font-weight-bold text-green">
               D
             </td>
-            <td
-              v-if="getAverage(student.id) >= 35 && getAverage(student.id) < 40"
-              class="font-weight-bold text-green"
-            >
+            <td v-if="getAverage(student.id) >= 35 && getAverage(student.id) < 40" class="font-weight-bold text-green">
               C
             </td>
-            <td
-              v-if="getAverage(student.id) >= 40 && getAverage(student.id) < 47"
-              class="font-weight-bold text-green"
-            >
+            <td v-if="getAverage(student.id) >= 40 && getAverage(student.id) < 47" class="font-weight-bold text-green">
               B
             </td>
-            <td
-              v-if="
-                getAverage(student.id) >= 47 && getAverage(student.id) <= 50
-              "
-              class="font-weight-bold text-green"
-            >
+            <td v-if="getAverage(student.id) >= 47 && getAverage(student.id) <= 50
+              " class="font-weight-bold text-green">
               A
             </td>
           </tr>
@@ -102,12 +78,13 @@
 </template>
 <script>
 import http from "@/htpp.common";
-
+import Cookies from "js-cookie";
 export default {
   data() {
     return {
       allStudents: [],
       tab: 1,
+      role: "",
     };
   },
   computed: {
@@ -158,12 +135,26 @@ export default {
     getAverage(id) {
       return (this.getTotal(id) / 14).toFixed(3);
     },
+    getRole() {
+      let cookies = Cookies.get("user_role");
+      this.role = cookies;
+    },
   },
   mounted() {
     const id = this.$route.params.id;
     this.getStudents(id);
+    this.getRole();
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.main {
+  width: 80%;
+  margin-left: 19%;
+}
+
+.thead {
+  background: #004D40;
+}
+</style>
 

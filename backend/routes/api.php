@@ -46,7 +46,7 @@ Route::get('/users/{id}', [UserController::class,"show"]);
 Route::put('/users/{id}', [UserController::class,"update"]);
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
-Route::get("/show-graph-of-student-fail/{year}", [UserController::class, "getPercentageOfFaildedStudentByMonth"]);
+Route::get("/show-graph-of-student-fail", [UserController::class, "getPercentageOfFaildedStudentByMonth"]);
 Route::post('/getImage', [UserController::class, 'getImage']);
 Route::get("/users/subject/{subject}", [UserController::class, "getTeacherBySubject"]);
 Route::get('/get-teachers', [UserController::class,"getTeachers"]);
@@ -95,6 +95,7 @@ Route::get("/get-comments-student/{user_id}/{teacher_id}", [UserController::clas
 
 Route::get('/scores', [ScoreController::class, 'index']);
 Route::post('/scores', [ScoreController::class, 'store']);
+Route::get('/getStudentScoreEveryMonth/{user_id}', [ScoreController::class, 'getStudentScoreEveryMonth']);
 Route::get('/getStudentScore/{id}/{month}', [ScoreController::class, 'getStudentScore']);
 
 // ========================subject teachers router=================================== 

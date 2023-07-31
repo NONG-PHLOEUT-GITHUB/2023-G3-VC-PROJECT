@@ -42,7 +42,8 @@ class AuthenticationController extends Controller
                     'access_token' => $token
                 ],
                 200
-            )->header('Authorization', $token);
+            )->header('Authorization', $token)
+            ->header('X-Auth-Login-Time', now()->toDateTimeString());
         }
         return response()->json(['error' => 'login_error'], 401);
     }
@@ -68,9 +69,16 @@ class AuthenticationController extends Controller
     public function user(Request $request)
     {
      
-        $user = User::with('guardian','attendances', 'scores','classTeacher','comments')
-        
-        ->find(Auth::user()->id);   
+        $user = User::with([
+            'guardian',
+            'attendances',
+            'scores',
+            'classTeacher',
+            'comments' => function ($query) {
+                $query->join('users', 'comments.teacher_id', '=', 'users.id')
+                ->select('comments.*', 'users.first_name', 'users.last_name');
+            }
+        ])->find(Auth::user()->id);
         
         return response()->json([
             'status' => 'success',

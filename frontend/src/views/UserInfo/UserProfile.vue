@@ -6,14 +6,8 @@
     <v-container fluid>
       <v-row>
         <v-col cols="12" md="3" class="text-center">
-          <!-- <v-img :src="users.profile" alt="Avatar" class="img-fluid my-7 w-75 rounded-circle ms-10" height="200" cover>
-          </v-img> -->
-
-          <label for="profilePictureInput">
-            <v-img :src="users.profile" alt="Avatar" class="img-fluid my-7 w-75 rounded-circle ms-10" height="200" cover>
-              <v-icon class="mdi mdi-camera position-absolute bottom-0 right-0 m-2" color="white"></v-icon>
-            </v-img>
-          </label>
+          <v-img :src="users.profile" alt="Avatar" class="img-fluid my-7 w-75 rounded-circle ms-10" height="200" cover>
+          </v-img>
 
           <input id="profilePictureInput" type="file" accept="image/*" class="d-none" @change="handleFileUpload">
 
@@ -68,6 +62,24 @@
               <v-icon class="me-2"> mdi-account </v-icon>Parent
               Information</v-btn>
           </v-col>
+          <div class="mt-4 ms-4">
+              <v-card variant="text" class="mt-4">
+                <v-icon class="me-2">mdi-account </v-icon>Full name :
+                {{ guardian.first_name }} {{ guardian.last_name }}
+              </v-card>
+              <v-card variant="text" class="mt-4">
+                <v-icon class="me-2">mdi-gender-transgender </v-icon>Gender :
+                {{ guardian.gender }}
+              </v-card>
+              <v-card variant="text mt-4">
+                <v-icon class="me-2"> mdi-phone </v-icon>Phone number :
+                {{ guardian.phone_number }}
+              </v-card>
+              <v-card variant="text mt-4">
+                <v-icon class="me-2"> mdi-map-marker </v-icon>Address :
+                {{ guardian.address }}
+              </v-card>
+            </div>
         </v-col>
       </v-row>
     </v-container>
@@ -82,6 +94,7 @@ export default {
   data() {
     return {
       users: " ",
+      guardian: " ",
       role: "",
     };
   },
@@ -89,6 +102,7 @@ export default {
     fetchData() {
       http.get("/v1/auth/user").then((response) => {
         this.users = response.data.data;
+        this.guardian = response.data.data.guardian;
       });
     },
     getRole() {

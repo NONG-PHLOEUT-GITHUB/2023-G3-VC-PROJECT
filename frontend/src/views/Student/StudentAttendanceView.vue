@@ -14,7 +14,7 @@
             <div class="table-responsive">
               <table class="table table-hover table-nowrap">
                 <thead>
-                  <tr>
+                  <tr class="thead">
                     <th scope="col">Date</th>
                     <th scope="col">Status</th>
                     <th scope="col">Reason</th>
@@ -22,11 +22,11 @@
                 </thead>
                 <tbody>
                   <tr v-for="(detail, index) in filteredAttendanceDetails" :key="index">
-                    <td class="text-lg text-black">{{ detail.date }}</td>
-                    <td class="text-lg text-black">
+                    <td class="text-subtitle-1">{{ detail.date }}</td>
+                    <td class="text-subtitle-1">
                       {{ detail.status }}
                     </td>
-                    <td class="text-lg text-black">{{ detail.reason }}</td>
+                    <td class="text-subtitle-1">{{ detail.reason }}</td>
                   </tr>
                   <tr v-if="filteredAttendanceDetails.length === 0">
                     <td colspan="5" class="text-center text-lg text-red ">
@@ -117,5 +117,12 @@ export default {
 .tab{
   color: white;
   background: #004D40;
+}
+.thead{
+  background: #004D40;
+}
+.thead th {
+  
+  color: white;
 }
 </style>

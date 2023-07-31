@@ -1,11 +1,12 @@
 <template>
-  <admin-dashboard></admin-dashboard>
+  <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
+  <teacher-dashboard v-else-if="this.role === '2'"></teacher-dashboard>
   <main class="table">
     <h3>Student Attendance List</h3>
-    <v-table>
+    <v-table class="mt-4">
       <thead>
         <tr>
-          <th class="text-white">Id</th>
+          <th class="text-white ">Id</th>
           <th class="text-white">First Name</th>
           <th class="text-white">Last Names</th>
           <th class="text-white">Total Absence</th>
@@ -14,15 +15,15 @@
       </thead>
       <tbody>
         <tr v-for="(attendanceItem, index) in attendanceData" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>{{ attendanceItem.first_name }}</td>
-          <td>{{ attendanceItem.last_name }}</td>
-          <td>{{ attendanceItem.role_attendances_count }}</td>
+          <td class="text-subtitle-1">{{ index + 1 }}</td>
+          <td class="text-subtitle-1">{{ attendanceItem.first_name }}</td>
+          <td class="text-subtitle-1">{{ attendanceItem.last_name }}</td>
+          <td class="text-subtitle-1">{{ attendanceItem.role_attendances_count }}</td>
           <td>
-            <router-link
-              class="status detail bg-warning"
+            <v-btn
+              class="status" color="teal-darken-4"
               :to="{ path: '/studentattendancedetail/' + attendanceItem.id }"
-              >See Details</router-link
+              >See Details <v-icon class="mt-1 ms-1">mdi-eye</v-icon></v-btn
             >
           </td>
         </tr>
@@ -32,11 +33,12 @@
 </template>
 <script>
 import http from "@/htpp.common";
-
+import Cookies from "js-cookie";
 export default {
   data() {
     return {
       attendanceData: [],
+      role: "",
     };
   },
   methods: {
@@ -47,7 +49,6 @@ export default {
           this.attendanceData = response.data.data;
           this.attendanceData = response.data.data;
           this.attendanceData.forEach((element) => {
-            console.log(element.students);
             this.attendanceData = element.students;
           });
           console.log(this.attendanceData);
@@ -59,13 +60,18 @@ export default {
     fetchData() {
       http.get("/getAttendance").then((response) => {
         this.attendanceData = response.data;
-        console.log(response.data);
+        // console.log(response.data);
       });
+    },
+    getRole() {
+      let cookies = Cookies.get("user_role");
+      this.role = cookies;
     },
   },
   mounted() {
     const id = this.$route.params.id;
     this.getStudents(id);
+    this.getRole();
   },
 };
 </script>
@@ -75,7 +81,7 @@ export default {
   position: sticky;
   top: 0;
   left: 0;
-  background-color: #0000ff;
+  background-color:#004D40;
   cursor: pointer;
   text-transform: uppercase;
   color: white;

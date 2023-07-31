@@ -2,7 +2,8 @@
   <admin-dashboard></admin-dashboard>
   <v-card class="table-container mt-4">
     <h3 class="ms-6">TEACHER LIST</h3>
-    <select class="form-select mb-3" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
+    <label for="" class="mt-4 ms-4">Select teacher</label>
+    <select class="form-select mb-3 ms-4 mt-2" aria-label="Default select example" style="width: 30%" v-model="selectedClass"
       @click="getTeacher(selectedClass)">
 
       <option v-for="classroom in classrooms" :key="classroom.id" :value="classroom.id">

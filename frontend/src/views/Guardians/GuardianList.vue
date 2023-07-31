@@ -1,6 +1,6 @@
 <template>
     <admin-dashboard></admin-dashboard>
-    <div class="card shadow border-0 mb-7 bg-light">
+    <div class="card shadow border-0 mb-7 mt-4 elevation-4" >
     <div class="card-header">
       <h2 class="mb-0 text-teal ">Guadian List</h2>
     </div>
@@ -22,10 +22,7 @@
             <i class="bi bi-search"></i> Search
           </button>
         </form>
-        <router-link :to="{ path: '/add-guadian' }" class="text-white">
-          <button type="button" class="btn btn-primary align-self-end ms-2">
-            <i class="bi bi-person-plus-fill"></i> Add new guardian
-          </button></router-link>
+          <v-btn to="/add-guadian" color="teal-darken-4"> Add new guardian <v-icon>mdi-plus-outline</v-icon></v-btn>
       </div>
     </div>
     <div class="table-responsive">
@@ -47,17 +44,17 @@
             :key="id"
             class="border-2-dark"
           >
-            <td>{{ gardian.first_name }} {{ gardian.last_name }}</td>
-            <td>
+            <td class="text-subtitle-1">{{ gardian.first_name }} {{ gardian.last_name }}</td>
+            <td class="text-subtitle-1">
               {{ gardian.gender }}
             </td>
-            <td>
+            <td class="text-subtitle-1">
               {{ gardian.chatId }}
             </td>
-            <td>
+            <td class="text-subtitle-1">
               {{ gardian.phone_number }}
             </td>
-            <td>
+            <td class="text-subtitle-1">
               {{ gardian.address }}
             </td>
             <td class="text-end d-flex justify-content-start">
@@ -70,7 +67,7 @@
                 </button>
               </router-link>
 
-              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-danger ml-2"
+              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-red ml-2"
                 @click="deleteUser(gardian.id)">
                 <i class="bi bi-trash-fill"></i> Delete
               </button>
@@ -84,7 +81,7 @@
         </tr>
       </table>
       <div class="card-footer border-0 py-5">
-        <span class="text-muted text-sm">
+        <span class="text-muted text-subtitle-1">
           Total guadian :
           {{ listGuardian?.length }} people</span
         >

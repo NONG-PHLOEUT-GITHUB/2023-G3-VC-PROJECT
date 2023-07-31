@@ -107,8 +107,8 @@
         </tr>
       </table>
       <div class="card-footer border-0 py-5">
-        <span class="text-muted text-sm">
-          Total Users {{ selectedClass }} : {{ listUser?.length }} people</span>
+        <span class="text-muted text-subtitle-1">
+          Total Users : {{ listUser?.length }} people</span>
       </div>
     </div>
   </v-card>

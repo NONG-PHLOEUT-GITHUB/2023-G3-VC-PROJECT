@@ -3,7 +3,8 @@ import Cookies from 'js-cookie';
 //admind dashboard router =================================================================
 import DashboardHomeView from '@/views/Director/DirectorDashboard.vue';
 import AddGuardian from '../views/Guardians/CreateGuardian.vue';
-import EditGuardian from '../views/Guardians/EditGuardian.vue';
+// import EditGuardian from '../views/Guardians/EditGuardian.vue';
+import EditGuardian from '@/views/Guardians/EditGuardian.vue';
 //admind dashboard router =================================================================
 import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import StudentList from '../views/Student/StudentList.vue';
@@ -27,12 +28,10 @@ import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vu
 import LoginForm from '../views/Authentication/LoginForm.vue';
 import ForgotPasswordFrom from '@/views/Authentication/ForgotPasswordForm.vue';
 import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
-// import NotFoundView from '@/views/Authentication/NotFoundView.vue';
+import NotFoundView from '@/views/Authentication/NotFoundView.vue';
 //user router ===========================================================================
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================
-// import AdminDashboard from '@/components/AdminDashboard.vue';
-// import TeacherDashboard from '@/components/TeacherDashboard.vue';
 import TeacherHome from '@/views/Teacher/TeacherHome.vue';
 import StudentDashboard from '@/components/StudentDashboard.vue';
 //student dashboard router ==============================================================
@@ -41,6 +40,7 @@ import StudentHomeView from '@/views/Student/StudentHomeView';
 import StudentAttendanceView from '@/views/Student/StudentAttendanceView.vue';
 import StudentScoreView from '@/views/Student/StudentScoreView.vue';
 import StudentScore from '@/views/Student/StudentScore.vue';
+import StudentCommentView from '@/views/UserInfo/CommentView';
 
 //teacher dashboard router =============================================================
 import ClassroomView from '@/views/Teacher/ClassroomView.vue';
@@ -70,7 +70,8 @@ const routes = [
 
     path: '/change-password',
     name: 'ChangePasswordForm',
-    component: ChangePasswordForm
+    component: ChangePasswordForm,
+    meta: { requiresAuth: true }
   },
     {
     path: '/forgot-password',
@@ -81,206 +82,212 @@ const routes = [
     path: '/user-profile',
     name: 'UserProfile',
     component: UserProfile,
-    meta: {
-      requiresAuth: true
-    }
+    meta: {requiresAuth: true}
   },
-  {
-    path: '/admin-dashboard',
-    name: 'home',
-    component: DashboardHomeView,
-    meta:{
-      requiresAuth:true
-    }
-  },
+
   // =============================
   {
     path: '/student-home',
     name: 'StudentHomeView',
     component: StudentHomeView,
+    meta: { requiresAuth: true, requiredRoles: [3] }
+  },
+  {
+    path: '/student-comments',
+    name: 'StudentCommentView',
+    component: StudentCommentView,
+    meta: { requiresAuth: true, requiredRoles: [3] }
   },
   {
     path: '/student-attendance',
     name: 'StudentAttendanceView',
     component: StudentAttendanceView,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/student-scores',
     name: 'StudentScoreView',
     component: StudentScoreView,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   // =============================
   {
     path: '/student-acadamice',
     name: 'StudentAcadmics',
     component: StudentAcadmics,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   
 // ============main dashboard=======
-  {
-    path: '/student-dashboard',
-    name: 'StudentDashboard',
-    component: StudentDashboard,
-    beforeRouteUpdate(to, from, next) {
-      const StudentDashboard = true;
-      if (StudentDashboard) {
-        next('/student-home');
-      } else {
-        next();
-      }
-    }
-  },
+{
+  path: '/admin-dashboard',
+  name: 'DashboardHomeView',
+  component: DashboardHomeView,
+  meta: { requiresAuth: true, requiredRoles: [1] }
+},
 
-  {
-    path: '/teacher-dashboard',
-    name: 'TeacherDashboard',
-    component: TeacherHome
-  },
+{
+  path: '/teacher-dashboard',
+  name: 'TeacherDashboard',
+  component: TeacherHome,
+  meta: { requiresAuth: true, requiredRoles: [1, 2] }
+},
+{
+  path: '/student-dashboard',
+  name: 'StudentDashboard',
+  component: StudentDashboard,
+  meta: { requiresAuth: true}
+},
 
+// ============main dashboard=======
 
   {
     path: '/student-list',
     name: 'StudentList',
-    component: StudentList
+    component: StudentList,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/class_list',
     name: 'class_list',
-    component: ClassView
+    component: ClassView,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/createUser',
     name: '/createUser',
-    component: CreateUserForm
+    component: CreateUserForm,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
-  {
-    path: '/attendance-list',
-    name: '/attendance-list',
-    component: AttendanceList
-  },
-  // {
-  //   path: '/attendance-list',
-  //   name: '/StudentAttendanceList',
-  //   component: AttendanceList
-  // },
+
   {
     path: '/studentmostabsence',
     name: '/studentmostabsence',
-    component: StudentMostAbsence
+    component: StudentMostAbsence,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/studentdetail',
     name: '/studentdetail',
-    component: StudentDetail
+    component: StudentDetail,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/studentattendancedetail/:id',
     name: '/studentattendancedetail',
-    component: StudentAttendanceDetail
+    component: StudentAttendanceDetail,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/teacherattendancedetail/:id',
     name: '/teacherattendancedetail',
-    component: TeacherAttendanceDetail
+    component: TeacherAttendanceDetail,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/check-attendance',
     name: '/checkAttendance',
-    component: CheckAttendance
+    component: CheckAttendance,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/teacherattendancelist',
     name: '/teacherattendancelist',
-    component: TeacherAttendanceList
+    component: TeacherAttendanceList,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/student_list',
     name: 'student_list',
-    component: SaveListStudent
+    component: SaveListStudent,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/student_detail/:id',
     name: '/student_detail',
-    meta: {
-      auth: true
-    },
     component: TeacherDetail,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/attendance_list/:id',
-    name: 'AttendanceList',
+    name: 'attendance',
     component: AttendanceList,
-    props: true
+    props: true,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
-  // {
-  //   path: '/attendance',
-  //   name: 'AttendanceList',
-  //   component: AttendanceList,
-  //   props: true
-  // },
-
   {
     name: 'edit',
     path: '/edit/:id',
-    component: EditUserForm
+    component: EditUserForm,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/class_rooms/:id',
     name: 'class_rooms',
-    meta: {
-      auth: true
-    },
-    component: StudentList
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/studentgraph',
     name: '/studentgraph',
     component: StudentGraph,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/feedback/:id',
     name: 'feedback',
     component: GiveFeedBackForm,
-    props: true
+    props: true,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/student-score-report/:id',
     name: 'student-score-report',
     component: StudentScoreReport,
-    props: true
+    props: true,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/teacher-classroom',
     name: 'ClassroomView',
-    component: ClassroomView
+    component: ClassroomView,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/student-score',
     name: 'StudentScore',
-    component: StudentScore
+    component: StudentScore,
+    meta: { requiresAuth: true, requiredRoles: [1, 2] }
   },
   {
     path: '/teacher_list',
     name: 'Teacher List',
-    component: TeacherListView
+    component: TeacherListView,
+    meta: { requiresAuth: true, requiredRoles: [1] }
   },
   {
     path: '/guardian-list',
     name: 'GuardianList',
-    component: GuardianListView
+    component: GuardianListView,
+    meta: { requiresAuth: true, requiredRoles: [1] }
   },
   {
     path: '/add-guadian',
     name: 'AddGuadian',
-    component: AddGuardian
+    component: AddGuardian,
+    meta: { requiresAuth: true, requiredRoles: [1] }
   },
   {
     path: '/edit-guadian/:id',
     name: 'EditGuadian',
-    component: EditGuardian
+    component: EditGuardian,
+    meta: { requiresAuth: true, requiredRoles: [1] }
   },
  
-  
+  {
+    path: '/:pathMatch(.*)*', // matches any unknown path
+    name: 'not-found',
+    component: NotFoundView
+  }
 
 ]
 
@@ -292,19 +299,29 @@ const router = createRouter({
 // https://beginnersoftwaredeveloper.com/how-do-i-protect-my-vue-router/?expand_article=1
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = checkAuth(); 
+
+  const { isAuthenticated, role } = checkAuth();
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const requiredRole = to.meta.requiredRole;
 
   if (requiresAuth && !isAuthenticated) {
     next('/login');
-  } else {
+  }
+  else if (to.name === 'StudentDashboard') {
+    next('/student-home');
+  }
+  else if (requiredRole && !requiredRole.includes(role)) {
+    next('/login');
+  }
+   else {
     next();
   }
 })
 
 function checkAuth() {
   const token = Cookies.get('access_token');
-  return !!token;
+  const role = Cookies.get('user_role');
+  return { isAuthenticated: !!token, role: parseInt(role) };
 }
 
 export default router;

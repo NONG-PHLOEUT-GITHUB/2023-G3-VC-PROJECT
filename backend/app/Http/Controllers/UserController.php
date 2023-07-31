@@ -166,7 +166,7 @@ class UserController extends Controller
     /**
      * show total of student failed of each month.
      */
-    public function getPercentageOfFaildedStudentByMonth($year)
+    public function getPercentageOfFaildedStudentByMonth()
     {
 
         $users = User::where('role', '=', 3)->get();

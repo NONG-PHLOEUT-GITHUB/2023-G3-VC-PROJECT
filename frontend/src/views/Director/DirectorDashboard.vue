@@ -188,7 +188,7 @@ export default {
 
     async fetchFailedStudentData() {
       try {
-        const response = await http.get("/show-graph-of-student-fail/9");
+        const response = await http.get("/show-graph-of-student-fail");
         const mydata = response.data.failed_users_percentage;
         for (let i = 0; i < mydata.length; i++) {
           this.chartData1.datasets[0].data[i] = mydata[i];

@@ -1,9 +1,10 @@
 <template>
   <admin-dashboard></admin-dashboard>
   <div class="main">
-    <h3 class="mb-0 text-primary mt-4">CLASSES LIST</h3>
+    <h3 class="mb-0 text-teal-darken-4 mt-4">CLASSES LIST</h3>
     <v-card class="card d-flex mt-5 pa-5">
-      <v-btn color="teal-darken-4 w-25 mb-4" class="mt-4 ms-5" @click="dialog = true"><v-icon>mdi-plus-outline</v-icon> add new
+      <v-btn color="teal-darken-4 w-25 mb-4" class="mt-4 ms-5" @click="dialog = true"><v-icon>mdi-plus-outline</v-icon>
+        add new
         class</v-btn>
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent width="40%">
@@ -41,17 +42,18 @@
     </v-card>
 
     <v-card v-for="classroom in classrooms" :key="classroom.id" class="card mx-auto mt-2" width="96%"
-      prepend-icon="mdi-home">
+      prepend-icon="mdi-home" elevation="4">
       <template v-slot:title> Class : {{ classroom.class_name }} </template>
 
       <div class="action">
         <v-col cols="auto">
-          <!-- <v-btn to="/studnet-scores" class="me-4">
+          <v-btn color="teal-darken-4" :to="{ path: '/student-score-report/' + classroom.id }" class="me-4">
             <v-icon>mdi-chart-line</v-icon> Score report
-          </v-btn> -->
-          <v-btn to="/attendance_list">
-            <v-icon>mdi-calendar-clock</v-icon> Attendance report</v-btn>
-          <v-btn to="/feedback" @click="getStudentInClass()" class="ms-4">
+          </v-btn>
+          <v-btn color="teal-darken-4" :to="{ path: '/attendance_list/' + classroom.id }">
+            <v-icon>mdi-calendar-clock</v-icon> Attendance report
+          </v-btn>
+          <v-btn color="teal-darken-4" :to="{ path: '/feedback/' + classroom.id }" class="ms-4">
             <v-icon>mdi-poll</v-icon> Studen feedback
           </v-btn>
         </v-col>
@@ -60,13 +62,11 @@
             <v-icon>mdi-pencil</v-icon>Edit
           </v-btn>
           <v-btn @click="deleteClassroom(classroom.id)" color="red" class="text-white">
-            <v-icon>mdi-delete</v-icon> Delete
+            <v-icon>mdi-delete</v-icon> Delete 
           </v-btn>
         </v-col>
       </div>
-      <!-- <v-card-text>
-          This is content
-        </v-card-text> -->
+
     </v-card>
   </div>
 </template>
@@ -100,7 +100,7 @@ export default {
   methods: {
     showStudents(classId) {
       http
-        .get(`api/getuserInClass/${classId}`)
+        .get(`/getuserInClass/${classId}`)
         .then((response) => {
           console.log(classId);
           this.listUser = response;
@@ -116,7 +116,7 @@ export default {
     addTeacher() {
       // Send a POST request to create a new classroom
       http
-        .post("/api/classrooms", {
+        .post("/classrooms", {
           class_name: this.className,
           teacher_id: this.selectedTeacher,
         })
@@ -265,29 +265,12 @@ export default {
           console.log(error);
         });
     },
-    // getStudents(id) {
-    //   http
-    //     .get(`/getAllStudents/${id}`)
-    //     .then((response) => {
-    //       this.classrooms = response.data.data;
-    //       this.classrooms = response.data.data;
-    //       this.classrooms.forEach((element) => {
-    //         console.log(element.students);
-    //         this.classrooms = element.students;
-    //       console.log(this.classrooms);
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
   },
 
   mounted() {
     this.getStudentInClass();
     this.fetchClassrooms();
     this.getTeacher();
-    this.addTeacher();
   },
 };
 </script>

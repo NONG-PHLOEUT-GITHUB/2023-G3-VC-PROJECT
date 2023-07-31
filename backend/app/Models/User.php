@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\HasApiTokens;
 use Sabberworm\CSS\Comment\Commentable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -109,18 +111,19 @@ class User extends Authenticatable implements JWTSubject
             }
             $user->update($users);
         } else {
+          
+            $password = Str::random(8);
+            $users['password'] = bcrypt($password);
+
             $user = self::create($users);
             $id = $user->$id;
-            
-            // // =============image====================
-            // $image = $request->file('profile');
-            // $new_name =  rand() . '.' . $image->getClientOriginalExtension();
-            // $image->move(public_path('images'),$new_name);
-            // $path = asset('images/' . $new_name);
-            // $user->profile= $path;
-            // $user->save();
-            }
-        
+
+            // Send an email notification to the user
+            Mail::send('email.new_user', ['user' => $user, 'password' => $password], function ($message) use ($user) {
+                $message->to($user->email, $user->first_name)->subject('Welcome to our system!');
+            });
+        }
+
         // ================token user password=================
         return response()->json(['success' => true, 'data' => $user], 201);
     }
@@ -148,7 +151,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class, 'subject_teacher','user_id', 'subject_id')->withTimestamps();
+        return $this->belongsToMany(Subject::class, 'subject_teacher', 'user_id', 'subject_id')->withTimestamps();
     }
 
     /**
@@ -166,7 +169,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function classroom()
     {
-        return $this->belongsTo(ClassRoom::class,'class_room_id');
+        return $this->belongsTo(ClassRoom::class, 'class_room_id');
     }
 
     public function comments()
@@ -185,10 +188,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Attendance::class, 'user_id');
     }
-    public function getParentFullnameAttribute(){
-        return $this->guardian->first_name.' '.$this->teacher->last_name;
+    public function getParentFullnameAttribute()
+    {
+        return $this->guardian->first_name . ' ' . $this->teacher->last_name;
     }
 }
-
-
-

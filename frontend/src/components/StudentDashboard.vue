@@ -21,6 +21,11 @@ export default {
         title: "Score",
         icon: "mdi-chart-bar",
       },
+      {
+        path: "/student-comments",
+        title: "Comment",
+        icon: " mdi-comment",
+      },
     ],
   }),
 };

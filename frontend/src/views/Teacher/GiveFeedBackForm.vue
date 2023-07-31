@@ -1,6 +1,7 @@
 <template>
-  <teacher-dashboard></teacher-dashboard>
-  <div class="give-feedback-container">
+  <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
+  <teacher-dashboard v-else-if="this.role === '2'"></teacher-dashboard>
+  <div class="give-feedback-container mt-5">
     <h2>Give Feedback</h2>
     <form @submit.prevent="giveComment">
       <div class="form-group">
@@ -31,7 +32,7 @@
           v-model="comment"
         ></textarea>
       </div>
-      <button type="submit">Submit</button>
+      <v-btn type="submit" color="teal-darken-4">Submit</v-btn>
     </form>
   </div>
 </template>
@@ -39,15 +40,16 @@
 <script>
 import Swal from "sweetalert2";
 import http from "@/htpp.common";
-import TeacherDashboard from "../../components/TeacherDashboard.vue";
+import Cookies from "js-cookie";
 export default {
-  components: { TeacherDashboard },
   data() {
     return {
       listUser: [],
       selectedStudent: null,
       comment: "",
       teacher_id: null,
+      role:"",
+      teachers:[],
     };
   },
   methods: {
@@ -75,6 +77,13 @@ export default {
       this.selectedStudent = null;
       this.comment = "";
     },
+    fetchTeacherData() {
+      http.get("/v1/auth/user").then((response) => {
+        // this.teachers = response.data.data.id;
+        // console.log(this.teachers);
+        this.teacherID = response.data.data.id;
+      });
+    },
     getTeacherId() {
       http.get("/get-students").then((response) => {
         this.listUser = response.data.data;
@@ -99,11 +108,17 @@ export default {
           console.log(error);
         });
     },
+    getRole() {
+      let cookies = Cookies.get("user_role");
+      this.role = cookies;
+    },
   },
   mounted() {
     const id = this.$route.params.id;
     this.fetchData(id);
     this.getTeacherId();
+    this.getRole();
+    this.fetchTeacherData();
   },
 };
 </script>
@@ -159,16 +174,5 @@ export default {
   color: #000;
 }
 
-.give-feedback-container button[type="submit"] {
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-.give-feedback-container button[type="submit"]:hover {
-  background-color: #0069d9;
-}
+
 </style>

@@ -25,7 +25,7 @@
         </v-card-text>
       </v-card>
       <v-card
-        width="400"
+        width="380"
         class="bar1 ms-4 user-total elevation-4"
         prepend-icon="mdi-school"
       >
@@ -76,7 +76,7 @@ export default {
 <style scoped>
 .main {
   width: 80%;
-  margin-left: 18%;
+  margin-left: 19%;
 }
 .card-container {
   padding: 10px;

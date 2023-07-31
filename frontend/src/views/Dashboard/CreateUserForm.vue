@@ -39,7 +39,7 @@
           />
           <div class="valid-feedback">Looks good!</div>
         </div>
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <label for="validationCustom02" class="form-label">Password</label>
           <input
             type="text"
@@ -48,7 +48,7 @@
             id="validationCustom02"
           />
           <div class="valid-feedback">Looks good!</div>
-        </div>
+        </div> -->
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label"
             >Phone Number</label
@@ -215,7 +215,7 @@ export default {
       first_name: "",
       last_name: "",
       email: "",
-      password: "",
+      // password: "",
       phone_number: "",
       address: "",
       date_of_birth: "",
@@ -247,7 +247,7 @@ export default {
         this.first_name &&
         this.last_name &&
         this.email &&
-        this.password &&
+        // this.password &&
         this.phone_number &&
         this.address &&
         this.role
@@ -262,7 +262,7 @@ export default {
           phone_number: this.phone_number,
           address: this.address,
           email: this.email,
-          password: this.password,
+          // password: this.password,
           profile: this.profile,
           class_room_id: this.class_room_id,
           guardian_id: this.guardian_id,

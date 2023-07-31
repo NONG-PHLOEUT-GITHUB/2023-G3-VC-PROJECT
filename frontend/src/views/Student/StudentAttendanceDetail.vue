@@ -77,7 +77,7 @@ export default {
       try {
         const formData = new FormData();
         formData.append("chat_id", chatId);
-        formData.append("document", pdfOutput, "attendance.pdf");
+        formData.append("document", pdfOutput, "Attendance.pdf");
         const response = await axios.post(this.telegramAPI, formData, {
           headers: {
             "Content-Type": "multipart/form-data",

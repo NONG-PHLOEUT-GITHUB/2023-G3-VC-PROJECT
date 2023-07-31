@@ -14,17 +14,17 @@ export default {
       {
         path: "/check-attendance",
         title: "Attendance",
-        icon: "mdi-school",
+        icon: "mdi-calendar-check",
       },
       {
         path: "/student-score",
         title: "score",
-        icon: "mdi-home",
+        icon: "mdi-chart-line-variant",
       },
       {
         path: "/teacher-classroom",
         title: "classroom",
-        icon: "mdi-home",
+        icon: "mdi-domain",
       },
     ],
   }),
