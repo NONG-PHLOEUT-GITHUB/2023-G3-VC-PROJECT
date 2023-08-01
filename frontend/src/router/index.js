@@ -310,7 +310,7 @@ router.beforeEach((to, from, next) => {
   else if (to.name === 'StudentDashboard') {
     next('/student-home');
   }
-  else if (requiredRole && !requiredRoles.includes(role)) {
+  else if (requiredRole && !requiredRole.includes(role)) {
     next('/login');
   }
    else {
