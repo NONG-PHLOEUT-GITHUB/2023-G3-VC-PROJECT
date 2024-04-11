@@ -1,5 +1,5 @@
 <template>
-  <student-dashboard />
+  <custom-title></custom-title>
   <student-graph></student-graph>
 </template>
 <script>
@@ -13,10 +13,5 @@ export default {
 </script>
 
 <style scoped>
-@import "~vuetify/dist/vuetify.css";
 
-.sheet {
-  margin-top: 10px;
-  margin-left: 19%;
-}
 </style>

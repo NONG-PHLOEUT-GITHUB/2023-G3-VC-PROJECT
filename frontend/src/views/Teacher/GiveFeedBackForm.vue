@@ -176,4 +176,3 @@ export default {
 
 
 </style>
-@/api/htpp.common

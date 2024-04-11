@@ -402,4 +402,3 @@ export default {
   background: #004D40;
 }
 </style>
-@/api/htpp.common

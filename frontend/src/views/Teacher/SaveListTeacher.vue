@@ -1,5 +1,5 @@
 <template>
-  <admin-dashboard></admin-dashboard>
+
   <v-card class="table-container mt-4">
     <h3 class="ms-6">TEACHER LIST</h3>
     <label for="" class="mt-4 ms-4">Select teacher</label>
@@ -63,9 +63,9 @@
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import http from "@/api/api";
-import AdminDashboard from "../../components/AdminDashboard.vue";
+
 export default {
-  components: { AdminDashboard },
+
   data() {
     return {
       isDownloading: false,
@@ -188,4 +188,3 @@ th {
   justify-content: flex-end;
 }
 </style>
-../../api/htpp.common

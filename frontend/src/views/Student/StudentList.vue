@@ -1,6 +1,9 @@
 <template>
-  <admin-dashboard></admin-dashboard>
-  <v-card class="card mt-5 elevation-4">
+  <custom-title></custom-title>
+  <v-card>
+    <v-data-table-server></v-data-table-server>
+  </v-card>
+  <!-- <v-card class="card mt-5 elevation-4">
     <div class="card-header">
       <span class="mb-0 text-teal text-h5">USER LIST</span>
     </div>
@@ -111,7 +114,7 @@
           Total Users : {{ listUser?.length }} people</span>
       </div>
     </div>
-  </v-card>
+  </v-card> -->
 </template>
 <script>
 import swal from "sweetalert";
@@ -343,4 +346,3 @@ export default {
   background:#004D40;
 }
 </style>
-../../api/htpp.common

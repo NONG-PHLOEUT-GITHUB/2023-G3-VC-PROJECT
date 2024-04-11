@@ -207,4 +207,3 @@ export default {
   margin-bottom: 38%;
 }
 </style>
-../../api/htpp.common

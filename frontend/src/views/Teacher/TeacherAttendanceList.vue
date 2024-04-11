@@ -1,33 +1,6 @@
 <template>
-  <main class="table">
-    <h3>Teacher Attendance List</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Total Absence</th>
-          <th>See More</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="attendanceItem in attendanceData" :key="attendanceItem.id">
-          <td>{{ attendanceItem.id }}</td>
-          <td>{{ attendanceItem.first_name }}</td>
-          <td>{{ attendanceItem.last_name }}</td>
-          <td>{{ attendanceItem.role_attendances_count }}</td>
-          <td>
-            <router-link
-              class="status detail"
-              :to="{ path: '/teacherattendancedetail/' + attendanceItem.id }"
-              >Detail</router-link
-            >
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </main>
+  <custom-title></custom-title>
+  <v-data-table-server></v-data-table-server>
 </template>
 
 <script>
@@ -125,4 +98,3 @@ thead th:hover {
   color: #e2f0ee;
 }
 </style>
-@/api/htpp.common

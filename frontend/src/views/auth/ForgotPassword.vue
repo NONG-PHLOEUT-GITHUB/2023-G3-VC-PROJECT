@@ -21,7 +21,7 @@
         </v-img>
       </v-flex>
       <v-flex xs14 md6>
-        <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8 mt-9" elevation="10" max-width="448" rounded="lg">
+        <v-card width="500" class="mx-auto border--5 mx-auto pa-12 pb-8 mt-9" elevation="1" max-width="448" rounded="lg">
           <v-progress-linear :active="loading" :indeterminate="loading" absolute bottom
             color="deep-purple-accent-4"></v-progress-linear>
 
@@ -107,4 +107,3 @@ export default {
   z-index: 999;
 }
 </style>
-@/api/htpp.common

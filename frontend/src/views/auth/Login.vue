@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="container d-flex align-center justify-center"
-    style="height: 100vh"
-  >
+  <div class="container d-flex align-center justify-center" style="height: 100vh">
     <div class="ma-4">
       <h2>SCHOOL MANAGEMENT</h2>
       <v-img
@@ -16,7 +13,7 @@
     <v-card
       width="500"
       class="mx-auto border--5 mx-auto pa-12 pb-8"
-      elevation="10"
+      elevation="1"
       max-width="448"
       rounded="lg"
     >
@@ -37,9 +34,7 @@
           no-validation
         ></v-text-field>
         <span :rules="emailRules"></span>
-        <div
-          class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
-        >
+        <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
           Password
         </div>
 
@@ -57,18 +52,16 @@
 
         <router-link to="/forgot-password">Forgot login password?</router-link>
 
-        <v-btn type="submit" color="teal-darken-4" block class="mt-4"
-          >login</v-btn
-        >
+        <v-btn type="submit" color="teal-darken-4" block class="mt-4">login</v-btn>
       </v-form>
     </v-card>
   </div>
 </template>
 
 <script>
-import Swal from "sweetalert2";
-import Cookies from "js-cookie";
-import http from "@/api/api";
+import Swal from 'sweetalert2'
+import Cookies from 'js-cookie'
+import http from '@/api/api'
 // https://vee-validate.logaretm.com/v4/tutorials/basics/
 export default {
   data: () => ({
@@ -76,79 +69,78 @@ export default {
     loading: false,
     snackbar: false,
     passwordShow: false,
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     emailRules: [
-      (v) => !!v || "E-mail is required",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      v => !!v || 'E-mail is required',
+      v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
     ],
     passwordRules: [
-      (v) => !!v || "Password is required",
-      (v) => (v && v.length >= 8) || "Password must be 8  characters or more!",
-    ],
+      v => !!v || 'Password is required',
+      v => (v && v.length >= 8) || 'Password must be 8  characters or more!'
+    ]
   }),
 
   methods: {
     login() {
       if (this.$refs.form.validate()) {
         http
-          .post("/v1/auth/login", {
+          .post('/v1/auth/login', {
             email: this.email,
-            password: this.password,
+            password: this.password
           })
-          .then((response) => {
+          .then(response => {
             // Show success message
             const Toast = Swal.mixin({
               toast: true,
-              position: "top-end",
+              position: 'top-end',
               showConfirmButton: false,
               timer: 500,
               timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener("mouseenter", Swal.stopTimer);
-                toast.addEventListener("mouseleave", Swal.resumeTimer);
-              },
-            });
+              didOpen: toast => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
 
             Toast.fire({
-              icon: "success",
-              title: "Login successfully",
+              icon: 'success',
+              title: 'Login successfully'
             }).then(() => {
               // Navigate to the appropriate dashboard
-              const ROLE = response.data.role;
-              const token = response.data.access_token;
+              const ROLE = response.data.role
+              const token = response.data.access_token
               if (ROLE === 1) {
-                this.$router.push("/admin-dashboard");
+                this.$router.push('/admin-dashboard')
               } else if (ROLE === 2) {
-                this.$router.push("/teacher-dashboard");
+                this.$router.push('/teacher-dashboard')
               } else {
-                this.$router.push("/student-dashboard");
+                this.$router.push('/student-dashboard')
               }
 
               // Set cookies
-              Cookies.set("access_token", token, { expires: 14 });
-              Cookies.set("user_role", ROLE, { expires: 14 });
-            });
+              Cookies.set('access_token', token, { expires: 14 })
+              Cookies.set('user_role', ROLE, { expires: 14 })
+            })
           })
-          .catch((error) => {
+          .catch(error => {
             if (error.response && error.response.status === 401) {
               if (
-                this.email != "" &&
-                this.password != "" &&
-                this.emailRules != "" &&
-                this.passwordRules != ""
+                this.email != '' &&
+                this.password != '' &&
+                this.emailRules != '' &&
+                this.passwordRules != ''
               ) {
-                this.emailRules = [""];
-                this.passwordRules = ["Email or password is incorrect"];
-                console.log("email role", this.emailRules);
+                this.emailRules = ['']
+                this.passwordRules = ['Email or password is incorrect']
+                console.log('email role', this.emailRules)
               }
             } else {
-              console.log(error);
+              console.log(error)
             }
-          });
+          })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
-@/api/htpp.common

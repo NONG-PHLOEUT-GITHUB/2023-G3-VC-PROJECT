@@ -1,5 +1,5 @@
 <template>
-  <admin-dashboard></admin-dashboard>
+  
   <section class="container mt-4">
     <div class="card bg-gray-300">
       <div class="p-5 pb-1">
@@ -113,7 +113,6 @@
 <script>
 import swal from "sweetalert2";
 import http from "@/api/api";
-import axios from "axios";
 
 export default {
   data() {
@@ -140,7 +139,7 @@ export default {
       var file = event.target.files[0];
       var form = new FormData();
       form.append("profile", file);
-      axios
+      http
         .post("http://127.0.0.1:8000/api/getImage", form)
         .then((response) => {
           this.profile = response.data;
@@ -234,4 +233,3 @@ export default {
   width: 85%;
 }
 </style>
-../../api/htpp.common

@@ -1,7 +1,5 @@
 <template>
-  <v-btn class="mt-10 elevation-4" color="teal-darken-4" outlined block
-    >STUDENT MOST ABSENCE LIST</v-btn
-  >
+  <custom-sub-title>STUDENT MOST ABSENCE LIST</custom-sub-title>
   <v-table elevation-6 fixed-header height="300px" class="mt-2 mb-10 table">
     <thead class="t-head bg-primary" style="background-color: aqua">
       <tr class="tr">
@@ -68,4 +66,3 @@ export default {
 </script>
 
 <style scoped></style>
-@/api/htpp.common

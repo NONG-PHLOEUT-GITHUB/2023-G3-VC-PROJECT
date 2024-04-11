@@ -1,5 +1,5 @@
 <template>
-  <teacher-dashboard></teacher-dashboard>
+  
   <div class="card shadow border-0 mb-7">
     <label for="file-input">Choose class for input score</label>
     <select
@@ -431,4 +431,3 @@ export default {
   border-radius: 10px;
 }
 </style>
-../../api/htpp.common

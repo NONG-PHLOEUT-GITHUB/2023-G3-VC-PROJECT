@@ -1,7 +1,7 @@
 <template>
-  <admin-dashboard></admin-dashboard>
-  <div class="card-container">
-    <v-row class="mt-7 ms-24">
+  <custom-title></custom-title>
+  
+    <v-row >
       <v-card
         width="400"
         class="me-2 user-total elevation-4"
@@ -55,9 +55,9 @@
         </v-card-text>
       </v-card>
     </v-row>
-  </div>
+  
 
-  <main class="main mt-6">
+ 
     <h3>REPORTS</h3>
     <v-row class="mt-8">
       <v-card class="bar1 ms-4 elevation-4">
@@ -69,11 +69,11 @@
         <h5 class="text-center m-3">FAILED STUDENT</h5>
       </v-card>
     </v-row>
-  </main>
 
-  <main class="main mt-6">
-    <StudentMostAbsence></StudentMostAbsence>
-  </main>
+
+  
+    <StudentMostAbsence/>
+  
 </template>
 
 <script>
@@ -213,24 +213,9 @@ export default {
 };
 </script>
 <style scoped>
-@import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
-
-/* Bootstrap Icons */
-@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
-
-.main {
-  margin-left: 18%;
-  margin-right: 10px;
-}
-
-.card-container {
-  padding: 10px;
-  margin-left: 11%;
-}
 
 .card-text {
   margin-top: -25px;
-  margin-left: 60px;
 }
 
 .bar1 {
@@ -274,4 +259,3 @@ h3 {
   color: teal;
 }
 </style>
-../../api/htpp.common

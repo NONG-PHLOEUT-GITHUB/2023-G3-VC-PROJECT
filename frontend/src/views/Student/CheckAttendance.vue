@@ -1,5 +1,5 @@
 <template>
-  <teacher-dashboard></teacher-dashboard>
+  
   <div class="container mt-5 ">
     <v-card class="elevation-4 mb-4">
       <v-btn block color="teal-darken-4">attendance check list</v-btn>
@@ -313,4 +313,3 @@ td.status {
   align-items: center;
 }
 </style>
-../../api/htpp.common

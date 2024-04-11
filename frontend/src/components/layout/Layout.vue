@@ -49,12 +49,9 @@
         <v-card>
           <div class="mx-auto text-center mt-4">
             <v-avatar size="100" color="" class="avatar">
-              <v-img class="image" :src="users.profile" alt="Avatar" cover>
-              </v-img>
+              <v-img class="image" :src="users.profile" alt="Avatar" cover> </v-img>
             </v-avatar>
-            <h4 class="user-name mt-3">
-              {{ users.first_name }} {{ users.last_name }}
-            </h4>
+            <h4 class="user-name mt-3">{{ users.first_name }} {{ users.last_name }}</h4>
             <p class="text-caption mt-1">
               {{ users.email }}
             </p>
@@ -104,15 +101,13 @@
     </v-app-bar>
 
     <v-main class="main">
-      <router-view></router-view>
+      <v-container flaut style="background-color: aqua;">
+        <router-view />
+      </v-container>
     </v-main>
   </v-layout>
 
-  <v-dialog
-    v-model="dialogVisible"
-    transition="dialog-top-transition"
-    width="auto"
-  >
+  <v-dialog v-model="dialogVisible" transition="dialog-top-transition" width="auto">
     <change-password-dialog
       @cancel="dialogVisible = false"
       @password-changed="dialogVisible = false"
@@ -122,97 +117,97 @@
 
 <script>
 // https://snyk.io/advisor/npm-package/lru-cache/functions/lru-cache
-import http from "@/api/api";
-import Cookies from "js-cookie";
-import Swal from "sweetalert2";
-import ChangePasswordDialog from "@/views/Authentication/ChangePasswordForm.vue";
-import LRU from "lru-cache";
-const cache = new LRU(100);
+import http from '@/api/api'
+import Cookies from 'js-cookie'
+import Swal from 'sweetalert2'
+import ChangePasswordDialog from '@/views/auth/ChangePassword.vue'
+import LRU from 'lru-cache'
+const cache = new LRU(100)
 
 export default {
-  props: ["menubar"],
-  name: "LayoutDashboard",
+  props: ['menubar'],
+  name: 'LayoutDashboard',
 
   components: {
-    ChangePasswordDialog,
+    ChangePasswordDialog
   },
   data: () => ({
     users: [],
-    dialogVisible: false,
+    dialogVisible: false
   }),
 
   methods: {
     async fetchData() {
-      const cachedResponse = cache.get("users");
+      const cachedResponse = cache.get('users')
 
       if (cachedResponse) {
-        this.users = cachedResponse;
-        return;
+        this.users = cachedResponse
+        return
       }
 
       try {
-        const response = await http.get("/v1/auth/user");
-        this.users = response.data.data;
-        cache.set("users", this.users);
+        const response = await http.get('/v1/auth/user')
+        this.users = response.data.data
+        cache.set('users', this.users)
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     },
 
     logout() {
       http
         .post(
-          "/v1/auth/logout",
+          '/v1/auth/logout',
           {},
           {
             headers: {
-              Authorization: "Bearer " + Cookies.get("access_token"),
-            },
+              Authorization: 'Bearer ' + Cookies.get('access_token')
+            }
           }
         )
         .then(() => {
           Swal.fire({
-            title: "Are you sure you want to logout?",
+            title: 'Are you sure you want to logout?',
             // text: "You won't be able to revert this!",
             showCancelButton: true,
-            position: "top-end",
+            position: 'top-end',
             customClass: {
-              confirmButton: "confirm-button-class",
-              title: "title-class",
-              icon: "icon-class",
-            },
-          }).then((result) => {
+              confirmButton: 'confirm-button-class',
+              title: 'title-class',
+              icon: 'icon-class'
+            }
+          }).then(result => {
             if (result.isConfirmed) {
               const Toast = Swal.mixin({
                 toast: true,
-                position: "top-end",
+                position: 'top-end',
                 showConfirmButton: false,
                 timer: 500,
-                timerProgressBar: true,
-              });
+                timerProgressBar: true
+              })
               Toast.fire({
-                icon: "success",
-                title: "You have been logged out",
-              });
-              Cookies.remove("access_token");
-              Cookies.remove("user_role");
-              this.$router.push("/login");
+                icon: 'success',
+                title: 'You have been logged out'
+              })
+              Cookies.remove('access_token')
+              Cookies.remove('user_role')
+              this.$router.push('/login')
             }
-          });
+          })
         })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+        .catch(error => {
+          console.log(error)
+        })
+    }
   },
   mounted() {
-    this.fetchData();
-  },
-};
+    this.fetchData()
+  }
+}
 </script>
 
 <style scoped>
-@import "~vuetify/dist/vuetify.css";
+@import '~vuetify/dist/vuetify.css';
 
 .white--text {
   color: white !important;
@@ -220,7 +215,8 @@ export default {
 
 .sibar {
   margin-right: 20px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <admin-dashboard></admin-dashboard>
+  
   <v-sheet
     border="lg opacity-12"
     class="detail mt-6"
@@ -221,4 +221,3 @@ export default {
   margin-left: 27%;
 }
 </style>
-@/api/htpp.common
