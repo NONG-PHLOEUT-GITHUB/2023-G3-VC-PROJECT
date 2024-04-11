@@ -1,83 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router'
-//admind dashboard router =================================================================
-import DashboardHomeView from '@/views/admin/DirectorDashboard.vue'
-import AddGuardian from '../views/Guardians/CreateGuardian.vue'
-// import EditGuardian from '../views/Guardians/EditGuardian.vue';
-import EditGuardian from '@/views/Guardians/EditGuardian.vue'
-//admind dashboard router =================================================================
-import TeacherListView from '../views/Teacher/SaveListTeacher.vue'
-import StudentList from '../views/Student/StudentList.vue'
-import ClassView from '../views/admin/ClassManagement.vue'
-import CreateUserForm from '../views/dashboard/CreateUserForm.vue'
-import AttendanceList from '../views/Student/AttendanceList.vue'
-import StudentGraph from '../views/Student/StudentGraph.vue'
-import StudentMostAbsence from '../views/Student/StudentMostAbsence.vue'
-import StudentDetail from '../views/Student/StudentDetial.vue'
-import StudentAttendanceDetail from '../views/attendances/StudentAttendanceDetail.vue'
-import TeacherAttendanceDetail from '../views/Teacher/TeacherAttendanceDetail.vue'
-import CheckAttendance from '../views/Student/CheckAttendance.vue'
-import TeacherAttendanceList from '../views/Teacher/TeacherAttendanceList.vue'
-import SaveListStudent from '@/views/Student/SaveListStudent.vue'
-import TeacherDetail from '../views/Student/StudentDetial.vue'
-import EditUserForm from '../views/dashboard/EditUserForm.vue'
-import GiveFeedBackForm from '../views/Teacher/GiveFeedBackForm.vue'
-import StudentScoreReport from '../views/Teacher/StudentScoreReport.vue'
-//auth router =================================================================
-import ResetNewPasswordForm from '@/views/auth/ResetNewPassword.vue'
-import LoginForm from '@/views/auth/Login.vue'
-import ForgotPasswordFrom from '@/views/auth/ForgotPassword.vue'
-import ChangePasswordForm from '@/views/auth/ChangePassword.vue'
-import NotFoundView from '@/views/auth/Notfound.vue'
-//user router ===========================================================================
-import UserProfile from '@/views/userInfor/UserProfile.vue'
-//dashboard router ======================================================================
-import TeacherHome from '@/views/Teacher/TeacherHome.vue'
-//student dashboard router ==============================================================
-import StudentAcadmics from '@/views/Student/StudentView.vue'
-import StudentHomeView from '@/views/Student/StudentHomeView'
-import StudentAttendanceView from '@/views/attendances/StudentAttendance.vue'
-import StudentScoreView from '@/views/scores/StudentScoreView.vue'
-import StudentScore from '@/views/scores/StudentScore.vue'
-import StudentCommentView from '@/views/comment/Comment.vue'
-
-//teacher dashboard router =============================================================
-import ClassroomView from '@/views/Teacher/ClassroomView.vue'
-
-//guadian  router =============================================================
-import GuardianListView from '../views/Guardians/GuardianList.vue'
 
 const routes = [
   {
     path: '/',
     name: 'FristLoginForm',
-    component: LoginForm
+    component: () => import('@/views/auth/Login.vue')
   },
   {
     path: '/login',
     name: 'SecondLoginForm',
-    component: LoginForm
+    component: () => import('@/views/auth/Login.vue')
   },
   {
     path: '/reset-new-password/:token',
     name: 'ResetNewPasswordForm',
-    component: ResetNewPasswordForm
+    component: () => import('@/views/auth/ResetNewPassword.vue')
   },
   {
     path: '/change-password',
     name: 'ChangePasswordForm',
-    component: ChangePasswordForm,
+    component: () => import('@/views/auth/ChangePassword.vue'),
     meta: { requiresAuth: true }
   },
   {
     path: '/forgot-password',
     name: 'FormFogetPassword',
-    component: ForgotPasswordFrom
-  },
-  {
-    path: '/user-profile',
-    name: 'UserProfile',
-    component: UserProfile,
-    meta: { requiresAuth: true }
+    component: () => import('@/views/auth/ForgotPassword.vue')
   },
 
   // =============================
@@ -85,207 +33,192 @@ const routes = [
     path: '/layout',
     component: () => import('@/views/layout/Layout.vue'),
     // To ensure that when navigating to child routes,
-    // you stay within the parent route, you can set up your routes to be nested properly.
-    // In your case, it seems like you have a parent route /layout with child routes /student-home and /student-comments.
+    // Stay within the parent route, you can set up your routes to be nested properly.
     children: [
       {
         path: '', // Set the default child route
         redirect: 'student-home'
       },
       {
+        path: '/user-profile',
+        name: 'My Profile',
+        component: () => import('@/views/userInfor/UserProfile.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
         path: '/student-home',
-        name: 'StudentHomeView',
-        component: StudentHomeView,
+        name: 'My page',
+        component: () => import('@/views/students/StudentHomeView'),
         meta: { requiresAuth: true, requiredRoles: [3] }
       },
       {
         path: '/student-comments',
         name: 'Student Comment',
-        component: StudentCommentView,
+        component: () => import('@/views/comment/Comment.vue'),
         meta: { requiresAuth: true, requiredRoles: [3] }
       },
       {
         path: '/student-attendance',
         name: 'Student Attendance',
-        component: StudentAttendanceView,
+        component: () => import('@/views/attendances/StudentAttendance.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/student-scores',
         name: 'Student Score',
-        component: StudentScoreView,
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
-      },
-      // =============================
-      {
-        path: '/student-acadamice',
-        name: 'StudentAcadmics',
-        component: StudentAcadmics,
+        component: () => import('@/views/scores/StudentScoreView.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
 
-      // ============main dashboard=======
       {
         path: '/admin-dashboard',
-        name: 'DashboardHomeView',
-        component: DashboardHomeView,
+        name: 'Dashboard Home',
+        component: () => import('@/views/admin/DirectorDashboard.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
 
       {
         path: '/teacher-dashboard',
         name: 'Dashboard',
-        component: TeacherHome,
+        component: () => import('@/views/teacher/TeacherHome.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
-      // ============main dashboard=======
 
       {
         path: '/student-list',
         name: 'Student List',
-        component: StudentList,
+        component: () => import('@/views/students/StudentList.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/class-list',
         name: 'Class list',
-        component: ClassView,
+        component: () => import('@/views/admin/ClassManagement.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/createUser',
-        name: '/createUser',
-        component: CreateUserForm,
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
-      },
-
-      {
-        path: '/studentmostabsence',
-        name: '/studentmostabsence',
-        component: StudentMostAbsence,
+        path: '/create-user',
+        name: 'Create User',
+        component: () => import('@/views/dashboard/CreateUserForm.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/studentdetail',
-        name: '/studentdetail',
-        component: StudentDetail,
+        name: 'Student details',
+        component: () => import('@/views/students/StudentDetial.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/studentattendancedetail/:id',
-        name: '/studentattendancedetail',
-        component: StudentAttendanceDetail,
+        name: 'Student attendance detail',
+        component: () => import('@/views/attendances/StudentAttendanceDetail.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/teacherattendancedetail/:id',
-        name: '/teacherattendancedetail',
-        component: TeacherAttendanceDetail,
+        name: '/Teacher attendance detail',
+        component: () => import('@/views/attendances/TeacherAttendanceDetail.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
+      //
       {
         path: '/check-attendance',
-        name: '/checkAttendance',
-        component: CheckAttendance,
+        name: 'Check Attendance',
+        component: () => import('@/views/attendances/CheckAttendance.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/teacher-attendance-list',
         name: 'Teacher Attendance List',
-        component: TeacherAttendanceList,
+        component: () => import('@/views/attendances/TeacherAttendanceList.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/student_list',
-        name: 'student_list',
-        component: SaveListStudent,
+        path: '/student-list',
+        name: 'Student list',
+        component: () => import('@/views/students/SaveListStudent.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/student_detail/:id',
         name: '/student_detail',
-        component: TeacherDetail,
+        component: () => import('@/views/students/StudentDetial.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/attendance_list/:id',
-        name: 'attendance',
-        component: AttendanceList,
+        name: 'Attendance Details',
+        component: () => import('@/views/attendances/AttendanceList.vue'),
         props: true,
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         name: 'edit',
         path: '/edit/:id',
-        component: EditUserForm,
+        component: () => import('@/views/dashboard/EditUserForm.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/class_rooms/:id',
         name: 'class_rooms',
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
-      },
-      {
-        path: '/studentgraph',
-        name: '/studentgraph',
-        component: StudentGraph,
+        component: () => import('@/views/attendances/CheckAttendance.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/feedback/:id',
         name: 'feedback',
-        component: GiveFeedBackForm,
+        component: () => import('@/views/teacher/GiveFeedBackForm.vue'),
         props: true,
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/student-score-report/:id',
         name: 'student-score-report',
-        component: StudentScoreReport,
+        component: () => import('@/views/scores/StudentScoreReport.vue'),
         props: true,
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/teacher-classroom',
-        name: 'ClassroomView',
-        component: ClassroomView,
+        name: 'Classroom Management',
+        component: () => import('@/views/classroom/ClassroomView.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/student-score',
-        name: 'StudentScore',
-        component: StudentScore,
+        name: 'Student Score',
+        component: () => import('@/views/scores/StudentScore.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/teacher_list',
+        path: '/teacher-list',
         name: 'Teacher List',
-        component: TeacherListView,
+        component: () => import('@/views/teacher/SaveListTeacher.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
       {
         path: '/guardian-list',
         name: 'Guardian List',
-        component: GuardianListView,
+        component: () => import('@/views/guardians/GuardianList.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
       {
         path: '/add-guadian',
         name: 'AddGuadian',
-        component: AddGuardian,
+        component: () => import('@/views/guardians/CreateGuardian.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
       {
         path: '/edit-guadian/:id',
         name: 'EditGuadian',
-        component: EditGuardian,
+        component: () => import('@/views/guardians/EditGuardian.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
 
       {
         path: '/:pathMatch(.*)*', // matches any unknown path
         name: 'not-found',
-        component: NotFoundView
+        component: () => import('@/views/auth/Notfound.vue')
       }
     ]
   }

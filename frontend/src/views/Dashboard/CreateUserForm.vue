@@ -1,5 +1,5 @@
 <template>
-  
+  <custom-title></custom-title>
   <section class="container">
     <div class="card bg-gray-300">
       <div class="p-5 pb-1">
@@ -39,16 +39,7 @@
           />
           <div class="valid-feedback">Looks good!</div>
         </div>
-        <!-- <div class="col-md-6">
-          <label for="validationCustom02" class="form-label">Password</label>
-          <input
-            type="text"
-            v-model="password"
-            class="form-control"
-            id="validationCustom02"
-          />
-          <div class="valid-feedback">Looks good!</div>
-        </div> -->
+    
         <div class="col-md-6">
           <label for="validationCustom02" class="form-label"
             >Phone Number</label
@@ -206,7 +197,7 @@
 
 <script>
 import axios from "axios";
-import swal from "sweetalert2";
+import swal from "";
 import http from "@/api/api";
 export default {
   data() {

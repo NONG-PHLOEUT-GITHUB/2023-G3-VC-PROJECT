@@ -1,5 +1,12 @@
 <template>
-  <main-dashboard :menubar="menubar"></main-dashboard>
+  <v-list dense>
+    <v-list-item v-for="(item, index) in menubar" :key="index" link :to="item.path" exact>
+      <template v-slot:prepend>
+          <v-icon :icon="item.icon"></v-icon>
+        </template>
+      <v-list-item-title>{{ item.title }}</v-list-item-title>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script>
@@ -18,12 +25,12 @@ export default {
       },
       {
         path: "/student-score",
-        title: "score",
+        title: "Score Management",
         icon: "mdi-chart-line-variant",
       },
       {
         path: "/teacher-classroom",
-        title: "classroom",
+        title: "Classroom",
         icon: "mdi-domain",
       },
     ],

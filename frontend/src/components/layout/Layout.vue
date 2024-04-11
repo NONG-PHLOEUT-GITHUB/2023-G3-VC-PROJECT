@@ -2,37 +2,21 @@
   <v-layout class="rounded rounded-md">
     <v-navigation-drawer class="sibar">
       <v-list>
-        <v-list-item class="drawer">
-          <v-list-item>
-            <div class="image">
-              <v-img
-                class="image"
-                src="https://www.ayushmatrimony.com/Services/assets/images/SMSLogo.png"
-                rounded
-                rounded-sm
-              >
-              </v-img>
-            </div>
-          </v-list-item>
-          <v-list-item class="mt-10">
-            <v-btn
-              v-for="menu in menubar"
-              :key="menu"
-              class="btn mt-4"
-              block
+        <!-- <v-list-item class="drawer"> -->
+        <v-list-item>
+          <div class="image">
+            <v-img
+              class="image"
+              src="https://www.ayushmatrimony.com/Services/assets/images/SMSLogo.png"
               rounded
-              variant="outlined"
-              :to="menu.path"
-              active-class="white--text"
+              rounded-sm
             >
-              <v-icon size="24" class="me-2">
-                {{ menu.icon }}
-              </v-icon>
-              {{ menu.title }}
-            </v-btn>
-          </v-list-item>
+            </v-img>
+          </div>
         </v-list-item>
       </v-list>
+
+      <Sidebar></Sidebar>
     </v-navigation-drawer>
 
     <v-app-bar title="School Management">
@@ -101,7 +85,7 @@
     </v-app-bar>
 
     <v-main class="main">
-      <v-container flaut style="background-color: aqua;">
+      <v-container flaut style="background-color: aqua">
         <router-view />
       </v-container>
     </v-main>
@@ -119,9 +103,9 @@
 // https://snyk.io/advisor/npm-package/lru-cache/functions/lru-cache
 import http from '@/api/api'
 import Cookies from 'js-cookie'
-import Swal from 'sweetalert2'
 import ChangePasswordDialog from '@/views/auth/ChangePassword.vue'
 import LRU from 'lru-cache'
+import Sidebar from './Sidebar.vue'
 const cache = new LRU(100)
 
 export default {
@@ -129,7 +113,8 @@ export default {
   name: 'LayoutDashboard',
 
   components: {
-    ChangePasswordDialog
+    ChangePasswordDialog,
+    Sidebar
   },
   data: () => ({
     users: [],
@@ -165,36 +150,15 @@ export default {
             }
           }
         )
-        .then(() => {
-          Swal.fire({
-            title: 'Are you sure you want to logout?',
-            // text: "You won't be able to revert this!",
-            showCancelButton: true,
-            position: 'top-end',
-            customClass: {
-              confirmButton: 'confirm-button-class',
-              title: 'title-class',
-              icon: 'icon-class'
-            }
-          }).then(result => {
-            if (result.isConfirmed) {
-              const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 500,
-                timerProgressBar: true
-              })
-              Toast.fire({
-                icon: 'success',
-                title: 'You have been logged out'
-              })
-              Cookies.remove('access_token')
-              Cookies.remove('user_role')
-              this.$router.push('/login')
-            }
-          })
+        .then(() => {})
+        .then(result => {
+          if (result.isConfirmed) {
+            Cookies.remove('access_token')
+            Cookies.remove('user_role')
+            this.$router.push('/login')
+          }
         })
+
         .catch(error => {
           console.log(error)
         })
@@ -207,7 +171,6 @@ export default {
 </script>
 
 <style scoped>
-@import '~vuetify/dist/vuetify.css';
 
 .white--text {
   color: white !important;

@@ -1,4 +1,5 @@
 <template>
+  <custom-title></custom-title>
   <div class="main">
     <div class="text-center">
       <v-snackbar v-model="snackbar" multi-line>
@@ -8,8 +9,6 @@
         </template>
       </v-snackbar>
     </div>
-
-    <v-btn block variant="outlined" size="large" color="">Class list</v-btn>
 
     <v-card
       v-for="classroom of classrooms"

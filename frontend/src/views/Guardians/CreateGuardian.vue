@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import swal from 'sweetalert2'
+import swal from ''
 import http from '@/api/api'
 export default {
   data() {
@@ -77,13 +77,7 @@ export default {
           this.listGuadian.push(response.data.data)
           console.log(this.listGuadian)
         })
-        swal
-          .fire({
-            icon: 'success',
-            title: 'Save guardian successfully!',
-            text: 'you already save the guardian',
-            timer: 2000
-          })
+      
           .then(() => {
             this.$router.push({ path: '/guardian-list' })
           })
@@ -91,7 +85,7 @@ export default {
             console.log(error)
           })
       } else {
-        swal.fire('Complete first', 'complete all input', 'info')
+       
       }
     }
   }

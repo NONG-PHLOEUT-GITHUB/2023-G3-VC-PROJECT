@@ -1,12 +1,24 @@
-<template></template>
+<template>
+  <!-- <AdminMenu></AdminMenu> -->
+  <!-- <StudentMenu/> -->
+  <TeacherMenu/>
+</template>
 
 <script>
-// import AdminMenu from 'menu/'
+// import AdminMenu from './menu/AdminMenu.vue'
+// import StudentMenu from './menu/StudentMenu.vue'
+import TeacherMenu from './menu/TeacherMenu.vue'
+// import AdminMenu from './menu/AdminMenu.vue'
 export default {
+  components: {
+    // AdminMenu,
+    // StudentMenu,
+    TeacherMenu
+  },
   data() {
     return {
-        role:null
-    },
+      role: null
+    }
   },
   methods: {
     getRole() {

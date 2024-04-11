@@ -1,9 +1,7 @@
 <template>
-  
-  <div class="container mt-5 ">
+  <custom-title></custom-title>
+  <div>
     <v-card class="elevation-4 mb-4">
-      <v-btn block color="teal-darken-4">attendance check list</v-btn>
-      <br />
       <div>
         <label for="" class="ms-8">Select class</label>
         <select class="form-select mb-3 ms-8" aria-label="Default select example" style="width: 30%"
@@ -76,7 +74,7 @@
   </div>
 </template>
 <script>
-import swal from "sweetalert2";
+import swal from "";
 import axios from "axios";
 import http from "@/api/api";
 import LRU from "lru-cache";

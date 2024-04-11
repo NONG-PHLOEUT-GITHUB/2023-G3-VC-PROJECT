@@ -94,7 +94,7 @@
 
 <script>
 import http from '@/api/api'
-import Swal from 'sweetalert2'
+
 export default {
   data() {
     return {
@@ -148,11 +148,11 @@ export default {
           this.selectedTeacher = null
           // Reload the list of classrooms
           this.fetchClassrooms()
-          // Show a success message using sweetalert2
+          // Show a success message using 
         })
         .catch(error => {
           console.log('Error creating classroom:', error)
-          // Show an error message using sweetalert2
+          // Show an error message using 
         })
     },
     getTeacher() {

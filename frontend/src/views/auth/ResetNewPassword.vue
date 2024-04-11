@@ -74,7 +74,7 @@
 
 <!-- // https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
 <script>
-import Swal from "sweetalert2";
+import Swal from "";
 import Cookies from "js-cookie";
 import http from "@/api/api";
 export default {

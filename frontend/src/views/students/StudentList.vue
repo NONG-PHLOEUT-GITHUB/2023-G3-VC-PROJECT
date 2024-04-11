@@ -117,8 +117,6 @@
   </v-card> -->
 </template>
 <script>
-import swal from "sweetalert";
-import Swal from "sweetalert2";
 import http from "@/api/api";
 export default {
   data() {
@@ -165,20 +163,15 @@ export default {
           http
             .delete("/delete-user" + `/${id}`)
             .then(() => {
-              swal("Deleted!", "Your user has been deleted.", "success");
               // call mounted
               this.getStudents();
             })
             .catch((error) => {
-              swal(
-                "Error",
-                "An error occurred while deleting the user.",
-                "error"
-              );
+          
               console.error(error);
             });
         } else {
-          swal("Cancelled", "Your user is safe :)", "error");
+          
         }
       });
     },

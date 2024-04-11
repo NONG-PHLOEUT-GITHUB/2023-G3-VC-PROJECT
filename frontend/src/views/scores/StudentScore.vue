@@ -1,6 +1,6 @@
 <template>
-  
-  <div class="card shadow border-0 mb-7">
+  <custom-title></custom-title>
+  <div >
     <label for="file-input">Choose class for input score</label>
     <select
       class="form-select mb-3 mt-2"
@@ -174,7 +174,6 @@
 
 <script>
 import axios from "axios";
-import swal from "sweetalert2";
 import http from "@/api/api";
 import LRU from "lru-cache";
 

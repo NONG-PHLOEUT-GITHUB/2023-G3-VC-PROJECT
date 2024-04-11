@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import swal from "sweetalert2";
+import swal from "";
 import http from "@/api/api";
 
 export default {

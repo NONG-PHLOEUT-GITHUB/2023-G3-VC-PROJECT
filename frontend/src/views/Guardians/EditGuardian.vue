@@ -107,7 +107,6 @@
 
 <script>
 import axios from "axios";
-import swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -138,13 +137,8 @@ export default {
           newGuadian
         )
         .then((response) => {
-          console.log(response);
-          swal.fire({
-            icon: "success",
-            title: "Save guadian successfully!",
-            text: "you already save guadian",
-            timer: 2000,
-          });
+  
+        
           this.$router.push({ path: "/guardian-list" });
         });
     },

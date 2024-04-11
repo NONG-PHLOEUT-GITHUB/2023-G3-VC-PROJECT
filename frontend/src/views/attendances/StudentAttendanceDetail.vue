@@ -35,7 +35,7 @@
 <script>
 import axios from "axios";
 import Cookies from "js-cookie";
-import swal from "sweetalert2";
+import swal from "";
 import jsPDF from "jspdf";
 import http from "@/api/api";
 import "jspdf-autotable";

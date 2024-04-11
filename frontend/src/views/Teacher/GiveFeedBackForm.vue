@@ -1,6 +1,4 @@
 <template>
-  <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
-  <teacher-dashboard v-else-if="this.role === '2'"></teacher-dashboard>
   <div class="give-feedback-container mt-5">
     <h2>Give Feedback</h2>
     <form @submit.prevent="giveComment">
@@ -38,7 +36,6 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
 import http from "@/api/api";
 import Cookies from "js-cookie";
 export default {
@@ -67,12 +64,6 @@ export default {
       };
       http.post("/comments", commentData).then((response) => {
         console.log(response);
-      });
-      Swal.fire({
-        icon: "success",
-        title: "Message sent successfully!",
-        text: "Your Comment successfully to student",
-        timer: 2000,
       });
       this.selectedStudent = null;
       this.comment = "";

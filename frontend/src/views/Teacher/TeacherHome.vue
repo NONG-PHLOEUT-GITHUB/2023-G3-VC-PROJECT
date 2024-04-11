@@ -47,7 +47,7 @@
 
 <script>
 import http from '@/api/api.js'
-import StudentMostAbsenceVue from '../Student/StudentMostAbsence.vue'
+import StudentMostAbsenceVue from '../students/StudentMostAbsence.vue'
 export default {
   components: {
     StudentMostAbsenceVue
