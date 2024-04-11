@@ -92,7 +92,7 @@
 
 <script>
 import swal from "sweetalert";
-import http from "../../htpp.common";
+import http from "@/api/api";
 
 export default {
   data() {
@@ -215,3 +215,4 @@ export default {
   background: #004D40;
 }
 </style>
+../../api/htpp.common

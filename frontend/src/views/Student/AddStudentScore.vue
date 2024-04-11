@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import http from "@/htpp.common";
+import http from "@/api/api";
 export default {
   data() {
     return {

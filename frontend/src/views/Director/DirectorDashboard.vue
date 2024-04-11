@@ -78,7 +78,7 @@
 
 <script>
 import { Bar } from "vue-chartjs";
-import http from "../../htpp.common";
+import http from "@/api/api";
 import StudentMostAbsence from "../Student/StudentMostAbsence.vue";
 import {
   Chart as ChartJS,
@@ -274,3 +274,4 @@ h3 {
   color: teal;
 }
 </style>
+../../api/htpp.common

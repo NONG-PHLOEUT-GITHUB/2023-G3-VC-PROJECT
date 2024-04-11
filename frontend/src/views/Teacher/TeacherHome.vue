@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import http from "@/htpp.common.js";
+import http from "@/api/api.js";
 import StudentMostAbsenceVue from "../Student/StudentMostAbsence.vue";
 export default {
   components: {
@@ -87,3 +87,4 @@ export default {
   border-left: solid teal 5px;
 }
 </style>
+@/api/htpp.common.js

@@ -45,7 +45,7 @@
 
 <script>
 // https://snyk.io/advisor/npm-package/lru-cache/functions/lru-cache
-import http from "@/htpp.common";
+import http from "@/api/api";
 import LRU from "lru-cache";
 
 const cache = new LRU(100);
@@ -96,3 +96,4 @@ export default {
   border-left: solid 5px #004D40;
 }
 </style>
+@/api/htpp.common

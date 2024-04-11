@@ -101,7 +101,7 @@
 
 <!-- https://vee-validate.logaretm.com/v4/tutorials/basics/ -->
 <script>
-import http from "../../htpp.common";
+import http from "@/api/api";
 export default {
   emits: ["cancel", "password-changed"],
   data() {
@@ -207,3 +207,4 @@ export default {
   margin-bottom: 38%;
 }
 </style>
+../../api/htpp.common

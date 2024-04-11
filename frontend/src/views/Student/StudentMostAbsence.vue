@@ -36,7 +36,7 @@
   </v-table>
 </template>
 <script>
-import http from "@/htpp.common";
+import http from "@/api/api";
 export default {
   data() {
     return {
@@ -68,3 +68,4 @@ export default {
 </script>
 
 <style scoped></style>
+@/api/htpp.common

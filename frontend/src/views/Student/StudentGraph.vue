@@ -14,7 +14,7 @@
   </main>
 </template>
 <script>
-import http from "@/htpp.common.js";
+import http from "@/api/api.js";
 import { Bar } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -155,3 +155,4 @@ export default {
   width: 49%;
 }
 </style>
+@/api/htpp.common.js

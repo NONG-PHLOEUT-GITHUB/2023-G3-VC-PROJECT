@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import http from "@/htpp.common";
+import http from "@/api/api";
 //  https://vee-validate.logaretm.com/v4/tutorials/basics/
 
 export default {
@@ -107,3 +107,4 @@ export default {
   z-index: 999;
 }
 </style>
+@/api/htpp.common

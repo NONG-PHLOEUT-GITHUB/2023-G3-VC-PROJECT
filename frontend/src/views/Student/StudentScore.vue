@@ -175,7 +175,7 @@
 <script>
 import axios from "axios";
 import swal from "sweetalert2";
-import http from "../../htpp.common";
+import http from "@/api/api";
 import LRU from "lru-cache";
 
 const cache = new LRU(100);
@@ -431,3 +431,4 @@ export default {
   border-radius: 10px;
 }
 </style>
+../../api/htpp.common

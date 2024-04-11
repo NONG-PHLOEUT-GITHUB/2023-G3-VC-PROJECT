@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import http from "@/htpp.common";
+import http from "@/api/api";
 import Swal from "sweetalert2";
 export default {
   data() {
@@ -295,3 +295,4 @@ export default {
   border-left: solid 5px #004D40;
 }
 </style>
+@/api/htpp.common

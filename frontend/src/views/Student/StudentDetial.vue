@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import http from "@/htpp.common";
+import http from "@/api/api";
 
 export default {
   name: "UserDetails",
@@ -221,3 +221,4 @@ export default {
   margin-left: 27%;
 }
 </style>
+@/api/htpp.common

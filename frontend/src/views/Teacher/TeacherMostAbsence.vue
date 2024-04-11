@@ -28,7 +28,7 @@
   </main>
 </template>
 <script>
-import htpp from '@/htpp.common'
+import htpp from '@/api/api'
 
 export default {
   data() {

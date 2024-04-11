@@ -39,7 +39,7 @@
 
 <script>
 import Swal from "sweetalert2";
-import http from "@/htpp.common";
+import http from "@/api/api";
 import Cookies from "js-cookie";
 export default {
   data() {
@@ -176,3 +176,4 @@ export default {
 
 
 </style>
+@/api/htpp.common

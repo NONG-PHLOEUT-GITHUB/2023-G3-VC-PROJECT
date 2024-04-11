@@ -23,12 +23,12 @@ import TeacherDetail from '../views/Student/StudentDetial.vue'
 import EditUserForm from '../views/Dashboard/EditUserForm.vue'
 import GiveFeedBackForm from '../views/Teacher/GiveFeedBackForm.vue'
 import StudentScoreReport from '../views/Teacher/StudentScoreReport.vue'
-//authentication router =================================================================
-import ResetNewPasswordForm from '@/views/Authentication/ResetNewPasswordForm.vue';
-import LoginForm from '../views/Authentication/LoginForm.vue';
-import ForgotPasswordFrom from '@/views/Authentication/ForgotPasswordForm.vue';
-import ChangePasswordForm from '../views/Authentication/ChangePasswordForm.vue';
-import NotFoundView from '@/views/Authentication/NotFoundView.vue';
+//auth router =================================================================
+import ResetNewPasswordForm from '@/views/auth/ResetNewPassword.vue';
+import LoginForm from '@/views/auth/Login.vue';
+import ForgotPasswordFrom from '@/views/auth/ForgotPassword.vue';
+import ChangePasswordForm from '@/views/auth/ChangePassword.vue';
+import NotFoundView from '@/views/auth/Notfound.vue';
 //user router ===========================================================================
 import UserProfile from '@/views/UserInfo/UserProfile.vue';
 //dashboard router ======================================================================

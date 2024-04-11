@@ -76,7 +76,7 @@
 <script>
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import http from "@/htpp.common";
+import http from "@/api/api";
 export default {
   data() {
     return {
@@ -196,3 +196,4 @@ export default {
   margin-bottom: 150%;
 }
 </style>
+@/api/htpp.common

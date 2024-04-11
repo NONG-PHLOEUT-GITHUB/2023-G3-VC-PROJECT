@@ -122,7 +122,7 @@
 
 <script>
 // https://snyk.io/advisor/npm-package/lru-cache/functions/lru-cache
-import http from "@/htpp.common";
+import http from "@/api/api";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import ChangePasswordDialog from "@/views/Authentication/ChangePasswordForm.vue";

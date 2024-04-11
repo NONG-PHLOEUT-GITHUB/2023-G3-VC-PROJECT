@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import http from "@/htpp.common";
+import http from "@/api/api";
 import Cookies from "js-cookie";
 export default {
   name: "UserDetails",
@@ -130,3 +130,4 @@ export default {
   flex-direction: column;
 }
 </style>
+@/api/htpp.common

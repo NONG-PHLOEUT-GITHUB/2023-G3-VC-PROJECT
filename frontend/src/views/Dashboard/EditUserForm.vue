@@ -112,7 +112,7 @@
 
 <script>
 import swal from "sweetalert2";
-import http from "../../htpp.common";
+import http from "@/api/api";
 import axios from "axios";
 
 export default {
@@ -234,3 +234,4 @@ export default {
   width: 85%;
 }
 </style>
+../../api/htpp.common

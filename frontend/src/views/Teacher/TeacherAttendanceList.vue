@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import http from "@/htpp.common";
+import http from "@/api/api";
 export default {
   data() {
     return {
@@ -125,3 +125,4 @@ thead th:hover {
   color: #e2f0ee;
 }
 </style>
+@/api/htpp.common

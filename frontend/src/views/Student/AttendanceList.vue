@@ -32,7 +32,7 @@
   </main>
 </template>
 <script>
-import http from "@/htpp.common";
+import http from "@/api/api";
 import Cookies from "js-cookie";
 export default {
   data() {
@@ -109,3 +109,4 @@ main {
   margin-top: 20px;
 }
 </style>
+@/api/htpp.common

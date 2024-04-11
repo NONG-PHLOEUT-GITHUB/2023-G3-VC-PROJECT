@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import http from "@/htpp.common.js";
+import http from "@/api/api.js";
 export default {
   data() {
     return {
@@ -126,3 +126,4 @@ export default {
   color: white;
 }
 </style>
+@/api/htpp.common.js

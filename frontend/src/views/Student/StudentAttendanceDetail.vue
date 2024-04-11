@@ -37,7 +37,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import swal from "sweetalert2";
 import jsPDF from "jspdf";
-import http from "../../htpp.common";
+import http from "@/api/api";
 import "jspdf-autotable";
 export default {
   data() {
@@ -158,3 +158,4 @@ main {
   margin-left: 89%;
 }
 </style>
+../../api/htpp.common

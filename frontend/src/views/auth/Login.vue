@@ -68,7 +68,7 @@
 <script>
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import http from "@/htpp.common";
+import http from "@/api/api";
 // https://vee-validate.logaretm.com/v4/tutorials/basics/
 export default {
   data: () => ({
@@ -151,3 +151,4 @@ export default {
   },
 };
 </script>
+@/api/htpp.common

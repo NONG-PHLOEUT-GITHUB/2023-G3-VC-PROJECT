@@ -49,7 +49,7 @@
 <script>
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import http from "../../htpp.common";
+import http from "@/api/api";
 import AdminDashboard from "../../components/AdminDashboard.vue";
 export default {
   components: { AdminDashboard },
@@ -138,3 +138,4 @@ th {
   justify-content: flex-end;
 }
 </style>
+../../api/htpp.common

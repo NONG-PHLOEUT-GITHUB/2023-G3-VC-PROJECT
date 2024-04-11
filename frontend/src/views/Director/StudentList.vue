@@ -127,7 +127,7 @@
 import axios from "axios";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
-import http from "../../htpp.common";
+import http from "@/api/api";
 export default {
   data() {
     return {

@@ -78,7 +78,7 @@
 <script>
 import swal from "sweetalert2";
 import axios from "axios";
-import http from "../../htpp.common";
+import http from "@/api/api";
 import LRU from "lru-cache";
 
 const cache = new LRU(100);
@@ -313,3 +313,4 @@ td.status {
   align-items: center;
 }
 </style>
+../../api/htpp.common
