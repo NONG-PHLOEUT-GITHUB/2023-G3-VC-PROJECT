@@ -8,21 +8,6 @@ import http from '@/api/api.js'
 export default {
   data() {
     return {
-      tab: 1,
-      months: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-      ],
       attendanceDetails: []
     }
   },

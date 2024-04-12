@@ -3,7 +3,21 @@
   <v-select label="Select teacher"></v-select>
 
   <v-card>
-    <v-data-table-server></v-data-table-server>
+    <v-data-table-server
+      v-model:items-per-page="itemsPerPage"
+      :headers="headers"
+      :items="listUser"
+      :items-length="listUser.length"
+      :loading="loading"
+      :search="search"
+      item-value="name"
+    >
+      <template v-slot:item.profile="{ item }">
+        <v-avatar size="large">
+          <v-img :src="item.profile" alt="Avatar" cover> </v-img>
+        </v-avatar>
+      </template>
+    </v-data-table-server>
     <div class="icon pa-4">
       <v-btn v-if="!isDownloading" @click="downloadPDF()">
         <v-icon size="24">mdi-download</v-icon>
@@ -31,7 +45,20 @@ export default {
       pdfUrl: null,
       listUser: [],
       selectedClass: null,
-      classrooms: []
+      classrooms: [],
+      itemsPerPage: 10,
+      headers: [
+        { title: 'ID', key: 'id' },
+        { title: 'Profile', key: 'profile' },
+        { title: 'First Name', key: 'first_name' },
+        { title: 'Last Name', key: 'last_name' },
+        { title: 'Gender', key: 'gender' },
+        { title: 'Age', key: 'age' },
+        { title: 'Date of Birth', key: 'date_of_birth' },
+        { title: 'Phone Number', key: 'phone_number' },
+        { title: 'Address', key: 'address' },
+        { title: 'Email', key: 'email' },
+      ]
     }
   },
   // https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI

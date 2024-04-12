@@ -1,6 +1,6 @@
 <template>
   <v-layout class="rounded rounded-md">
-    <v-navigation-drawer class="sibar">
+    <v-navigation-drawer elevation="4">
       <v-list>
         <!-- <v-list-item class="drawer"> -->
         <v-list-item>
@@ -20,72 +20,63 @@
     </v-navigation-drawer>
 
     <v-app-bar title="School Management">
-      <v-menu offset-y open-on-hover>
-        <template v-slot:activator="{ props }">
-          <v-btn>{{ users.first_name }} {{ users.last_name }}</v-btn>
-          <v-btn icon v-bind="props">
-            <v-avatar color="brown" size="large">
-              <v-img :src="users.profile" alt="Avatar" cover> </v-img>
-            </v-avatar>
-          </v-btn>
-        </template>
+      <div>
+        <v-list-item class="px-2">
+          <v-menu rounded>
+            <template v-slot:activator="{ props }">
+              <strong class="me-8">Nong Phloeut</strong>
+              <v-btn icon v-bind="props" class="me-5">
+                <v-avatar color="" size="large">
+                  <v-img src="https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp" alt="Avatar" cover> </v-img>
+                </v-avatar>
+              </v-btn>
+            </template>
 
-        <v-card>
-          <div class="mx-auto text-center mt-4">
-            <v-avatar size="100" color="" class="avatar">
-              <v-img class="image" :src="users.profile" alt="Avatar" cover> </v-img>
-            </v-avatar>
-            <h4 class="user-name mt-3">{{ users.first_name }} {{ users.last_name }}</h4>
-            <p class="text-caption mt-1">
-              {{ users.email }}
-            </p>
-          </div>
-          <v-card-text>
-            <div class="mx-auto text-center">
-              <v-btn
-                size="small"
-                class="btn mt-2"
-                block
-                variant="outlined"
-                rounded
-                to="/user-profile"
-                active-class="white--text"
-              >
-                <v-icon> mdi-account </v-icon>Profile
-              </v-btn>
+            <v-list>
+              <v-list-item>
+                <div class="profile">
+                  
+                  <v-avatar color="" size="large">
+                    <v-img src="https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp" alt="Avatar" cover> </v-img>
+                  </v-avatar>
+                  <!-- <div class="subtitle" v-for="(value, key) in authStore.user" :key="key">
+                    <span class="font-weight-black">
+                      {{ value.first_name }}
+                      {{ value.last_name }}
+                    </span>
+                    <br />
+                    <span class="email">{{ value.email }}</span>
+                  </div> -->
+                  <!-- <span>nongphloeut@gmail.com</span> -->
+                </div>
+              </v-list-item>
 
-              <v-btn
-                size="small"
-                @click="dialogVisible = true"
-                class="btn mt-2"
-                block
-                variant="outlined"
-                rounded
-                active-class="white--text"
+              <v-col cols="auto">
+                <v-btn size="small" block variant="outlined" color="primary" to="/user-profile"
+                  >user profile</v-btn
+                >
+              </v-col>
+              <v-divider></v-divider>
+              <v-list-item
+                v-for="(item, i) in menus"
+                :key="i"
+                :value="item"
+                color="primary"
+                @click="onMenuClick(item.action)"
               >
-                <v-icon> mdi-lock </v-icon>
-                Change Password
-              </v-btn>
-              <v-btn
-                @click="logout"
-                size="small"
-                class="btn mt-2"
-                block
-                variant="outlined"
-                rounded
-                active-class="white--text"
-              >
-                <v-icon> mdi-logout </v-icon>
-                Logout
-              </v-btn>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-menu>
+                <template v-slot:prepend>
+                  <v-icon size="large" class="icon-setting" :icon="item.icon"></v-icon>
+                  <v-list-item-title v-text="item.title" :to="item.path"></v-list-item-title>
+                </template>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-list-item>
+      </div>
     </v-app-bar>
 
     <v-main class="main">
-      <v-container flaut style="background-color: aqua">
+      <v-container class="px-4" fluid>
         <router-view />
       </v-container>
     </v-main>
@@ -118,7 +109,19 @@ export default {
   },
   data: () => ({
     users: [],
-    dialogVisible: false
+    dialogVisible: false,
+    menus: [
+      {
+        title: 'change password',
+        action: 'changePassword',
+        icon: 'mdi-lock-reset'
+      },
+      {
+        title: 'logout',
+        icon: 'mdi-logout',
+        action: 'logout'
+      }
+    ]
   }),
 
   methods: {
@@ -171,28 +174,10 @@ export default {
 </script>
 
 <style scoped>
-
 .white--text {
   color: white !important;
 }
 
-.sibar {
-  margin-right: 20px;
-  box-shadow:
-    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-}
-
-.btn {
-  display: flex;
-  justify-content: flex-start;
-  border: solid 1px gray;
-  font-size: 12px;
-}
-
-.image {
-  margin-top: 10%;
-}
 .user-name span {
   text-transform: uppercase;
 }

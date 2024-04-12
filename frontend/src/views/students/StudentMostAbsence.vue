@@ -1,68 +1,78 @@
 <template>
-  <custom-sub-title>STUDENT MOST ABSENCE LIST</custom-sub-title>
-  <v-table elevation-6 fixed-header height="300px" class="mt-2 mb-10 table">
-    <thead class="t-head bg-primary" style="background-color: aqua">
-      <tr class="tr">
-        <th class="text-subtitle-1">Full name</th>
-        <th class="text-subtitle-1">Gender</th>
-        <th class="text-subtitle-1">Email</th>
-        <th class="text-subtitle-1">Total</th>
-        <th class="text-subtitle-1"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="user in filteredAttendanceMostAbsencData" :key="user.id">
-        <td class="text-subtitle-1">
-          <v-avatar size="large">
-            <v-img :src="user.profile" alt="Avatar" cover> </v-img>
-          </v-avatar>
-          {{ user.first_name }} {{ user.last_name }}
-        </td>
-        <td class="text-subtitle-1">{{ user.gender }}</td>
-        <td class="text-subtitle-1">{{ user.email }}</td>
-        <td class="text-subtitle-1">{{ user.role_attendances_count }}</td>
-        <td class="text-subtitle-1">
-          <v-btn
-            color="teal-darken-4"
-            :to="'/studentattendancedetail/' + user.id"
-          >
-            Details<v-icon class="mt-1 ms-1">mdi-eye</v-icon></v-btn
-          >
-        </td>
-      </tr>
-    </tbody>
-  </v-table>
+  <custom-sub-title class="mt-4">STUDENT MOST ABSENCE LIST</custom-sub-title>
+  <v-data-table-server
+    v-model:items-per-page="itemsPerPage"
+    :headers="headers"
+    :items="filteredAttendanceMostAbsencData"
+    :items-length="filteredAttendanceMostAbsencData.length"
+    :loading="loading"
+    :search="search"
+    item-value="name"
+  >
+    <template v-slot:item.profile="{ item }">
+      <v-avatar size="large">
+        <v-img :src="item.profile" alt="Avatar" cover> </v-img>
+      </v-avatar>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <v-btn :to="'/studentattendance/' + item.id + '/details'" icon="mdi-eye"></v-btn>
+    </template>
+  </v-data-table-server>
 </template>
 <script>
-import http from "@/api/api";
+import http from '@/api/api'
 export default {
   data() {
     return {
       user: [],
-      attendanceMostAbsencData: [], // Define the attendanceMostAbsencData array here
-    };
+      attendanceMostAbsencData: [],
+      headers: [
+        {
+          title: 'Profile',
+          align: 'start',
+          sortable: false,
+          key: 'profile'
+        },
+        {
+          title: 'First name',
+          align: 'start',
+          sortable: false,
+          key: 'first_name'
+        },
+        {
+          title: 'Last name',
+          align: 'start',
+          sortable: false,
+          key: 'last_name'
+        },
+        { title: 'Gender', key: 'gender', align: 'end' },
+        { title: 'Email', key: 'email', align: 'end' },
+        { title: '', key: 'actions', align: 'end' }
+      ],
+      // pagination:[
+      itemsPerPage: 10
+      // ]
+    }
   },
   mounted() {
-    this.getMostAbsentStudents();
+    this.getMostAbsentStudents()
   },
   computed: {
     filteredAttendanceMostAbsencData() {
-      return this.attendanceMostAbsencData.filter(
-        (user) => user.role_attendances_count > 0
-      );
-    },
+      return this.attendanceMostAbsencData.filter(user => user.role_attendances_count > 0)
+    }
   },
   methods: {
     async getMostAbsentStudents() {
       try {
-        const response = await http.get("/get-most-absence-student");
-        this.attendanceMostAbsencData = response.data;
+        const response = await http.get('/get-most-absence-student')
+        this.attendanceMostAbsencData = response.data
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped></style>

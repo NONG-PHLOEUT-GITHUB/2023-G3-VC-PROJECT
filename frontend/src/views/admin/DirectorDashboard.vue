@@ -1,7 +1,7 @@
 <template>
   <custom-title></custom-title>
 
-  <v-row>
+  <div class="d-flex mb-4">
     <v-card width="400" class="me-2 user-total elevation-4" prepend-icon="mdi-account-tie">
       <template v-slot:title>Students </template>
 
@@ -34,9 +34,9 @@
         <h5>Total : {{ classroom }}</h5>
       </v-card-text>
     </v-card>
-  </v-row>
+  </div>
 
-  <h3>REPORTS</h3>
+  <custom-sub-title>Report</custom-sub-title>
   <v-row class="mt-8">
     <v-card class="bar1 ms-4 elevation-4">
       <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />

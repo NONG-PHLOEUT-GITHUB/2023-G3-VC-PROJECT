@@ -1,7 +1,26 @@
 <template>
   <custom-title></custom-title>
   <v-card>
-    <v-data-table-server></v-data-table-server>
+    <v-data-table-server
+      v-model:items-per-page="itemsPerPage"
+      :headers="headers"
+      :items="listUser"
+      :items-length="listUser.length"
+      :loading="loading"
+      :search="search"
+      item-value="name"
+    >
+      <template v-slot:item.profile="{ item }">
+        <v-avatar size="large" v-if="item.profile">
+          <v-img :src="item.profile" alt="Avatar" cover> </v-img>
+        </v-avatar>
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-btn :to="{ path: '/edit/' + item.id }" variant="text" icon="mdi-pencil"></v-btn>
+
+        <v-btn @click="deleteUser(item.id)" variant="text" icon="mdi-delete-forever" color="red"> </v-btn>
+      </template>
+    </v-data-table-server>
   </v-card>
   <!-- <v-card class="card mt-5 elevation-4">
     <div class="card-header">
@@ -108,178 +127,185 @@
             This class does not have any user.
           </td>
         </tr>
-      </table>
-      <div class="card-footer border-0 py-5">
-        <span class="text-muted text-subtitle-1">
-          Total Users : {{ listUser?.length }} people</span>
-      </div>
     </div>
   </v-card> -->
 </template>
 <script>
-import http from "@/api/api";
+import http from '@/api/api'
 export default {
   data() {
     return {
       listUser: [],
-      errorMessage: "",
-      searchQuery: "",
+      errorMessage: '',
+      searchQuery: '',
       selectedClass: null,
       classrooms: [],
-    };
+      itemsPerPage: 10,
+      headers: [
+        { title: 'ID', key: 'id' },
+        { title: 'Profile', key: 'profile' },
+        { title: 'First Name', key: 'first_name' },
+        { title: 'Last Name', key: 'last_name' },
+        { title: 'Gender', key: 'gender' },
+        { title: 'Age', key: 'age' },
+        { title: 'Date of Birth', key: 'date_of_birth' },
+        { title: 'Phone Number', key: 'phone_number' },
+        { title: 'Address', key: 'address' },
+        { title: 'Email', key: 'email' },
+        { title: '', key: 'actions',width: "10%"}
+      ]
+    }
   },
 
   computed: {
     filteredStudentsList() {
-      if (this.searchQuery === "") {
-        return this.listUser;
+      if (this.searchQuery === '') {
+        return this.listUser
       } else {
-        const filtered = this.listUser.filter((student) =>
-          (student.first_name + " " + student.last_name)
+        const filtered = this.listUser.filter(student =>
+          (student.first_name + ' ' + student.last_name)
             .toLowerCase()
             .includes(this.searchQuery.trim().toLowerCase())
-        );
-        return filtered;
+        )
+        return filtered
       }
-    },
+    }
   },
   methods: {
     //===================get data from Database =================
     getStudents() {
-      http.get("/users").then((response) => {
-        this.listUser = response.data.data;
-      });
+      http.get('/users').then(response => {
+        this.listUser = response.data.data
+      })
     },
     //================== Delete a user =================
     deleteUser(id) {
       swal({
-        title: "Are you sure?",
-        text: "You will not be able to recover this user!",
-        icon: "warning",
-        buttons: ["Cancel", "Yes, delete it!"],
-        dangerMode: true,
-      }).then((willDelete) => {
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this user!',
+        icon: 'warning',
+        buttons: ['Cancel', 'Yes, delete it!'],
+        dangerMode: true
+      }).then(willDelete => {
         if (willDelete) {
           http
-            .delete("/delete-user" + `/${id}`)
+            .delete('/delete-user' + `/${id}`)
             .then(() => {
               // call mounted
-              this.getStudents();
+              this.getStudents()
             })
-            .catch((error) => {
-          
-              console.error(error);
-            });
+            .catch(error => {
+              console.error(error)
+            })
         } else {
-          
         }
-      });
+      })
     },
 
     importFile() {
       /// progressbar
-      let timerInterval;
+      let timerInterval
       Swal.fire({
-        title: "File Uploading",
-        html: "Please wait for file upload <b></b> %.",
+        title: 'File Uploading',
+        html: 'Please wait for file upload <b></b> %.',
         timer: 2000, // Change the timer to 5000ms (5 seconds)
         timerProgressBar: true,
         didOpen: () => {
-          Swal.showLoading();
-          const b = Swal.getHtmlContainer().querySelector("b");
-          let startTime = Date.now();
+          Swal.showLoading()
+          const b = Swal.getHtmlContainer().querySelector('b')
+          let startTime = Date.now()
           timerInterval = setInterval(() => {
-            let elapsedTime = Date.now() - startTime;
-            let progress = Math.min(100, Math.round(elapsedTime / 20));
-            b.textContent = progress;
-          }, 20);
+            let elapsedTime = Date.now() - startTime
+            let progress = Math.min(100, Math.round(elapsedTime / 20))
+            b.textContent = progress
+          }, 20)
         },
         willClose: () => {
-          clearInterval(timerInterval);
-        },
-      }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer) {
-          console.log("I was closed by the timer");
+          clearInterval(timerInterval)
         }
-      });
+      }).then(result => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log('I was closed by the timer')
+        }
+      })
       /// data upload
 
-      const file = this.$refs.fileInput.files[0];
-      const formData = new FormData();
-      formData.append("file", file);
+      const file = this.$refs.fileInput.files[0]
+      const formData = new FormData()
+      formData.append('file', file)
 
       http
-        .post("/users-import", formData, {
+        .post('/users-import', formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
-            "Cache-Control": "no-cache",
-          },
+            'Content-Type': 'multipart/form-data',
+            'Cache-Control': 'no-cache'
+          }
         })
-        .then((response) => {
-          console.log(response.data);
+        .then(response => {
+          console.log(response.data)
 
           /// progressbar
           const Toast = Swal.mixin({
             toast: true,
-            position: "top-end",
+            position: 'top-end',
             showConfirmButton: false,
             timer: 3000,
             timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener("mouseenter", Swal.stopTimer);
-              toast.addEventListener("mouseleave", Swal.resumeTimer);
-            },
-          });
+            didOpen: toast => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
 
           Toast.fire({
-            icon: "success",
-            title: "Upload successful",
-          });
+            icon: 'success',
+            title: 'Upload successful'
+          })
 
           // Reset the file input field
-          this.$refs.fileInput.value = "";
+          this.$refs.fileInput.value = ''
           // call mounted
-          this.getStudents();
+          this.getStudents()
         })
-        .catch((error) => {
-          console.error(error.response.data);
-        });
+        .catch(error => {
+          console.error(error.response.data)
+        })
     },
     getStudentInClass(classId) {
       http
         .get(`/users`)
-        .then((response) => {
-          if (!this.selectedClass || this.selectedClass == "noChoose") {
-            this.listUser = response.data.data;
+        .then(response => {
+          if (!this.selectedClass || this.selectedClass == 'noChoose') {
+            this.listUser = response.data.data
           } else {
             this.listUser = response.data.data.filter(
-              (user) => parseInt(user.class_room_id) === parseInt(classId)
-            );
+              user => parseInt(user.class_room_id) === parseInt(classId)
+            )
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(error => {
+          console.log(error)
+        })
     },
     getClassrooms() {
       http
-        .get("/classrooms")
-        .then((response) => {
-          this.classrooms = response.data.data;
+        .get('/classrooms')
+        .then(response => {
+          this.classrooms = response.data.data
         })
-        .catch((error) => {
-          console.log("Error fetching classrooms:", error);
-        });
-    },
+        .catch(error => {
+          console.log('Error fetching classrooms:', error)
+        })
+    }
   },
 
   mounted() {
-    this.getClassrooms();
-    this.getStudentInClass();
-    this.$refs.fileInput.addEventListener("change", this.importFile);
-    return this.getStudents();
-  },
-};
+    this.getClassrooms()
+    this.getStudentInClass()
+    // this.$refs.fileInput.addEventListener("change", this.importFile);
+    return this.getStudents()
+  }
+}
 </script>
 
 <style scoped>
@@ -303,7 +329,7 @@ export default {
   background-color: #1d6f42;
 }
 
-.input-file [type="file"] {
+.input-file [type='file'] {
   position: absolute;
   top: 0;
   left: 0;
@@ -335,7 +361,7 @@ export default {
 .card {
   padding: 20px;
 }
-.thead{
-  background:#004D40;
+.thead {
+  background: #004d40;
 }
 </style>

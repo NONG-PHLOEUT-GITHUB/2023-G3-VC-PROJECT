@@ -126,7 +126,7 @@
 <script>
 import axios from "axios";
 import swal from "sweetalert";
-import Swal from "";
+
 import http from "@/api/api";
 export default {
   data() {

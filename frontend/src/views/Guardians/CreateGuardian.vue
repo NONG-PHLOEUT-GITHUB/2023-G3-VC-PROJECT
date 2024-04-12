@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import swal from ''
 import http from '@/api/api'
 export default {
   data() {

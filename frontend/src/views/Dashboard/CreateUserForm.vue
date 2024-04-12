@@ -197,7 +197,6 @@
 
 <script>
 import axios from "axios";
-import swal from "";
 import http from "@/api/api";
 export default {
   data() {

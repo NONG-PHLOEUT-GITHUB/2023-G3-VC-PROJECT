@@ -53,33 +53,33 @@ const routes = [
       },
       {
         path: '/student-comments',
-        name: 'Student Comment',
+        name: 'My Comments',
         component: () => import('@/views/comment/Comment.vue'),
         meta: { requiresAuth: true, requiredRoles: [3] }
       },
       {
         path: '/student-attendance',
-        name: 'Student Attendance',
+        name: 'My attendance',
         component: () => import('@/views/attendances/StudentAttendance.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/student-scores',
-        name: 'Student Score',
+        name: 'My score',
         component: () => import('@/views/scores/StudentScoreView.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
 
       {
         path: '/admin-dashboard',
-        name: 'Dashboard Home',
+        name: 'Admin Dashboard',
         component: () => import('@/views/admin/DirectorDashboard.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
 
       {
         path: '/teacher-dashboard',
-        name: 'Dashboard',
+        name: 'Teacher Dashboard',
         component: () => import('@/views/teacher/TeacherHome.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
@@ -109,7 +109,7 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/studentattendancedetail/:id',
+        path: '/studentattendance/:id/details',
         name: 'Student attendance detail',
         component: () => import('@/views/attendances/StudentAttendanceDetail.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
@@ -134,7 +134,7 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/student-list',
+        path: '/student-list-save',
         name: 'Student list',
         component: () => import('@/views/students/SaveListStudent.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }

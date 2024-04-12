@@ -1,19 +1,18 @@
 <template>
   <!-- <AdminMenu></AdminMenu> -->
-  <!-- <StudentMenu/> -->
-  <TeacherMenu/>
+  <StudentMenu/>
+  <!-- <TeacherMenu/> -->
 </template>
 
 <script>
 // import AdminMenu from './menu/AdminMenu.vue'
-// import StudentMenu from './menu/StudentMenu.vue'
-import TeacherMenu from './menu/TeacherMenu.vue'
-// import AdminMenu from './menu/AdminMenu.vue'
+import StudentMenu from './menu/StudentMenu.vue'
+// import TeacherMenu from './menu/TeacherMenu.vue'
 export default {
   components: {
     // AdminMenu,
-    // StudentMenu,
-    TeacherMenu
+    StudentMenu,
+    // TeacherMenu
   },
   data() {
     return {

@@ -1,7 +1,7 @@
 <template>
   <custom-title></custom-title>
-  <v-row>
-    <v-card width="400" class="bar1 ms-4 user-total elevation-4" prepend-icon="mdi-school">
+  <!-- <v-row> -->
+    <!-- <v-card width="400" class="bar1 ms-4 user-total elevation-4" prepend-icon="mdi-school">
       <template v-slot:title> Class 10 </template>
 
       <v-card-text class="ms-14">
@@ -21,26 +21,24 @@
       <v-card-text class="ms-14">
         <h5>Total : {{ classroomCounts['12'] }}</h5>
       </v-card-text>
-    </v-card>
+    </v-card> -->
 
-    <!-- <v-card max-width="450" variant="tonal">
+    <v-card max-width="450">
       <v-card-title
-        ><span class="text-h6 text-primary">{{
-          $t('Dashboard.lastKeyFigures.overdueRevisions.title')
-        }}</span></v-card-title
+        ><span class="text-h6 text-primary">Total</span></v-card-title
       >
       <v-card-text class="py-0">
         <v-row align="center">
           <v-col class="text-h2" cols="8">
-            {{ overdueRevision.length }}
+            {{ classroomCounts['12'] }}
           </v-col>
           <v-col class="text-right" cols="4">
-            <v-icon color="error" icon="mdi-clock-outline" size="65"></v-icon>
+            <v-icon icon="mdi-school" size="65"></v-icon>
           </v-col>
         </v-row>
       </v-card-text>
-    </v-card> -->
-  </v-row>
+    </v-card>
+  <!-- </v-row> -->
 
   <StudentMostAbsenceVue></StudentMostAbsenceVue>
 </template>

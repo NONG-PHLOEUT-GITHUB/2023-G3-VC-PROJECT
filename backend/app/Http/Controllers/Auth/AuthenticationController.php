@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Score;
 use App\Models\Subject;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,28 +23,11 @@ class AuthenticationController extends Controller
         $credentials = $request->only('email', 'password');
         if ($token = auth()->guard('api')->attempt($credentials)) {
             $user = auth()->user();
-            $role = $user->role;
-            $first_name = $user->first_name;
-            $last_name = $user->last_name;
-            $attendances = $user->attendances;
-            $scores = $user->scores;
-            // $subjects = $user->subjects;
-            return response()->json(
-                [
-                    'status' => 'success',
-                    'data' => $user,
-                    'role' => $role,
-                    'first_name' => $first_name,
-                    'last_name' => $last_name,
-                    // 'data' => auth()->user(),
-                    'attendance' => $attendances,
-                    // 'subject' => $subjects,
-                    'score' => $scores,
-                    'access_token' => $token
-                ],
-                200
-            )->header('Authorization', $token)
-            ->header('X-Auth-Login-Time', now()->toDateTimeString());
+            return response()->json([
+                'status' => 'success',
+                'user' => $user,
+                'access_token' => $token,
+            ], 200);
         }
         return response()->json(['error' => 'login_error'], 401);
     }
@@ -66,23 +50,54 @@ class AuthenticationController extends Controller
      * Get authenticated user
      */
 
-    public function user(Request $request)
+     public function user(Request $request)
     {
-     
-        $user = User::with([
-            'guardian',
-            'attendances',
-            'scores',
-            'classTeacher',
-            'comments' => function ($query) {
-                $query->join('users', 'comments.teacher_id', '=', 'users.id')
-                ->select('comments.*', 'users.first_name', 'users.last_name');
-            }
-        ])->find(Auth::user()->id);
-        
+        if (auth()->check()) {
+            $authenticatedAt = Carbon::createFromTimestamp(auth()->user()->authenticated_at)->toDateTimeString();
+
+            $user = User::with([
+                'attendances' => function ($query) {
+                    $query->orderBy('created_at', 'desc');
+                },
+                'classTeacher',
+                'scores',
+                'comments' => function ($query) {
+                    $query->join('users', 'comments.teacher_id', '=', 'users.id')
+                        ->select('comments.*', 'users.first_name', 'users.last_name', 'users.profile')
+                        ->orderBy('comments.created_at', 'desc');
+                }
+            ])->find(auth()->user()->id);
+
+            return response()->json([
+                'status' => 'success',
+                'authenticated_at' => $authenticatedAt,
+                'data' => $user
+            ]);
+        }
+
         return response()->json([
-            'status' => 'success',
-            'data' => $user,
-        ]);
+            'status' => 'error',
+            'message' => 'User not authenticated',
+        ], 401);
     }
+
+    // public function user(Request $request)
+    // {
+     
+    //     $user = User::with([
+    //         'guardian',
+    //         'attendances',
+    //         'scores',
+    //         'classTeacher',
+    //         'comments' => function ($query) {
+    //             $query->join('users', 'comments.teacher_id', '=', 'users.id')
+    //             ->select('comments.*', 'users.first_name', 'users.last_name');
+    //         }
+    //     ])->find(Auth::user()->id);
+        
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'data' => $user,
+    //     ]);
+    // }
 }

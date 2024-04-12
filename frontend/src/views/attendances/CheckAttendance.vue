@@ -74,7 +74,7 @@
   </div>
 </template>
 <script>
-import swal from "";
+
 import axios from "axios";
 import http from "@/api/api";
 import LRU from "lru-cache";

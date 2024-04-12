@@ -148,11 +148,11 @@ export default {
           this.selectedTeacher = null
           // Reload the list of classrooms
           this.fetchClassrooms()
-          // Show a success message using 
+          // Show a success message using
         })
         .catch(error => {
           console.log('Error creating classroom:', error)
-          // Show an error message using 
+          // Show an error message using
         })
     },
     getTeacher() {
@@ -247,34 +247,14 @@ export default {
 
     // ...
 
-    deleteClassroom(id) {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'You will not be able to recover this classroom!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-      }).then(result => {
-        if (result.isConfirmed) {
-          http
-            .delete(`/classrooms/${id}`)
+    deleteClassroom(id){
+        http.delete(`/classrooms/${id}`)
             .then(() => {
               const index = this.classrooms.findIndex(c => c.id === id)
               if (index !== -1) {
                 this.classrooms.splice(index, 1)
               }
-              Swal.fire({
-                title: 'Deleted!',
-                text: 'The classroom has been deleted.',
-                icon: 'success'
-              })
             })
-            .catch(error => {
-              console.log(error)
-            })
-        }
-      })
     },
     getStudentInClass() {
       http
