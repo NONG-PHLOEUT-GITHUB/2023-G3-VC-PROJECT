@@ -54,7 +54,7 @@
 <script>
 import { Bar } from 'vue-chartjs'
 import http from '@/api/api'
-import StudentMostAbsence from '../students/StudentMostAbsence.vue'
+import StudentMostAbsence from '@/components/dashboard/StudentMostAbsence.vue'
 import {
   Chart as ChartJS,
   Title,

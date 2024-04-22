@@ -1,113 +1,42 @@
 <template>
-  
-  <v-sheet
-    border="lg opacity-12"
-    class="detail mt-6"
-    elevation="4"
-    height="auto"
-    rounded
-    max-width="80%"
-  >
-    <v-container fluid>
-      <v-row>
-        <v-col cols="12" md="3">
-          <v-img
-            :src="users.profile"
-            alt="Avatar"
-            class="img-fluid my-7 w-75 rounded-circle ms-10"
-            height="200"
-            cover
-          >
-          </v-img>
-          <v-title class="title ms-20">
-            {{ users.first_name }} {{ users.last_name }}</v-title
-          >
-
-        </v-col>
-
-        <v-col cols="12" md="9">
-          <v-col cols="auto" class="imformation">
-            <v-btn block density="default  bg-teal-darken-4"
-              ><v-icon> mdi-information </v-icon>Personal Information
-            </v-btn>
-
-            <v-card variant="text" class="mt-4">
-              <v-icon class="me-2">mdi-account </v-icon>Full name :
-              {{ users.first_name }} {{ users.last_name }}
-            </v-card>
-
-            <v-card variant="text mt-4">
-              <v-icon class="me-2"> mdi-gender-transgender </v-icon>Gender :
-              {{ users.gender }}
-            </v-card>
-            <v-card variant="text mt-4">
-              <v-icon class="me-2"> mdi-calendar </v-icon>Date of birth :
-              {{ users.date_of_birth }}
-            </v-card>
-            <v-card variant="text mt-4">
-              <v-icon class="me-2"> mdi-numeric </v-icon>Age : {{ users.age }}
-            </v-card>
-
-            <v-btn block density="default mt-4 bg-teal-darken-4"
-              ><v-icon>mdi-map-marker</v-icon> Contact Information</v-btn
+  <custom-title></custom-title>
+  <v-card>
+    <v-tabs
+      v-model="tab"
+      align-tabs="start"
+      color="deep-purple-accent-4"
+    >
+      <v-tab :value="1">Account</v-tab>
+      <v-tab :value="2">Info</v-tab>
+      <v-tab :value="3">Comment</v-tab>
+      <v-tab :value="3">Score</v-tab>
+      <v-tab :value="3">Attendance</v-tab>
+    </v-tabs>
+    <v-window v-model="tab">
+      <v-window-item
+        v-for="n in 3"
+        :key="n"
+        :value="n"
+      >
+        <v-container fluid>
+          <v-row>
+            <v-col
+              v-for="i in 6"
+              :key="i"
+              cols="12"
+              md="4"
             >
-
-            <v-card variant="text mt-4">
-              <v-icon class="me-2"> mdi-phone </v-icon>Phone number :
-              {{ users.phone_number }}
-            </v-card>
-            <v-card variant="text mt-4">
-              <v-icon class="me-2"> mdi-map-marker </v-icon>Address :
-              {{ users.address }}
-            </v-card>
-            <v-card variant="text mt-4">
-              <v-icon class="me-2"> mdi-email </v-icon>Email : {{ users.email }}
-            </v-card>
-          </v-col>
-          <v-col cols="auto">
-            <v-btn block density="default  bg-teal-darken-4">
-              <v-icon class="me-2"> mdi-account </v-icon>Parent
-              Information</v-btn
-            >
-            <div v-if="parents" class="mt-4">
-              <v-card variant="text" class="mt-4">
-                <v-icon class="me-2">mdi-account </v-icon>Full name :
-                {{ this.parents.first_name }}{{ this.parents.last_name }}
-              </v-card>
-              <v-card variant="text" class="mt-4">
-                <v-icon class="me-2">mdi-gender-transgender </v-icon>Gender :
-                {{ this.parents.gender }}
-              </v-card>
-              <v-card variant="text mt-4">
-                <v-icon class="me-2"> mdi-phone </v-icon>Phone number :
-                {{ this.parents.phone_number }}
-              </v-card>
-              <v-card variant="text mt-4">
-                <v-icon class="me-2"> mdi-map-marker </v-icon>Address :
-                {{ this.parents.address }}
-              </v-card>
-            </div>
-            <div v-else>
-              <p>No parent information available.</p>
-            </div>
-          </v-col>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-card v-if="comments != ''" class="box mb-5 bg-teal-darken-4" max-width="340" elevation="4">
-      <v-card-title class="text-h5 font-weight-bold">Feedback</v-card-title>
-      <v-card-text v-for="comment in comments" :key="comment">
-        <div class="text--primary mb-2">
-          <span class="font-weight-bold mr-2">Comment by Teacher:</span
-          >{{ comment.teacher_fullname }}
-        </div>
-        <div class="text--primary mb-2">
-          <span class="font-weight-bold mr-2">Body:</span>{{ comment.body }}
-        </div>
-      </v-card-text>
-    </v-card>
-  </v-sheet>
-
+              <v-img
+                :lazy-src="`https://picsum.photos/10/6?image=${i * n * 5 + 10}`"
+                :src="`https://picsum.photos/500/300?image=${i * n * 5 + 10}`"
+                aspect-ratio="1"
+              ></v-img>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-window-item>
+    </v-window>
+  </v-card>
 </template>
 
 <script>
@@ -127,48 +56,48 @@ export default {
   },
   methods: {
     async getCommentByTeacher() {
-      try {
-        const response = await http.get("/get-students");
-        this.listUser = response.data.data;
-        for (let user of this.listUser) {
-          this.teacherID = user.id;
-          const id = this.$route.params.id;
-          const response = await http.get(
-            `/get-comments-student/${id}/${this.teacherID}`
-          );
-          this.comments = response.data.comments;
-          console.log(this.comments);
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      // try {
+      //   const response = await http.get("/get-students");
+      //   this.listUser = response.data.data;
+      //   for (let user of this.listUser) {
+      //     this.teacherID = user.id;
+      //     const id = this.$route.params.id;
+      //     const response = await http.get(
+      //       `/get-comments-student/${id}/${this.teacherID}`
+      //     );
+      //     this.comments = response.data.comments;
+      //     console.log(this.comments);
+      //   }
+      // } catch (error) {
+      //   console.error(error);
+      // }
     },
     fetchDataById(id) {
-      http
-        .get(`/users/${id}`)
-        .then((response) => {
-          this.users = response.data.data;
-          console.log(this.responseData);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      // http
+      //   .get(`/users/${id}`)
+      //   .then((response) => {
+      //     this.users = response.data.data;
+      //     console.log(this.responseData);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
     },
 
     getParents(id) {
-      http.get(`/getParents/${id}`).then((response) => {
-        this.parents = response.data.guardian;
-        console.log(this.parents);
-      });
+      // http.get(`/getParents/${id}`).then((response) => {
+      //   this.parents = response.data.guardian;
+      //   console.log(this.parents);
+      // });
     },
     getTeacherId() {
-      http.get("/get-students").then((response) => {
-        this.listUser = response.data.data;
-        for (let user of this.listUser) {
-          this.teacherID = user.id;
-          console.log(this.teacherID);
-        }
-      });
+      // http.get("/get-students").then((response) => {
+      //   this.listUser = response.data.data;
+      //   for (let user of this.listUser) {
+      //     this.teacherID = user.id;
+      //     console.log(this.teacherID);
+      //   }
+      // });
     },
   },
   mounted() {

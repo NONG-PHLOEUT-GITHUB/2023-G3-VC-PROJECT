@@ -1,138 +1,151 @@
 <template>
   <custom-title></custom-title>
-  <v-sheet>
-    <v-container fluid>
-      <v-row>
-        <v-col cols="12" md="3" class="text-center">
-          <v-img
-            :src="users.profile"
-            alt="Avatar"
-            class="img-fluid my-7 w-75 rounded-circle ms-10"
-            height="200"
-            cover
-          >
-          </v-img>
-
-          <input
-            id="profilePictureInput"
-            type="file"
-            accept="image/*"
-            class="d-none"
-            @change="handleFileUpload"
-          />
-
-          <div class="user">
-            <h4 class="text-h5">{{ users.first_name }} {{ users.last_name }}</h4>
-          </div>
-        </v-col>
-
-        <v-col cols="12" md="9">
-          <v-col cols="auto" class="imformation">
-            <v-btn block density="default  bg-teal-darken-4"
-              ><v-icon> mdi-information </v-icon>Personal Information
-            </v-btn>
-
-            <v-card variant="text" class="mt-4 text-subtitle-1">
-              <v-icon class="me-2">mdi-account </v-icon>Full name : {{ users.first_name }}
-              {{ users.last_name }}
-            </v-card>
-
-            <v-card variant="text mt-4" class="text-subtitle-1">
-              <v-icon class="me-2"> mdi-gender-transgender </v-icon>Gender :
-              {{ users.gender }}
-            </v-card>
-            <v-card variant="text mt-4">
-              <v-icon class="me-2"> mdi-calendar </v-icon>Date of birth :
-              {{ users.date_of_birth }}
-            </v-card>
-            <v-card variant="text mt-4" class="text-subtitle-1">
-              <v-icon class="me-2"> mdi-numeric </v-icon>Age : {{ users.age }} years old
-            </v-card>
-
-            <v-btn block density="default mt-4 bg-teal-darken-4"
-              ><v-icon>mdi-map-marker</v-icon> Contact Information</v-btn
-            >
-
-            <v-card variant="text mt-4 " class="text-subtitle-1">
-              <v-icon class="me-2"> mdi-phone </v-icon>Phone number :
-              {{ users.phone_number }}
-            </v-card>
-            <v-card variant="text mt-4" class="text-subtitle-1">
-              <v-icon class="me-2"> mdi-map-marker </v-icon>Address :
-              {{ users.address }}
-            </v-card>
-            <v-card variant="text mt-4" class="text-subtitle-1">
-              <v-icon class="me-2"> mdi-email </v-icon>Email : {{ users.email }}
-            </v-card>
+  <v-layout class="rounded rounded-md">
+    <v-col cols="3">
+      <v-card>
+        <v-card-text class="px-0 text-center">
+          <v-col>
+            <div>
+              <v-avatar color="grey" rounded="100" size="150" class="elevation-1">
+                <v-img
+                  src="https://i.pinimg.com/236x/14/ef/8c/14ef8c9eaf9de152e34568e53806a838.jpg"
+                  cover
+                ></v-img>
+              </v-avatar>
+            </div>
+            <v-btn class="mt-2" :disabled="isEdit">upload new profile</v-btn>
           </v-col>
-          <v-col v-if="this.role != '1' && this.role != '2'" cols="auto">
-            <v-btn block density="default  bg-teal-darken-4">
-              <v-icon class="me-2"> mdi-account </v-icon>Parent Information</v-btn
-            >
+        </v-card-text>
+      </v-card>
+    </v-col>
+    <v-col cols="9">
+      <v-card class="px-2">
+        <template v-slot:append>
+          <v-tooltip text="Edit profile">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" color="primary" icon="mdi-pencil" @click="edit()"></v-btn>
+            </template>
+          </v-tooltip>
+        </template>
+        <custom-sub-title icon="mdi-account-card">Personal Information</custom-sub-title>
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="first_name"
+              density="compact"
+              label="First name"
+              variant="outlined"
+              prepend-inner-icon="mdi-card-account-details-outline"
+              :readonly="isEdit"
+            ></v-text-field>
           </v-col>
-          <div class="mt-4 ms-4">
-            <v-card variant="text" class="mt-4">
-              <v-icon class="me-2">mdi-account </v-icon>Full name : {{ guardian.first_name }}
-              {{ guardian.last_name }}
-            </v-card>
-            <v-card variant="text" class="mt-4">
-              <v-icon class="me-2">mdi-gender-transgender </v-icon>Gender :
-              {{ guardian.gender }}
-            </v-card>
-            <v-card variant="text mt-4">
-              <v-icon class="me-2"> mdi-phone </v-icon>Phone number :
-              {{ guardian.phone_number }}
-            </v-card>
-            <v-card variant="text mt-4">
-              <v-icon class="me-2"> mdi-map-marker </v-icon>Address :
-              {{ guardian.address }}
-            </v-card>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-sheet>
+          <v-col>
+            <v-text-field
+              v-model="last_name"
+              density="compact"
+              label="Last name"
+              variant="outlined"
+              :readonly="isEdit"
+              prepend-inner-icon="mdi-card-account-details-outline"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              density="compact"
+              label="Gender"
+              variant="outlined"
+              :readonly="isEdit"
+              prepend-inner-icon="mdi-gender-male-female"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="date_of_birth"
+              density="compact"
+              label="Date of birth"
+              variant="outlined"
+              :readonly="isEdit"
+              prepend-inner-icon=" mdi-calendar-range"
+            ></v-text-field>
+            <v-text-field
+              density="compact"
+              label="Age"
+              variant="outlined"
+              :readonly="isEdit"
+              prepend-inner-icon="mdi-calendar-multiple-check"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <custom-sub-title icon="mdi-contacts">Contact Information</custom-sub-title>
+        <v-row>
+          <v-col>
+            <v-text-field
+              density="compact"
+              label="Email"
+              variant="outlined"
+              :readonly="isEdit"
+              prepend-inner-icon="mdi-email"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field
+              density="compact"
+              label="Phone number"
+              variant="outlined"
+              :readonly="isEdit"
+              prepend-inner-icon="mdi-phone"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              density="compact"
+              label="Address"
+              variant="outlined"
+              :readonly="isEdit"
+              prepend-inner-icon="mdi-map-marker"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <v-card-actions class="px-0">
+          <v-btn color="red" variant="outlined">Cancel</v-btn>
+          <v-btn class="bg-primary">Save change</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+  </v-layout>
 </template>
 
 <script>
 import http from '@/api/api'
-import Cookies from 'js-cookie'
 export default {
   name: 'UserDetails',
   data() {
     return {
+      isEdit: true,
       users: ' ',
-      guardian: ' ',
-      role: ''
+      first_name: 'Haka',
+      last_name: 'Haka',
+      date_of_birth: '3/4/2002'
     }
   },
   methods: {
-    fetchData() {
-      http.get('/v1/auth/user').then(response => {
-        this.users = response.data.data
-        this.guardian = response.data.data.guardian
-      })
-    },
-    getRole() {
-      let cookies = Cookies.get('user_role')
-      this.role = cookies
+    // fetchData() {
+    //   http.get('/v1/auth/user').then(response => {
+    //     this.users = response.data.data
+    //   })
+    // },
+    edit() {
+      this.isEdit = false
     }
   },
 
   mounted() {
-    this.fetchData()
-    this.getRole()
+    // this.fetchData()
   }
 }
 </script>
-
-<style scoped>
-.detail {
-  margin-left: 18%;
-}
-
-.imformation {
-  display: flex;
-  flex-direction: column;
-}
-</style>

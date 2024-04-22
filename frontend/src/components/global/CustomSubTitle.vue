@@ -3,12 +3,12 @@
       <div
         class="header-title-wrapper d-flex align-center"
       >
-        <h5 class="d-flex align-center">
+        <strong class="d-flex align-center">
           <v-icon class="mr-2" v-if="icon">
             {{ icon }}
           </v-icon>
           <slot />
-        </h5>
+        </strong>
       </div>
       <div class="d-flex align-center">
         <slot name="right">
