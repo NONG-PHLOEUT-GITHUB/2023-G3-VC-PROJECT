@@ -1,5 +1,5 @@
 <template>
-  <custom-sub-title class="mt-4">STUDENT MOST ABSENCE LIST</custom-sub-title>
+  <custom-sub-title class="mt-4" icon="mdi-chart-timeline">Student most absent list</custom-sub-title>
   <v-data-table-server
     v-model:items-per-page="itemsPerPage"
     :headers="headers"

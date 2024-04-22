@@ -1,7 +1,18 @@
 <template>
   <custom-title icon="mdi-eye-check-outline"></custom-title>
+  <v-col>
+    <v-select :items="classrooms" item-title="classroom.id" item-value="classroom.id"></v-select>
+  </v-col>
+  <v-row>
+    <label for="">Select date</label>
+    <v-checkbox @click="SelectAttendace()" value="red" :label="this.date" hide-details>
+    </v-checkbox>
+    <!-- <v-date-picker hide-header></v-date-picker> -->
+  </v-row>
+
   <v-data-table-server
     v-model:items-per-page="itemsPerPage"
+    v-model="selected"
     :headers="headers"
     :items="students"
     :items-length="students.length"
@@ -17,110 +28,24 @@
       </v-avatar>
     </template>
     <template v-slot:item.status="{ item }">
-      <v-select :item="statuse" item-title="name"></v-select>
+      <v-select :items="statusOptions"  variant="outlined" item-title="label"></v-select>
     </template>
     <template v-slot:item.reason="{ item }">
-      <!-- <v-text-area></v-text-area> -->
+      <v-textarea  variant="outlined" v-model="item.reason"></v-textarea>
     </template>
   </v-data-table-server>
-  <div>
-    <v-card class="elevation-4 mb-4">
-      <div>
-        <label for="" class="ms-8">Select class</label>
-        <select
-          class="form-select mb-3 ms-8"
-          aria-label="Default select example"
-          style="width: 30%"
-          v-model="selectedClass"
-          @click="getStudentInClass(selectedClass)"
-        >
-          <option selected disabled>Select class</option>
-          <option v-for="classroom in classrooms" :key="classroom.id" :value="classroom.id">
-            {{ classroom.class_name }}
-          </option>
-        </select>
-      </div>
-      <div class="checkToday d-flex w-25">
-        <v-checkbox
-          @click="SelectAttendace()"
-          class="selectattendance"
-          value="red"
-          label="Attendance Today"
-          hide-details
-        >
-        </v-checkbox>
-        : {{ this.date }}
-      </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Selected</th>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>Gender</th>
-            <th>Status</th>
-            <th>Reason</th>
-          </tr>
-        </thead>
-        <tbody v-if="students && students.length">
-          <tr v-for="student in students" :key="student.id">
-            <td class="text-center">
-              <v-checkbox
-                @click="getChatId(student.id)"
-                v-model="student.selected"
-                class="selectstudent"
-                color="red"
-                value="red"
-                hide-details
-              ></v-checkbox>
-            </td>
-            <td>{{ student.first_name }}</td>
-            <td>{{ student.last_name }}</td>
-            <td>{{ student.gender }}</td>
-            <td>
-              <div class="dropdown rounded-1">
-                <select
-                  class="form-select align-self-end"
-                  v-model="student.status"
-                  aria-label="Default select example"
-                  id="validationCustom01"
-                >
-                  <option selected disabled>Select status</option>
-                  <option value="Present">Present</option>
-                  <option value="Absent">Absent</option>
-                  <option value="Early">Early</option>
-                  <option value="Excused">Excused</option>
-                  <option value="Unexcused">Unexcused</option>
-                  <option value="On leave">On leave</option>
-                  <option value="No show">No show</option>
-                </select>
-              </div>
-            </td>
-            <td>
-              <textarea
-                type="tel"
-                v-model="student.reason"
-                class="form-control"
-                id="reason"
-                placeholder=""
-              />
-            </td>
-          </tr>
-        </tbody>
-        <tbody v-else>
-          <tr>
-            <td colspan="6" class="text-center text-danger">
-              This class does not have any students.
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <!-- <v-checkbox
+        @click="getChatId(student.id)"
+        v-model="student.selected"
+        class="selectstudent"
+        color="red"
+        value="red"
+        hide-details
+      ></v-checkbox> -->
 
-      <div class="col-12 d-flex justify-content-end btn">
-        <v-btn type="submit" @click="submitForm()" color="teal-darken-4">Save</v-btn>
-      </div>
-    </v-card>
+  <div class="col-12 d-flex justify-content-end btn">
+    <v-btn type="submit" @click="submitForm()" color="teal-darken-4">Save</v-btn>
   </div>
 </template>
 <script>
@@ -148,7 +73,17 @@ export default {
         { title: 'Status', key: 'status' },
         { title: 'Reason', key: 'reason' }
       ],
-      // statuse: 
+      statusOptions: [
+        { value: 'Present', label: 'Present' },
+        { value: 'Absent', label: 'Absent' },
+        { value: 'Early', label: 'Early' },
+        { value: 'Excused', label: 'Excused' },
+        { value: 'Unexcused', label: 'Unexcused' },
+        { value: 'On leave', label: 'On leave' },
+        { value: 'No show', label: 'No show' }
+      ]
+
+      // statuse:
     }
   },
   methods: {
@@ -305,56 +240,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-table {
-  padding: 2%;
-  width: 100%;
-  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px; */
-}
-
-table {
-  border-collapse: collapse;
-  width: 95%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 3%;
-}
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
-}
-
-th {
-  background-color: #004d40;
-  text-align: center;
-  color: white;
-}
-
-td.status {
-  position: relative;
-  padding-left: 30px;
-}
-
-.btn {
-  margin-right: 0.5%;
-}
-
-.selectattendance {
-  padding: 10px;
-  margin-left: 34px;
-}
-
-.container {
-  width: 84%;
-  margin-left: 17%;
-}
-
-.checkToday {
-  justify-content: center;
-  align-items: center;
-}
-</style>

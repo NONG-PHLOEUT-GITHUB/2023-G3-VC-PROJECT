@@ -1,7 +1,15 @@
 <template>
-  <custom-title></custom-title>
-  <div class="main mt-3">
-    <h3 class="text">Score monthly reports</h3>
+  <custom-title icon="mdi-file-table-box-multiple-outline"></custom-title>
+  <v-data-table-server
+    :headers="headers"
+    :items="items"
+    :total-items="totalItems"
+    :loading="loading"
+    :options.sync="options"
+    :server-items-length="serverItemsLength"
+    @update:options="getData"
+    class="elevation-1"
+  ></v-data-table-server>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="thead">
@@ -73,17 +81,43 @@
         </tbody>
       </table>
     </div>
-  </div>
 </template>
 <script>
 import http from "@/api/api";
-import Cookies from "js-cookie";
 export default {
   data() {
     return {
       allStudents: [],
       tab: 1,
-      role: "",
+      headers: [
+        { title: 'NO', key: 'no' },
+        { title: 'Name', key: 'name' },
+        { title: 'Gender', key: 'gender' },
+        { title: 'Khmer', key: 'khmer' },
+        { title: 'Math', key: 'math' },
+        { title: 'Eng', key: 'eng' },
+        { title: 'His', key: 'his' },
+        { title: 'Bio', key: 'bio' },
+        { title: 'Geo', key: 'geo' },
+        { title: 'Es', key: 'es' },
+        { title: 'Mc', key: 'mc' },
+        { title: 'C', key: 'c' },
+        { title: 'P', key: 'p' },
+        { title: 'Sport', key: 'sport' },
+        { title: 'ICT', key: 'ict' },
+        { title: 'Total', key: 'total' },
+        { title: 'Average', key: 'average' },
+        { title: 'Grade', key: 'grade' }
+      ],
+      items: [],
+      totalItems: 0,
+      loading: false,
+      options: {
+        itemsPerPage: 10,
+        page: 1,
+        sortBy: [],
+        sortDesc: []
+      }
     };
   },
   computed: {
@@ -134,26 +168,11 @@ export default {
     getAverage(id) {
       return (this.getTotal(id) / 14).toFixed(3);
     },
-    getRole() {
-      let cookies = Cookies.get("user_role");
-      this.role = cookies;
-    },
   },
   mounted() {
     const id = this.$route.params.id;
     this.getStudents(id);
-    this.getRole();
   },
 };
 </script>
-<style scoped>
-.main {
-  width: 80%;
-  margin-left: 19%;
-}
-
-.thead {
-  background: #004D40;
-}
-</style>
 

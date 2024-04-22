@@ -84,7 +84,12 @@ export default {
         path: '/class-list',
         title: 'Class management',
         icon: 'mdi-clipboard-text'
-      }
+      },
+      {
+        path: '/student-attendance',
+        title: 'Attendance',
+        icon: 'mdi-progress-check'
+      },
     ],
     userProfile: [
       {
@@ -95,7 +100,7 @@ export default {
   }),
   computed: {
     menu() {
-      switch (2) {
+      switch (1) {
         case 1:
           return this.adminMenu
         case 2:

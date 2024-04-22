@@ -1,109 +1,63 @@
 <template>
-  <custom-title></custom-title>
-  <main class="table">
-    <v-table class="mt-4">
-      <thead>
-        <tr>
-          <th class="text-white ">Id</th>
-          <th class="text-white">First Name</th>
-          <th class="text-white">Last Names</th>
-          <th class="text-white">Total Absence</th>
-          <th class="text-white">See More</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(attendanceItem, index) in attendanceData" :key="index">
-          <td class="text-subtitle-1">{{ index + 1 }}</td>
-          <td class="text-subtitle-1">{{ attendanceItem.first_name }}</td>
-          <td class="text-subtitle-1">{{ attendanceItem.last_name }}</td>
-          <td class="text-subtitle-1">{{ attendanceItem.role_attendances_count }}</td>
-          <td>
-            <v-btn
-              class="status" color="teal-darken-4"
-              :to="{ path: '/studentattendancedetail/' + attendanceItem.id }"
-              >See Details <v-icon class="mt-1 ms-1">mdi-eye</v-icon></v-btn
-            >
-          </td>
-        </tr>
-      </tbody>
-    </v-table>
-  </main>
+  <custom-title icon="mdi-note-check-outline"></custom-title>
+  <v-data-table-server
+    v-model:items-per-page="itemsPerPage"
+    :headers="headers"
+    :items="attendanceData"
+    :items-length="attendanceData.length"
+    :loading="loading"
+    :search="search"
+    item-value="name"
+    class="elevation-1"
+  >
+    <template v-slot:item.actions="{ item }">
+      <v-btn icon="mdi-eye" :to="{ path: '/student/attendance/' + item.id + '/details' }"
+        >See Details</v-btn
+      >
+    </template>
+  </v-data-table-server>
 </template>
 <script>
-import http from "@/api/api";
-import Cookies from "js-cookie";
+import http from '@/api/api'
 export default {
   data() {
     return {
       attendanceData: [],
-      role: "",
-    };
+      headers: [
+        { title: 'Profile', key: 'profile' },
+        { title: 'First Name', key: 'first_name' },
+        { title: 'Last Name', key: 'last_name' },
+        { title: 'Gender', key: 'gender' },
+        { title: 'Age', key: 'age', width: '5' },
+        { title: 'Email', key: 'email' },
+        { title: 'Total', key: 'address' },
+        { title: '', key: 'actions', width: '14%' }
+      ]
+    }
   },
   methods: {
     getStudents(id) {
       http
         .get(`/getAllStudents/${id}`)
-        .then((response) => {
-          this.attendanceData = response.data.data;
-          this.attendanceData = response.data.data;
-          this.attendanceData.forEach((element) => {
-            this.attendanceData = element.students;
-          });
-          console.log(this.attendanceData);
+        .then(response => {
+          this.attendanceData = response.data.data
+          this.attendanceData.forEach(element => {
+            this.attendanceData = element.students
+          })
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch(error => {
+          console.log(error)
+        })
     },
     fetchData() {
-      http.get("/getAttendance").then((response) => {
-        this.attendanceData = response.data;
-        // console.log(response.data);
-      });
-    },
-    getRole() {
-      let cookies = Cookies.get("user_role");
-      this.role = cookies;
-    },
+      http.get('/getAttendance').then(response => {
+        this.attendanceData = response.data
+      })
+    }
   },
   mounted() {
-    const id = this.$route.params.id;
-    this.getStudents(id);
-    this.getRole();
-  },
-};
+    const id = this.$route.params.id
+    this.getStudents(id)
+  }
+}
 </script>
-
-<style scoped>
-* thead th {
-  position: sticky;
-  top: 0;
-  left: 0;
-  background-color:#004D40;
-  cursor: pointer;
-  text-transform: uppercase;
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-tbody tr:hover {
-  background-color: #fff6 !important;
-}
-.status.detail {
-  padding: 10px;
-  margin-left: 10px;
-  border-radius: 10px;
-  background-color: #0000ff;
-  color: white;
-  font-weight: bold;
-}
-thead th:hover {
-  color: #e8e8fa;
-}
-main {
-  width: 80%;
-  margin-left: 20%;
-  margin-top: 20px;
-}
-</style>

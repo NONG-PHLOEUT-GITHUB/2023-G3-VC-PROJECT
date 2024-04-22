@@ -98,14 +98,8 @@ const routes = [
       },
       {
         path: '/create-user',
-        name: 'Create User',
-        component: () => import('@/views/dashboard/CreateUserForm.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
-      },
-      {
-        path: '/studentdetail',
-        name: 'Student details',
-        component: () => import('@/views/students/StudentDetial.vue'),
+        name: 'Create new user',
+        component: () => import('@/views/dashboard/CreateUser.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
@@ -140,8 +134,8 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/student_detail/:id',
-        name: '/Student details',
+        path: '/student/:id/details',
+        name: 'Student details',
         component: () => import('@/views/students/StudentDetial.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
@@ -159,14 +153,8 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/class_rooms/:id',
-        name: 'Classrooms details',
-        component: () => import('@/views/attendances/CheckAttendance.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
-      },
-      {
         path: '/feedback/:id',
-        name: 'feedback',
+        name: 'Student feedback',
         component: () => import('@/views/teacher/GiveFeedBackForm.vue'),
         props: true,
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
@@ -208,13 +196,6 @@ const routes = [
         component: () => import('@/views/guardians/CreateGuardian.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
-      {
-        path: '/edit-guadian/:id',
-        name: 'EditGuadian',
-        component: () => import('@/views/guardians/EditGuardian.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1] }
-      },
-
       {
         path: '/:pathMatch(.*)*', // matches any unknown path
         name: 'not-found',

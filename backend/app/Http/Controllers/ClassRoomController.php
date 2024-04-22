@@ -121,6 +121,7 @@ class ClassroomController extends Controller
 
     public function getStudentsInClass(string $id)
     {
+        // dd($id);
         // return $id;
         $classRooms = Classroom::where('id', $id)
             ->whereHas('students', function ($query) {

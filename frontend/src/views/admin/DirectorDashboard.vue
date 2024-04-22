@@ -1,60 +1,74 @@
 <template>
   <custom-title icon="mdi-view-dashboard-edit"></custom-title>
-
-  <div class="d-flex mb-4">
-    <v-card width="400" class="me-2 user-total elevation-4" prepend-icon="mdi-account-tie">
-      <template v-slot:title>Students </template>
-
-      <v-card-text class="card-text" v-for="(result, index) in results" :key="index">
-        <h5 v-if="result.role == 3">
-          Total : {{ result.total }}
-          <v-spacer></v-spacer>
-          Male: {{ result.male }}
-          <v-spacer></v-spacer>
-          Female: {{ result.female }}
-        </h5>
-      </v-card-text>
-    </v-card>
-    <v-card width="400" class="user-total me-4 elevation-4" prepend-icon="mdi-account">
-      <template v-slot:title>Teachers </template>
-      <v-card-text class="card-text" v-for="(result, index) in results" :key="index">
-        <h5 v-if="result.role == 2">
-          Total : {{ result.total }}
-          <v-spacer></v-spacer>
-          Male: {{ result.male }}
-          <v-spacer></v-spacer>
-          Female: {{ result.female }}
-        </h5>
-      </v-card-text>
-    </v-card>
-    <v-card width="400" class="ms-4 user-total elevation-4" prepend-icon="mdi-school">
-      <template v-slot:title> Class </template>
-
-      <v-card-text class="ms-14">
-        <h5>Total : {{ classroom }}</h5>
-      </v-card-text>
-    </v-card>
-  </div>
-
-  <custom-sub-title>Report</custom-sub-title>
-  <v-row class="mt-8">
-    <v-card class="bar1 ms-4 elevation-4">
-      <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
-      <h5 class="text-center m-3">STUDENT ATTENDANCE</h5>
-    </v-card>
-    <v-card class="bar2 ms-4 elevation-4">
-      <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
-      <h5 class="text-center m-3">FAILED STUDENT</h5>
-    </v-card>
+  <v-row class="mb-4">
+    <v-col cols="12" md="4">
+      <v-card class="mx-auto" subtitle="All students in school" title="Students">
+        <template v-slot:prepend>
+          <v-avatar color="blue-darken-2">
+            <v-icon icon="mdi-account-tie"></v-icon>
+          </v-avatar>
+        </template>
+        <v-col>
+          <h3>
+            <strong>3004</strong>
+          </h3>
+          <h5>
+            <v-icon>mdi-gender-male</v-icon>30 <v-icon>mdi-gender-female</v-icon>30
+          </h5>
+        </v-col>
+      </v-card>
+    </v-col>
+    <v-col cols="12" md="4">
+      <v-card class="mx-auto" subtitle="All teachers in school" title="Teachers">
+        <template v-slot:prepend>
+          <v-avatar color="blue-darken-2">
+            <v-icon icon="mdi-human-male-board-poll"></v-icon>
+          </v-avatar>
+        </template>
+        <v-col>
+          <h3>
+            <strong>3004</strong>
+          </h3>
+          <h5><v-icon>mdi-gender-male</v-icon>30 <v-icon>mdi-gender-female</v-icon>30</h5>
+        </v-col>
+      </v-card>
+    </v-col>
+    <v-col cols="12" md="4">
+      <v-card class="mx-auto" subtitle="All classrooms in school" title="Crassroom">
+        <template v-slot:prepend>
+          <v-avatar color="blue-darken-2">
+            <v-icon icon="mdi-google-classroom"></v-icon>
+          </v-avatar>
+        </template>
+        <v-col>
+          <h3>
+            <strong>3004</strong>
+          </h3>
+          <h5>
+            <v-icon>mdi-chair-rolling</v-icon>40
+          </h5>
+        </v-col>
+      </v-card>
+    </v-col>
   </v-row>
 
-  <StudentMostAbsence />
+  <custom-sub-title icon="mdi-chart-bar">Graph of student attendance and student failed</custom-sub-title>
+  <v-row class="mt-2 px-2">
+    <v-col cols="6"  class="elevation-1">
+      <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+    </v-col>
+    <v-col cols="6"  class="elevation-1">
+      <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
+    </v-col>
+  </v-row>
+
+  <!-- <StudentMostAbsence /> -->
 </template>
 
 <script>
 import { Bar } from 'vue-chartjs'
 import http from '@/api/api'
-import StudentMostAbsence from '@/components/dashboard/StudentMostAbsence.vue'
+// import StudentMostAbsence from '@/components/dashboard/StudentMostAbsence.vue'
 import {
   Chart as ChartJS,
   Title,
@@ -70,7 +84,7 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export default {
   name: 'BarChart',
   components: {
-    StudentMostAbsence,
+    // StudentMostAbsence,
     Bar
   },
   data() {
@@ -180,49 +194,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.card-text {
-  margin-top: -25px;
-}
-
-.bar1 {
-  width: 48%;
-  border-left: solid teal 5px;
-}
-
-.bar2 {
-  width: 49%;
-  border-left: solid teal 5px;
-}
-
-h3 {
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  color: #0000ff;
-}
-.text-center {
-  color: rgb(2, 74, 74);
-}
-
-.user-total {
-  border-left: solid teal 5px;
-}
-
-.table {
-  border-left: solid teal 5px;
-  border-radius: 10px;
-}
-
-.th {
-  color: red;
-  font-weight: 200;
-}
-
-.img {
-  width: 50%;
-}
-
-h3 {
-  color: teal;
-}
-</style>

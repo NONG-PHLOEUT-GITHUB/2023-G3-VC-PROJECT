@@ -1,14 +1,14 @@
 <template>
-    <v-card class="d-flex justify-space-between py-2 px-3 elevation-0 mb-3">
+    <v-card class="d-flex justify-space-between py-2 px-0 elevation-0 mb-3">
       <div
         class="header-title-wrapper d-flex align-center"
       >
-        <strong class="d-flex align-center">
+        <h5 class="d-flex align-center">
           <v-icon class="mr-2" v-if="icon">
             {{ icon }}
           </v-icon>
           <slot />
-        </strong>
+        </h5>
       </div>
       <div class="d-flex align-center">
         <slot name="right">

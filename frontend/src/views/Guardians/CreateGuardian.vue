@@ -1,32 +1,33 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-human-female-boy"></custom-title>
 
-  <v-card>
-    <form class="row g-3 card-body p-5 pt-4" @submit.prevent="addGuadian()">
-      <div class="col-md-6">
-        <v-text-field lable="First name"></v-text-field>
-      </div>
-      <div class="col-md-6">
-        <v-text-field>Last name</v-text-field>
-      </div>
-      <div class="col-md-6">
-        <v-text-field>Gender</v-text-field>
-        <div class="gender">
-          <v-text-field for="male">Male</v-text-field>
-
-          <v-text-field for="female">Female</v-text-field>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <v-text-field>Chat id of guadian</v-text-field>
-      </div>
-      <div class="col-md-6">
-        <v-text-field>Phone Number</v-text-field>
-      </div>
-      <div class="col-md-6">
-        <v-text-field>Address</v-text-field>
-      </div>
-
+  <v-card class="pa-2 py-4">
+    <form class="row g-3 card-body pt-4" @submit.prevent="addGuadian()">
+      <v-row>
+        <v-col>
+          <v-text-field variant="outlined" label="First name"></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field variant="outlined" label="Last name"></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field variant="outlined" label="Address"></v-text-field>
+        </v-col>
+      </v-row>
+      <v-radio-group inline>
+        <v-radio label="male"></v-radio>
+        <v-radio label="female"></v-radio>
+      </v-radio-group>
+      <v-row>
+        <v-col>
+          <v-text-field variant="outlined" label="Chat id of guadian"></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field variant="outlined" label="Phone Number"></v-text-field>
+        </v-col>
+      </v-row>
       <div class="col-12 d-flex justify-content-end">
         <router-link
           type="submit"
@@ -72,11 +73,13 @@ export default {
           phone_number: this.phone_number,
           address: this.address
         }
-        http.post('/Guardians', newGuadian).then(response => {
-          this.listGuadian.push(response.data.data)
-          console.log(this.listGuadian)
-        })
-      
+        http
+          .post('/Guardians', newGuadian)
+          .then(response => {
+            this.listGuadian.push(response.data.data)
+            console.log(this.listGuadian)
+          })
+
           .then(() => {
             this.$router.push({ path: '/guardian-list' })
           })
@@ -84,9 +87,27 @@ export default {
             console.log(error)
           })
       } else {
-       
       }
+    },
+    editGuardian() {
+      const newGuadian = {
+        first_name: this.listGuadian.first_name,
+        last_name: this.listGuadian.last_name,
+        gender: this.listGuadian.gender,
+        chatId: this.listGuadian.chatId,
+        phone_number: this.listGuadian.phone_number,
+        address: this.listGuadian.address
+      }
+      http.put(`/Guardians/${this.$route.params.id}`, newGuadian).then(response => {
+        this.$router.push({ path: '/guardian-list' })
+      })
     }
+  },
+  mounted() {
+    http.get(`/Guardians/${this.$route.params.id}`).then(response => {
+      this.listGuadian = response.data.data
+      console.log(this.listGuadian)
+    })
   }
 }
 </script>

@@ -1,44 +1,56 @@
 <template>
   <custom-title icon="mdi-view-dashboard-edit-outline"></custom-title>
-  <!-- <v-row> -->
-    <!-- <v-card width="400" class="bar1 ms-4 user-total elevation-4" prepend-icon="mdi-school">
-      <template v-slot:title> Class 10 </template>
-
-      <v-card-text class="ms-14">
-        <h5>Total : {{ classroomCounts['10'] }}</h5>
-      </v-card-text>
-    </v-card>
-    <v-card width="400" class="bar1 ms-4 user-total elevation-4" prepend-icon="mdi-school">
-      <template v-slot:title> Class 11 </template>
-
-      <v-card-text class="ms-14">
-        <h5>Total : {{ classroomCounts['11'] }}</h5>
-      </v-card-text>
-    </v-card>
-    <v-card width="380" class="bar1 ms-4 user-total elevation-4" prepend-icon="mdi-school">
-      <template v-slot:title> Class 12 </template>
-
-      <v-card-text class="ms-14">
-        <h5>Total : {{ classroomCounts['12'] }}</h5>
-      </v-card-text>
-    </v-card> -->
-
-    <v-card max-width="450">
-      <v-card-title
-        ><span class="text-h6 text-primary">Total</span></v-card-title
-      >
-      <v-card-text class="py-0">
-        <v-row align="center">
-          <v-col class="text-h2" cols="8">
-            {{ classroomCounts['12'] }}
-          </v-col>
-          <v-col class="text-right" cols="4">
-            <v-icon icon="mdi-school" size="65"></v-icon>
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
-  <!-- </v-row> -->
+  <v-row class="mb-4">
+    <v-col cols="12" md="4">
+      <v-card class="mx-auto" subtitle="All class 12 in school" title="Class 12">
+        <template v-slot:prepend>
+          <v-avatar color="blue-darken-2">
+            <v-icon icon="mdi-math-compass"></v-icon>
+          </v-avatar>
+        </template>
+        <v-col>
+          <h3>
+            <strong>{{ classroomCounts['12'] }}</strong>
+          </h3>
+          <h5>
+            <v-icon>mdi-gender-male</v-icon>30 <v-icon>mdi-gender-female</v-icon>30
+          </h5>
+        </v-col>
+      </v-card>
+    </v-col>
+    <v-col cols="12" md="4">
+      <v-card class="mx-auto" subtitle="All teachers in school" title="Class 11">
+        <template v-slot:prepend>
+          <v-avatar color="blue-darken-2">
+            <v-icon icon="mdi-human-male-board-poll"></v-icon>
+          </v-avatar>
+        </template>
+        <v-col>
+          <h3>
+            <strong>{{ classroomCounts['11'] }}</strong>
+          </h3>
+          <h5><v-icon>mdi-gender-male</v-icon>30 <v-icon>mdi-gender-female</v-icon>30</h5>
+        </v-col>
+      </v-card>
+    </v-col>
+    <v-col cols="12" md="4">
+      <v-card class="mx-auto" subtitle="All classrooms in school" title="Class 10">
+        <template v-slot:prepend>
+          <v-avatar color="blue-darken-2">
+            <v-icon icon="mdi-google-classroom"></v-icon>
+          </v-avatar>
+        </template>
+        <v-col>
+          <h3>
+            <strong>{{ classroomCounts['10'] }}</strong>
+          </h3>
+          <h5>
+            <v-icon>mdi-chair-rolling</v-icon>40
+          </h5>
+        </v-col>
+      </v-card>
+    </v-col>
+  </v-row>
 
   <StudentMostAbsenceVue></StudentMostAbsenceVue>
 </template>

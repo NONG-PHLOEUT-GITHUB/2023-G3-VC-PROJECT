@@ -1,5 +1,22 @@
 <template>
   <custom-title icon="mdi-account-school-outline"></custom-title>
+  <v-card class="mb-3 py-3">
+    <v-row>
+      <v-col>
+        <v-file-input
+          label="Upload Excel file"
+          variant="outlined"
+          @submit.prevent="importFile"
+          density="compact"
+        ></v-file-input>
+      </v-col>
+      <v-col>
+        <v-btn :to="{ path: '/create-user' }" color="teal-darken-4" append-icon="mdi-account-plus"
+          >Add new user
+        </v-btn>
+      </v-col>
+    </v-row>
+  </v-card>
   <v-card>
     <v-data-table-server
       v-model:items-per-page="itemsPerPage"
@@ -16,12 +33,30 @@
         </v-avatar>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn :to="{ path: '/user/' + item.id + '/edit' }" variant="text" icon="mdi-pencil"></v-btn>
+        <v-btn
+          :to="{ path: '/user/' + item.id + '/edit' }"
+          variant="text"
+          icon="mdi-pencil"
+        ></v-btn>
 
-        <v-btn @click="deleteUser(item.id)" variant="text" icon="mdi-delete-forever" color="red"> </v-btn>
+        <v-btn @click="deleteUser(item.id)" variant="text" icon="mdi-delete-forever" color="red">
+        </v-btn>
+        <v-btn :to="{ path: '/student/' + item.id + '/details' }" icon="mdi-eye" variant="text">
+        </v-btn>
       </template>
     </v-data-table-server>
   </v-card>
+  <div class="icon pa-4">
+    <v-btn v-if="!isDownloading" @click="downloadPDF()">
+      <v-icon size="24">mdi-download</v-icon>
+      Download PDF
+    </v-btn>
+    <div v-else>
+      <p>Generating PDF...</p>
+      <i class="fa fa-spinner fa-spin"></i>
+    </div>
+    <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
+  </div>
   <!-- <v-card class="card mt-5 elevation-4">
     <div class="card-header">
       <span class="mb-0 text-teal text-h5">USER LIST</span>
@@ -48,87 +83,10 @@
           </option>
         </select>
       </div>
-      <div class="form-group d-flex justify-content-between mb-3" style="width: 100%">
-        <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search user" aria-label="Search"
-            style="width: 78%" v-model="searchQuery" />
-          <button class="btn btn-outline-warning my-2 my-sm-0" type="button">
-            <i class="bi bi-search"></i> Search
-          </button>
-        </form>
-        <form class="input-file ms-4 me-3 border border-4 rounded-1 p-2" @submit.prevent="importFile">
-          <label for="file-input">Upload Excel file</label>
-          <input type="file" ref="fileInput" id="file-input" />
-          <i class="bi bi-cloud-arrow-up ms-2 mt-4"></i>
-        </form>
-          <v-btn size="large" :to="{ path: '/createUser' }" color="teal-darken-4">Add new user  <v-icon>mdi-account-plus</v-icon></v-btn>
+  
       </div>
     </div>
-    <div class="table-responsive">
-      <table class="table table-hover table-nowrap">
-        <thead class="thead">
-          <tr>
-            <th scope="col" class="fs-6 text-light">Name</th>
-            <th scope="col" class="fs-6 text-light">Gender</th>
-            <th scope="col" class="fs-6 text-light">Age</th>
-            <th scope="col" class="fs-6 text-light">Email</th>
-            <th scope="col" class="fs-6 text-light">Phone Number</th>
-            <th scope="col" class="fs-6 text-light"></th>
-          </tr>
-        </thead>
-
-        <tbody v-if="listUser && listUser.length">
-          <tr v-for="(user, id) of filteredStudentsList" :key="id" class="border-1-dark">
-            <td class="text-subtitle-1">
-              <img v-if="user.profile" :src="user.profile" class="avatar avatar-sm rounded-circle me-2" />
-              <img v-else-if="!user.profile" src="https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png"
-                class="avatar avatar-sm rounded-circle me-2" />
-              <a class="text-heading font-semibold" href="#">
-                {{ user.first_name }} {{ user.last_name }}
-              </a>
-            </td>
-            <td class="text-subtitle-1">
-              {{ user.gender }}
-            </td>
-            <td class="text-subtitle-1">
-              {{ user.age }}
-            </td>
-            <td class="text-subtitle-1">
-              {{ user.email }}
-            </td>
-            <td hidden>
-              {{ user.password }}
-            </td>
-            <td class="text-subtitle-1">
-              {{ user.phone_number }}
-            </td>
-            <td class="text-end d-flex justify-content-end">
-              <router-link :to="{ path: '/student_detail/' + user.id }">
-                <button type="button" class="btn btn-sm btn-neutral text-dark text-primary-hover bg-gray-300">
-                  <i class="bi bi-person-circle text-warning"></i> View Profile
-                </button>
-              </router-link>
-
-              <router-link :to="{ path: '/edit/' + user.id }">
-                <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-green ml-2">
-                  <i class="bi bi-pencil-square"></i> Edit
-                </button>
-              </router-link>
-
-              <button type="button" class="btn btn-sm btn-neutral text-white text-dark-hover bg-red ml-2"
-                @click="deleteUser(user.id)">
-                <i class="bi bi-trash-fill"></i> Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-        <tr v-else>
-          <td colspan="6" class="text-center text-danger">
-            This class does not have any user.
-          </td>
-        </tr>
-    </div>
-  </v-card> -->
+   -->
 </template>
 <script>
 import http from '@/api/api'
@@ -142,16 +100,15 @@ export default {
       classrooms: [],
       itemsPerPage: 10,
       headers: [
-        { title: 'ID', key: 'id' },
         { title: 'Profile', key: 'profile' },
         { title: 'First Name', key: 'first_name' },
         { title: 'Last Name', key: 'last_name' },
         { title: 'Gender', key: 'gender' },
-        { title: 'Age', key: 'age' },
+        { title: 'Age', key: 'age', width: '5' },
         { title: 'Phone Number', key: 'phone_number' },
         { title: 'Address', key: 'address' },
         { title: 'Email', key: 'email' },
-        { title: '', key: 'actions',width: "10%"}
+        { title: '', key: 'actions', width: '14%' }
       ]
     }
   },

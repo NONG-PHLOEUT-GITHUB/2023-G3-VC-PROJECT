@@ -1,32 +1,24 @@
 <template>
   <custom-title icon="mdi-details"></custom-title>
-  <custom-sub-title> Attendance of  <strong class="ms-2">{{ user.first_name }} {{ user.last_name }}</strong> </custom-sub-title>
-
-  <v-table class="mt-4">
-    <thead>
-      <tr class="bg-teal-darken-4">
-        <th class="text-white text-subtitle-1">Date</th>
-        <th class="text-white text-subtitle-1">Reason</th>
-        <th class="text-white text-subtitle-1">Attendance status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="record in attendanceRecords" :key="record.id">
-        <td class="text-subtitle-1">{{ record.date }}</td>
-        <td class="text-subtitle-1">{{ record.status }}</td>
-        <td class="text-subtitle-1">{{ record.reason }}</td>
-      </tr>
-    </tbody>
-  </v-table>
-  <v-btn color="teal-darken-4" class="btn-container" :width="130" @click="generatePDF()"
-    >save
-  </v-btn>
+  <custom-sub-title>
+    Attendance of <strong class="ms-2">{{ user.first_name }} {{ user.last_name }}</strong>
+  </custom-sub-title>
+  <v-data-table-server
+    v-model:items-per-page="itemsPerPage"
+    v-model="selected"
+    :headers="headers"
+    :items="attendanceRecords"
+    :items-length="attendanceRecords.length || 0"
+    :loading="loading"
+    :search="search"
+    item-value="name"
+    class="elevation-2"
+  >
+  </v-data-table-server>
+  <v-btn :width="130" @click="generatePDF()">save </v-btn>
 </template>
 
 <script>
-import axios from 'axios'
-import Cookies from 'js-cookie'
-
 import jsPDF from 'jspdf'
 import http from '@/api/api'
 import 'jspdf-autotable'
@@ -34,6 +26,11 @@ export default {
   data() {
     return {
       role: '',
+      headers: [
+        { title: 'date', key: 'date' },
+        { title: 'reason', key: 'reason' },
+        { title: 'status', key: 'status' }
+      ],
       user: {},
       attendanceRecords: [],
       pdfFile: null,
@@ -74,20 +71,11 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         })
-        console.log(pdfOutput)
         if (!response.data.ok) {
-          swal.fire('Failed', 'Failed to send PDF', 'error')
           return
         }
-        swal.fire({
-          icon: 'success',
-          title: 'PDF sent successfully!',
-          text: 'Your attendance report has been sent to the guardian',
-          timer: 2000
-        })
       } catch (error) {
         console.error('Error sending PDF:', error)
-        swal.fire('Error', 'Failed to send PDF', 'error')
       }
     },
     async generatePDF() {
@@ -106,46 +94,16 @@ export default {
         head: [['Date', 'Reason', 'Attendance Status']],
         body: table
       })
-      console.log(table)
       const pdfOutput = document.output('blob')
       await this.sendPDF(this.chat_id, pdfOutput)
       const fileName = `${name}_attendance.pdf`
       document.save(fileName)
     },
-
-    getRole() {
-      let cookies = Cookies.get('user_role')
-      this.role = cookies
-    }
   },
   mounted() {
     const id = this.$route.params.id
     this.listattendance(id)
     this.getChatId(id)
-    this.getRole()
   }
 }
 </script>
-
-<style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: sans-serif;
-}
-
-main {
-  margin-top: 10px;
-  margin-left: 19%;
-  width: 80%;
-}
-
-.button {
-  margin-left: 89%;
-}
-.btn-container {
-  margin-top: 10px;
-  margin-left: 89%;
-}
-</style>

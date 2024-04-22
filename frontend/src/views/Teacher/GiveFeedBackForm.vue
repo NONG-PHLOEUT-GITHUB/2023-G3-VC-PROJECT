@@ -1,5 +1,5 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-comment-text"></custom-title>
   <v-card class="pa-3">
     <v-form>
       <v-text-field label="Title" variant="outlined"></v-text-field>
@@ -94,55 +94,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.give-feedback-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.give-feedback-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.give-feedback-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.give-feedback-container .form-group {
-  margin-bottom: 20px;
-}
-
-.give-feedback-container textarea {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%;
-}
-
-.give-feedback-container select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: #fff;
-}
-.give-feedback-container select option:checked {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.give-feedback-container select option {
-  background-color: #fff;
-  color: #000;
-}
-</style>
