@@ -19,9 +19,9 @@
       rounded="lg"
     >
       <v-form ref="form" @submit.prevent="changePassword">
-        <v-title>
+        <!-- <v-title>
           <h1>Change password</h1>
-        </v-title>
+        </v-title> -->
         <div class="text-subtitle-1 text-medium-emphasis mt-8">
           Current password
         </div>

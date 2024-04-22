@@ -4,15 +4,16 @@ const api = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL || "http://127.0.0.1:8000/api/",
   headers: {
     "Access-Control-Allow-Origin": "*",
-    "Content-type": "application/json",
+    'Content-type': 'application/json'
   },
 });
 
 api.interceptors.request.use(async (config) => {
   try {
     const token = localStorage.getItem('access_token')
+    console.log(token);
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers.Authorization = token
     }
     return config
   } catch (error) {

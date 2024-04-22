@@ -82,7 +82,7 @@ export default {
   },
   mounted() {
     http
-      .get('/v1/auth/user')
+      .get('/user')
       .then(response => {
         this.userId = response.data.data.id
         this.fetchAttendanceData()

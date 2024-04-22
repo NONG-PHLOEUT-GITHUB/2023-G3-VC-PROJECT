@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ChangePasswordController;
@@ -174,18 +175,18 @@ Route::get("/showAttendanceDetaileverymonth/{id}", [AttendanceController::class,
 
 // ========================router=====================================================
 
+Route::get('/user', [AuthController::class,'user']);
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
 
         // Login User
-        Route::post('/login', [AuthenticationController::class, "login"]);
+        Route::post('/login', [AuthController::class, "login"]);
 
         Route::middleware('auth:api')->group(function () {
             // Get user info
-            Route::get('/user', [AuthenticationController::class,'user']);
 
             // Logout user from application
-            Route::post('/logout',[AuthenticationController::class,'logout']);
+            Route::post('/logout',[AuthController::class,'logout']);
             // Change password user from application
         });
     });

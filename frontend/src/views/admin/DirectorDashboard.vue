@@ -1,5 +1,5 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-view-dashboard-edit"></custom-title>
 
   <div class="d-flex mb-4">
     <v-card width="400" class="me-2 user-total elevation-4" prepend-icon="mdi-account-tie">

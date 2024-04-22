@@ -4,59 +4,68 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ClassRoom extends Model
+class Classroom extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'class_name',
+        'classroom_name',
         'description',
-        
+        // 'is_class_coordinator',
+        'teacher_id'
     ];
 
-    
     public static function store($request, $id = null)
     {
-        $classRooms = $request->only(
-            'class_name',
+        $classrooms = $request->only(
+            'classroom_name',
             'description',
         );
         if ($id) {
-            $classRoom = self::find($id);
-            if (!$classRooms) {
+            $classroom = self::find($id);
+            if (!$classroom) {
                 return response()->json(['error' => 'Record not found'], 404);
             }
-            $classRoom->update($classRooms);
+            $classroom->update($classrooms);
         } else {
-            $classRoom = self::create($classRooms);
-            $id = $classRoom->$id;
+            $classroom = self::create($classrooms);
+            $id = $classroom->$id;
         }
         // Sync the related teachers
-        $teacherIds = $request->input('user_id', []);
+        $teacherIds = $request->input('teacher_id', []);
+        // $isClassCoordinator = $request->input('is_class_coordinator');
         if (empty($teacherIds)) {
-            return response()->json(['error' => 'No teachers selected'], 400);
+            return response()->json(['error' => 'No teachers selected or class coordinator'], 400);
         }
-        if (!$classRoom->save()) {
+        
+        if (!$classroom->save()) {
             return response()->json(['error' => 'Error saving class room record'], 500);
         }
-        $classRoom->teachers()->sync($teacherIds);
+        $classroom->teachers()->sync($teacherIds);
+        // $classroom->teachers()->sync($isClassCoordinator);
 
-        return response()->json(['success' => true, 'data' => $classRoom], 201);
+        return response()->json(['success' => true, 'data' => $classroom], 201);
     }
 
+
+    // get by attributes
+    protected $appends = ['student_count'];
+    // protected $appends = ['is_class_coordinator'];
+
+    public function getStudentCountAttribute()
+    {
+        return $this->students()->count();
+    }
+
+    // // one class have many teacher also one teacher has many classes
     public function teachers()
     {
-        return $this->belongsToMany(User::class, 'class_room_teachers');
+        return $this->belongsToMany(User::class, 'classroom_teachers', 'classroom_id', 'teacher_id');
     }
 
-    public function students(){
-        return $this->hasMany(User::class);
-    }
-    public function schedule()
+    public function students()
     {
-        return $this->hasOne(User::class);
+        return $this->hasMany(User::class)->where('role', 3);
     }
-
-
 }

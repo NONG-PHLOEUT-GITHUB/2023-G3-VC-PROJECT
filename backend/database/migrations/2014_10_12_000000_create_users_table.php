@@ -22,11 +22,10 @@ return new class extends Migration
             $table->string('phone_number', 24)->nullable();
             $table->string('address', 255)->nullable();
             $table->string('profile')->default('defult_profile.JPG');
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->nullable();
-            // $table->unsignedBigInteger('class_room_id')->nullable();
-            // $table->foreign('class_room_id')->references('id')->on('class_rooms')->onDelete('cascade');
+            $table->string('password');
+            $table->string('is_class_coordinator');
             $table->rememberToken();
             $table->timestamps();
         });

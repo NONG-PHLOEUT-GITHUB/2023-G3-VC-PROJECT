@@ -47,8 +47,8 @@ const routes = [
       },
       {
         path: '/student-home',
-        name: 'My page',
-        component: () => import('@/views/students/StudentHomeView'),
+        name: 'Dashboard',
+        component: () => import('@/views/students/StudentHome'),
         meta: { requiresAuth: true, requiredRoles: [3] }
       },
       {
@@ -86,13 +86,13 @@ const routes = [
 
       {
         path: '/student-list',
-        name: 'Student List',
+        name: 'Student management',
         component: () => import('@/views/students/StudentList.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/class-list',
-        name: 'Class list',
+        name: 'Class management',
         component: () => import('@/views/admin/ClassManagement.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
@@ -109,8 +109,8 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/studentattendance/:id/details',
-        name: 'Student attendance detail',
+        path: '/student/attendance/:id/details',
+        name: 'Student attendance details',
         component: () => import('@/views/attendances/StudentAttendanceDetail.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
@@ -122,14 +122,14 @@ const routes = [
       },
       //
       {
-        path: '/check-attendance',
-        name: 'Check Attendance',
+        path: '/check-attendance/student',
+        name: 'Check attendance',
         component: () => import('@/views/attendances/CheckAttendance.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/teacher-attendance-list',
-        name: 'Teacher Attendance List',
+        name: 'Teacher attendance list',
         component: () => import('@/views/attendances/TeacherAttendanceList.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
@@ -141,26 +141,26 @@ const routes = [
       },
       {
         path: '/student_detail/:id',
-        name: '/student_detail',
+        name: '/Student details',
         component: () => import('@/views/students/StudentDetial.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/attendance_list/:id',
-        name: 'Attendance Details',
-        component: () => import('@/views/attendances/AttendanceList.vue'),
+        path: '/attendance-report/:id/by-class',
+        name: 'Attendance details',
+        component: () => import('@/views/attendances/AttendanceReportInClass.vue'),
         props: true,
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        name: 'edit',
-        path: '/edit/:id',
+        path: '/user/:id/edit',
+        name: 'Edit user',
         component: () => import('@/views/dashboard/EditUserForm.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/class_rooms/:id',
-        name: 'class_rooms',
+        name: 'Classrooms details',
         component: () => import('@/views/attendances/CheckAttendance.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
@@ -173,38 +173,38 @@ const routes = [
       },
       {
         path: '/student-score-report/:id',
-        name: 'student-score-report',
+        name: 'Student score report',
         component: () => import('@/views/scores/StudentScoreReport.vue'),
         props: true,
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/teacher-classroom',
-        name: 'Classroom Management',
-        component: () => import('@/views/classroom/ClassroomView.vue'),
+        name: 'Classroom management',
+        component: () => import('@/views/classroom/ClassroomTeacher.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/student-score',
-        name: 'Student Score',
+        name: 'Student score management',
         component: () => import('@/views/scores/StudentScore.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/teacher-list',
-        name: 'Teacher List',
+        name: 'Teacher management',
         component: () => import('@/views/teacher/SaveListTeacher.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
       {
         path: '/guardian-list',
-        name: 'Guardian List',
+        name: 'Guardian management',
         component: () => import('@/views/guardians/GuardianList.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
       {
         path: '/add-guadian',
-        name: 'AddGuadian',
+        name: 'Create new guadian',
         component: () => import('@/views/guardians/CreateGuardian.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },

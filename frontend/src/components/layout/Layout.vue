@@ -134,7 +134,7 @@ export default {
       }
 
       try {
-        const response = await http.get('/v1/auth/user')
+        const response = await http.get('/user')
         this.users = response.data.data
         cache.set('users', this.users)
       } catch (error) {
@@ -149,7 +149,7 @@ export default {
           {},
           {
             headers: {
-              Authorization: 'Bearer ' + Cookies.get('access_token')
+              Authorization: 'Bearer ' + localStorage.getItem('access_token')
             }
           }
         )

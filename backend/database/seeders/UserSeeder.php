@@ -12,13 +12,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-         \App\Models\User::factory(1)->create();
-
-         \App\Models\User::factory()->create([
-            'first_name' => 'admin',
-            'last_name' => 'School',
-            'email' => 'admin@gmail.com',
-            'password' => 'admin1234',
-        ]);
+        \App\Models\User::factory()->count(100)->create();
     }
 }

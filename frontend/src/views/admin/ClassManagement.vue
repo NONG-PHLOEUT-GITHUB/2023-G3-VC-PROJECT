@@ -1,5 +1,5 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-chair-school"></custom-title>
   <div class="main">
     <v-card class="card d-flex mt-5 pa-5">
       <v-btn color="teal-darken-4 w-25 mb-4" class="mt-4 ms-5" @click="dialog = true"
@@ -72,7 +72,7 @@
           >
             <v-icon>mdi-chart-line</v-icon> Score report
           </v-btn>
-          <v-btn color="teal-darken-4" :to="{ path: '/attendance_list/' + classroom.id }">
+          <v-btn color="teal-darken-4" :to="{ path: '/attendance-report/' + classroom.id +'/by-class'}">
             <v-icon>mdi-calendar-clock</v-icon> Attendance report
           </v-btn>
           <v-btn color="teal-darken-4" :to="{ path: '/feedback/' + classroom.id }" class="ms-4">

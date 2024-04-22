@@ -1,5 +1,5 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-human-male-girl"></custom-title>
 
   <v-card class="pa-2 mb-4">
     <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
@@ -9,21 +9,21 @@
       Add new guardian <v-icon>mdi-plus-outline</v-icon></v-btn
     >
   </v-card>
-    <v-data-table-server
-      v-model:items-per-page="itemsPerPage"
-      :headers="headers"
-      :items="SearchGaurdian"
-      :items-length="SearchGaurdian.length"
-      :loading="loading"
-      :search="search"
-      item-value="name"
-    >
-      <template v-slot:item.profile="{ item }">
-        <v-avatar size="large">
-          <v-img :src="item.profile" alt="Avatar" cover> </v-img>
-        </v-avatar>
-      </template>
-    </v-data-table-server>
+  <v-data-table-server
+    v-model:items-per-page="itemsPerPage"
+    :headers="headers"
+    :items="SearchGaurdian"
+    :items-length="SearchGaurdian.length"
+    :loading="loading"
+    :search="search"
+    item-value="name"
+  >
+    <template v-slot:item.profile="{ item }">
+      <v-avatar size="large">
+        <v-img :src="item.profile" alt="Avatar" cover> </v-img>
+      </v-avatar>
+    </template>
+  </v-data-table-server>
 </template>
 
 <script>
@@ -34,7 +34,7 @@ export default {
     return {
       listGuardian: [],
       searchQuery: '',
-      itemsPerPage : 10,
+      itemsPerPage: 10,
       headers: [
         {
           title: 'Profile',
@@ -57,7 +57,7 @@ export default {
         { title: 'Gender', key: 'gender', align: 'end' },
         { title: 'Email', key: 'email', align: 'end' },
         { title: '', key: 'actions', align: 'end' }
-      ],
+      ]
     }
   },
   computed: {
@@ -80,21 +80,19 @@ export default {
         this.listGuardian = response.data.data
       })
     },
-    deleteUser(id){
-
-    }
+    deleteUser(id) {}
     // .then(willDelete => {
     //     if (willDelete) {
     //       http
     //         .delete('/Guardians' + `/${id}`)
     //         .then(() => {
-          
+
     //         })
     //         .catch(error => {
     //           console.error(error)
     //         })
     //     } else {
-         
+
     //     }
     //   })
     // }
@@ -105,6 +103,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

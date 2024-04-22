@@ -1,6 +1,5 @@
 <template>
-  <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
-  <teacher-dashboard v-else-if="this.role === '2'"></teacher-dashboard>
+  <custom-title></custom-title>
   <div class="main mt-3">
     <h3 class="text">Score monthly reports</h3>
     <div class="table-responsive">

@@ -1,5 +1,5 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-scoreboard-outline"></custom-title>
   <div >
     <label for="file-input">Choose class for input score</label>
     <select
@@ -312,7 +312,7 @@ export default {
       }
 
       try {
-        const response = await http.get("/v1/auth/user");
+        const response = await http.get("/user");
         this.classrooms = response.data.data.class_teacher;
         cache.set("teacher_classroom", this.classrooms);
       } catch (error) {

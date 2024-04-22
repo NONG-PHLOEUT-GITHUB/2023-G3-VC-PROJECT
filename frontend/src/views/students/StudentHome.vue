@@ -1,5 +1,5 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-view-dashboard-outline"></custom-title>
   <student-graph></student-graph>
 </template>
 <script>

@@ -59,7 +59,6 @@
 </template>
 
 <script>
-
 import Cookies from 'js-cookie'
 import http from '@/api/api'
 // https://vee-validate.logaretm.com/v4/tutorials/basics/
@@ -69,8 +68,8 @@ export default {
     loading: false,
     snackbar: false,
     passwordShow: false,
-    email: '',
-    password: '',
+    email: 'phloeutnong@gmail.com',
+    password: 'RbhTwlkr',
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
@@ -89,39 +88,21 @@ export default {
             email: this.email,
             password: this.password
           })
-          .then(response => {
-            // Show success message
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 500,
-              timerProgressBar: true,
-              didOpen: toast => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            })
+          .then((response) => {
+            localStorage.setItem('access_token', response.data.access_token)
+            // Navigate to the appropriate dashboard
+            const ROLE = response.data.role
+            if (ROLE === 1) {
+              this.$router.push('/admin-dashboard')
+            } else if (ROLE === 2) {
+              this.$router.push('/teacher-dashboard')
+            } else {
+              this.$router.push('/student-home')
+            }
 
-            Toast.fire({
-              icon: 'success',
-              title: 'Login successfully'
-            }).then(() => {
-              // Navigate to the appropriate dashboard
-              const ROLE = response.data.role
-              const token = response.data.access_token
-              if (ROLE === 1) {
-                this.$router.push('/admin-dashboard')
-              } else if (ROLE === 2) {
-                this.$router.push('/teacher-dashboard')
-              } else {
-                this.$router.push('/student-dashboard')
-              }
-
-              // Set cookies
-              Cookies.set('access_token', token, { expires: 14 })
-              Cookies.set('user_role', ROLE, { expires: 14 })
-            })
+            // Set cookies
+            Cookies.set('access_token', token, { expires: 14 })
+            Cookies.set('user_role', ROLE, { expires: 14 })
           })
           .catch(error => {
             if (error.response && error.response.status === 401) {

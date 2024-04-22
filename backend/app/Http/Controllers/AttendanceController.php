@@ -74,7 +74,7 @@ class AttendanceController extends Controller
     {
         $users = User::where('role', 3)
             ->select('id', 'first_name', 'last_name', 'class_room_id')
-            ->withCount('roleAttendances')
+            ->withCount('attendances')
             ->get();
         return response()->json($users);
     }
@@ -85,8 +85,7 @@ class AttendanceController extends Controller
     {
         $users = User::where('role', 3)
             ->select('*')
-            ->withCount('roleAttendances')
-            ->orderByDesc('role_attendances_count', 'desc')
+            ->withCount('attendances')
             ->limit(10)
             ->get();
         return response()->json($users);
@@ -98,7 +97,7 @@ class AttendanceController extends Controller
     {
         $users = User::where('role', 2)
             ->select('id', 'first_name', 'last_name')
-            ->withCount('roleAttendances')
+            ->withCount('attendances')
             ->get();
         return response()->json($users);
     }
@@ -109,7 +108,7 @@ class AttendanceController extends Controller
     {
         $users = User::where('role', 2)
             ->select('id', 'first_name', 'last_name')
-            ->withCount('roleAttendances')
+            ->withCount('attendances')
             ->orderByDesc('role_attendances_count')
             ->limit(5)
             ->get();
@@ -137,7 +136,7 @@ class AttendanceController extends Controller
             ->find($id);
 
         if ($user) {
-            $attendanceRecords = $user->roleAttendances;
+            $attendanceRecords = $user->attendances;
             return response()->json([
                 'user' => [
                     'id' => $user->id,
@@ -159,7 +158,7 @@ class AttendanceController extends Controller
             ->find($id);
 
         if ($user) {
-            $attendanceRecords = $user->roleAttendances;
+            $attendanceRecords = $user->attendances;
             return response()->json([
                 'user' => [
                     'id' => $user->id,
@@ -234,7 +233,7 @@ class AttendanceController extends Controller
         $attendanceCounts = [];
         for ($month = 1; $month <= 12; $month++) {
             $totalAttendance = User::where('role', 3)
-                ->whereHas('roleAttendances', function ($query) use ($month) {
+                ->whereHas('attendances', function ($query) use ($month) {
                     $query->whereMonth('date', $month);
                 })
                 ->count();
@@ -250,16 +249,16 @@ class AttendanceController extends Controller
         $attendanceCounts = [];
         for ($month = 1; $month <= 12; $month++) {
             $totalAttendance = User::where('id', $userId)
-                ->whereHas('roleAttendances', function ($query) use ($month) {
+                ->whereHas('attendances', function ($query) use ($month) {
                     $query->whereMonth('date', $month);
                 })
                 ->with([
-                    'roleAttendances' => function ($query) use ($month) {
+                    'attendances' => function ($query) use ($month) {
                         $query->whereMonth('date', $month);
                     }
                 ])
                 ->get()
-                ->pluck('roleAttendances')
+                ->pluck('attendances')
                 ->flatten()
                 ->unique('id')
                 ->count();

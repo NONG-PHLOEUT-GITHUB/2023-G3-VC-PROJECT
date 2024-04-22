@@ -1,15 +1,6 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-google-classroom"></custom-title>
   <div class="main">
-    <div class="text-center">
-      <v-snackbar v-model="snackbar" multi-line>
-        {{ text }}
-        <template v-slot:actions>
-          <v-btn color="teal" variant="text" @click="snackbar = false"> Close </v-btn>
-        </template>
-      </v-snackbar>
-    </div>
-
     <v-card
       v-for="classroom of classrooms"
       :key="classroom"
@@ -28,7 +19,7 @@
           >
             <v-icon>mdi-chart-line</v-icon> Score report
           </v-btn>
-          <v-btn color="teal-darken-4" :to="{ path: '/attendance_list/' + classroom.id }">
+          <v-btn color="teal-darken-4" :to="{ path: '//attendance-report/' + classroom.id + '/by-class'}">
             <v-icon>mdi-calendar-clock</v-icon> Attendance report
           </v-btn>
           <v-btn color="teal-darken-4" :to="{ path: '/feedback/' + classroom.id }" class="ms-4">
@@ -52,8 +43,6 @@ export default {
     return {
       classrooms: [],
       class_name: '',
-      snackbar: false,
-      text: `You do not have the class yet.`
     }
   },
   methods: {
@@ -66,7 +55,7 @@ export default {
       }
 
       try {
-        const response = await http.get('/v1/auth/user')
+        const response = await http.get('/user')
         this.classrooms = response.data.data.class_teacher
         cache.set('teacher_classroom', this.classrooms)
       } catch (error) {

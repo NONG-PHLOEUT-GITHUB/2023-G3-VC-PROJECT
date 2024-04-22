@@ -1,5 +1,5 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-check-decagram-outline"></custom-title>
   <v-data-table-server></v-data-table-server>
 </template>
 
@@ -18,7 +18,7 @@ export default {
   methods: {
     getAttendanceDetails() {
       http
-        .get('/v1/auth/user')
+        .get('/user')
         .then(response => {
           this.attendanceDetails = response.data.data.attendances
         })

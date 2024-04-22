@@ -123,8 +123,7 @@ export default {
           }
 
           // Set cookies
-          Cookies.set("access_token", token, { expires: 14 });
-          Cookies.set("user_role", ROLE, { expires: 14 });
+          localStorage.setItem('access_token', response.data.access_token)
           console.log("data", response.data.data.role);
 
           const Toast = Swal.mixin({

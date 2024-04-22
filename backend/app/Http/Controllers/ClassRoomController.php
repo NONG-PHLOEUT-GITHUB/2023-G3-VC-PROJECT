@@ -2,47 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ClassResource;
-use App\Models\ClassRoom;
+use App\Http\Resources\ClassroomResource;
+use App\Models\Classroom;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\VarDumper\Caster\ClassStub;
 
-class ClassRoomController extends Controller
+class ClassroomController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $classrooms = ClassRoom::all();
-        return response()->json(['success' => true, 'data' => $classrooms], 200);
+        $classrooms = Classroom::all();
+        $transformedClassrooms = ClassroomResource::collection($classrooms);
+
+        return response()->json(['success' => true, 'data' => $transformedClassrooms], 200);
     }
-    /**
-     * Display a listing of the resource.
-     */
-    // public function getClassStudents(Request $request)
-    // {
-    //     $role = $request->query(3);
-    //     $class = $request->query('10A');
-
-    //     $class = ClassRoom::where('class_name', $class)
-    //         ->whereHas('user_id', function ($query) use ($role) {
-    //             $query->where('role', $role);
-    //         })
-    //         ->get();
-
-    //     return $class;
-    // }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $classrooms = ClassRoom::store($request);
-        return $classrooms;
+        $classroom = Classroom::store($request);
+        return $classroom;
     }
 
     /**
@@ -50,10 +34,12 @@ class ClassRoomController extends Controller
      */
     public function show(string $id)
     {
-        $classroom = ClassRoom::find($id);
-        if (empty($classroom)) {
-            return response()->json(['success' => false, 'message' => 'Undefined classroom id:' . $id], 401);
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return response()->json(['message' => 'The record with ID ' . $id . ' was not found.'], 404);
         }
+
         return response()->json(['success' => true, 'data' => $classroom], 200);
     }
 
@@ -62,8 +48,8 @@ class ClassRoomController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $classroom = ClassRoom::store($request, $id);
-        return response()->json(['success' => true, 'message' => 'classroom update successfully', 'data' => $classroom], 200);
+        $classroom = Classroom::store($request, $id);
+        return $classroom;
     }
 
     /**
@@ -71,7 +57,7 @@ class ClassRoomController extends Controller
      */
     public function destroy(string $id)
     {
-        $classroom = ClassRoom::find($id);
+        $classroom = Classroom::find($id);
 
         if (!$classroom) {
             return response()->json(['message' => 'The record with ID ' . $id . ' was not found.'], 404);
@@ -79,34 +65,71 @@ class ClassRoomController extends Controller
 
         $classroom->delete();
 
-        return response()->json(['success' => true, 'message' => 'classroom deleted successfully'], 200);
+        return response()->json(['success' => true, 'message' => 'Classroom deleted successfully'], 200);
     }
 
-    public function getClassNameUserId(string $className)
+
+    // public function getAllClassrooms()
+    // {
+    //     $classrooms = Classroom::withCount('students')
+    //         ->select('classrooms.id', 'classrooms.classroom_name','classrooms.is_class_coordinator')
+    //         ->with(['teachers.user'])
+    //         ->get();
+    //     $classroomCount = $classrooms->count();
+
+    //     return response()->json(['success' => true, 'data' => $classrooms, 'count' => $classroomCount], 200);
+    // }
+    public function getAllClassrooms()
     {
-        $classRooms = ClassRoom::where('class_name', $className)
-            ->whereHas('students', function ($query) {
-                $query->where('role', 3);
-            })
-            ->with('students')
+        $classrooms = Classroom::with('teachers:id,first_name,last_name')
+            ->select('classrooms.id', 'classrooms.classroom_name')
             ->get();
 
-        if ($classRooms->isEmpty()) {
-            return "not found";
-        } else {
-            return response()->json(['success' => true, 'data' => $classRooms], 200);
-        }
+        $classroomCount = $classrooms->count();
+
+        $transformedClassrooms = $classrooms->map(function ($classroom) {
+            $classroom->is_class_coordinator = null;
+            $classroom->first_name = $classroom->teachers->first()->first_name ?? null;
+            $classroom->last_name = $classroom->teachers->first()->last_name ?? null;
+            unset($classroom->teachers);
+            return $classroom;
+        });
+
+        return response()->json(['success' => true, 'data' => $transformedClassrooms, 'count' => $classroomCount], 200);
     }
+
+    // public function getAllClassrooms()
+    // {
+    //     $classrooms = Classroom::withCount('students')
+    //         ->select('classrooms.id', 'classrooms.classroom_name', 'teachers.first_name as teacher_first_name', 'teachers.last_name as teacher_last_name')
+    //         ->leftJoin('users as teachers', 'classrooms.teacher_id', '=', 'teachers.id') // Add the missing join condition
+    //         ->where('teachers.role', 2)
+    //         ->get();
+
+    //     $classroomCount = $classrooms->count();
+
+    //     return response()->json(['success' => true, 'data' => $classrooms, 'count' => $classroomCount], 200);
+    // }
+
+
+    public function countTotalClass()
+    {
+        $totalClassroom = Classroom::count();
+        return response()->json(['success' => true, 'data' => $totalClassroom], 200);
+    }
+
+
     public function getStudentsInClass(string $id)
     {
-        $classRooms = ClassRoom::where('id', $id)
+        // return $id;
+        $classRooms = Classroom::where('id', $id)
             ->whereHas('students', function ($query) {
                 $query->where('role', 3);
             })
             ->with([
                 'students' => function ($query) {
-                    $query->withCount('roleAttendances');
-                    $query->orderByDesc('role_attendances_count');
+                    // $query->withCount('attendances');
+                    // $query->orderByDesc('role_attendances_count');
                     $query->with([
                         'scores' => function ($query) {
                             $query->orderBy('subject_id', 'asc');
@@ -117,42 +140,18 @@ class ClassRoomController extends Controller
             ->get();
 
         if ($classRooms->isEmpty()) {
-            return "not found";
+            return response()->json(['success' => false, 'data' => 'record not found'], 404);
         } else {
             return response()->json(['success' => true, 'data' => $classRooms], 200);
         }
     }
 
-    public function getClassNameTeacherId(string $className)
-    {
-        $classRooms = ClassRoom::where('class_name', $className)
-            ->whereHas('students', function ($query) {
-                $query->where('role', 2);
-            })
-            ->with('students')
-            ->get();
-
-        if ($classRooms->isEmpty()) {
-            return "not found";
-        } else {
-            return response()->json(['success' => true, 'data' => $classRooms], 200);
-        }
-    }
-
-    public function getTotalOfClass()
-    {
-        $classrooms = ClassRoom::count();
-        return response()->json(['success' => true, 'data' => $classrooms], 200);
-    }
-    /**
-     * Count of each class.
-     */
     public function getTotalOfEachClass()
     {
         $classroomCounts = [
-            '10' => ClassRoom::where('class_name', 'like', '10%')->count(),
-            '11' => ClassRoom::where('class_name', 'like', '11%')->count(),
-            '12' => ClassRoom::where('class_name', 'like', '12%')->count(),
+            '10' => Classroom::where('classroom_name', 'like', '10%')->count(),
+            '11' => Classroom::where('classroom_name', 'like', '11%')->count(),
+            '12' => Classroom::where('classroom_name', 'like', '12%')->count(),
         ];
 
         return response()->json(['success' => true, 'data' => $classroomCounts], 200);

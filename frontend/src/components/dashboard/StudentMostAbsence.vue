@@ -3,11 +3,12 @@
   <v-data-table-server
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
-    :items="filteredAttendanceMostAbsencData"
-    :items-length="filteredAttendanceMostAbsencData.length"
+    :items="attendanceMostAbsencData"
+    :items-length="attendanceMostAbsencData.length"
     :loading="loading"
     :search="search"
     item-value="name"
+    class="elevation-1"
   >
     <template v-slot:item.profile="{ item }">
       <v-avatar size="large">
@@ -15,7 +16,7 @@
       </v-avatar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-btn :to="'/studentattendance/' + item.id + '/details'" icon="mdi-eye"></v-btn>
+      <v-btn :to="'/student/attendance/' + item.id + '/details'" icon="mdi-eye"></v-btn>
     </template>
   </v-data-table-server>
 </template>
@@ -27,6 +28,12 @@ export default {
       user: [],
       attendanceMostAbsencData: [],
       headers: [
+        {
+          title: '#ID',
+          align: 'start',
+          sortable: false,
+          key: 'id'
+        },
         {
           title: 'Profile',
           align: 'start',
@@ -45,22 +52,15 @@ export default {
           sortable: false,
           key: 'last_name'
         },
-        { title: 'Gender', key: 'gender', align: 'end' },
-        { title: 'Email', key: 'email', align: 'end' },
-        { title: '', key: 'actions', align: 'end' }
+        { title: 'Gender', key: 'gender', align: 'start' },
+        { title: 'Email', key: 'email', align: 'start' },
+        { title: '', key: 'actions', align: 'start' }
       ],
-      // pagination:[
       itemsPerPage: 10
-      // ]
     }
   },
   mounted() {
     this.getMostAbsentStudents()
-  },
-  computed: {
-    filteredAttendanceMostAbsencData() {
-      return this.attendanceMostAbsencData.filter(user => user.role_attendances_count > 0)
-    }
   },
   methods: {
     async getMostAbsentStudents() {

@@ -1,8 +1,6 @@
 <template>
-  <admin-dashboard v-if="this.role === '1'"></admin-dashboard>
-  <teacher-dashboard v-else-if="this.role === '2'"></teacher-dashboard>
+  <custom-title></custom-title>
   <main class="table">
-    <h3>Student Attendance List</h3>
     <v-table class="mt-4">
       <thead>
         <tr>

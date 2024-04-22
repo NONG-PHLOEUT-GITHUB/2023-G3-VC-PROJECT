@@ -1,12 +1,7 @@
 <template>
-  
+  <custom-title icon="mdi-account-edit"></custom-title>
   <section class="container mt-4">
     <div class="card bg-gray-300">
-      <div class="p-5 pb-1">
-        <div>
-          <h3 class="fs-19 fw-bold text-center">EDIT USER</h3>
-        </div>
-      </div>
       <form class="row g-3 card-body p-5 pt-4" @submit.prevent="submitForm">
         <!-- firstname -->
         <div class="col-md-6">
@@ -226,9 +221,5 @@ export default {
   padding: 10px;
   border-radius: 5px;
   width: 100%;
-}
-.container {
-  margin-left: 16%;
-  width: 85%;
 }
 </style>

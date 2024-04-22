@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('class_rooms', function (Blueprint $table) {
-            $table->id();
-            $table->string('class_name', 100)->nullable();
-            $table->string('description', 500)->nullable();
-            $table->timestamps();
-
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('classroom_id')->nullable();
+            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('class_rooms');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

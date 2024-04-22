@@ -33,8 +33,9 @@ class User extends Authenticatable implements JWTSubject
         'profile',
         'email',
         'password',
-        'class_room_id',
+        'classroom_id',
         'guardian_id',
+        'is_class_coordinator'
     ];
 
     /**
@@ -99,8 +100,9 @@ class User extends Authenticatable implements JWTSubject
             'profile',
             'email',
             'password',
-            'class_room_id',
+            'classroom_id',
             'guardian_id',
+            'is_class_coordinator'
         );
         if ($id) {
             $user = self::find($id);
@@ -128,66 +130,30 @@ class User extends Authenticatable implements JWTSubject
 
 
 
-    /**
-     * user realationship with attendance
-     */
-    public function attendances()
+    public function classrooms()
     {
-        return $this->hasMany(Attendance::class);
-    }
-    /**
-     * user realationship with scores
-     */
-
-    public function scores()
-    {
-        return $this->hasMany(Score::class);
-    }
-    /**
-     * user teacher realationship with subject 
-     */
-
-    public function subjects()
-    {
-        return $this->belongsToMany(Subject::class, 'subject_teacher', 'user_id', 'subject_id')->withTimestamps();
-    }
-
-    /**
-     * user belongs to classroom
-     */
-    // public function classRooms()
-    // {
-    //     return $this->belongsToMany(ClassRoom::class,'class_room_teacher', 'user_id', 'class_room_id');
-    // }
-
-    public function classTeacher()
-    {
-        return $this->belongsToMany(ClassRoom::class, 'class_room_teachers');
-    }
-
-    public function classroom()
-    {
-        return $this->belongsTo(ClassRoom::class, 'class_room_id');
+        return $this->belongsToMany(Classroom::class, 'classroom_teachers', 'teacher_id', 'classroom_id');
     }
 
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
-    /**
-     * user belongs to parent
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class,'user_id');
+    }
+      /**
+     * user realationship with scores
      */
 
-    public function guardian()
-    {
-        return $this->belongsTo(Guardian::class);
-    }
-    public function roleAttendances()
-    {
-        return $this->hasMany(Attendance::class, 'user_id');
-    }
-    public function getParentFullnameAttribute()
-    {
-        return $this->guardian->first_name . ' ' . $this->teacher->last_name;
-    }
+     public function scores()
+     {
+        return $this->hasMany(Score::class);
+     }
+
+     public function classTeacher()
+     {
+         return $this->belongsToMany(ClassRoom::class, 'classroom_teachers','teacher_id', 'classroom_id');
+     }
 }

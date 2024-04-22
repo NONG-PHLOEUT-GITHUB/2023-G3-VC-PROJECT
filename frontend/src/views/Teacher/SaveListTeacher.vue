@@ -1,5 +1,5 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-human-male-board"></custom-title>
   <v-select label="Select teacher"></v-select>
 
   <v-card>
@@ -16,6 +16,11 @@
         <v-avatar size="large">
           <v-img :src="item.profile" alt="Avatar" cover> </v-img>
         </v-avatar>
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-btn :to="{ path: '/user/' + item.id + '/edit' }" variant="text" icon="mdi-pencil"></v-btn>
+
+        <v-btn @click="deleteUser(item.id)" variant="text" icon="mdi-delete-forever" color="red"> </v-btn>
       </template>
     </v-data-table-server>
     <div class="icon pa-4">
@@ -54,10 +59,10 @@ export default {
         { title: 'Last Name', key: 'last_name' },
         { title: 'Gender', key: 'gender' },
         { title: 'Age', key: 'age' },
-        { title: 'Date of Birth', key: 'date_of_birth' },
         { title: 'Phone Number', key: 'phone_number' },
         { title: 'Address', key: 'address' },
         { title: 'Email', key: 'email' },
+        { title: '', key: 'actions' },
       ]
     }
   },

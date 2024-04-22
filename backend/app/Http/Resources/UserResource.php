@@ -16,12 +16,17 @@ class UserResource extends JsonResource
     {
         return [
             'id'=>$this->id,
+            'profile'=>$this->profile,
             'first_name'=>$this->first_name,
             'last_name'=>$this->last_name,
-            'gender'=>$this->gender,
-            'chatId'=>$this->chatId,
-            'phone_number'=>$this->phone_number,
-            'address'=>$this->address,
+            'email'=>$this->email,
+            // 'chatId'=>$this->chatId,
+            // 'phone_number'=>$this->phone_number,
+            // 'address'=>$this->address,
+            // 'classroomId'=>$this->classroomId,
+            'attendacnes' => AttendanceResource::collection($this->attendances),
+            'comments' => CommentResource::collection($this->comments),
+            'scores' => CommentResource::collection($this->scores),
         ];
     }
 }

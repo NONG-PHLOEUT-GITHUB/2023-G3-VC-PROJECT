@@ -1,5 +1,5 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-view-dashboard-edit-outline"></custom-title>
   <!-- <v-row> -->
     <!-- <v-card width="400" class="bar1 ms-4 user-total elevation-4" prepend-icon="mdi-school">
       <template v-slot:title> Class 10 </template>

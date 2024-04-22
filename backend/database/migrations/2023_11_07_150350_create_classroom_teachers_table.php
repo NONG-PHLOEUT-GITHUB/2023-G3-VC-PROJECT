@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();           
-            $table->string('body', 500)->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::create('classroom_teachers', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('classroom_id');
+            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
             $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->unsignedBigInteger('class_coordinator_id')->unique()->nullable();
+            // $table->foreign('class_coordinator_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('classroom_teachers');
     }
 };

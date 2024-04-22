@@ -38,10 +38,8 @@ class Comment extends Model
         // ================token user password=================
         return response()->json(['success' => true, 'data' => $comment], 201);
     }
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
+
+    
     public function teacher()
     {
         return $this->belongsTo(User::class,'teacher_id','id');
@@ -52,6 +50,6 @@ class Comment extends Model
     }
 
     public function getTeacherFullnameAttribute(){
-        return $this->teacher->first_name.' '.$this->teacher->last_name;
+        return $this->teacher->first_name.' '.$this->teacher->last_name.' '.$this->teacher->profile;
     }
 }

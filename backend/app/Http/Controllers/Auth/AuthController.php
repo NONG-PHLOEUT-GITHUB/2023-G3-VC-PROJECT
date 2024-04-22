@@ -3,20 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Score;
-use App\Models\Subject;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthenticationController extends Controller
+class AuthController extends Controller
 {
-     // https://jwt-auth.readthedocs.io/en/develop/laravel-installation/
-    // https://jwt-auth.readthedocs.io/en/develop/quick-start/
-
     /**
-     * Login user and return a token,'token'=>$token
+     * Login user and return a token
      */
     public function login(Request $request)
     {
@@ -31,26 +26,19 @@ class AuthenticationController extends Controller
         }
         return response()->json(['error' => 'login_error'], 401);
     }
-
-
     /**
      * Logout User
      */
-
     public function logout()
     {
-        auth()->user()->delete;
+        $this->guard()->logout();
         return response()->json([
             'status' => 'success',
-            'message' => 'Logged out Successfully.'
+            'msg' => 'Logged out Successfully.'
         ], 200);
     }
-
-    /**
-     * Get authenticated user
-     */
-
-     public function user(Request $request)
+ 
+    public function user(Request $request)
     {
         if (auth()->check()) {
             $authenticatedAt = Carbon::createFromTimestamp(auth()->user()->authenticated_at)->toDateTimeString();
@@ -81,23 +69,24 @@ class AuthenticationController extends Controller
         ], 401);
     }
 
-    // public function user(Request $request)
-    // {
-     
-    //     $user = User::with([
-    //         'guardian',
-    //         'attendances',
-    //         'scores',
-    //         'classTeacher',
-    //         'comments' => function ($query) {
-    //             $query->join('users', 'comments.teacher_id', '=', 'users.id')
-    //             ->select('comments.*', 'users.first_name', 'users.last_name');
-    //         }
-    //     ])->find(Auth::user()->id);
-        
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'data' => $user,
-    //     ]);
-    // }
+    /**
+     * Refresh JWT token
+     */
+    public function refresh()
+    {
+        if ($token = $this->guard()->refresh()) {
+            return response()
+                ->json(['status' => 'success', 'access_token' => $token], 200)
+                ->header('Authorization', $token);
+        }
+        return response()->json(['error' => 'refresh_token_error'], 401);
+    }
+    
+    /**
+     * Return auth guard
+     */
+    private function guard()
+    {
+        return Auth::guard();
+    }
 }

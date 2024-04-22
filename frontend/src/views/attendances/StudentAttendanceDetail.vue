@@ -1,11 +1,7 @@
 <template>
-  <custom-title></custom-title>
+  <custom-title icon="mdi-details"></custom-title>
+  <custom-sub-title> Attendance of  <strong class="ms-2">{{ user.first_name }} {{ user.last_name }}</strong> </custom-sub-title>
 
-  <h3 class="text-h5">
-    <custom-sub-title>
-    Attendance of  {{ user.first_name }} {{ user.last_name }}
-      </custom-sub-title>
-  </h3>
   <v-table class="mt-4">
     <thead>
       <tr class="bg-teal-darken-4">

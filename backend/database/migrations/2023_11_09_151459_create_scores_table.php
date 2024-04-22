@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
+        Schema::create('scores', function (Blueprint $table) {
             $table->id();
-            $table->string('status', 255)->nullable();
-            $table->string('reason', 255)->nullable();
-            $table->date('date')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->timestamps();
-
+            $table->integer('score');
+            $table->date("month");
+            $table->unsignedBigInteger('subject_id');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::dropIfExists('scores');
     }
 };
