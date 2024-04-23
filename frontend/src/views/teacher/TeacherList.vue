@@ -43,17 +43,6 @@
         </v-btn>
       </template>
     </v-data-table-server>
-    <div class="icon pa-4">
-      <v-btn v-if="!isDownloading" @click="downloadPDF()">
-        <v-icon size="24">mdi-download</v-icon>
-        Download PDF
-      </v-btn>
-      <div v-else>
-        <p>Generating PDF...</p>
-        <i class="fa fa-spinner fa-spin"></i>
-      </div>
-      <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
-    </div>
   </v-card>
 </template>
 
