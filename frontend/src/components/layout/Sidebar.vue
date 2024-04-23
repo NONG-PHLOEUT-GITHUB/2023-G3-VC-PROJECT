@@ -81,29 +81,29 @@ export default {
         icon: 'mdi-home'
       },
       {
+        path: '/student-attendance',
+        title: 'Attendance',
+        icon: 'mdi-progress-check'
+      },
+      {
         path: '/teacher-list',
         title: 'Teacher management',
-        icon: 'mdi-format-list-bulleted'
+        icon: 'mdi-human-male-board-poll'
       },
       {
         path: '/guardian-list',
         title: 'Guardian management',
-        icon: 'mdi-format-list-bulleted'
+        icon: 'mdi-human-male-female-child'
       },
       {
         path: '/student-list',
         title: 'Student management',
-        icon: 'mdi-format-list-bulleted'
+        icon: 'mdi-android-studio'
       },
       {
         path: '/class-list',
         title: 'Class management',
         icon: 'mdi-clipboard-text'
-      },
-      {
-        path: '/student-attendance',
-        title: 'Attendance',
-        icon: 'mdi-progress-check'
       }
     ],
     userProfile: [
@@ -115,7 +115,7 @@ export default {
   }),
   computed: {
     menu() {
-      switch (3) {
+      switch (1) {
         case 1:
           return this.adminMenu
         case 2:
