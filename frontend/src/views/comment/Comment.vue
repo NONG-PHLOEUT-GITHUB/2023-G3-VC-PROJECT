@@ -1,25 +1,44 @@
 <template>
-  <custom-title></custom-title>
-  <v-card>
-    <v-col>
-      <v-row class="pa-2">
-        <v-text-field label="Label" variant="outlined"></v-text-field>
-        <v-text-field label="Label" variant="outlined"></v-text-field>
-      </v-row>
-    </v-col>
+  <custom-title icon="mdi-comment-alert-outline">
+    <template #right>
+      <v-btn
+        icon="mdi-filter-multiple-outline"
+        variant="tonal"
+        class="me-2 bg-primary"
+        @click="toggleFilter = !toggleFilter"
+      ></v-btn>
+    </template>
+  </custom-title>
+  <v-card class="elevation-0 py-2">
+    <v-row>
+      <v-col>
+        <v-text-field
+          label="Teacher name"
+          hide-details
+          density="compact"
+          variant="outlined"
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          label="Title"
+          hide-details
+          density="compact"
+          variant="outlined"
+        ></v-text-field>
+      </v-col>
+    </v-row>
   </v-card>
   <v-card class="mt-2">
     <v-list :items="items" lines="three" item-props>
-      <!-- <v-list-subheader inset>Files</v-list-subheader> -->
-
       <v-list-item
         v-for="file in items"
         :key="file.title"
         :subtitle="file.subtitle"
         :title="file.title"
       >
-      <span>{{ file.body }}</span>
-        <v-divider ></v-divider>
+        <span>{{ file.body }}</span>
+        <v-divider></v-divider>
         <template v-slot:subtitle="{ subtitle }">
           <div v-html="subtitle"></div>
         </template>

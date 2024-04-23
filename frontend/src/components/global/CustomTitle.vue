@@ -11,7 +11,7 @@
         <slot />
       </h4>
     </div>
-    <div class="d-flex align-center">
+    <div class="d-flex align-center me-1">
       <slot name="right">
         <v-btn v-if="rightIcon">
           <v-icon>

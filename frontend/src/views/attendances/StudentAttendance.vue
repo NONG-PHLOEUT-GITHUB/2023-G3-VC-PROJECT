@@ -1,6 +1,17 @@
 <template>
   <custom-title icon="mdi-check-decagram-outline"></custom-title>
-  <v-data-table-server></v-data-table-server>
+  <v-data-table-server
+    v-model:items-per-page="itemsPerPage"
+    v-model="selected"
+    :headers="headers"
+    :items="attendanceDetails"
+    :items-length="attendanceDetails.length || 0"
+    :loading="loading"
+    :search="search"
+    item-value="name"
+    class="elevation-2"
+  >
+  </v-data-table-server>
 </template>
 
 <script>
@@ -8,7 +19,12 @@ import http from '@/api/api.js'
 export default {
   data() {
     return {
-      attendanceDetails: []
+      attendanceDetails: [],
+      headers: [
+        { title: 'Date', key: 'date' },
+        { title: 'Reason', key: 'reason' },
+        { title: 'Status', key: 'status' }
+      ],
     }
   },
   computed: {

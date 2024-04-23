@@ -1,13 +1,11 @@
 <template>
-  <v-row class="mt-4">
-    <v-card class="bar1">
-      <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
-      <h5 class="text-center m-3 text-warning">ATTENDANCE</h5>
-    </v-card>
-    <v-card class="bar2 ms-4">
-      <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
-      <h5 class="text-center m-3 text-warning">SCORE</h5>
-    </v-card>
+  <v-row>
+    <v-col cols="6" >
+      <Bar class="elevation-1" :options="chartOptions" :data="chartData" />
+      <Bar class="elevation-1 mt-2" :options="chartOptions" :data="chartData1" />
+    </v-col>
+    <!-- <v-col cols="3" class="elevation-1">
+    </v-col> -->
   </v-row>
 </template>
 <script>
@@ -123,11 +121,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.bar1 {
-  width: 48%;
-}
-.bar2 {
-  width: 49%;
-}
-</style>

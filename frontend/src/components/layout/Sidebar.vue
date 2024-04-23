@@ -1,12 +1,27 @@
 <template>
-  <v-list dense>
-    <v-list-item v-for="(item, index) in menu" :key="index" link :to="item.path" exact>
-      <template v-slot:prepend>
-        <v-icon :icon="item.icon"></v-icon>
-      </template>
-      <v-list-item-title>{{ item.title }}</v-list-item-title>
-    </v-list-item>
-  </v-list>
+  <v-navigation-drawer elevation="4" v-model="drawer">
+    <v-list>
+      <v-list-item>
+        <div class="image">
+          <v-img
+            class="image"
+            src="https://www.ayushmatrimony.com/Services/assets/images/SMSLogo.png"
+            rounded
+            rounded-sm
+          >
+          </v-img>
+        </div>
+      </v-list-item>
+    </v-list>
+    <v-list dense>
+      <v-list-item v-for="(item, index) in menu" :key="index" link :to="item.path" exact>
+        <template v-slot:prepend>
+          <v-icon :icon="item.icon"></v-icon>
+        </template>
+        <v-list-item-title>{{ item.title }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -89,7 +104,7 @@ export default {
         path: '/student-attendance',
         title: 'Attendance',
         icon: 'mdi-progress-check'
-      },
+      }
     ],
     userProfile: [
       {
@@ -100,7 +115,7 @@ export default {
   }),
   computed: {
     menu() {
-      switch (1) {
+      switch (3) {
         case 1:
           return this.adminMenu
         case 2:
@@ -112,6 +127,11 @@ export default {
       }
     }
   },
+  methods: {
+    drawer() {
+      return this.value
+    }
+  }
   // watch:{
   //   getRole(){
   //     this.getRole = parseInt(localStorage.getItem('user_role'));

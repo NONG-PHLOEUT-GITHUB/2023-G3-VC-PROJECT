@@ -1,13 +1,23 @@
 <template>
-  <custom-title icon="mdi-eye-check-outline"></custom-title>
-  <v-col>
-    <v-select :items="classrooms" item-title="classroom.id" item-value="classroom.id"></v-select>
-  </v-col>
+  <custom-title icon="mdi-eye-check-outline">
+    <template #right>
+      <v-btn
+        icon="mdi-filter-multiple-outline"
+        variant="tonal"
+        class="me-2 bg-primary"
+        @click="toggleFilter = !toggleFilter"
+      ></v-btn>
+      <v-btn
+        variant="tonal"
+        class="me-2 bg-green-darken-1"
+        icon="mdi-send-circle"
+        @click="submitForm()"
+      ></v-btn>
+    </template>
+  </custom-title>
   <v-row>
-    <label for="">Select date</label>
     <v-checkbox @click="SelectAttendace()" value="red" :label="this.date" hide-details>
     </v-checkbox>
-    <!-- <v-date-picker hide-header></v-date-picker> -->
   </v-row>
 
   <v-data-table-server
@@ -28,10 +38,10 @@
       </v-avatar>
     </template>
     <template v-slot:item.status="{ item }">
-      <v-select :items="statusOptions"  variant="outlined" item-title="label"></v-select>
+      <v-select :items="statusOptions" variant="outlined" item-title="label"></v-select>
     </template>
     <template v-slot:item.reason="{ item }">
-      <v-textarea  variant="outlined" v-model="item.reason"></v-textarea>
+      <v-textarea variant="outlined" v-model="item.reason"></v-textarea>
     </template>
   </v-data-table-server>
 
@@ -43,10 +53,6 @@
         value="red"
         hide-details
       ></v-checkbox> -->
-
-  <div class="col-12 d-flex justify-content-end btn">
-    <v-btn type="submit" @click="submitForm()" color="teal-darken-4">Save</v-btn>
-  </div>
 </template>
 <script>
 import axios from 'axios'

@@ -31,7 +31,7 @@ export default {
         {
           title: '#ID',
           align: 'start',
-          sortable: false,
+          sortable: true,
           key: 'id'
         },
         {
@@ -52,7 +52,7 @@ export default {
           sortable: false,
           key: 'last_name'
         },
-        { title: 'Gender', key: 'gender', align: 'start' },
+        { title: 'Gender',sortable: false, key: 'gender', align: 'start' },
         { title: 'Email', key: 'email', align: 'start' },
         { title: '', key: 'actions', align: 'start' }
       ],

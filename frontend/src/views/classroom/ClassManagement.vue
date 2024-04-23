@@ -1,6 +1,22 @@
 <template>
-  <custom-title icon="mdi-chair-school"></custom-title>
-  <v-btn color="teal-darken-4 w-25 mb-4" class="mt-4 ms-5" @click="dialog = true"
+  <custom-title icon="mdi-chair-school">
+    <template #right>
+      <v-btn
+        icon="mdi-filter-multiple-outline"
+        variant="tonal"
+        class="me-2 bg-primary"
+        @click="toggleFilter = !toggleFilter"
+      ></v-btn>
+      <v-btn
+        variant="tonal"
+        class="me-2 bg-deep-orange-accent-4"
+        icon="mdi-file-pdf-box"
+        @click="downloadPDF()"
+      ></v-btn>
+      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+    </template>
+  </custom-title>
+  <v-btn color="teal-darken-4 " class="mt-4 ms-5" @click="dialog = true"
     ><v-icon>mdi-plus-outline</v-icon> add new class</v-btn
   >
 

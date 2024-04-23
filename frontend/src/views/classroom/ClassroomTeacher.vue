@@ -1,5 +1,21 @@
 <template>
-  <custom-title icon="mdi-google-classroom"></custom-title>
+  <custom-title icon="mdi-google-classroom">
+    <template #right>
+      <v-btn
+        icon="mdi-filter-multiple-outline"
+        variant="tonal"
+        class="me-2 bg-primary"
+        @click="toggleFilter = !toggleFilter"
+      ></v-btn>
+      <v-btn
+        variant="tonal"
+        class="me-2 bg-deep-orange-accent-4"
+        icon="mdi-file-pdf-box"
+        @click="downloadPDF()"
+      ></v-btn>
+      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+    </template>
+  </custom-title>
   <div class="main">
     <v-card
       v-for="classroom of classrooms"

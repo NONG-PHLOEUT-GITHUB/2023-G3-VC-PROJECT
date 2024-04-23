@@ -1,6 +1,6 @@
 <template>
-  <custom-title></custom-title>
-  <v-layout class="rounded rounded-md">
+  <custom-title icon="mdi-account-details-outline"></custom-title>
+  <v-layout class="rounded rounded-md px-0">
     <v-col cols="3">
       <v-card>
         <v-card-text class="px-0 text-center">
@@ -23,7 +23,7 @@
         <template v-slot:append>
           <v-tooltip text="Edit profile">
             <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" color="primary" icon="mdi-pencil" @click="edit()"></v-btn>
+              <v-btn v-bind="props" color="primary" icon="mdi-pencil"  @click="isEdit = !isEdit"></v-btn>
             </template>
           </v-tooltip>
         </template>
@@ -113,7 +113,7 @@
 
         <v-card-actions class="px-0">
           <v-btn color="red" variant="outlined">Cancel</v-btn>
-          <v-btn class="bg-primary">Save change</v-btn>
+          <v-btn class="bg-primary" :disabled="isEdit">Save change</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -139,9 +139,6 @@ export default {
     //     this.users = response.data.data
     //   })
     // },
-    edit() {
-      this.isEdit = false
-    }
   },
 
   mounted() {

@@ -18,7 +18,6 @@
 
 <script>
 import http from '@/api/api'
-import Cookies from 'js-cookie'
 export default {
   data() {
     return {
@@ -26,7 +25,6 @@ export default {
       selectedStudent: null,
       comment: '',
       teacher_id: null,
-      role: '',
       teachers: []
     }
   },
@@ -80,16 +78,11 @@ export default {
       //   console.log(error);
       // });
     },
-    getRole() {
-      let cookies = Cookies.get('user_role')
-      this.role = cookies
-    }
   },
   mounted() {
     const id = this.$route.params.id
     this.fetchData(id)
     this.getTeacherId()
-    this.getRole()
     this.fetchTeacherData()
   }
 }

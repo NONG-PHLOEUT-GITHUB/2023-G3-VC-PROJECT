@@ -42,13 +42,13 @@ const routes = [
       {
         path: '/user-profile',
         name: 'My Profile',
-        component: () => import('@/views/userInfor/UserProfile.vue'),
+        component: () => import('@/views/userInfo/UserProfile.vue'),
         meta: { requiresAuth: true }
       },
       {
         path: '/student-home',
         name: 'Dashboard',
-        component: () => import('@/views/students/StudentHome'),
+        component: () => import('@/views/dashboards/StudentDashboard.vue'),
         meta: { requiresAuth: true, requiredRoles: [3] }
       },
       {
@@ -73,14 +73,14 @@ const routes = [
       {
         path: '/admin-dashboard',
         name: 'Admin Dashboard',
-        component: () => import('@/views/admin/DirectorDashboard.vue'),
+        component: () => import('@/views/dashboards/DirectorDashboard.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
 
       {
         path: '/teacher-dashboard',
         name: 'Teacher Dashboard',
-        component: () => import('@/views/teacher/TeacherHome.vue'),
+        component: () => import('@/views/dashboards/TeacherDashboard.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
 
@@ -93,13 +93,13 @@ const routes = [
       {
         path: '/class-list',
         name: 'Class management',
-        component: () => import('@/views/admin/ClassManagement.vue'),
+        component: () => import('@/views/classroom/ClassManagement.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/create-user',
         name: 'Create new user',
-        component: () => import('@/views/dashboard/CreateUser.vue'),
+        component: () => import('@/views/common/CreateUser.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
@@ -109,8 +109,8 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/teacherattendancedetail/:id',
-        name: '/Teacher attendance detail',
+        path: '/teacher-attendance/:id/details',
+        name: 'Teacher attendance detail',
         component: () => import('@/views/attendances/TeacherAttendanceDetail.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
@@ -125,12 +125,6 @@ const routes = [
         path: '/teacher-attendance-list',
         name: 'Teacher attendance list',
         component: () => import('@/views/attendances/TeacherAttendanceList.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
-      },
-      {
-        path: '/student-list-save',
-        name: 'Student list',
-        component: () => import('@/views/students/SaveListStudent.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
@@ -149,13 +143,13 @@ const routes = [
       {
         path: '/user/:id/edit',
         name: 'Edit user',
-        component: () => import('@/views/dashboard/EditUserForm.vue'),
+        component: () => import('@/views/common/EditUserForm.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
         path: '/feedback/:id',
         name: 'Student feedback',
-        component: () => import('@/views/teacher/GiveFeedBackForm.vue'),
+        component: () => import('@/views/comment/SendComment.vue'),
         props: true,
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
@@ -181,7 +175,7 @@ const routes = [
       {
         path: '/teacher-list',
         name: 'Teacher management',
-        component: () => import('@/views/teacher/SaveListTeacher.vue'),
+        component: () => import('@/views/teacher/TeacherList.vue'),
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
       {

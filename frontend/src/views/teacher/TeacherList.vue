@@ -1,7 +1,22 @@
 <template>
-  <custom-title icon="mdi-human-male-board"></custom-title>
-  <v-select label="Select teacher"></v-select>
-
+  <custom-title icon="mdi-human-male-board">
+    <template #right>
+      <v-btn
+        icon="mdi-filter-multiple-outline"
+        variant="tonal"
+        class="me-2 bg-primary"
+        @click="toggleFilter = !toggleFilter"
+      ></v-btn>
+      <v-btn
+        variant="tonal"
+        class="me-2 bg-deep-orange-accent-4"
+        icon="mdi-file-pdf-box"
+        @click="downloadPDF()"
+      ></v-btn>
+      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+    </template>
+  </custom-title>
+  <teacher-filter v-show="toggleFilter" />
   <v-card>
     <v-data-table-server
       v-model:items-per-page="itemsPerPage"
@@ -18,9 +33,14 @@
         </v-avatar>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn :to="{ path: '/user/' + item.id + '/edit' }" variant="text" icon="mdi-pencil"></v-btn>
+        <v-btn
+          :to="{ path: '/user/' + item.id + '/edit' }"
+          variant="text"
+          icon="mdi-pencil"
+        ></v-btn>
 
-        <v-btn @click="deleteUser(item.id)" variant="text" icon="mdi-delete-forever" color="red"> </v-btn>
+        <v-btn @click="deleteUser(item.id)" variant="text" icon="mdi-delete-forever" color="red">
+        </v-btn>
       </template>
     </v-data-table-server>
     <div class="icon pa-4">
@@ -41,11 +61,15 @@
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import http from '@/api/api'
-
+import TeacherFilter from '@/components/filters/TeacherFilter.vue'
 export default {
+  components: {
+    TeacherFilter
+  },
   data() {
     return {
       isDownloading: false,
+      toggleFilter: false,
       isDetail: false,
       pdfUrl: null,
       listUser: [],
@@ -62,7 +86,7 @@ export default {
         { title: 'Phone Number', key: 'phone_number' },
         { title: 'Address', key: 'address' },
         { title: 'Email', key: 'email' },
-        { title: '', key: 'actions' },
+        { title: '', key: 'actions' }
       ]
     }
   },

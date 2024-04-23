@@ -132,18 +132,7 @@ class UserController extends Controller
             ->get();
         return response()->json(["message" => true, "data" => $teachers], 200);
     }
-    public function updateClass(Request $request, $id)
-    {
-        $classroom = ClassRoom::findOrFail($id);
-        $classroom->update([
-            'class_name' => $request->input('class_name'),
-            'teacher_id' => $request->input('teacher_id'),
-        ]);
-        return response()->json([
-            'message' => 'Classroom updated successfully',
-            'classroom' => $classroom,
-        ]);
-    }
+   
     public function getStudentId($id){
         $user = User::find($id);
         return response()->json($user);

@@ -1,10 +1,23 @@
 <template>
-  <custom-title icon="mdi-human-male-girl"></custom-title>
-
-  <v-card class="pa-2 mb-4">
-    <form class="form-inline my-2 my-lg-0 d-flex" style="width: 60%">
-      <v-text-field />
-    </form>
+  <custom-title icon="mdi-human-male-girl">
+    <template #right>
+      <v-btn
+        icon="mdi-filter-multiple-outline"
+        variant="tonal"
+        class="me-2 bg-primary"
+        @click="toggleFilter = !toggleFilter"
+      ></v-btn>
+      <v-btn
+        variant="tonal"
+        class="me-2 bg-deep-orange-accent-4"
+        icon="mdi-file-pdf-box"
+        @click="downloadPDF()"
+      ></v-btn>
+      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+    </template>
+  </custom-title>
+  <filter-guardian v-show="toggleFilter" />
+  <v-card class="mb-4 elevation-0">
     <v-btn to="/add-guadian" color="teal-darken-4">
       Add new guardian <v-icon>mdi-plus-outline</v-icon></v-btn
     >
@@ -17,6 +30,7 @@
     :loading="loading"
     :search="search"
     item-value="name"
+    class="elevation-1"
   >
     <template v-slot:item.profile="{ item }">
       <v-avatar size="large">
@@ -28,13 +42,17 @@
 
 <script>
 import http from '@/api/api'
-
+import FilterGuardian from '@/components/filters/FilterGuardian.vue'
 export default {
+  components: {
+    FilterGuardian
+  },
   data() {
     return {
       listGuardian: [],
       searchQuery: '',
       itemsPerPage: 10,
+      toggleFilter: false,
       headers: [
         {
           title: 'Profile',

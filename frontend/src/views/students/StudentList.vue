@@ -1,5 +1,21 @@
 <template>
-  <custom-title icon="mdi-account-school-outline"></custom-title>
+  <custom-title icon="mdi-account-school-outline">
+    <template #right>
+      <v-btn
+        icon="mdi-filter-multiple-outline"
+        variant="tonal"
+        class="me-2 bg-primary"
+        @click="toggleFilter = !toggleFilter"
+      ></v-btn>
+      <v-btn
+        variant="tonal"
+        class="me-2 bg-deep-orange-accent-4"
+        icon="mdi-file-pdf-box"
+        @click="downloadPDF()"
+      ></v-btn>
+      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+    </template>
+  </custom-title>
   <v-card class="mb-3 py-3">
     <v-row>
       <v-col>
@@ -26,6 +42,7 @@
       :loading="loading"
       :search="search"
       item-value="name"
+      id="my-table"
     >
       <template v-slot:item.profile="{ item }">
         <v-avatar size="large" v-if="item.profile">
@@ -46,47 +63,6 @@
       </template>
     </v-data-table-server>
   </v-card>
-  <div class="icon pa-4">
-    <v-btn v-if="!isDownloading" @click="downloadPDF()">
-      <v-icon size="24">mdi-download</v-icon>
-      Download PDF
-    </v-btn>
-    <div v-else>
-      <p>Generating PDF...</p>
-      <i class="fa fa-spinner fa-spin"></i>
-    </div>
-    <a v-if="pdfUrl" :href="pdfUrl" download="file.pdf"></a>
-  </div>
-  <!-- <v-card class="card mt-5 elevation-4">
-    <div class="card-header">
-      <span class="mb-0 text-teal text-h5">USER LIST</span>
-    </div>
-    <div class="card-header">
-      <div>
-        <label for="validationCustom02" class="form-label"
-          >Select by class</label
-        >
-        <select
-          class="form-select mb-3"
-          aria-label="Default select example"
-          style="width: 30%"
-          v-model="selectedClass"
-          @click="getStudentInClass(selectedClass)"
-        >
-          <option value="noChoose">All class</option>
-          <option
-            v-for="classroom in classrooms"
-            :key="classroom.id"
-            :value="classroom.id"
-          >
-            {{ classroom.class_name }}
-          </option>
-        </select>
-      </div>
-  
-      </div>
-    </div>
-   -->
 </template>
 <script>
 import http from '@/api/api'
@@ -135,28 +111,17 @@ export default {
       })
     },
     //================== Delete a user =================
-    deleteUser(id) {
-      swal({
-        title: 'Are you sure?',
-        text: 'You will not be able to recover this user!',
-        icon: 'warning',
-        buttons: ['Cancel', 'Yes, delete it!'],
-        dangerMode: true
-      }).then(willDelete => {
-        if (willDelete) {
-          http
-            .delete('/delete-user' + `/${id}`)
-            .then(() => {
-              // call mounted
-              this.getStudents()
-            })
-            .catch(error => {
-              console.error(error)
-            })
-        } else {
-        }
-      })
-    },
+    // deleteUser(id) {
+    //   http.delete('/delete-user' + `/${id}`)
+    //         .then(() => {
+    //           // call mounted
+    //           this.getStudents()
+    //         })
+    //         .catch(error => {
+    //           console.error(error)
+    //         })
+    //   }
+    // },
 
     importFile() {
       /// progressbar
@@ -199,25 +164,6 @@ export default {
         })
         .then(response => {
           console.log(response.data)
-
-          /// progressbar
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: toast => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
-
-          Toast.fire({
-            icon: 'success',
-            title: 'Upload successful'
-          })
-
           // Reset the file input field
           this.$refs.fileInput.value = ''
           // call mounted
@@ -258,66 +204,63 @@ export default {
   mounted() {
     this.getClassrooms()
     this.getStudentInClass()
-    // this.$refs.fileInput.addEventListener("change", this.importFile);
     return this.getStudents()
   }
 }
 </script>
 
-<style scoped>
-.card {
-  margin-left: 18%;
-  margin-right: 10px;
-}
+<!-- <script>
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import http from "@/api/api";
 
-.input-file {
-  position: relative;
-  overflow: hidden;
-  border: none;
-  background-color: #1d6f42;
-  border-radius: 3px;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+export default {
 
-.input-file:hover {
-  background-color: #1d6f42;
-}
-
-.input-file [type='file'] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.input-file label {
-  color: #f1f1f1;
-  cursor: pointer;
-  margin-top: 2px;
-}
-
-.input-file .bi {
-  color: #e2d7d7;
-}
-
-.bi-brightness-low {
-  color: yellow;
-}
-
-.bi-cloud-arrow-up {
-  font-size: 20px;
-  margin-top: 20px;
-}
-
-.card {
-  padding: 20px;
-}
-.thead {
-  background: #004d40;
-}
-</style>
+  data() {
+    return {
+      isDownloading: false,
+      isDetail: false,
+      pdfUrl: null,
+      students: [],
+    };
+  },
+  methods: {
+    downloadPDF() {
+      this.isDetail = true;
+      http
+        .get("/get-students")
+        .then((response) => {
+          this.students = response.data.data;
+          const element = document.getElementById("my-table");
+          html2canvas(element).then((canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF();
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
+            pdf.save("download.pdf");
+            this.isDetail = false;
+            this.fetchData();
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    fetchData() {
+      http
+        .get("/get-students")
+        .then((response) => {
+          this.students = response.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  mounted() {
+    this.fetchData();
+  },
+};
+</script> -->
