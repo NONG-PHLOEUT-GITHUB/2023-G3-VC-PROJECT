@@ -6,7 +6,6 @@
     :items="attendanceMostAbsencData"
     :items-length="attendanceMostAbsencData.length"
     :loading="loading"
-    :search="search"
     item-value="name"
     class="elevation-1"
   >
@@ -54,9 +53,11 @@ export default {
         },
         { title: 'Gender',sortable: false, key: 'gender', align: 'start' },
         { title: 'Email', key: 'email', align: 'start' },
+        { title: 'Total', key: 'attendances_count', align: 'start' },
         { title: '', key: 'actions', align: 'start' }
       ],
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      loading: false
     }
   },
   mounted() {
@@ -65,7 +66,8 @@ export default {
   methods: {
     async getMostAbsentStudents() {
       try {
-        const response = await http.get('/get-most-absence-student')
+        const response = await http.get('/attendances/students/get-most-absence')
+        // this.loading = true
         this.attendanceMostAbsencData = response.data
       } catch (error) {
         console.log(error)

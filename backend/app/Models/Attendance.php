@@ -15,10 +15,6 @@ class Attendance extends Model
         'date',
         'user_id',
     ];
-    public function users()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public static function store($request, $id = null)
     {
@@ -41,6 +37,14 @@ class Attendance extends Model
             $id = $attendance->$id;
         }
 
-        return response()->json(['success' => true, 'data' => $attendances], 201);
+        return  response()->json(['success' => true, 'data' => $attendances], 201);
+        
     }
+
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

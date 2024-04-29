@@ -11,7 +11,6 @@ import http from './api'
 export function fetchAttendances() {
   return http.get('/attendances')
 }
-
 export function fetchAttendanceOfStudents() {
   return http.get('/get-attendance/students')
 }
@@ -21,6 +20,9 @@ export function fetchStudentMostAbsence() {
 export function fetchStudentAttendance() {
   return http.get(`/get-attendance/${id}/student`)
 }
-export function fetchStudentMostAbsence() {
-  return http.get(`/get-student-attendance/${id}/details`)
+// export function fetchStudentMostAbsence() {
+//   return http.get(`/get-student-attendance/${id}/details`)
+// }
+export function createAttendance(data) {
+  return http.post(`attendances/student/check-attendance`,data)
 }

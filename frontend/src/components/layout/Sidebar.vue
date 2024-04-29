@@ -25,8 +25,7 @@
 </template>
 
 <script>
-// import { mapState } from 'pinia'
-// import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth'
 
 export default {
   data: () => ({
@@ -48,7 +47,7 @@ export default {
       },
       {
         path: '/teacher-classroom',
-        title: 'Classroom',
+        title: 'My Class Teaching',
         icon: 'mdi-domain'
       }
     ],
@@ -106,16 +105,13 @@ export default {
         icon: 'mdi-clipboard-text'
       }
     ],
-    userProfile: [
-      {
-        path: '/user-profile',
-        icon: 'mdi-clipboard-text'
-      }
-    ]
   }),
   computed: {
+    userRole() {
+      return localStorage.getItem('user_role')
+    },
     menu() {
-      switch (1) {
+      switch (2) {
         case 1:
           return this.adminMenu
         case 2:
@@ -132,10 +128,5 @@ export default {
       return this.value
     }
   }
-  // watch:{
-  //   getRole(){
-  //     this.getRole = parseInt(localStorage.getItem('user_role'));
-  //   }
-  // }
 }
 </script>

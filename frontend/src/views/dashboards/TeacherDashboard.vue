@@ -10,7 +10,7 @@
         </template>
         <v-col>
           <h3>
-            <strong>{{ classroomCounts['12'] }}</strong>
+            <strong>{{ classroom['12'] }}</strong>
           </h3>
           <h5>
             <v-icon>mdi-gender-male</v-icon>30 <v-icon>mdi-gender-female</v-icon>30
@@ -27,7 +27,7 @@
         </template>
         <v-col>
           <h3>
-            <strong>{{ classroomCounts['11'] }}</strong>
+            <strong>{{ classroom['11'] }}</strong>
           </h3>
           <h5><v-icon>mdi-gender-male</v-icon>30 <v-icon>mdi-gender-female</v-icon>30</h5>
         </v-col>
@@ -42,7 +42,7 @@
         </template>
         <v-col>
           <h3>
-            <strong>{{ classroomCounts['10'] }}</strong>
+            <strong>{{ classroom['10'] }}</strong>
           </h3>
           <h5>
             <v-icon>mdi-chair-rolling</v-icon>40
@@ -56,44 +56,25 @@
 </template>
 
 <script>
-import http from '@/api/api.js'
+import { mapActions, mapState } from 'pinia'
+import { useClassroomStore } from '@/stores/classroom'
 import StudentMostAbsenceVue from '@/components/dashboard/StudentMostAbsence.vue'
+
 export default {
   components: {
     StudentMostAbsenceVue
   },
   data() {
-    return {
-      classroomCounts: {}
-    }
+    return {}
   },
-  mounted() {
-    this.getClassroomCounts()
+  created() {
+    this.getCassroomTotal()
+  },
+  computed: {
+    ...mapState(useClassroomStore, ['classroom'])
   },
   methods: {
-    getClassroomCounts() {
-      http
-        .get('/getTotalOfEachClass')
-        .then(response => {
-          this.classroomCounts = response.data.data
-          console.log(this.classroomCounts)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
+    ...mapActions(useClassroomStore, ['getCassroomTotal'])
   }
 }
 </script>
-
-<style scoped>
-.main {
-  width: 80%;
-  margin-left: 19%;
-}
-.bar1 {
-  width: 48%;
-  border-left: solid teal 5px;
-}
-</style>
-.js

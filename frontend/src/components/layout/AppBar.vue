@@ -3,54 +3,38 @@
     <v-app-bar-nav-icon @click="togglerDrawer">
       <v-icon>mdi-menu</v-icon>
     </v-app-bar-nav-icon>
-    <v-title>School Management</v-title>
+    <strong>School Management</strong>
     <v-spacer />
     <div>
       <v-list-item class="px-2">
         <v-menu rounded>
           <template v-slot:activator="{ props }">
-            <strong class="me-6">Nong Phloeut</strong>
+            <strong class="me-6">{{ first_name }} {{ last_name }}</strong>
             <v-btn icon v-bind="props" class="me-5">
-              <v-avatar color="" size="large">
-                <v-img
-                  src="https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp"
-                  alt="Avatar"
-                  cover
-                >
-                </v-img>
+              <v-avatar color="brown" size="large" class="avatar">
+                <v-img :src="profile_image" alt="Avatar" cover> </v-img>
               </v-avatar>
             </v-btn>
           </template>
 
           <v-list>
             <v-list-item>
-              <div class="profile">
-                <v-avatar color="" size="large">
-                  <v-img
-                    src="https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp"
-                    alt="Avatar"
-                    cover
-                  >
-                  </v-img>
-                </v-avatar>
-                <!-- <div class="subtitle" v-for="(value, key) in authStore.user" :key="key">
-                      <span class="font-weight-black">
-                        {{ value.first_name }}
-                        {{ value.last_name }}
-                      </span>
-                      <br />
-                      <span class="email">{{ value.email }}</span>
-                    </div> -->
-                <!-- <span>nongphloeut@gmail.com</span> -->
-              </div>
+              <v-avatar  size="large" class="avatar">
+                <v-img :src="profile_image" alt="Avatar" cover > </v-img>
+              </v-avatar>
+              <span class="font-weight-black ms-2">
+                {{ first_name }}
+                {{ last_name }}
+              </span>
+              <br />
+              <span class="email">{{ email }}</span>
             </v-list-item>
 
             <v-col cols="auto">
-              <v-btn size="small" block variant="outlined" color="primary" to="/user-profile"
-                >user profile</v-btn
-              >
+              <v-btn size="small" block variant="outlined" c olor="primary" to="/user-profile">
+                user profile
+              </v-btn>
             </v-col>
-            <v-divider></v-divider>
             <v-list-item
               v-for="(item, i) in menus"
               :key="i"
@@ -78,17 +62,14 @@
 </template>
 
 <script>
-// https://snyk.io/advisor/npm-package/lru-cache/functions/lru-cache
 import http from '@/api/api'
-import Cookies from 'js-cookie'
 import ChangePasswordDialog from '@/views/auth/ChangePassword.vue'
-import LRU from 'lru-cache'
 import Sidebar from './Sidebar.vue'
-const cache = new LRU(100)
 
 export default {
   props: ['menubar'],
   name: 'LayoutDashboard',
+  emits: ['toggle'],
 
   components: {
     ChangePasswordDialog,
@@ -97,14 +78,18 @@ export default {
   data: () => ({
     users: [],
     dialogVisible: false,
+    first_name: '',
+    last_name: '',
+    profile_image: '',
+    email: '',
     menus: [
       {
-        title: 'change password',
+        title: 'Change password',
         action: 'changePassword',
         icon: 'mdi-lock-reset'
       },
       {
-        title: 'logout',
+        title: 'Logout',
         icon: 'mdi-logout',
         action: 'logout'
       }
@@ -113,38 +98,21 @@ export default {
 
   methods: {
     async fetchData() {
-      const cachedResponse = cache.get('users')
-
-      if (cachedResponse) {
-        this.users = cachedResponse
-        return
-      }
-
-      try {
-        const response = await http.get('/user')
+      http.get('user').then(response => {
         this.users = response.data.data
-        cache.set('users', this.users)
-      } catch (error) {
-        console.error(error)
-      }
+        this.first_name = response.data.data.first_name
+        this.last_name = response.data.data.last_name
+        this.profile_image = response.data.data.profile
+        this.email = response.data.data.email
+      })
     },
 
-    logout() {
+    logoutUser() {
       http
-        .post(
-          '/v1/auth/logout',
-          {},
-          {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('access_token')
-            }
-          }
-        )
-        .then(() => {})
+        .post('/v1/auth/logout')
         .then(result => {
-          if (result.isConfirmed) {
-            Cookies.remove('access_token')
-            Cookies.remove('user_role')
+          if (result) {
+            localStorage.removeItem('access_token')
             this.$router.push('/login')
           }
         })
@@ -156,9 +124,29 @@ export default {
     togglerDrawer() {
       this.$emit('toggle')
     },
+    onMenuClick(action) {
+      switch (action) {
+        case 'logout':
+          this.logoutUser()
+          break
+        case 'changePassword':
+          this.dialogVisible = true
+          break
+        default:
+          break
+      }
+    }
   },
   mounted() {
     this.fetchData()
   }
 }
 </script>
+<style scoped>
+.avatar{
+  border:solid rgb(105, 208, 208);
+}
+.font-weight-black{
+  text-transform: uppercase;
+}
+</style>

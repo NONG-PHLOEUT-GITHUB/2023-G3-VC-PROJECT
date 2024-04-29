@@ -40,6 +40,7 @@ class UserController extends Controller
     public function getImage(StoreUserRequest $request)
     {
         $image = $request->file('profile');
+        dd($image);
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images'), $new_name);
         $path = asset('images/' . $new_name);
@@ -54,13 +55,24 @@ class UserController extends Controller
     }
     public function show(string $id)
     {
-        $user = User::find($id);
 
-        if (!$user) {
-            return response()->json(['message' => 'The record with ID ' . $id . ' was not found.'], 404);
-        }
+        $user = User::with([
+            'attendances' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            },
+            'teacherClassTeaching',
+            'scores',
+            'comments' => function ($query) {
+                $query->join('users', 'comments.teacher_id', '=', 'users.id')
+                    ->select('comments.*', 'users.first_name', 'users.last_name', 'users.profile')
+                    ->orderBy('comments.created_at', 'desc');
+            }
+        ])->find($id);
 
-        return response()->json(['success' => true, 'data' => $user], 200);
+        return response()->json([
+            'status' => 'success',
+            'data' => $user
+        ]);
     }
 
     /**
@@ -132,8 +144,9 @@ class UserController extends Controller
             ->get();
         return response()->json(["message" => true, "data" => $teachers], 200);
     }
-   
-    public function getStudentId($id){
+
+    public function getStudentId($id)
+    {
         $user = User::find($id);
         return response()->json($user);
     }
@@ -192,18 +205,16 @@ class UserController extends Controller
             'failed_users_male_count' => $failed_users_male_count,
             'failed_users_female_count' => $failed_users_female_count,
         ], 200);
-
-
     }
 
 
     // ----------------------get comment for student------------------------
-    
+
     public function getCommentForStudent($user_id, $teacher_id)
     {
         $comments = Comment::where('user_id', $user_id)
-                    ->where('teacher_id', $teacher_id)
-                    ->get();
+            ->where('teacher_id', $teacher_id)
+            ->get();
         $comment = CommentResource::collection($comments);
         return response()->json(['comments' => $comment]);
     }
@@ -218,11 +229,12 @@ class UserController extends Controller
         }
         return response()->json([
             'user_id' => $user->id,
-            'guardian_id' => $user->guardian->chatId ,
+            'guardian_id' => $user->guardian->chatId,
         ]);
     }
 
-    public function getParentsByuser($id){
+    public function getParentsByuser($id)
+    {
         $user = User::where('id', $id)->first();
         $guardian = Guardian::all();
         $guardian = GuardianResource::collection($guardian);
@@ -235,4 +247,34 @@ class UserController extends Controller
         ]);
     }
 
+
+    // public function getGuardianChatIdOfStudent($user_id)
+    // {
+    //     $guardian = User::find($user_id);
+    //     if (!$guardian) {
+    //         return response()->json(['error' => 'Guardian not found'], 404);
+    //     }
+    //     return response()->json([
+    //         "id" => $guardian->id,
+    //         'guardian_id' => $guardian->guardian_id
+    //     ]);
+    // }
+
+    public function getGuardianChatIdOfStudent($user_id)
+    {
+        $user = User::find($user_id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        if (!$user->guardian) {
+            return response()->json(['error' => 'Guardian not found'], 404);
+        }
+
+        return response()->json([
+            "id" => $user->guardian->id,
+            'chat_id' => $user->guardian->chatId
+        ]);
+    }
 }

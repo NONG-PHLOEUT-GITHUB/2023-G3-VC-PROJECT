@@ -1,18 +1,26 @@
 <template>
   <custom-title icon="mdi-details"></custom-title>
-  <custom-sub-title>
+  <!-- <custom-sub-title>
     Attendance of <strong class="ms-2">{{ user.first_name }} {{ user.last_name }}</strong>
-  </custom-sub-title>
+  </custom-sub-title> -->
+  <v-breadcrumbs :items="items" class="py-0">
+    <template v-slot:prepend>
+      <v-icon icon="$vuetify" size="small"></v-icon>
+    </template>
+    <template v-slot:divider>
+      <v-icon icon="mdi-chevron-right"></v-icon>
+    </template>
+  </v-breadcrumbs>
   <v-data-table-server
     v-model:items-per-page="itemsPerPage"
     v-model="selected"
     :headers="headers"
     :items="attendanceRecords"
-    :items-length="attendanceRecords.length || 0"
     :loading="loading"
     :search="search"
     item-value="name"
     class="elevation-2"
+    :items-length="attendanceRecords.length || 0"
   >
   </v-data-table-server>
   <v-btn :width="130" @click="generatePDF()">save </v-btn>
@@ -25,12 +33,29 @@ import 'jspdf-autotable'
 export default {
   data() {
     return {
-      role: '',
       headers: [
-        { title: 'date', key: 'date' },
-        { title: 'reason', key: 'reason' },
-        { title: 'status', key: 'status' }
+        { title: 'Date', key: 'date' },
+        { title: 'Reason', key: 'reason' },
+        { title: 'Status', key: 'status' }
       ],
+      items: [
+        {
+          title: 'Dashboard',
+          disabled: false,
+          href: 'teacher-dashboard'
+        },
+        {
+          title: 'Link 1',
+          disabled: false,
+          href: 'breadcrumbs_link_1'
+        },
+        {
+          title: 'Link 2',
+          disabled: true,
+          href: 'breadcrumbs_link_2'
+        }
+      ],
+      loading: false,
       user: {},
       attendanceRecords: [],
       pdfFile: null,
@@ -41,10 +66,11 @@ export default {
   methods: {
     listattendance(id) {
       http
-        .get('/getAttendance' + '/' + id)
+        .get(`attendances/student/${id}/attendance-details`)
         .then(response => {
+          console.log(response.data)
           this.user = response.data.user
-          this.attendanceRecords = response.data.attendanceRecords
+          this.attendanceRecords = response.data
         })
         .catch(error => {
           console.log(error)
@@ -98,7 +124,7 @@ export default {
       await this.sendPDF(this.chat_id, pdfOutput)
       const fileName = `${name}_attendance.pdf`
       document.save(fileName)
-    },
+    }
   },
   mounted() {
     const id = this.$route.params.id

@@ -93,7 +93,7 @@ export default {
   methods: {
     fetchAttendanceData() {
       http
-        .get(`/getstudentattendanceeverymonth/${this.userId}`)
+        .get(`attendances/student/attendanc/${this.userId}/monthly-attendance`)
         .then(response => {
           const mydata = Object.values(response.data)
           for (let i = 0; i < mydata.length; i++) {
@@ -106,7 +106,7 @@ export default {
     },
     fetchScoreData() {
       http
-        .get(`/getStudentScoreEveryMonth/${this.userId}`)
+        .get(`scores/student/${this.userId}/monthly-score`)
         .then(response => {
           const mydata = Object.values(response.data.average_scores)
           for (let i = 0; i < mydata.length; i++) {

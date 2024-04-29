@@ -17,7 +17,29 @@
     </template>
   </custom-title>
   <div class="main">
-    <v-card
+    <v-row dense>
+      <v-col cols="12" md="3" v-for="classroom in teacherTeachingClass">
+        <v-card
+          prepend-icon="mdi-chair-school"
+          :title="classroom.classroom_name"
+          :subtitle="classroom.student_count"
+        >
+          <v-card-actions>
+            <v-btn color="teal-darken-4" :to="'/student/' + classroom.id + '/feedback'" class="me-1">
+              Studen List
+            </v-btn>
+            <v-btn
+              color="orange"
+              :to="`/attendance/` + classroom.id + `/student`"
+              text="Check attendance"
+            ></v-btn>
+          </v-card-actions>
+          <!-- <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</v-card-text> -->
+        </v-card>
+      </v-col>
+    </v-row>
+    <!-- {{teacherTeachingClass}} -->
+    <!-- <v-card
       v-for="classroom of classrooms"
       :key="classroom"
       class="card mx-auto mt-2"
@@ -43,58 +65,25 @@
           </v-btn>
         </v-col>
       </div>
-    </v-card>
+    </v-card> -->
   </div>
 </template>
 
 <script>
-// https://snyk.io/advisor/npm-package/lru-cache/functions/lru-cache
-import http from '@/api/api'
-import LRU from 'lru-cache'
-
-const cache = new LRU(100)
-
+import { mapActions, mapState } from 'pinia'
+import { useTeacherStore } from '@/stores/teacher'
 export default {
   data() {
-    return {
-      classrooms: [],
-      class_name: '',
-    }
+    return {}
+  },
+  created() {
+    this.getTeacherClassTeaching()
+  },
+  computed: {
+    ...mapState(useTeacherStore, ['teacherTeachingClass'])
   },
   methods: {
-    async getTeacherClassroom() {
-      const cachedResponse = cache.get('teacher_classroom')
-
-      if (cachedResponse) {
-        this.classrooms = cachedResponse
-        return
-      }
-
-      try {
-        const response = await http.get('/user')
-        this.classrooms = response.data.data.class_teacher
-        cache.set('teacher_classroom', this.classrooms)
-      } catch (error) {
-        console.error(error)
-      }
-      if (this.classrooms.length === 0) {
-        this.snackbar = true
-      }
-    }
-  },
-  mounted() {
-    this.getTeacherClassroom()
+    ...mapActions(useTeacherStore, ['getTeacherClassTeaching'])
   }
 }
 </script>
-
-<style scoped>
-.main {
-  margin-left: 18%;
-  margin-top: 15px;
-}
-
-.card {
-  border-left: solid 5px #004d40;
-}
-</style>

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+// import { useAuthStore } from '@/stores/auth'
 const routes = [
   {
     path: '/',
@@ -122,6 +122,12 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
+        path: '/attendance/:classroomId/student',
+        name: 'Check attendance',
+        component: () => import('@/views/attendances/StudentAttendanceCheck.vue'),
+        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+      },
+      {
         path: '/teacher-attendance-list',
         name: 'Teacher attendance list',
         component: () => import('@/views/attendances/TeacherAttendanceList.vue'),
@@ -143,13 +149,20 @@ const routes = [
       {
         path: '/user/:id/edit',
         name: 'Edit user',
-        component: () => import('@/views/common/EditUserForm.vue'),
+        component: () => import('@/views/common/CreateUser.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/feedback/:id',
+        path: '/feedback/:studentId/student',
         name: 'Student feedback',
         component: () => import('@/views/comment/SendComment.vue'),
+        props: true,
+        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+      },
+      {
+        path: '/student/:classroomId/feedback',
+        name: 'Student Feedback List',
+        component: () => import('@/views/comment/StudentFeedbackList.vue'),
         props: true,
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
@@ -191,6 +204,12 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1] }
       },
       {
+        path: '/guardian/:id/edit',
+        name: 'Update new guadian',
+        component: () => import('@/views/guardians/CreateGuardian.vue'),
+        meta: { requiresAuth: true, requiredRoles: [1] }
+      },
+      {
         path: '/:pathMatch(.*)*', // matches any unknown path
         name: 'not-found',
         component: () => import('@/views/auth/Notfound.vue')
@@ -204,6 +223,19 @@ const router = createRouter({
   routes
 })
 
+// router.beforeEach ((to, from, next) => {
+//   const userRole = useAuthStore().userRole; 
+//   // const userRole = localStorage.getItem('role');
+//   console.log('user role',userRole);
+//   if (userRole === 1) {
+//     next('/admin-dashboard');
+//   } else if (userRole === 2 ){
+//     next('/admin-teacher');
+//   }
+//   else {
+//     next();
+//   }
+// })
 // https://beginnersoftwaredeveloper.com/how-do-i-protect-my-vue-router/?expand_article=1
 
 // router.beforeEach((to, from, next) => {

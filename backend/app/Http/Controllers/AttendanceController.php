@@ -86,6 +86,8 @@ class AttendanceController extends Controller
         $users = User::where('role', 3)
             ->select('*')
             ->withCount('attendances')
+            ->having('attendances_count', '>', 0)
+            ->orderByDesc('attendances_count')
             ->limit(10)
             ->get();
         return response()->json($users);
@@ -119,13 +121,11 @@ class AttendanceController extends Controller
      */
     public function showAttendanceDetail($id)
     {
-        $attendance = Attendance::findOrFail($id);
+        $attendance = Attendance::where('user_id', $id)
+            ->select('date', 'reason', 'status')
+            ->get();
+        return response()->json($attendance);
 
-        return response()->json([
-            'date' => $attendance->date,
-            'reason' => $attendance->reason,
-            'attendance_status' => $attendance->attendace_status,
-        ]);
     }
     /**
      * get attendance of student detail .

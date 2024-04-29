@@ -111,7 +111,20 @@ class User extends Authenticatable implements JWTSubject
             }
             $user->update($users);
         } else {
-          
+
+            // Validate the request for the profile image
+            // dd($request->file('profile'));
+            $request->validate([
+                'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+            ]);
+
+
+            $image = $request->file('profile');
+            $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $new_name);
+            $path = asset('images/' . $new_name);
+            $users['profile'] = $path;
+
             $password = Str::random(8);
             $users['password'] = bcrypt($password);
 
@@ -141,19 +154,24 @@ class User extends Authenticatable implements JWTSubject
     }
     public function attendances()
     {
-        return $this->hasMany(Attendance::class,'user_id');
+        return $this->hasMany(Attendance::class, 'user_id');
     }
-      /**
+    /**
      * user realationship with scores
      */
 
-     public function scores()
-     {
+    public function scores()
+    {
         return $this->hasMany(Score::class);
-     }
+    }
 
-     public function classTeacher()
-     {
-         return $this->belongsToMany(ClassRoom::class, 'classroom_teachers','teacher_id', 'classroom_id');
-     }
+    public function teacherClassTeaching()
+    {
+        return $this->belongsToMany(Classroom::class, 'classroom_teachers', 'teacher_id', 'classroom_id');
+    }
+
+    public function guardian()
+    {
+        return $this->belongsTo(Guardian::class, 'guardian_id');
+    }
 }

@@ -1,89 +1,55 @@
 <template>
   <custom-title icon="mdi-comment-text"></custom-title>
   <v-card class="pa-3">
-    <v-form>
-      <v-text-field label="Title" variant="outlined"></v-text-field>
+    <v-form @submit.prevent="sendFeedbackStudent()">
+      <v-text-field label="Title" v-model="title" variant="outlined"></v-text-field>
 
       <v-text-field label="Subtitle" variant="outlined"></v-text-field>
 
-      <v-textarea label="body" variant="outlined"></v-textarea>
+      <v-textarea label="body" v-model="body" variant="outlined"></v-textarea>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn type="submit">Send</v-btn>
+      </v-card-actions>
     </v-form>
-
-    <v-card-actions>
-      <v-spacer />
-      <v-btn>Send</v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import http from '@/api/api'
+import { mapActions,mapState } from 'pinia'
+import { useCommentStore } from '@/stores/comment'
+import { useAuthStore } from '@/stores/auth'
 export default {
   data() {
     return {
-      listUser: [],
-      selectedStudent: null,
-      comment: '',
+      body: '',
+      title:'',
       teacher_id: null,
       teachers: []
     }
   },
+  created() {
+    this.fetchUser()
+  },
+  computed: {
+    ...mapState(useAuthStore, ['teacherID']),
+  },
   methods: {
-    getData() {
-      // http.get("/get-students").then((response) => {
-      //   this.listUser = response.data;
-      //   console.log(this.listUser);
-      // });
-    },
-    giveComment() {
+    ...mapActions(useCommentStore,['createNewComment']),
+    ...mapActions(useAuthStore,['fetchUser']),
+    sendFeedbackStudent() {
       const commentData = {
-        body: this.comment,
-        user_id: this.selectedStudent,
+        title: this.title,
+        body: this.body,
+        user_id: this.$route.params.studentId,
         teacher_id: this.teacherID
       }
-      // http.post("/comments", commentData).then((response) => {
-      //   console.log(response);
-      // });
-      this.selectedStudent = null
-      this.comment = ''
-    },
-    fetchTeacherData() {
-      // http.get("/v1/auth/user").then((response) => {
-      //   // this.teachers = response.data.data.id;
-      //   // console.log(this.teachers);
-      //   this.teacherID = response.data.data.id;
-      // });
-    },
-    getTeacherId() {
-      // http.get("/get-students").then((response) => {
-      //   this.listUser = response.data.data;
-      //   for (let user of this.listUser) {
-      //     this.teacherID = user.id;
-      //   }
-      // });
-    },
-    fetchData(id) {
-      http
-      // .get(`/getAllStudents/${id}`)
-      // .then((response) => {
-      //   this.listUser = response.data.data;
-      //   this.listUser = response.data.data;
-      //   this.listUser.forEach((element) => {
-      //     console.log(element.students);
-      //     this.listUser = element.students;
-      //   });
-      //   console.log(this.listUser);
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      // });
-    },
-  },
-  mounted() {
-    const id = this.$route.params.id
-    this.fetchData(id)
-    this.getTeacherId()
-    this.fetchTeacherData()
+      this.createNewComment(commentData).then((response) =>{
+        if(response.status == 201 && response.statusText == "Created"){
+          this.$router.push('/student-home')
+        }
+      })
+    }
   }
 }
 </script>

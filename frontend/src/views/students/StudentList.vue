@@ -35,12 +35,12 @@
   </v-card>
   <v-card>
     <v-data-table-server
-      v-model:items-per-page="itemsPerPage"
+      v-model:items-per-page="options.itemsPerPage"
+      v-model:page="options.page"
       :headers="headers"
-      :items="listUser"
-      :items-length="listUser.length"
+      :items="students"
+      :items-length="students.length"
       :loading="loading"
-      :search="search"
       item-value="name"
       id="my-table"
     >
@@ -66,15 +66,26 @@
 </template>
 <script>
 import http from '@/api/api'
+import { mapActions, mapState } from 'pinia'
+import { useStudentStore } from '@/stores/student'
 export default {
+  created() {
+    this.getStudents()
+  },
   data() {
     return {
-      listUser: [],
+      listStudents: [],
       errorMessage: '',
       searchQuery: '',
       selectedClass: null,
       classrooms: [],
-      itemsPerPage: 10,
+      options: {
+        itemsPerPage: 10,
+        page: 1,
+        sortBy: [],
+        sortDesc: []
+      },
+      loading: false,
       headers: [
         { title: 'Profile', key: 'profile' },
         { title: 'First Name', key: 'first_name' },
@@ -90,26 +101,11 @@ export default {
   },
 
   computed: {
-    filteredStudentsList() {
-      if (this.searchQuery === '') {
-        return this.listUser
-      } else {
-        const filtered = this.listUser.filter(student =>
-          (student.first_name + ' ' + student.last_name)
-            .toLowerCase()
-            .includes(this.searchQuery.trim().toLowerCase())
-        )
-        return filtered
-      }
-    }
+    ...mapState(useStudentStore, ['students']),
   },
   methods: {
-    //===================get data from Database =================
-    getStudents() {
-      http.get('/users').then(response => {
-        this.listUser = response.data.data
-      })
-    },
+    ...mapActions(useStudentStore, ['getStudents']),
+
     //================== Delete a user =================
     // deleteUser(id) {
     //   http.delete('/delete-user' + `/${id}`)
@@ -173,22 +169,22 @@ export default {
           console.error(error.response.data)
         })
     },
-    getStudentInClass(classId) {
-      http
-        .get(`/users`)
-        .then(response => {
-          if (!this.selectedClass || this.selectedClass == 'noChoose') {
-            this.listUser = response.data.data
-          } else {
-            this.listUser = response.data.data.filter(
-              user => parseInt(user.class_room_id) === parseInt(classId)
-            )
-          }
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
+    // getStudentInClass(classId) {
+    //   http
+    //     .get(`/users`)
+    //     .then(response => {
+    //       if (!this.selectedClass || this.selectedClass == 'noChoose') {
+    //         this.listUser = response.data.data
+    //       } else {
+    //         this.listUser = response.data.data.filter(
+    //           user => parseInt(user.class_room_id) === parseInt(classId)
+    //         )
+    //       }
+    //     })
+    //     .catch(error => {
+    //       console.log(error)
+    //     })
+    // },
     getClassrooms() {
       http
         .get('/classrooms')
@@ -203,7 +199,7 @@ export default {
 
   mounted() {
     this.getClassrooms()
-    this.getStudentInClass()
+    // this.getStudentInClass()
     return this.getStudents()
   }
 }

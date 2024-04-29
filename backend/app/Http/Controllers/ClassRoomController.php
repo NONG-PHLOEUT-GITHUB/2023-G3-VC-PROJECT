@@ -69,16 +69,6 @@ class ClassroomController extends Controller
     }
 
 
-    // public function getAllClassrooms()
-    // {
-    //     $classrooms = Classroom::withCount('students')
-    //         ->select('classrooms.id', 'classrooms.classroom_name','classrooms.is_class_coordinator')
-    //         ->with(['teachers.user'])
-    //         ->get();
-    //     $classroomCount = $classrooms->count();
-
-    //     return response()->json(['success' => true, 'data' => $classrooms, 'count' => $classroomCount], 200);
-    // }
     public function getAllClassrooms()
     {
         $classrooms = Classroom::with('teachers:id,first_name,last_name')

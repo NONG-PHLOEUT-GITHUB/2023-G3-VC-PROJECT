@@ -16,7 +16,7 @@ class GuardianController extends Controller
     {
         //
         $guardian = Guardian::all();
-        $guardian = UserResource::collection($guardian);
+        // $guardian = UserResource::collection($guardian);
         return $guardian;
     }
 
@@ -62,6 +62,18 @@ class GuardianController extends Controller
         return response()->json(['success' => true, 'data' => "delete successfully"], 200);
     }
     public function getGuardianChatId($id)
+    {
+        $guardian = Guardian::find($id);
+        if (!$guardian) {
+            return response()->json(['error' => 'Guardian not found'], 404);
+        }
+        return response()->json([
+            "id" => $guardian->id,
+            'chat_id' => $guardian->chatId
+        ]);
+    }
+
+    public function getGuardianChatIdOfStudent($id)
     {
         $guardian = Guardian::find($id);
         if (!$guardian) {

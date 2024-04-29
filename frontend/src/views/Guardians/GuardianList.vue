@@ -23,35 +23,55 @@
     >
   </v-card>
   <v-data-table-server
-    v-model:items-per-page="itemsPerPage"
+    v-model:items-per-page="options.itemsPerPage"
     :headers="headers"
-    :items="SearchGaurdian"
-    :items-length="SearchGaurdian.length"
+    :items-length="guardians.length"
+    :items="guardians"
     :loading="loading"
-    :search="search"
     item-value="name"
     class="elevation-1"
-  >
+    >
+
     <template v-slot:item.profile="{ item }">
       <v-avatar size="large">
         <v-img :src="item.profile" alt="Avatar" cover> </v-img>
       </v-avatar>
     </template>
+    <template v-slot:item.actions="{ item }">
+        <v-btn
+          :to="{ path: '/guardian/' + item.id + '/edit' }"
+          variant="text"
+          icon="mdi-pencil"
+        ></v-btn>
+
+        <v-btn @click="removeGuardian(item.id)" variant="text" icon="mdi-delete-forever" color="red">
+        </v-btn>
+      </template>
   </v-data-table-server>
 </template>
 
 <script>
-import http from '@/api/api'
 import FilterGuardian from '@/components/filters/FilterGuardian.vue'
+import { mapActions, mapState } from 'pinia'
+import { useGuardianStore } from '@/stores/guardian'
 export default {
   components: {
     FilterGuardian
+  },
+  created() {
+    this.getAllGuardian()
   },
   data() {
     return {
       listGuardian: [],
       searchQuery: '',
-      itemsPerPage: 10,
+      options: {
+        itemsPerPage: 10,
+        page: 1,
+        sortBy: [],
+        sortDesc: []
+      },
+      loading: false,
       toggleFilter: false,
       headers: [
         {
@@ -73,51 +93,23 @@ export default {
           key: 'last_name'
         },
         { title: 'Gender', key: 'gender', align: 'end' },
-        { title: 'Email', key: 'email', align: 'end' },
-        { title: '', key: 'actions', align: 'end' }
+        { title: 'Phone number', key: 'phone_number', align: 'end' },
+        { title: '', key: 'actions', align: 'end', sortable: false}
       ]
     }
   },
   computed: {
-    SearchGaurdian() {
-      if (this.searchQuery === '') {
-        return this.listGuardian
-      } else {
-        const filtered = this.listGuardian.filter(guardian =>
-          (guardian.first_name + ' ' + guardian.last_name)
-            .toLowerCase()
-            .includes(this.searchQuery.trim().toLowerCase())
-        )
-        return filtered
-      }
-    }
+    ...mapState(useGuardianStore, ['guardians'])
+
   },
   methods: {
-    getGuardian() {
-      http.get('/getGuardians').then(response => {
-        this.listGuardian = response.data.data
-      })
-    },
-    deleteUser(id) {}
-    // .then(willDelete => {
-    //     if (willDelete) {
-    //       http
-    //         .delete('/Guardians' + `/${id}`)
-    //         .then(() => {
-
-    //         })
-    //         .catch(error => {
-    //           console.error(error)
-    //         })
-    //     } else {
-
-    //     }
-    //   })
-    // }
+    ...mapActions(useGuardianStore, ['getAllGuardian','deleteGuardianByID']),
+    removeGuardian(id){
+      this.deleteGuardianByID(id);
+      this.getAllGuardian()
+    }
   },
-  mounted() {
-    this.getGuardian()
-  }
+
 }
 </script>
 

@@ -14,11 +14,11 @@
         @click="downloadPDF()"
       ></v-btn>
       <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+      <v-btn color="teal-darken-4" @click="dialog = true"
+        ><v-icon>mdi-plus-outline</v-icon>Add</v-btn
+      >
     </template>
   </custom-title>
-  <v-btn color="teal-darken-4 " class="mt-4 ms-5" @click="dialog = true"
-    ><v-icon>mdi-plus-outline</v-icon> add new class</v-btn
-  >
 
   <v-dialog v-model="dialog" persistent width="40%">
     <v-card>
@@ -43,7 +43,7 @@
                   variant="outlined"
                   :items="teacherList"
                   item-title="first_name"
-                  item-value="teacher_id"
+                  item-value="user_id"
                   clearable
                 ></v-select>
               </v-col>
@@ -59,45 +59,57 @@
     </v-card>
   </v-dialog>
 
-  <v-card
-    v-for="classroom in classrooms"
-    :key="classroom.id"
-    class="card mx-auto mt-2"
-    width="96%"
-    prepend-icon="mdi-home"
-    elevation="4"
-  >
-    <template v-slot:title> Class : {{ classroom.class_name }} </template>
+  <v-row dense>
+    <v-col cols="12" md="3" v-for="classroom in classrooms">
+      <v-card
+        prepend-icon="mdi-chair-school"
+        :title="classroom.classroom_name"
+        :subtitle="classroom.student_count"
+      >
+        <template v-slot:append>
+          <v-menu>
+            <template v-slot:activator="{ props }">
+              <v-btn icon="mdi-dots-vertical" class="elevation-0" v-bind="props"></v-btn>
+            </template>
 
-    <div class="action">
-      <v-col cols="auto">
-        <v-btn
+            <v-list density="compact">
+              <v-list-item
+                v-for="(item, i) in items"
+                :key="i"
+                :value="item"
+                @click="onMenuClick(item.action, classroom.id)"
+              >
+                <template v-slot:prepend>
+                  <v-icon :icon="item.icon" :color="item.color"></v-icon>
+                </template>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+          <!-- <v-icon color="primary" icon="mdi-dots-vertical"></v-icon> -->
+        </template>
+        <v-card-actions>
+          <!-- <v-btn
           color="teal-darken-4"
           :to="{ path: '/student-score-report/' + classroom.id }"
           class="me-4"
         >
           <v-icon>mdi-chart-line</v-icon> Score report
-        </v-btn>
-        <v-btn
-          color="teal-darken-4"
-          :to="{ path: '/attendance-report/' + classroom.id + '/by-class' }"
-        >
-          <v-icon>mdi-calendar-clock</v-icon> Attendance report
-        </v-btn>
-        <v-btn color="teal-darken-4" :to="{ path: '/feedback/' + classroom.id }" class="ms-4">
-          <v-icon>mdi-poll</v-icon> Studen feedback
-        </v-btn>
-      </v-col>
-      <v-col class="manage">
-        <v-btn @click="editClassroom(classroom)" color="green" class="me-2">
-          <v-icon>mdi-pencil</v-icon>Edit
-        </v-btn>
-        <v-btn @click="deleteClassroom(classroom.id)" color="red" class="text-white">
-          <v-icon>mdi-delete</v-icon> Delete
-        </v-btn>
-      </v-col>
-    </div>
-  </v-card>
+        </v-btn> -->
+          <v-btn color="teal-darken-4" :to="'/student/' + classroom.id + '/feedback'" class="me-1">
+            Studen List
+          </v-btn>
+          <v-btn
+            color="orange"
+            :to="`/attendance/` + classroom.id + `/student`"
+            text="Check attendance"
+          ></v-btn>
+        </v-card-actions>
+
+        <!-- <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</v-card-text> -->
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -116,7 +128,11 @@ export default {
       formAction: 'Add Classroom',
       editing: false,
       editId: null,
-      listClass: []
+      listClass: [],
+      items: [
+        { action: 'edit', title: 'Edite', icon: 'mdi-delete', color: 'red' },
+        { action: 'delete', title: 'Delete', icon: 'mdi-pencil' }
+      ]
     }
   },
 
@@ -127,6 +143,18 @@ export default {
   },
 
   methods: {
+    onMenuClick(action, id) {
+      switch (action) {
+        case 'edit':
+          this.deleteClassroom(id)
+          break
+        case 'delete':
+          this.deleteClassroom()
+          break
+        default:
+          break
+      }
+    },
     showStudents(classId) {
       http
         .get(`/getuserInClass/${classId}`)
@@ -150,33 +178,27 @@ export default {
           teacher_id: this.selectedTeacher
         })
         .then(response => {
-          console.log('New classroom created:', response.data)
-          // Reset the form fields
           this.className = null
           this.selectedTeacher = null
-          // Reload the list of classrooms
+
           this.fetchClassrooms()
-          // Show a success message using
         })
         .catch(error => {
           console.log('Error creating classroom:', error)
-          // Show an error message using
         })
     },
     getTeacher() {
-      http.get('/get-teachers').then(response => {
+      http.get('users/get/teachers').then(response => {
         this.teacherList = response.data.data
       })
     },
     onTeacherSelected(teacher) {
-      // this.selectedTeacher = teacher.text;
       this.selectedTeacher = teacher.value
     },
 
     fetchClassrooms() {
       http.get('/classrooms').then(response => {
         this.classrooms = response.data.data
-        console.log('class', this.classrooms)
       })
     },
 
@@ -225,9 +247,9 @@ export default {
 
     updateClassroom() {
       const id = this.editId
-      // Send a PUT request to update the classroom
+
       http
-        .put(`/classrooms/${id}`, {
+        .put(`/classrooms/${id}/update`, {
           class_name: this.className,
           teacher_id: this.selectedTeacher
         })
@@ -236,7 +258,6 @@ export default {
           console.log('Classroom updated:', response.data)
           this.className = null
           this.selectedTeacher = null
-          // Reload the list of classrooms
           this.dialog = false
         })
         .catch(error => {
@@ -253,30 +274,28 @@ export default {
       this.dialog = false
     },
 
-    // ...
-
     deleteClassroom(id) {
-      http.delete(`/classrooms/${id}`).then(() => {
+      http.delete(`/classrooms/${id}/delete`).then(() => {
         const index = this.classrooms.findIndex(c => c.id === id)
         if (index !== -1) {
           this.classrooms.splice(index, 1)
         }
       })
-    },
-    getStudentInClass() {
-      http
-        .get(`/get-students`)
-        .then(response => {
-          response.data.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
     }
+    // getStudentInClass() {
+    //   http
+    //     .get(`/get-students`)
+    //     .then(response => {
+    //       response.data.data
+    //     })
+    //     .catch(error => {
+    //       console.log(error)
+    //     })
+    // }
   },
 
   mounted() {
-    this.getStudentInClass()
+    // this.getStudentInClass()
     this.fetchClassrooms()
     this.getTeacher()
   }

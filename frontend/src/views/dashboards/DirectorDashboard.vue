@@ -10,10 +10,11 @@
         </template>
         <v-col>
           <h3>
-            <strong>3004</strong>
+            <strong>{{results.total}}</strong>
           </h3>
           <h5>
-            <v-icon>mdi-gender-male</v-icon>30 <v-icon>mdi-gender-female</v-icon>30
+            <v-icon>mdi-gender-male</v-icon>{{results.male}} 
+            <v-icon>mdi-gender-female</v-icon>{{results.female}}
           </h5>
         </v-col>
       </v-card>
@@ -27,9 +28,9 @@
         </template>
         <v-col>
           <h3>
-            <strong>3004</strong>
+            <strong>{{student.total}}</strong>
           </h3>
-          <h5><v-icon>mdi-gender-male</v-icon>30 <v-icon>mdi-gender-female</v-icon>30</h5>
+          <h5><v-icon>mdi-gender-male</v-icon>{{student.male}} <v-icon>mdi-gender-female</v-icon>{{student.female}}</h5>
         </v-col>
       </v-card>
     </v-col>
@@ -42,7 +43,7 @@
         </template>
         <v-col>
           <h3>
-            <strong>3004</strong>
+            <strong>{{ classroom }}</strong>
           </h3>
           <h5>
             <v-icon>mdi-chair-rolling</v-icon>40
@@ -90,6 +91,7 @@ export default {
   data() {
     return {
       results: '',
+      student:'',
       classroom: '',
       attendance: '',
       chartData: {
@@ -153,15 +155,16 @@ export default {
   methods: {
     async fetchTotalData() {
       try {
-        const response = await http.get('/getTotal')
-        this.results = response.data.data
+        const response = await http.get('users/get/total')
+        this.student = response.data.data[1]
+        this.results = response.data.data[2]
       } catch (error) {
         console.log(error)
       }
     },
     async fetchTotalOfClass() {
       try {
-        const response = await http.get('/classrooms-total')
+        const response = await http.get('classrooms/total/classroom-total')
         this.classroom = response.data.data
       } catch (error) {
         console.log(error)
@@ -170,7 +173,7 @@ export default {
 
     async fetchFailedStudentData() {
       try {
-        const response = await http.get('/show-graph-of-student-fail')
+        const response = await http.get('users/graph-student/fail')
         const mydata = response.data.failed_users_percentage
         for (let i = 0; i < mydata.length; i++) {
           this.chartData1.datasets[0].data[i] = mydata[i]
@@ -182,7 +185,7 @@ export default {
 
     async showGraphOfStudentAttendance() {
       try {
-        const response = await http.get('/show-grahp-of-student-attendance')
+        const response = await http.get('attendances/show-grahp-of-student-attendance')
         const mydata = Object.values(response.data)
         for (let i = 0; i < mydata.length; i++) {
           this.chartData.datasets[0].data[i] = mydata[i]

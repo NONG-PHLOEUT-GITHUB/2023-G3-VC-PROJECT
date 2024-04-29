@@ -23,7 +23,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $comment = Comment::store($request);
-        return response()->json(['success' => true, 'data' => $comment], 200);
+        return $comment;
     }
 
     /**

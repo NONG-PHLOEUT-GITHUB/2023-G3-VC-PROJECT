@@ -21,8 +21,8 @@
     <v-data-table-server
       v-model:items-per-page="itemsPerPage"
       :headers="headers"
-      :items="listUser"
-      :items-length="listUser.length"
+      :items="teachers"
+      :items-length="teachers.length"
       :loading="loading"
       :search="search"
       item-value="name"
@@ -39,7 +39,7 @@
           icon="mdi-pencil"
         ></v-btn>
 
-        <v-btn @click="deleteUser(item.id)" variant="text" icon="mdi-delete-forever" color="red">
+        <v-btn @click="removeTeacher(item.id)" variant="text" icon="mdi-delete-forever" color="red">
         </v-btn>
       </template>
     </v-data-table-server>
@@ -51,9 +51,14 @@ import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import http from '@/api/api'
 import TeacherFilter from '@/components/filters/TeacherFilter.vue'
+import { useTeacherStore } from '@/stores/teacher'
+import { mapActions, mapState } from 'pinia'
 export default {
   components: {
     TeacherFilter
+  },
+  created() {
+    this.getTeachers()
   },
   data() {
     return {
@@ -61,7 +66,6 @@ export default {
       toggleFilter: false,
       isDetail: false,
       pdfUrl: null,
-      listUser: [],
       selectedClass: null,
       classrooms: [],
       itemsPerPage: 10,
@@ -75,17 +79,24 @@ export default {
         { title: 'Phone Number', key: 'phone_number' },
         { title: 'Address', key: 'address' },
         { title: 'Email', key: 'email' },
-        { title: '', key: 'actions' }
+        { title: '', key: 'actions' ,width: '10%'}
       ]
     }
   },
-  // https://stackoverflow.com/questions/63789573/html2canvas-with-jspdf-in-vue-cli-application-dont-work and with AI
+  computed: {
+    ...mapState(useTeacherStore, ['teachers'])
+
+  },
   methods: {
-    // download pdf ==================================
+    ...mapActions(useTeacherStore,['getTeachers','deleteTeacher']),
+    removeTeacher(id){
+      this.deleteTeacher(id);
+      this.getTeachers()
+    },
     downloadPDF() {
       this.isDetail = true
       http
-        .get('/get-teachers')
+        .get('users/get/teachers')
         .then(response => {
           this.teachers = response.data.data
           const element = document.getElementById('my-table')
@@ -98,23 +109,14 @@ export default {
             pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight)
             pdf.save('download.pdf')
             this.isDetail = false
-            this.fetchData()
+            this.getTeachers()
           })
         })
         .catch(error => {
           console.error(error)
         })
     },
-    fetchData() {
-      http
-        .get('/get-teachers')
-        .then(response => {
-          this.listUser = response.data.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
+
     getClassrooms() {
       http
         .get('/classrooms')
@@ -125,69 +127,10 @@ export default {
           console.log('Error fetching classrooms:', error)
         })
     },
-    getTeacher(classId) {
-      if (!classId) {
-        http
-          .get(`/get-teachers`)
-          .then(response => {
-            this.listUser = response.data.data
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      } else {
-        http
-          .get(`/get-teachers`)
-          .then(response => {
-            this.listUser = response.data.data.filter(
-              teacher => parseInt(teacher.class_room_id) === parseInt(classId)
-            )
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      }
-    }
+    
   },
   mounted() {
     this.getClassrooms()
-    this.getTeacher()
-    this.fetchData()
   }
 }
 </script>
-
-<style scoped>
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
-
-/* Bootstrap Icons */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css');
-
-/* Set styles for the table */
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-td {
-  text-align: left;
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background-color: #004d40;
-  color: white;
-}
-
-.table-container {
-  margin-left: 18%;
-  margin-right: 2px;
-}
-
-.icon {
-  display: flex;
-  justify-content: flex-end;
-}
-</style>

@@ -1,58 +1,5 @@
 <template>
-  <custom-title icon="mdi-eye-check-outline">
-    <template #right>
-      <v-btn
-        icon="mdi-filter-multiple-outline"
-        variant="tonal"
-        class="me-2 bg-primary"
-        @click="toggleFilter = !toggleFilter"
-      ></v-btn>
-      <v-btn
-        variant="tonal"
-        class="me-2 bg-green-darken-1"
-        icon="mdi-send-circle"
-        @click="submitForm()"
-      ></v-btn>
-    </template>
-  </custom-title>
-  <v-row>
-    <v-checkbox @click="SelectAttendace()" value="red" :label="this.date" hide-details>
-    </v-checkbox>
-  </v-row>
-
-  <v-data-table-server
-    v-model:items-per-page="itemsPerPage"
-    v-model="selected"
-    :headers="headers"
-    :items="students"
-    :items-length="students.length"
-    :loading="loading"
-    :search="search"
-    item-value="name"
-    show-select
-    class="elevation-2"
-  >
-    <template v-slot:item.profile="{ item }">
-      <v-avatar size="large">
-        <v-img :src="item.profile" alt="Avatar" cover> </v-img>
-      </v-avatar>
-    </template>
-    <template v-slot:item.status="{ item }">
-      <v-select :items="statusOptions" variant="outlined" item-title="label"></v-select>
-    </template>
-    <template v-slot:item.reason="{ item }">
-      <v-textarea variant="outlined" v-model="item.reason"></v-textarea>
-    </template>
-  </v-data-table-server>
-
-  <!-- <v-checkbox
-        @click="getChatId(student.id)"
-        v-model="student.selected"
-        class="selectstudent"
-        color="red"
-        value="red"
-        hide-details
-      ></v-checkbox> -->
+  hello
 </template>
 <script>
 import axios from 'axios'
@@ -194,55 +141,9 @@ export default {
         swal.fire('Error', 'Failed to send message', 'error')
       }
     },
-
-    getStudentData() {
-      http.get('/get-students').then(response => {
-        this.students = response.data.data
-      })
-    },
-    getStudentInClass(classId) {
-      http
-        .get(`/get-students`)
-        .then(response => {
-          console.log(response.data.data)
-          this.students = response.data.data
-          this.students = response.data.data.filter(
-            teacher => parseInt(teacher.class_room_id) === parseInt(classId)
-          )
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-
-    async getClassrooms() {
-      const cachedResponse = cache.get('teacher_classroom')
-
-      if (cachedResponse) {
-        this.classrooms = cachedResponse
-        return
-      }
-
-      try {
-        const response = await http.get('/user')
-        this.classrooms = response.data.data.class_teacher
-        cache.set('teacher_classroom', this.classrooms)
-      } catch (error) {
-        console.error(error)
-      }
-      if (this.classrooms.length === 0) {
-        this.snackbar = true
-      }
-    }
-  },
-
-  created() {
-    setInterval(this.getCurrentDateTime, 1000)
   },
   mounted() {
-    this.getStudentInClass()
-    this.getClassrooms()
-    this.getStudentData()
+
   }
 }
 </script>

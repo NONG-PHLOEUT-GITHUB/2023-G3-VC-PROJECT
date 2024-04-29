@@ -47,7 +47,7 @@ class AuthController extends Controller
                 'attendances' => function ($query) {
                     $query->orderBy('created_at', 'desc');
                 },
-                'classTeacher',
+                'teacherClassTeaching',
                 'scores',
                 'comments' => function ($query) {
                     $query->join('users', 'comments.teacher_id', '=', 'users.id')
