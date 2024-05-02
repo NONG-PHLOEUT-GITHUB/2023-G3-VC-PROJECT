@@ -1,19 +1,29 @@
 <template>
-  <router-view/>
+  <Notif ref="notif" dismissible :default-timeout="7000" />
+  <Loading />
+  <router-view />
 </template>
 
 <script>
-  export default {
-    name: 'App',
+import Notif from '@/components/global/Notification.vue'
+import Loading from '@/components/global/Loading.vue'
+export default {
+  name: 'App',
+  components: {
+    Notif,
+    Loading
+  },
+  mounted() {
+    this.$root.$notif = this.$refs.notif.newAlert
   }
-  
+}
 </script>
 
 <style>
 html {
   overflow-y: auto;
 }
- #app {
+#app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -21,4 +31,3 @@ html {
 }
 
 </style>
-

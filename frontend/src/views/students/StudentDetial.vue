@@ -325,7 +325,7 @@
       </v-window-item>
       <v-window-item value="4"> score {{ scores }} </v-window-item>
       <v-window-item value="5">
-        <v-data-table-server
+        <v-data-table
           v-model:items-per-page="itemsPerPage"
           :headers="headers"
           :items="attendances"
@@ -333,7 +333,7 @@
           item-value="name"
           class="elevation-2"
         >
-        </v-data-table-server>
+        </v-data-table>
       </v-window-item>
     </v-window>
   </v-card>

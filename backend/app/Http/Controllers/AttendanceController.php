@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportAttendance;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Models\Attendance;
 use App\Models\User;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 // use \Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -265,5 +267,10 @@ class AttendanceController extends Controller
             $attendanceCounts[date('F', mktime(0, 0, 0, $month, 1))] = $totalAttendance;
         }
         return response()->json($attendanceCounts);
+    }
+
+    public function exportAttendance($id){
+        $export = new ExportAttendance([$id]);
+        return Excel::download($export, 'attendance.xlsx');
     }
 }

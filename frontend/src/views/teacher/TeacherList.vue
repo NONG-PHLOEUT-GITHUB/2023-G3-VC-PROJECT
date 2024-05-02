@@ -18,7 +18,7 @@
   </custom-title>
   <teacher-filter v-show="toggleFilter" />
   <v-card>
-    <v-data-table-server
+    <v-data-table
       v-model:items-per-page="itemsPerPage"
       :headers="headers"
       :items="teachers"
@@ -42,7 +42,7 @@
         <v-btn @click="removeTeacher(item.id)" variant="text" icon="mdi-delete-forever" color="red">
         </v-btn>
       </template>
-    </v-data-table-server>
+    </v-data-table>
   </v-card>
 </template>
 

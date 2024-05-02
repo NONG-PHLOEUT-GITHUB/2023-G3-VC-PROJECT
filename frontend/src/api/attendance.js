@@ -20,6 +20,9 @@ export function fetchStudentMostAbsence() {
 export function fetchStudentAttendance() {
   return http.get(`/get-attendance/${id}/student`)
 }
+export function fetchStudentAttendanceDetails(studentId) {
+  return http.get(`attendances/student/${studentId}/attendance-details`)
+}
 // export function fetchStudentMostAbsence() {
 //   return http.get(`/get-student-attendance/${id}/details`)
 // }

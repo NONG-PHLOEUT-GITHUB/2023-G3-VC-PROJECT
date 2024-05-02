@@ -1,26 +1,30 @@
-import axios from "axios";
+import { useLoadingStore } from '@/stores/loading'
+import axios from 'axios'
 
 const api = axios.create({
-  baseURL: process.env.VUE_APP_API_BASE_URL || "http://127.0.0.1:8000/api/",
+  baseURL: process.env.VUE_APP_API_BASE_URL || 'http://127.0.0.1:8000/api/',
   headers: {
-    "Access-Control-Allow-Origin": "*",
-    'Content-type': 'application/json',
-  },
-});
+    'Access-Control-Allow-Origin': '*',
+    'Content-type': 'application/json'
+  }
+})
 
-api.interceptors.request.use(async (config) => {
+api.interceptors.request.use(async config => {
   try {
+    // useLoadingStore.setLoading(true)
+    console.log('hello world');
     const token = localStorage.getItem('access_token')
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`
     }
     return config
   } catch (error) {
+    // useLoadingStore.setLoading(false)
     return Promise.reject(error)
   }
 })
 
-api.interceptors.response.use(async (response) => {
+api.interceptors.response.use(async response => {
   try {
     // console.log(response);
     return response
@@ -29,4 +33,4 @@ api.interceptors.response.use(async (response) => {
   }
 })
 
-export default api;
+export default api

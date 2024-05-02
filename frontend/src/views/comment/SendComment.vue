@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import { mapActions,mapState } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { useCommentStore } from '@/stores/comment'
 import { useAuthStore } from '@/stores/auth'
 export default {
   data() {
     return {
       body: '',
-      title:'',
+      title: '',
       teacher_id: null,
       teachers: []
     }
@@ -32,11 +32,11 @@ export default {
     this.fetchUser()
   },
   computed: {
-    ...mapState(useAuthStore, ['teacherID']),
+    ...mapState(useAuthStore, ['teacherID'])
   },
   methods: {
-    ...mapActions(useCommentStore,['createNewComment']),
-    ...mapActions(useAuthStore,['fetchUser']),
+    ...mapActions(useCommentStore, ['createNewComment']),
+    ...mapActions(useAuthStore, ['fetchUser']),
     sendFeedbackStudent() {
       const commentData = {
         title: this.title,
@@ -44,8 +44,12 @@ export default {
         user_id: this.$route.params.studentId,
         teacher_id: this.teacherID
       }
-      this.createNewComment(commentData).then((response) =>{
-        if(response.status == 201 && response.statusText == "Created"){
+      this.createNewComment(commentData).then(response => {
+        if (response.status == 201 && response.statusText == 'Created') {
+          this.$root.$notif(('Send comment successfully'), {
+            type: 'success',
+            color: 'primary'
+          })
           this.$router.push('/student-home')
         }
       })

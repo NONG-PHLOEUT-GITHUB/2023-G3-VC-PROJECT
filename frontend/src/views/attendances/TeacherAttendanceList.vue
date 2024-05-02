@@ -1,6 +1,6 @@
 <template>
   <custom-title></custom-title>
-  <v-data-table-server></v-data-table-server>
+  <v-data-table></v-data-table>
 </template>
 
 <script>

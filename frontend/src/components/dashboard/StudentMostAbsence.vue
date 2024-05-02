@@ -1,10 +1,9 @@
 <template>
   <custom-sub-title class="mt-4" icon="mdi-chart-timeline">Student most absent list</custom-sub-title>
-  <v-data-table-server
-    v-model:items-per-page="itemsPerPage"
+  <v-data-table
+    :items-per-page="itemsPerPage"
     :headers="headers"
     :items="attendanceMostAbsencData"
-    :items-length="attendanceMostAbsencData.length"
     :loading="loading"
     item-value="name"
     class="elevation-1"
@@ -17,7 +16,7 @@
     <template v-slot:item.actions="{ item }">
       <v-btn :to="'/student/attendance/' + item.id + '/details'" icon="mdi-eye"></v-btn>
     </template>
-  </v-data-table-server>
+  </v-data-table>
 </template>
 <script>
 import http from '@/api/api'

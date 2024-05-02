@@ -64,7 +64,7 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/student-scores',
+        path: '/student-score/view',
         name: 'My score',
         component: () => import('@/views/scores/StudentScoreView.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }

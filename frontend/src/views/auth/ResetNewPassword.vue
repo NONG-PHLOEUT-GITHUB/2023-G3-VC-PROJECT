@@ -81,7 +81,7 @@ export default {
         token: this.token
       }
       http
-        .post(`/reset-new-password/${this.token}`, data, {})
+        .post(`auth/reset-password/${this.token}`, data, {})
         .then(response => {
           const ROLE = response.data.data.role
           const token = response.data.access_token

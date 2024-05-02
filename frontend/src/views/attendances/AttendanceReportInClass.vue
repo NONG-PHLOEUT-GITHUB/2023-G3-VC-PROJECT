@@ -1,6 +1,6 @@
 <template>
   <custom-title icon="mdi-note-check-outline"></custom-title>
-  <v-data-table-server
+  <v-data-table
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items="attendanceData"
@@ -15,7 +15,7 @@
         >See Details</v-btn
       >
     </template>
-  </v-data-table-server>
+  </v-data-table>
 </template>
 <script>
 import http from '@/api/api'

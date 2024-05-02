@@ -27,15 +27,12 @@ export const useStudentStore = defineStore('student', {
     },
     async createNewStudents(data) {
       return await createUsers(data)
-      // this.students = response.data.data
     },
     async updateUser(data) {
       return await updateUser(data)
-      // this.students = response.data.data
     },
     async getStudentDetails(id) {
       const response = await fetchStudentDetails(id)
-      // this.studentDetails = response.data.data
       this.first_name = response.data.data.first_name
       this.last_name = response.data.data.last_name
       this.gender = response.data.data.gender

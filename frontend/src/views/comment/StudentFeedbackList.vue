@@ -1,4 +1,9 @@
 <template>
+  <v-breadcrumbs :items="breadcrumbs" class="py-0 px-0">
+    <template v-slot:prepend>
+      <v-icon icon="mdi-chevron-left"></v-icon>
+    </template>
+  </v-breadcrumbs>
   <custom-title icon="mdi-eye-check-outline">
     <template #right>
       <v-btn
@@ -15,7 +20,7 @@
       ></v-btn>
     </template>
   </custom-title>
-  <v-data-table-server
+  <v-data-table
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items="studentInClassroom"
@@ -33,7 +38,7 @@
     <template template v-slot:item.actions="{ item }">
       <v-btn :to="'/feedback/'+ item.id + '/student'" icon="mdi-comment"></v-btn>
     </template>
-  </v-data-table-server>
+  </v-data-table>
 </template>
 
 <script>
@@ -64,7 +69,14 @@ export default {
         { value: 'Unexcused', label: 'Unexcused' },
         { value: 'On leave', label: 'On leave' },
         { value: 'No show', label: 'No show' }
-      ]
+      ],
+      breadcrumbs: [
+        {
+          title: 'Classroom',
+          disabled: false,
+          href: '/teacher-classroom'
+        },
+      ],
     }
   },
   created() {

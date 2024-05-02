@@ -1,32 +1,55 @@
 <template>
-  <custom-title icon="mdi-details"></custom-title>
+  <v-breadcrumbs :items="breadcrumbs" class="py-0 px-0">
+    <template v-slot:prepend>
+      <v-icon icon="mdi-chevron-left"></v-icon>
+    </template>
+  </v-breadcrumbs>
+  <custom-title icon="mdi-account-details-outline">
+    <template #right>
+      <v-btn
+        icon="mdi-filter-multiple-outline"
+        variant="tonal"
+        class="me-2 bg-primary"
+        @click="toggleFilter = !toggleFilter"
+      ></v-btn>
+      <v-btn
+        variant="tonal"
+        class="me-2 bg-green-darken-1"
+        icon="mdi-export-variant"
+        @click="exportExcel()"
+      ></v-btn>
+      <v-btn
+        variant="tonal"
+        class="me-2 bg-green-darken-1"
+        icon="mdi-send-circle"
+        @click="sendAttendancStudentAsExecl()"
+      ></v-btn>
+    </template>
+  </custom-title>
   <!-- <custom-sub-title>
     Attendance of <strong class="ms-2">{{ user.first_name }} {{ user.last_name }}</strong>
   </custom-sub-title> -->
-  <v-breadcrumbs :items="items" class="py-0">
-    <template v-slot:prepend>
-      <v-icon icon="$vuetify" size="small"></v-icon>
-    </template>
-    <template v-slot:divider>
-      <v-icon icon="mdi-chevron-right"></v-icon>
-    </template>
-  </v-breadcrumbs>
-  <v-data-table-server
-    v-model:items-per-page="itemsPerPage"
-    v-model="selected"
+
+  <!-- v-model="selected" -->
+  <v-data-table
+    v-model:items-per-page="options.itemsPerPage"
+    v-model:page="options.page"
+    v-model:sort-by="options.sortBy"
+    :items-length="attendanceDetails.length || 0"
     :headers="headers"
-    :items="attendanceRecords"
+    :items="attendanceDetails"
     :loading="loading"
-    :search="search"
     item-value="name"
     class="elevation-2"
-    :items-length="attendanceRecords.length || 0"
   >
-  </v-data-table-server>
-  <v-btn :width="130" @click="generatePDF()">save </v-btn>
+  </v-data-table>
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia'
+import { useAttendanceStore } from '@/stores/attendance'
+import { useGuardianStore } from '@/stores/guardian'
+import axios from 'axios'
 import jsPDF from 'jspdf'
 import http from '@/api/api'
 import 'jspdf-autotable'
@@ -38,98 +61,53 @@ export default {
         { title: 'Reason', key: 'reason' },
         { title: 'Status', key: 'status' }
       ],
-      items: [
+      breadcrumbs: [
         {
           title: 'Dashboard',
           disabled: false,
-          href: 'teacher-dashboard'
-        },
-        {
-          title: 'Link 1',
-          disabled: false,
-          href: 'breadcrumbs_link_1'
-        },
-        {
-          title: 'Link 2',
-          disabled: true,
-          href: 'breadcrumbs_link_2'
+          href: '/teacher-dashboard'
         }
       ],
+      options: {
+        itemsPerPage: 10,
+        page: 1,
+        sortBy: [{ date: 'date', key: 'date' }],
+        sortDesc: []
+      },
       loading: false,
-      user: {},
-      attendanceRecords: [],
-      pdfFile: null,
-      telegramAPI:
-        'https://api.telegram.org/bot6394729253:AAEuIrWM_GEvRqJ5kJ6Mpk4ZB7J0lmKMnfI/sendDocument' // replace with your Telegram bot token
+      pdfFile: null
     }
+  },
+  created() {
+    const studentId = this.$route.params.id
+    this.getAttendanceStudentDetails(studentId)
+    this.getChatIdOfGuardian(studentId)
+  },
+  computed: {
+    ...mapState(useAttendanceStore, ['attendanceDetails']),
+    ...mapState(useGuardianStore, ['chat_id'])
   },
   methods: {
-    listattendance(id) {
-      http
-        .get(`attendances/student/${id}/attendance-details`)
-        .then(response => {
-          console.log(response.data)
-          this.user = response.data.user
-          this.attendanceRecords = response.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    async getChatId(id) {
-      try {
-        const response = await http.get('/guardian' + '/' + `${id}`)
-        this.chat_id = response.data.guardian_id
-        console.log(response.data.guardian_id)
-      } catch (error) {
-        console.error('Error getting chat ID:', error)
-      }
-    },
-
-    // -----------ASK AI "how to sent pdf file to telagrambot"==================
-    async sendPDF(chatId, pdfOutput) {
-      try {
-        const formData = new FormData()
-        formData.append('chat_id', chatId)
-        formData.append('document', pdfOutput, 'Attendance.pdf')
-        const response = await axios.post(this.telegramAPI, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        if (!response.data.ok) {
-          return
-        }
-      } catch (error) {
-        console.error('Error sending PDF:', error)
-      }
-    },
-    async generatePDF() {
-      const document = new jsPDF('p', 'pt', 'a4')
-      document.setFontSize(16)
-      document.setFont('helvetica', 'bold')
-      document.text('Attendance Records', 40, 30)
-      const name = `${this.user.first_name} ${this.user.last_name}`
-      document.text(`: ${name}`, 230, 30)
-      const table = this.attendanceRecords.map(record => [
-        record.date,
-        record.reason,
-        record.status
-      ])
-      document.autoTable({
-        head: [['Date', 'Reason', 'Attendance Status']],
-        body: table
+    ...mapActions(useAttendanceStore, ['getAttendanceStudentDetails']),
+    ...mapActions(useGuardianStore, ['getChatIdOfGuardian']),
+    sendAttendancStudentAsExecl() {
+      axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
+        chat_id: this.chat_id,
+        text: 'Hello'
       })
-      const pdfOutput = document.output('blob')
-      await this.sendPDF(this.chat_id, pdfOutput)
-      const fileName = `${name}_attendance.pdf`
-      document.save(fileName)
+    },
+    exportExcel() {
+      const studentId = this.$route.params.id
+      const response = http.get(`attendances/export-excel/${studentId}`, {
+        responseType: 'blob'
+      })
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', `filename_${studentId}.xlsx`) // Adjust filename based on ID
+      document.body.appendChild(link)
+      link.click()
     }
-  },
-  mounted() {
-    const id = this.$route.params.id
-    this.listattendance(id)
-    this.getChatId(id)
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <custom-title icon="mdi-check-decagram-outline"></custom-title>
-  <v-data-table-server
+  <v-data-table
     v-model:items-per-page="itemsPerPage"
     v-model="selected"
     :headers="headers"
@@ -11,7 +11,7 @@
     item-value="name"
     class="elevation-2"
   >
-  </v-data-table-server>
+  </v-data-table>
 </template>
 
 <script>

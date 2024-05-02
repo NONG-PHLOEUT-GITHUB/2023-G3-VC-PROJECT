@@ -20,25 +20,28 @@ export function fetchUserLoged() {
 }
 
 export function forgotPassword(email) {
-  const user = {
+  const data = {
     email
   }
-  return http.post('/forgot-password', user)
+  return http.post('auth/forgot-password', email)
 }
 
 export function resetNewPassword(token, password, password_confirmation) {
-  const user = {
+  const data = {
     password,
     password_confirmation
   }
-  return http.post(`/reset-new-password/${token}`, user)
+  return http.post(`/reset-password/${token}`, data)
 }
 
-
 export function changeNewPassword(current_password, new_password) {
-  const user = {
+  const data = {
     current_password,
     new_password
   }
-  return http.post(`/change-password`, user)
+  return http.post(`/change-password`, data)
+}
+
+export function logout() {
+  return http.post(`v1/auth/logout`)
 }

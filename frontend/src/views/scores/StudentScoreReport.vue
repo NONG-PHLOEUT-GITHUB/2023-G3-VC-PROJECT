@@ -1,6 +1,6 @@
 <template>
   <custom-title icon="mdi-file-table-box-multiple-outline"></custom-title>
-  <v-data-table-server
+  <v-data-table
     :headers="headers"
     :items="items"
     :total-items="totalItems"
@@ -9,7 +9,7 @@
     :server-items-length="serverItemsLength"
     @update:options="getData"
     class="elevation-1"
-  ></v-data-table-server>
+  ></v-data-table>
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="thead">

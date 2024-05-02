@@ -9,22 +9,22 @@
       <v-list-item class="px-2">
         <v-menu rounded>
           <template v-slot:activator="{ props }">
-            <strong class="me-6">{{ first_name }} {{ last_name }}</strong>
+            <strong class="me-6">{{ authUser.first_name }} {{ authUser.last_name }}</strong>
             <v-btn icon v-bind="props" class="me-5">
               <v-avatar color="brown" size="large" class="avatar">
-                <v-img :src="profile_image" alt="Avatar" cover> </v-img>
+                <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
               </v-avatar>
             </v-btn>
           </template>
 
           <v-list>
             <v-list-item>
-              <v-avatar  size="large" class="avatar">
-                <v-img :src="profile_image" alt="Avatar" cover > </v-img>
+              <v-avatar size="large" class="avatar">
+                <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
               </v-avatar>
               <span class="font-weight-black ms-2">
-                {{ first_name }}
-                {{ last_name }}
+                {{ authUser.first_name }}
+                {{ authUser.last_name }}
               </span>
               <br />
               <span class="email">{{ email }}</span>
@@ -52,11 +52,12 @@
       </v-list-item>
     </div>
   </v-app-bar>
-
+  
+  
   <v-dialog v-model="dialogVisible" transition="dialog-top-transition" width="auto">
     <change-password-dialog
-      @cancel="dialogVisible = false"
-      @password-changed="dialogVisible = false"
+    @cancel="dialogVisible = false"
+    @password-changed="dialogVisible = false"
     />
   </v-dialog>
 </template>
@@ -65,7 +66,8 @@
 import http from '@/api/api'
 import ChangePasswordDialog from '@/views/auth/ChangePassword.vue'
 import Sidebar from './Sidebar.vue'
-
+import { mapActions, mapState } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
 export default {
   props: ['menubar'],
   name: 'LayoutDashboard',
@@ -95,31 +97,23 @@ export default {
       }
     ]
   }),
-
+  created() {
+    this.fetchUser()
+  },
+  computed: {
+    ...mapState(useAuthStore, ['authUser'])
+  },
   methods: {
-    async fetchData() {
-      http.get('user').then(response => {
-        this.users = response.data.data
-        this.first_name = response.data.data.first_name
-        this.last_name = response.data.data.last_name
-        this.profile_image = response.data.data.profile
-        this.email = response.data.data.email
-      })
-    },
+    ...mapActions(useAuthStore, ['logout', 'fetchUser']),
 
     logoutUser() {
-      http
-        .post('/v1/auth/logout')
-        .then(result => {
-          if (result) {
-            localStorage.removeItem('access_token')
-            this.$router.push('/login')
-          }
-        })
-
-        .catch(error => {
-          console.log(error)
-        })
+      this.logout().then(response => {
+        if (response.status === 200) {
+          this.$router.push('/login')
+          localStorage.removeItem('access_token')
+          localStorage.removeItem('user_role')
+        }
+      })
     },
     togglerDrawer() {
       this.$emit('toggle')
@@ -137,16 +131,13 @@ export default {
       }
     }
   },
-  mounted() {
-    this.fetchData()
-  }
 }
 </script>
 <style scoped>
-.avatar{
-  border:solid rgb(105, 208, 208);
+.avatar {
+  border: solid rgb(105, 208, 208);
 }
-.font-weight-black{
+.font-weight-black {
   text-transform: uppercase;
 }
 </style>

@@ -22,7 +22,7 @@
       Add new guardian <v-icon>mdi-plus-outline</v-icon></v-btn
     >
   </v-card>
-  <v-data-table-server
+  <v-data-table
     v-model:items-per-page="options.itemsPerPage"
     :headers="headers"
     :items-length="guardians.length"
@@ -47,7 +47,7 @@
         <v-btn @click="removeGuardian(item.id)" variant="text" icon="mdi-delete-forever" color="red">
         </v-btn>
       </template>
-  </v-data-table-server>
+  </v-data-table>
 </template>
 
 <script>

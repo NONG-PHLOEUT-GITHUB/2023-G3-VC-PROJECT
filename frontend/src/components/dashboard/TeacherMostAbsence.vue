@@ -1,5 +1,5 @@
 <template>
-   <v-data-table-server
+   <v-data-table
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items="attendanceData"
@@ -17,7 +17,7 @@
     <template v-slot:item.actions="{ item }">
       <v-btn :to="'/teacher-attendance/' + item.id + '/details'" icon="mdi-eye"></v-btn>
     </template>
-  </v-data-table-server>
+  </v-data-table>
 </template>
 <script>
 import htpp from '@/api/api'

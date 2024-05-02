@@ -34,7 +34,7 @@
     </v-row>
   </v-card>
   <v-card>
-    <v-data-table-server
+    <v-data-table
       v-model:items-per-page="options.itemsPerPage"
       v-model:page="options.page"
       :headers="headers"
@@ -61,7 +61,7 @@
         <v-btn :to="{ path: '/student/' + item.id + '/details' }" icon="mdi-eye" variant="text">
         </v-btn>
       </template>
-    </v-data-table-server>
+    </v-data-table>
   </v-card>
 </template>
 <script>

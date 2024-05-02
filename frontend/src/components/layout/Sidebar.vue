@@ -63,7 +63,7 @@ export default {
         icon: 'mdi-progress-check'
       },
       {
-        path: '/student-scores',
+        path: '/student-score/view',
         title: 'Score',
         icon: 'mdi-chart-bar'
       },

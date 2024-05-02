@@ -1,4 +1,9 @@
 <template>
+  <v-breadcrumbs :items="breadcrumbs" class="py-0 px-0">
+    <template v-slot:prepend>
+      <v-icon icon="mdi-chevron-left"></v-icon>
+    </template>
+  </v-breadcrumbs>
   <custom-title icon="mdi-eye-check-outline">
     <template #right>
       <v-btn
@@ -20,7 +25,7 @@
     </v-checkbox>
   </v-row>
   {{ selectedValues }}
-  <v-data-table-server
+  <v-data-table
     v-model:items-per-page="itemsPerPage"
     v-model="selectedValues"
     :item-selectable="studentInClassroom.id"
@@ -50,7 +55,7 @@
     <template v-slot:item.reason="{ item }">
       <v-textarea rows="1" variant="outlined" v-model="item.reason"></v-textarea>
     </template>
-  </v-data-table-server>
+  </v-data-table>
 </template>
 
 <script>
@@ -87,7 +92,14 @@ export default {
         { value: 'Unexcused', label: 'Unexcused' },
         { value: 'On leave', label: 'On leave' },
         { value: 'No show', label: 'No show' }
-      ]
+      ],
+      breadcrumbs: [
+        {
+          title: 'Classroom',
+          disabled: false,
+          href: '/teacher-classroom'
+        },
+      ],
     }
   },
   created() {
@@ -114,10 +126,12 @@ export default {
         }
         this.getChatIdOfGuardian(selected)
         this.checkAttendance(formData).then(res => {
-          console.log(res)
-          axios.post(this.telegramToken, {
+          // console.log(res)
+          // const message = `Name: ${student.first_name} ${student.last_name}\nGender: ${student.gender}\nStatus: ${student.status}\nReason: ${student.reason}`
+
+          axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
             chat_id: this.chat_id,
-            text: formData
+            text: "message"
           })
         })
       })
@@ -132,3 +146,7 @@ export default {
 //   text: message
 // })
 </script>
+
+
+
+

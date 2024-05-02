@@ -1,7 +1,7 @@
 <template>
   <custom-title icon="mdi-chart-box-plus-outline"></custom-title>
 
-  <v-data-table-server
+  <v-data-table
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items="serverItems"
@@ -11,7 +11,7 @@
     item-value="name"
     @update:options="loadItems"
     class="elevation-1"
-  ></v-data-table-server>
+  ></v-data-table>
 </template>
 
 <script>

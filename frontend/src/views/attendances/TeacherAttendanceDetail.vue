@@ -1,6 +1,6 @@
 <template>
   <custom-title icon="mdi-card-account-details"></custom-title>
-  <v-data-table-server
+  <v-data-table
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items="attendanceRecords"
@@ -10,7 +10,7 @@
     item-value="name"
     class="elevation-1"
   >
-  </v-data-table-server>
+  </v-data-table>
 </template>
 <script>
 import axios from "axios";
