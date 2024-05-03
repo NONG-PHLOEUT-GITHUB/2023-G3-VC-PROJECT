@@ -17,11 +17,21 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $dateOfBirth = fake()->date();
+        $age = date_diff(date_create($dateOfBirth), date_create('today'))->y;
+        $address = fake()->streetAddress() . ', ' . fake()->streetName() . ', ' . fake()->citySuffix() . ': ' . fake()->citySuffix();
+
         return [
-            'first_name' => fake()->name(),
-            'last_name' => fake()->name(),
+            'profile' => "http://127.0.0.1:8000/images/408632910.JPG",
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'gender' => fake()->randomElement(['male', 'female']),
+            'date_of_birth' => $dateOfBirth,
+            'age' => $age,
+            'phone_number' => fake()->phoneNumber(),
             'is_class_coordinator' => 'false',
             'email' => fake()->unique()->safeEmail(),
+            'address' => $address,
             'role' => 3,
             'email_verified_at' => now(),
             'password' => 'admin1234',

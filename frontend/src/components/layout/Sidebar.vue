@@ -111,7 +111,7 @@ export default {
       return localStorage.getItem('user_role')
     },
     menu() {
-      switch (2) {
+      switch (1) {
         case 1:
           return this.adminMenu
         case 2:
