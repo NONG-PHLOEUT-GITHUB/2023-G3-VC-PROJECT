@@ -148,6 +148,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Classroom::class, 'classroom_teachers', 'teacher_id', 'classroom_id');
     }
 
+    // coordinator_id
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
@@ -173,5 +175,11 @@ class User extends Authenticatable implements JWTSubject
     public function guardian()
     {
         return $this->belongsTo(Guardian::class, 'guardian_id');
+    }
+
+
+    public function coordinator()
+    {
+        return $this->hasOne(Classroom::class);
     }
 }

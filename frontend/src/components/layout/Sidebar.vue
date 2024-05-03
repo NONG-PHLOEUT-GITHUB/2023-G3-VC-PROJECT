@@ -108,10 +108,10 @@ export default {
   }),
   computed: {
     userRole() {
-      return localStorage.getItem('user_role')
+      return parseInt(localStorage.getItem('user_role')); // set string to integer
     },
     menu() {
-      switch (2) {
+      switch (this.userRole) {
         case 1:
           return this.adminMenu
         case 2:

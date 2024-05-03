@@ -5,8 +5,8 @@ export default {
   data: () => ({
     visible: false,
     passwordShow: false,
-    email: 'phloeutnong@gmail.com',
-    password: 'Jbemg2CC',
+    email: 'admin@gmail.com',
+    password: 'admin1234',
     emailRules: [
       v => !!v || 'E-mail is required',
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid'

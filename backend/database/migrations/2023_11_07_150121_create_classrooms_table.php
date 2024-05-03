@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
             $table->string('classroom_name', 100)->nullable();
-            $table->boolean('is_class_coordinator')->default(false);
+            $table->string('grade', 100)->nullable();
+            $table->unsignedBigInteger('coordinator_id');
+            $table->foreign('coordinator_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

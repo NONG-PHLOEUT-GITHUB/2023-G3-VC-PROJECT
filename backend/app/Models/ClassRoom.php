@@ -11,16 +11,16 @@ class Classroom extends Model
 
     protected $fillable = [
         'classroom_name',
-        'description',
-        // 'is_class_coordinator',
-        'teacher_id'
+        'grade',
+        'coordinator_id',
     ];
 
     public static function store($request, $id = null)
     {
         $classrooms = $request->only(
             'classroom_name',
-            'description',
+            'grade',
+            'coordinator_id'
         );
         if ($id) {
             $classroom = self::find($id);
@@ -32,18 +32,16 @@ class Classroom extends Model
             $classroom = self::create($classrooms);
             $id = $classroom->$id;
         }
-        // Sync the related teachers
-        $teacherIds = $request->input('teacher_id', []);
-        // $isClassCoordinator = $request->input('is_class_coordinator');
-        if (empty($teacherIds)) {
-            return response()->json(['error' => 'No teachers selected or class coordinator'], 400);
-        }
-        
+        // // Sync the related teachers
+        // $teacherIds = $request->input('coordinator_id', []);
+        // if (empty($teacherIds)) {
+        //     return response()->json(['error' => 'No teachers selected or class coordinator'], 400);
+        // }
+
         if (!$classroom->save()) {
             return response()->json(['error' => 'Error saving class room record'], 500);
         }
-        $classroom->teachers()->sync($teacherIds);
-        // $classroom->teachers()->sync($isClassCoordinator);
+        // $classroom->teachers()->sync($teacherIds);
 
         return response()->json(['success' => true, 'data' => $classroom], 201);
     }
@@ -51,7 +49,6 @@ class Classroom extends Model
 
     // get by attributes
     protected $appends = ['student_count'];
-    // protected $appends = ['is_class_coordinator'];
 
     public function getStudentCountAttribute()
     {
@@ -61,11 +58,17 @@ class Classroom extends Model
     // // one class have many teacher also one teacher has many classes
     public function teachers()
     {
-        return $this->belongsToMany(User::class, 'classroom_teachers', 'classroom_id', 'teacher_id');
+        return $this->belongsToMany(User::class, 'classroom_teachers', 'classroom_id', 'coordinator_id');
     }
 
     public function students()
     {
         return $this->hasMany(User::class)->where('role', 3);
+    }
+
+    ///one teacher have coodinator one 
+    public function teacherCoordinator()
+    {
+        return $this->belongsTo(User::class);
     }
 }

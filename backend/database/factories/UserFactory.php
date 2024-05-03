@@ -19,10 +19,10 @@ class UserFactory extends Factory
     {
         return [
             'first_name' => fake()->name(),
+            'profile' => '',
             'last_name' => fake()->name(),
-            'is_class_coordinator' => 'false',
             'email' => fake()->unique()->safeEmail(),
-            'role' => 3,
+            'role' => 1,
             'email_verified_at' => now(),
             'password' => 'admin1234',
             'remember_token' => Str::random(10),
