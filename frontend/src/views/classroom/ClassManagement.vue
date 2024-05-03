@@ -23,7 +23,7 @@
   <v-dialog v-model="dialog" persistent width="40%">
     <v-card>
       <v-form @submit.prevent="saveClassroom">
-        <v-card-title>
+        <v-card-title class="bg-primary">
           <span class="text-h5">{{ formAction }}</span>
         </v-card-title>
         <v-card-text>
@@ -42,9 +42,11 @@
                   label="Teacher assignee"
                   variant="outlined"
                   :items="teacherList"
-                  item-title="first_name"
-                  item-value="user_id"
+                  :item-title="fullName"
+                  item-value="id"
                   clearable
+                  v-model="selectedTeacherId"
+                  @update:model-value="selectCordinator()"
                 ></v-select>
               </v-col>
             </v-row>
@@ -86,8 +88,8 @@
               </v-list-item>
             </v-list>
           </v-menu>
-          <!-- <v-icon color="primary" icon="mdi-dots-vertical"></v-icon> -->
         </template>
+        <!-- <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</v-card-text> -->
         <v-card-actions>
           <!-- <v-btn
           color="teal-darken-4"
@@ -105,8 +107,6 @@
             text="Check attendance"
           ></v-btn>
         </v-card-actions>
-
-        <!-- <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</v-card-text> -->
       </v-card>
     </v-col>
   </v-row>
@@ -114,7 +114,8 @@
 
 <script>
 import http from '@/api/api'
-
+import { useClassroomStore } from '@/stores/classroom'
+import { mapActions, mapState } from 'pinia'
 export default {
   data() {
     return {
@@ -122,27 +123,33 @@ export default {
       dialog: false,
       teachers: [],
       selectedTeacher: null,
-      classrooms: [],
       teacherList: [],
       className: '',
-      formAction: 'Add Classroom',
+      formAction: 'Create new classroom',
       editing: false,
       editId: null,
       listClass: [],
+      selectedTeacherId: null,
       items: [
         { action: 'edit', title: 'Edite', icon: 'mdi-delete', color: 'red' },
         { action: 'delete', title: 'Delete', icon: 'mdi-pencil' }
       ]
     }
   },
-
+  created() {
+    this.getCassrooms()
+  },
   computed: {
+    ...mapState(useClassroomStore, ['classrooms']),
     fullName() {
-      return `${this.first_name} ${this.last_name}`
+      return function (item) {
+        return item.first_name + ' ' + item.last_name
+      }
     }
   },
 
   methods: {
+    ...mapActions(useClassroomStore, ['getCassrooms', 'deleteCassroom']),
     onMenuClick(action, id) {
       switch (action) {
         case 'edit':
@@ -155,6 +162,7 @@ export default {
           break
       }
     },
+
     showStudents(classId) {
       http
         .get(`/getuserInClass/${classId}`)
@@ -174,8 +182,8 @@ export default {
       // Send a POST request to create a new classroom
       http
         .post('/classrooms', {
-          class_name: this.className,
-          teacher_id: this.selectedTeacher
+          classroom_name: this.className,
+          coordinator_id: this.selectedTeacher
         })
         .then(response => {
           this.className = null
@@ -192,20 +200,15 @@ export default {
         this.teacherList = response.data.data
       })
     },
-    onTeacherSelected(teacher) {
-      this.selectedTeacher = teacher.value
-    },
-
-    fetchClassrooms() {
-      http.get('/classrooms').then(response => {
-        this.classrooms = response.data.data
-      })
+    selectCordinator() {
+      this.selectedTeacher = this.selectedTeacherId
+      console.log(this.selectedTeacherId)
     },
 
     saveClassroom() {
       const newclassroom = {
-        class_name: this.className,
-        user_id: this.selectedTeacher
+        classroom_name: this.className,
+        coordinator_id: this.selectedTeacher
       }
 
       if (this.editing) {
@@ -240,7 +243,7 @@ export default {
       this.formAction = 'Edit Classroom'
       this.editing = true
       this.editId = classroom.id
-      this.className = classroom.class_name
+      this.className = classroom.classroom_name
       this.selectedTeacher = classroom.teacher_id
       this.dialog = true
     },
@@ -250,7 +253,7 @@ export default {
 
       http
         .put(`/classrooms/${id}/update`, {
-          class_name: this.className,
+          classroom_name: this.className,
           teacher_id: this.selectedTeacher
         })
         .then(response => {
@@ -275,11 +278,8 @@ export default {
     },
 
     deleteClassroom(id) {
-      http.delete(`/classrooms/${id}/delete`).then(() => {
-        const index = this.classrooms.findIndex(c => c.id === id)
-        if (index !== -1) {
-          this.classrooms.splice(index, 1)
-        }
+      this.deleteCassroom(id).then(() => {
+        this.getCassrooms()
       })
     }
     // getStudentInClass() {
@@ -296,7 +296,6 @@ export default {
 
   mounted() {
     // this.getStudentInClass()
-    this.fetchClassrooms()
     this.getTeacher()
   }
 }

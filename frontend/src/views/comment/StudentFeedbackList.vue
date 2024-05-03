@@ -28,7 +28,7 @@
     :loading="loading"
     item-value="name"
     class="elevation-2"
-    >
+  >
     <!-- :search="search" -->
     <template v-slot:item.profile="{ item }">
       <v-avatar size="large">
@@ -36,7 +36,7 @@
       </v-avatar>
     </template>
     <template template v-slot:item.actions="{ item }">
-      <v-btn :to="'/feedback/'+ item.id + '/student'" icon="mdi-comment"></v-btn>
+      <v-btn :to="'/feedback/' + item.id + '/student'" icon="mdi-comment"></v-btn>
     </template>
   </v-data-table>
 </template>
@@ -59,7 +59,7 @@ export default {
         { title: 'Last Name', key: 'last_name' },
         { title: 'Gender', key: 'gender' },
         { title: 'Email', key: 'email' },
-        { title: '', key: 'actions' },
+        { title: '', key: 'actions' }
       ],
       statusOptions: [
         { value: 'Present', label: 'Present' },
@@ -69,14 +69,7 @@ export default {
         { value: 'Unexcused', label: 'Unexcused' },
         { value: 'On leave', label: 'On leave' },
         { value: 'No show', label: 'No show' }
-      ],
-      breadcrumbs: [
-        {
-          title: 'Classroom',
-          disabled: false,
-          href: '/teacher-classroom'
-        },
-      ],
+      ]
     }
   },
   created() {
@@ -84,7 +77,27 @@ export default {
     this.getStudentsInClassroom(id)
   },
   computed: {
-    ...mapState(useClassroomStore, ['studentInClassroom'])
+    ...mapState(useClassroomStore, ['studentInClassroom']),
+    breadcrumbs() {
+      const user_role = parseInt(localStorage.getItem('user_role'))
+      if (user_role === 1) {
+        return [
+          {
+            title: 'Classroom Management',
+            disabled: false,
+            href: '/class-list'
+          }
+        ]
+      } else {
+        return [
+          {
+            title: 'Classroom',
+            disabled: false,
+            href: '/teacher-classroom'
+          }
+        ]
+      }
+    }
   },
   methods: {
     ...mapActions(useClassroomStore, ['getStudentsInClassroom'])

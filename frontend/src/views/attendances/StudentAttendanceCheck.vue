@@ -20,11 +20,14 @@
       ></v-btn>
     </template>
   </custom-title>
-  <v-row>
-    <v-checkbox @click="SelectAttendace()" value="red" :label="this.date" hide-details>
-    </v-checkbox>
-  </v-row>
-  {{ selectedValues }}
+  <v-col>
+    <v-date-input
+      label="Select a date"
+      prepend-icon=""
+      prepend-inner-icon="$calendar"
+      variant="outlined"
+    ></v-date-input>
+  </v-col>
   <v-data-table
     v-model:items-per-page="itemsPerPage"
     v-model="selectedValues"
@@ -98,8 +101,8 @@ export default {
           title: 'Classroom',
           disabled: false,
           href: '/teacher-classroom'
-        },
-      ],
+        }
+      ]
     }
   },
   created() {
@@ -131,7 +134,7 @@ export default {
 
           axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
             chat_id: this.chat_id,
-            text: "message"
+            text: 'message'
           })
         })
       })
@@ -146,7 +149,3 @@ export default {
 //   text: message
 // })
 </script>
-
-
-
-

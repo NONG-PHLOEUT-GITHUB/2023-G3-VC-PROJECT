@@ -5,9 +5,11 @@ import { fr, en } from "vuetify/locale";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
 import * as labs from "vuetify/labs/components";
+import { VDateInput } from 'vuetify/labs/VDateInput'
 
 const vuetify = createVuetify({
   components: {
+    VDateInput,
     ...components,
     ...labs,
   },

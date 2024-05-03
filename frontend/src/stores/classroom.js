@@ -1,10 +1,16 @@
 import { defineStore } from 'pinia'
-import { fetchStudentsInClassroomById,fetchTotalOfClassroom } from '@/api/classroom'
+import {
+  fetchStudentsInClassroomById,
+  fetchTotalOfClassroom,
+  fetchClassrooms,
+  deleteClassroom
+} from '@/api/classroom'
 
 export const useClassroomStore = defineStore('classroom', {
   state: () => ({
     studentInClassroom: [],
-    classroom:{}
+    classroom: {},
+    classrooms: []
   }),
   actions: {
     async getStudentsInClassroom(id) {
@@ -14,8 +20,18 @@ export const useClassroomStore = defineStore('classroom', {
     },
     async getCassroomTotal() {
       const response = await fetchTotalOfClassroom()
-      console.log(response.data.data);
+      console.log(response.data.data)
       this.classroom = response.data.data
+    },
+    async getCassrooms() {
+      const response = await fetchClassrooms()
+      console.log(response.data.data)
+      this.classrooms = response.data.data
+    },
+    async deleteCassroom(classroomId) {
+      const response = await deleteClassroom(classroomId)
+      console.log(response)
+      // this.classrooms = response.data.data
     }
   }
 })

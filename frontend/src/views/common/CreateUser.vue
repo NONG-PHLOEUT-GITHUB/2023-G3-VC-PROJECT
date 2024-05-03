@@ -13,8 +13,8 @@
       <v-row>
         <v-col>
           <v-radio-group inline>
-            <v-radio label="male" v-model="gender"></v-radio>
-            <v-radio label="female" v-model="gender"></v-radio>
+            <v-radio label="male" value="1"></v-radio>
+            <v-radio label="female" value="2"></v-radio>
           </v-radio-group>
         </v-col>
         <v-col>
@@ -42,6 +42,8 @@
             :items="roleOption"
             item-title="title"
             item-value="value"
+            v-model="user_role"
+            @change="getRoleOption()"
           ></v-select>
         </v-col>
         <v-col>
@@ -55,7 +57,8 @@
             accept="image/png, image/jpeg, image/bmp"
             label="Avatar"
             placeholder="Pick an avatar"
-            prepend-icon="mdi-camera"
+            prepend-icon=""
+            prepend-inner-icon="mdi-camera"
             variant="outlined"
             counter
             show-size
@@ -70,18 +73,8 @@
             <v-img alt="John" src="https://cdn.vuetifyjs.com/images/john.jpg"></v-img>
           </v-avatar>
         </v-col>
-        <v-col>
-          <v-switch
-            v-model="class_condinator"
-            :label="`Class condinator: ${class_condinator}`"
-            :false-value="0"
-            :true-value="1"
-            hide-details
-            inset
-          ></v-switch>
-        </v-col>
       </v-row>
-      <v-row v-show="HideElement">
+      <v-row v-show="getRoleOption">
         <v-col>
           <v-text-field
             label="Chat Id of guardians"
@@ -152,11 +145,11 @@ export default {
     }
   },
   created() {
-   const userId = this.$route.params.id
+    const userId = this.$route.params.id
     this.getStudentDetails(userId)
   },
   methods: {
-    ...mapActions(useStudentStore, ['createNewStudents','updateUser','getStudentDetails']),
+    ...mapActions(useStudentStore, ['createNewStudents', 'updateUser', 'getStudentDetails']),
     // resferent :  https://www.youtube.com/watch?v=chCtrNGrQhk
     // var file = event.target.files[0]
     // console.log(event.target.files[0])
@@ -200,20 +193,6 @@ export default {
           'content-type': 'multipart/form-data'
         }
       }
-      // const data = new FormData()
-      // data.append('first_name', this.first_name)
-      // data.append('last_name', this.last_name)
-      // data.append('email', this.email) // Assuming this should be email, not first_name
-      // data.append('phone_number', this.phone_number)
-      // data.append('address', this.address)
-      // data.append('date_of_birth', this.date_of_birth)
-      // data.append('age', this.age)
-      // data.append('gender', this.gender)
-      // data.append('profile', this.profile)
-      // data.append('role', this.role)
-      // data.append('class_room_id', this.class_room_id)
-      // data.append('profile', this.profile)
-      // console.log('data', data)
       this.createNewStudents(formData, config).then(response => {
         if (response.status == 201 && response.statusText == 'Created') {
           this.$router.push({ path: '/student-list' })
@@ -254,52 +233,10 @@ export default {
     ...mapState(useStudentStore, ['students']),
     HideElement() {
       return this.role != '1' && this.role != '2'
-    },
-    max_date() {
-      const today = new Date()
-      const year = today.getFullYear() - 10
-      const month = today.getMonth() + 1 // add 1 because getMonth() returns 0-based month index
-      const day = today.getDate()
-      return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
-    },
-    calculateAge() {
-      if (!this.date_of_birth) return null
-      const today = new Date()
-      const birthDate = new Date(this.date_of_birth)
-      let age = today.getFullYear() - birthDate.getFullYear()
-      const monthDiff = today.getMonth() - birthDate.getMonth()
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--
-      }
-      return age
     }
   },
   mounted() {
     this.getClassRoom()
-  },
-
-  watch: {
-    date_of_birth: function () {
-      this.age = this.calculateAge
-    }
   }
 }
 </script>
-
-<style scoped>
-.gender {
-  background: #f8f7f7;
-  padding: 10px;
-  border-radius: 5px;
-  width: 95%;
-}
-
-img {
-  width: 100px;
-}
-
-.container {
-  margin-left: 16%;
-  width: 85%;
-}
-</style>

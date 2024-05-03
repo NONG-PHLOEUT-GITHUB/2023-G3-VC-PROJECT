@@ -10,29 +10,33 @@
       <v-btn
         variant="tonal"
         class="me-2 bg-deep-orange-accent-4"
-        icon="mdi-file-pdf-box"
-        @click="downloadPDF()"
+        icon="mdi-database-import"
+        @click="isEmport = !isEmport"
       ></v-btn>
-      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+      <!-- @click="downloadPDF()" -->
+      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-database-export"></v-btn>
+      <v-btn
+        :to="{ path: '/create-user' }"
+        variant="tonal"
+        class="me-2 bg-dark-darken-4"
+        icon="mdi-database-plus"
+      ></v-btn>
     </template>
   </custom-title>
-  <v-card class="mb-3 py-3">
-    <v-row>
-      <v-col>
-        <v-file-input
-          label="Upload Excel file"
-          variant="outlined"
-          @submit.prevent="importFile"
-          density="compact"
-        ></v-file-input>
-      </v-col>
-      <v-col>
-        <v-btn :to="{ path: '/create-user' }" color="teal-darken-4" append-icon="mdi-account-plus"
-          >Add new user
-        </v-btn>
-      </v-col>
-    </v-row>
+  <v-expand-transition>
+  <v-card class="mb-3 pa-0" v-show="isEmport">
+    <v-col cols="4" class="pa-2">
+      <v-file-input
+        label="Upload Excel file"
+        variant="outlined"
+        prepend-icon=""
+        prepend-inner-icon="mdi-paperclip"
+        hide-details
+        @submit.prevent="importFile"
+      ></v-file-input>
+    </v-col>
   </v-card>
+</v-expand-transition>
   <v-card>
     <v-data-table
       v-model:items-per-page="options.itemsPerPage"
@@ -85,6 +89,7 @@ export default {
         sortBy: [],
         sortDesc: []
       },
+      isEmport:false,
       loading: false,
       headers: [
         { title: 'Profile', key: 'profile' },
@@ -101,7 +106,7 @@ export default {
   },
 
   computed: {
-    ...mapState(useStudentStore, ['students']),
+    ...mapState(useStudentStore, ['students'])
   },
   methods: {
     ...mapActions(useStudentStore, ['getStudents']),

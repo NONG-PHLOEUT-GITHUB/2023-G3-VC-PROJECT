@@ -12,7 +12,7 @@ export function createNewClassroom() {
 export function updateClassroom() {
   return http.put(`${id}/update`)
 }
-export function deleteClassroom() {
+export function deleteClassroom(id) {
   return http.delete(`/classrooms/${id}/delete`)
 }
 export function fetchClassrooms() {
