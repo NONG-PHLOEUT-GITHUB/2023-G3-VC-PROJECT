@@ -98,15 +98,33 @@ export default {
     },
     exportExcel() {
       const studentId = this.$route.params.id
-      const response = http.get(`attendances/export-excel/${studentId}`, {
-        responseType: 'blob'
-      })
-      const url = window.URL.createObjectURL(new Blob([response.data]))
-      const link = document.createElement('a')
-      link.href = url
-      link.setAttribute('download', `filename_${studentId}.xlsx`) // Adjust filename based on ID
-      document.body.appendChild(link)
-      link.click()
+      http
+        .get(`attendances/export-excel/${studentId}`, {
+          responseType: 'blob'
+        })
+        .then(response => {
+          // Create a Blob from the response data
+          const blob = new Blob([response.data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          })
+          const url = window.URL.createObjectURL(blob)
+
+          // Create a link element to trigger the download
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'student.xlsx') // Adjust filename as needed
+
+          // Append the link to the document body and trigger the click event
+          document.body.appendChild(link)
+          link.click()
+
+          // Clean up by revoking the Object URL
+          window.URL.revokeObjectURL(url)
+        })
+        .catch(error => {
+          console.error('Error downloading Excel file:', error)
+          // Handle error if needed
+        })
     }
   }
 }

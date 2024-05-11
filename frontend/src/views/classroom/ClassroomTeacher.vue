@@ -17,15 +17,57 @@
     </template>
   </custom-title>
   <div class="main">
+    <v-row dense class="py-4">
+      <v-col cols="12" md="6">
+        <custom-sub-title icon="mdi-account-tie-woman">Class Coordinator</custom-sub-title>
+        <v-card
+          v-if="coordinator !== null"
+          prepend-icon="mdi-chair-school"
+          :title="coordinator.classroom_name"
+          :subtitle="coordinator.student_count"
+        >
+          <v-card-actions>
+            <v-btn
+              color="teal-darken-4"
+              :to="'/student/' + coordinator.id + '/feedback'"
+              class="me-1"
+            >
+              Studen List
+            </v-btn>
+            <v-btn
+              color="orange"
+              :to="`/attendance/` + coordinator.id + `/student`"
+              text="Check attendance"
+            ></v-btn>
+            <v-btn
+              color="orange"
+              :to="`/attendance/` + coordinator.id + `/student`"
+              text="score report"
+            ></v-btn>
+            <v-btn
+              color="orange"
+              :to="`/attendance-report/` + coordinator.id + `/by-class`"
+              text="attendance report"
+            ></v-btn>
+          </v-card-actions>
+        </v-card>
+        <v-alert v-else text="No class coordinator assigned yet." type="info"></v-alert>
+      </v-col>
+    </v-row>
+    <custom-sub-title icon="mdi-account-tie">Classroom teaching</custom-sub-title>
     <v-row dense>
-      <v-col cols="12" md="3" v-for="classroom in teacherTeachingClass">
+      <v-col v-if="teacherTeachingClass.length !== 0" cols="12" md="6" v-for="classroom in teacherTeachingClass">
         <v-card
           prepend-icon="mdi-chair-school"
           :title="classroom.classroom_name"
           :subtitle="classroom.student_count"
         >
           <v-card-actions>
-            <v-btn color="teal-darken-4" :to="'/student/' + classroom.id + '/feedback'" class="me-1">
+            <v-btn
+              color="teal-darken-4"
+              :to="'/student/' + classroom.id + '/feedback'"
+              class="me-1"
+            >
               Studen List
             </v-btn>
             <v-btn
@@ -33,39 +75,21 @@
               :to="`/attendance/` + classroom.id + `/student`"
               text="Check attendance"
             ></v-btn>
+            <v-btn
+              color="orange"
+              :to="`/attendance/` + classroom.id + `/student`"
+              text="score report"
+            ></v-btn>
+            <v-btn
+              color="orange"
+              :to="`/attendance-report/` + classroom.id + `/by-class`"
+              text="attendance report"
+            ></v-btn>
           </v-card-actions>
-          <!-- <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</v-card-text> -->
         </v-card>
       </v-col>
+      <v-alert v-else text="No class teaching assigned yet." type="info"></v-alert>
     </v-row>
-    <!-- {{teacherTeachingClass}} -->
-    <!-- <v-card
-      v-for="classroom of classrooms"
-      :key="classroom"
-      class="card mx-auto mt-2"
-      width="96%"
-      prepend-icon="mdi-home"
-      elevation="4"
-    >
-      <template v-slot:title> Grade : {{ classroom.class_name }}</template>
-      <div class="action">
-        <v-col cols="auto">
-          <v-btn
-            color="teal-darken-4"
-            :to="{ path: '/student-score-report/' + classroom.id }"
-            class="me-4"
-          >
-            <v-icon>mdi-chart-line</v-icon> Score report
-          </v-btn>
-          <v-btn color="teal-darken-4" :to="{ path: '//attendance-report/' + classroom.id + '/by-class'}">
-            <v-icon>mdi-calendar-clock</v-icon> Attendance report
-          </v-btn>
-          <v-btn color="teal-darken-4" :to="{ path: '/feedback/' + classroom.id }" class="ms-4">
-            <v-icon>mdi-poll</v-icon> Studen feedback
-          </v-btn>
-        </v-col>
-      </div>
-    </v-card> -->
   </div>
 </template>
 
@@ -80,7 +104,7 @@ export default {
     this.getTeacherClassTeaching()
   },
   computed: {
-    ...mapState(useTeacherStore, ['teacherTeachingClass'])
+    ...mapState(useTeacherStore, ['teacherTeachingClass', 'coordinator'])
   },
   methods: {
     ...mapActions(useTeacherStore, ['getTeacherClassTeaching'])

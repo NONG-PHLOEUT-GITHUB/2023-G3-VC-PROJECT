@@ -1,4 +1,4 @@
-import { useLoadingStore } from '@/stores/loading'
+// import { useLoadingStore } from '@/stores/loading'
 import axios from 'axios'
 
 const api = axios.create({
@@ -12,7 +12,6 @@ const api = axios.create({
 api.interceptors.request.use(async config => {
   try {
     // useLoadingStore.setLoading(true)
-    console.log('hello world');
     const token = localStorage.getItem('access_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
@@ -26,7 +25,6 @@ api.interceptors.request.use(async config => {
 
 api.interceptors.response.use(async response => {
   try {
-    // console.log(response);
     return response
   } catch (error) {
     return Promise.reject(error)

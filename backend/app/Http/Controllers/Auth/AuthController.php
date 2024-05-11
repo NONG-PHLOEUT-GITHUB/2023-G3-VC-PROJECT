@@ -49,6 +49,7 @@ class AuthController extends Controller
                 },
                 'teacherClassTeaching',
                 'scores',
+                'coordinator',
                 'comments' => function ($query) {
                     $query->join('users', 'comments.teacher_id', '=', 'users.id')
                         ->select('comments.*', 'users.first_name', 'users.last_name', 'users.profile')

@@ -1,11 +1,12 @@
 <script>
 import { mapActions } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
+import { useLoadingStore } from '@/stores/loading'
 export default {
   data: () => ({
     visible: false,
     passwordShow: false,
-    email: 'admin@gmail.com',
+    email: 'admin@example.com',
     password: 'admin1234',
     emailRules: [
       v => !!v || 'E-mail is required',
@@ -19,14 +20,17 @@ export default {
 
   methods: {
     ...mapActions(useAuthStore, ['login']),
+    ...mapActions(useLoadingStore, ['setLoading']),
     connection() {
       if (this.$refs.form.validate()) {
         this.login({ email: this.email, password: this.password })
           .then(response => {
             // console.log('res',response)
+            this.setLoading(true)
             if (response) {
               this.$router.push('/student-home')
             }
+            this.setLoading(false)
           })
           .catch(error => {
             if (error.response && error.response.status === 401) {

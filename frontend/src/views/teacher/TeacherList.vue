@@ -2,31 +2,28 @@
   <custom-title icon="mdi-human-male-board">
     <template #right>
       <v-btn
-        icon="mdi-filter-multiple-outline"
-        variant="tonal"
-        class="me-2 bg-primary"
+        variant="outlined"
+        append-icon="mdi-filter-multiple-outline"
+        class="text-none me-2"
+        color="primary"
         @click="toggleFilter = !toggleFilter"
-      ></v-btn>
-      <v-btn
-        variant="tonal"
-        class="me-2 bg-deep-orange-accent-4"
-        icon="mdi-file-pdf-box"
-        @click="downloadPDF()"
-      ></v-btn>
-      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+        >Filters</v-btn
+      >
+      <v-tooltip activator="parent" text="Export Excel" location="top">
+        <template v-slot:activator="{ props }">
+          <v-btn
+            v-bind="props"
+            variant="tonal"
+            class="me-2 bg-green-darken-1"
+            icon="mdi-file-excel"
+          ></v-btn>
+        </template>
+      </v-tooltip>
     </template>
   </custom-title>
   <teacher-filter v-show="toggleFilter" />
   <v-card>
-    <v-data-table
-      v-model:items-per-page="itemsPerPage"
-      :headers="headers"
-      :items="teachers"
-      :items-length="teachers.length"
-      :loading="loading"
-      :search="search"
-      item-value="name"
-    >
+    <v-data-table :headers="headers" :items="teachers" item-value="name">
       <template v-slot:item.profile="{ item }">
         <v-avatar size="large">
           <v-img :src="item.profile" alt="Avatar" cover> </v-img>
@@ -47,9 +44,6 @@
 </template>
 
 <script>
-import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
-import http from '@/api/api'
 import TeacherFilter from '@/components/filters/TeacherFilter.vue'
 import { useTeacherStore } from '@/stores/teacher'
 import { mapActions, mapState } from 'pinia'
@@ -62,13 +56,7 @@ export default {
   },
   data() {
     return {
-      isDownloading: false,
       toggleFilter: false,
-      isDetail: false,
-      pdfUrl: null,
-      selectedClass: null,
-      classrooms: [],
-      itemsPerPage: 10,
       headers: [
         { title: 'ID', key: 'id' },
         { title: 'Profile', key: 'profile' },
@@ -79,58 +67,26 @@ export default {
         { title: 'Phone Number', key: 'phone_number' },
         { title: 'Address', key: 'address' },
         { title: 'Email', key: 'email' },
-        { title: '', key: 'actions' ,width: '10%'}
+        { title: '', key: 'actions', width: '10%' }
       ]
     }
   },
   computed: {
     ...mapState(useTeacherStore, ['teachers'])
-
   },
   methods: {
-    ...mapActions(useTeacherStore,['getTeachers','deleteTeacher']),
-    removeTeacher(id){
-      this.deleteTeacher(id);
-      this.getTeachers()
-    },
-    downloadPDF() {
-      this.isDetail = true
-      http
-        .get('users/get/teachers')
-        .then(response => {
-          this.teachers = response.data.data
-          const element = document.getElementById('my-table')
-          html2canvas(element).then(canvas => {
-            const imgData = canvas.toDataURL('image/png')
-            const pdf = new jsPDF()
-            const imgProps = pdf.getImageProperties(imgData)
-            const pdfWidth = pdf.internal.pageSize.getWidth()
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
-            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight)
-            pdf.save('download.pdf')
-            this.isDetail = false
-            this.getTeachers()
+    ...mapActions(useTeacherStore, ['getTeachers', 'deleteTeacher']),
+    removeTeacher(id) {
+      this.deleteTeacher(id).then(response => {
+        if (response.status == 200) {
+          this.$root.$notif('Delete successfully', {
+            type: 'success',
+            color: 'primary'
           })
-        })
-        .catch(error => {
-          console.error(error)
-        })
-    },
-
-    getClassrooms() {
-      http
-        .get('/classrooms')
-        .then(response => {
-          this.classrooms = response.data.data
-        })
-        .catch(error => {
-          console.log('Error fetching classrooms:', error)
-        })
-    },
-    
-  },
-  mounted() {
-    this.getClassrooms()
+        }
+        this.getTeachers()
+      })
+    }
   }
 }
 </script>

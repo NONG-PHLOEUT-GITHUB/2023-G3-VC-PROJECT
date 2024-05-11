@@ -2,41 +2,68 @@
   <custom-title icon="mdi-account-school-outline">
     <template #right>
       <v-btn
-        icon="mdi-filter-multiple-outline"
-        variant="tonal"
-        class="me-2 bg-primary"
+        variant="outlined"
+        append-icon="mdi-filter-multiple-outline"
+        class="text-none me-4"
+        color="primary"
         @click="toggleFilter = !toggleFilter"
-      ></v-btn>
-      <v-btn
-        variant="tonal"
-        class="me-2 bg-deep-orange-accent-4"
-        icon="mdi-database-import"
-        @click="isEmport = !isEmport"
-      ></v-btn>
-      <!-- @click="downloadPDF()" -->
-      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-database-export"></v-btn>
-      <v-btn
-        :to="{ path: '/create-user' }"
-        variant="tonal"
-        class="me-2 bg-dark-darken-4"
-        icon="mdi-database-plus"
-      ></v-btn>
+        >Filters
+      </v-btn>
+      <div>
+        <v-tooltip activator="parent" text="Import Excel" location="top">
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              variant="tonal"
+              class="me-4 bg-deep-orange-accent-4"
+              icon="mdi-database-import"
+              @click="isEmport = !isEmport"
+            ></v-btn>
+          </template>
+        </v-tooltip>
+      </div>
+      <div>
+        <v-tooltip activator="parent" text="Export Excel" location="top">
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              variant="tonal"
+              @click="exportExcel()"
+              class="me-4 bg-green-darken-1"
+              icon="mdi-database-export"
+            ></v-btn>
+          </template>
+        </v-tooltip>
+      </div>
+      <div>
+        <v-tooltip activator="parent" text="Add new" location="top">
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-bind="props"
+              :to="{ path: '/create-user' }"
+              variant="tonal"
+              class="me-2 bg-dark-darken-4"
+              icon="mdi-database-plus"
+            ></v-btn>
+          </template>
+        </v-tooltip>
+      </div>
     </template>
   </custom-title>
   <v-expand-transition>
-  <v-card class="mb-3 pa-0" v-show="isEmport">
-    <v-col cols="4" class="pa-2">
-      <v-file-input
-        label="Upload Excel file"
-        variant="outlined"
-        prepend-icon=""
-        prepend-inner-icon="mdi-paperclip"
-        hide-details
-        @submit.prevent="importFile"
-      ></v-file-input>
-    </v-col>
-  </v-card>
-</v-expand-transition>
+    <v-card class="mb-3 pa-0" v-show="isEmport">
+      <v-col cols="4" class="pa-2">
+        <v-file-input
+          label="Upload Excel file"
+          variant="outlined"
+          prepend-icon=""
+          prepend-inner-icon="mdi-paperclip"
+          hide-details
+          @submit.prevent="importFile"
+        ></v-file-input>
+      </v-col>
+    </v-card>
+  </v-expand-transition>
   <v-card>
     <v-data-table
       v-model:items-per-page="options.itemsPerPage"
@@ -60,7 +87,12 @@
           icon="mdi-pencil"
         ></v-btn>
 
-        <v-btn @click="deleteUser(item.id)" variant="text" icon="mdi-delete-forever" color="red">
+        <v-btn
+          @click="deleteStudentFromList(item.id)"
+          variant="text"
+          icon="mdi-delete-forever"
+          color="red"
+        >
         </v-btn>
         <v-btn :to="{ path: '/student/' + item.id + '/details' }" icon="mdi-eye" variant="text">
         </v-btn>
@@ -73,9 +105,6 @@ import http from '@/api/api'
 import { mapActions, mapState } from 'pinia'
 import { useStudentStore } from '@/stores/student'
 export default {
-  created() {
-    this.getStudents()
-  },
   data() {
     return {
       listStudents: [],
@@ -89,7 +118,7 @@ export default {
         sortBy: [],
         sortDesc: []
       },
-      isEmport:false,
+      isEmport: false,
       loading: false,
       headers: [
         { title: 'Profile', key: 'profile' },
@@ -104,25 +133,57 @@ export default {
       ]
     }
   },
-
+  created() {
+    this.getStudents()
+  },
   computed: {
     ...mapState(useStudentStore, ['students'])
   },
   methods: {
-    ...mapActions(useStudentStore, ['getStudents']),
+    ...mapActions(useStudentStore, ['getStudents', 'deleteStudent']),
 
-    //================== Delete a user =================
-    // deleteUser(id) {
-    //   http.delete('/delete-user' + `/${id}`)
-    //         .then(() => {
-    //           // call mounted
-    //           this.getStudents()
-    //         })
-    //         .catch(error => {
-    //           console.error(error)
-    //         })
-    //   }
-    // },
+    deleteStudentFromList(id) {
+      console.log(id)
+      this.deleteStudent(id).then(response => {
+        if (response.status == 200) {
+          this.$root.$notif('Delete successfully', {
+            type: 'success',
+            color: 'primary'
+          })
+        }
+        this.getStudents()
+      })
+    },
+
+    exportExcel() {
+      http
+        .get(`users/students/export-excel`, {
+          responseType: 'blob'
+        })
+        .then(response => {
+          // Create a Blob from the response data
+          const blob = new Blob([response.data], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          })
+          const url = window.URL.createObjectURL(blob)
+
+          // Create a link element to trigger the download
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute('download', 'student.xlsx') // Adjust filename as needed
+
+          // Append the link to the document body and trigger the click event
+          document.body.appendChild(link)
+          link.click()
+
+          // Clean up by revoking the Object URL
+          window.URL.revokeObjectURL(url)
+        })
+        .catch(error => {
+          console.error('Error downloading Excel file:', error)
+          // Handle error if needed
+        })
+    },
 
     importFile() {
       /// progressbar
@@ -173,95 +234,7 @@ export default {
         .catch(error => {
           console.error(error.response.data)
         })
-    },
-    // getStudentInClass(classId) {
-    //   http
-    //     .get(`/users`)
-    //     .then(response => {
-    //       if (!this.selectedClass || this.selectedClass == 'noChoose') {
-    //         this.listUser = response.data.data
-    //       } else {
-    //         this.listUser = response.data.data.filter(
-    //           user => parseInt(user.class_room_id) === parseInt(classId)
-    //         )
-    //       }
-    //     })
-    //     .catch(error => {
-    //       console.log(error)
-    //     })
-    // },
-    getClassrooms() {
-      http
-        .get('/classrooms')
-        .then(response => {
-          this.classrooms = response.data.data
-        })
-        .catch(error => {
-          console.log('Error fetching classrooms:', error)
-        })
     }
-  },
-
-  mounted() {
-    this.getClassrooms()
-    // this.getStudentInClass()
-    return this.getStudents()
   }
 }
 </script>
-
-<!-- <script>
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import http from "@/api/api";
-
-export default {
-
-  data() {
-    return {
-      isDownloading: false,
-      isDetail: false,
-      pdfUrl: null,
-      students: [],
-    };
-  },
-  methods: {
-    downloadPDF() {
-      this.isDetail = true;
-      http
-        .get("/get-students")
-        .then((response) => {
-          this.students = response.data.data;
-          const element = document.getElementById("my-table");
-          html2canvas(element).then((canvas) => {
-            const imgData = canvas.toDataURL("image/png");
-            const pdf = new jsPDF();
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
-            pdf.save("download.pdf");
-            this.isDetail = false;
-            this.fetchData();
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    fetchData() {
-      http
-        .get("/get-students")
-        .then((response) => {
-          this.students = response.data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-  },
-  mounted() {
-    this.fetchData();
-  },
-};
-</script> -->

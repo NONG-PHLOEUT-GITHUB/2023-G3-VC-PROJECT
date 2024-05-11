@@ -1,21 +1,36 @@
-// loading.js
+// // loading.js
+// import { defineStore } from 'pinia'
+
+// export const useLoadingStore = defineStore('loading', {
+//   state: () => ({
+//     isLoading: false,
+//     forceStopLoading: false,
+//     message: ''
+//   }),
+//   actions: {
+//     setLoading(payload) {
+//       console.log(payload);
+//       this.isLoading = payload
+//     },
+//     setForceStopLoading(payload) {
+//       this.forceStopLoading = payload
+//     },
+//     setMessage(payload) {
+//       this.message = payload
+//     }
+//   }
+// })
+
+
 import { defineStore } from 'pinia'
 
 export const useLoadingStore = defineStore('loading', {
   state: () => ({
     isLoading: false,
-    forceStopLoading: false,
-    message: ''
   }),
   actions: {
-    setLoading(payload) {
-      this.isLoading = payload
+    setLoading(isLoading) {
+      this.isLoading = isLoading
     },
-    setForceStopLoading(payload) {
-      this.forceStopLoading = payload
-    },
-    setMessage(payload) {
-      this.message = payload
-    }
-  }
+  },
 })

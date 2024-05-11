@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Classroom;
+use App\Models\Guardian;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -29,10 +31,12 @@ class UserFactory extends Factory
             'date_of_birth' => $dateOfBirth,
             'age' => $age,
             'phone_number' => fake()->phoneNumber(),
-            'is_class_coordinator' => 'false',
             'email' => fake()->unique()->safeEmail(),
             'address' => $address,
-            'role' => 3,
+            'role' => \Faker\Factory::create()->randomElement([1, 2, 3]),
+            'guardian_id' => function (array $attributes) {
+                return $attributes['role'] == 3 ? Guardian::factory()->create()->id : null;
+            },
             'email_verified_at' => now(),
             'password' => 'admin1234',
             'remember_token' => Str::random(10),

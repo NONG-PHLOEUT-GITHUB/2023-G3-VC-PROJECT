@@ -9,6 +9,9 @@ import http from './api'
 export function fetchTeachers() {
   return http.get(`/users/get/teachers`)
 }
+export function fetchCoordinators() {
+  return http.get(`/users/teacher/coordinator`)
+}
 // export function createUsers() {
 //   return http.put(`users/create`)
 // }

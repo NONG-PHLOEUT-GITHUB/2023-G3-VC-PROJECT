@@ -1,4 +1,9 @@
 <template>
+  <v-breadcrumbs :items="breadcrumbs" class="py-0 px-0">
+    <template v-slot:divider>
+      <v-icon icon="mdi-chevron-right"></v-icon>
+    </template>
+  </v-breadcrumbs>
   <custom-title icon="mdi-comment-text"></custom-title>
   <v-card class="pa-3">
     <v-form @submit.prevent="sendFeedbackStudent()">
@@ -32,7 +37,32 @@ export default {
     this.fetchUser()
   },
   computed: {
-    ...mapState(useAuthStore, ['teacherID'])
+    ...mapState(useAuthStore, ['teacherID']),
+    breadcrumbs() {
+      const user_role = parseInt(localStorage.getItem('user_role'))
+      if (user_role === 1) {
+        return [
+          {
+            title: 'Classroom management',
+            disabled: false,
+            href: '/class-list'
+          },
+          {
+            title: 'Student comments list',
+            disabled: false,
+            href: '/student/1/feedback'
+          },
+        ]
+      } else {
+        return [
+          {
+            title: 'Classroom',
+            disabled: false,
+            href: '/teacher-classroom'
+          }
+        ]
+      }
+    }
   },
   methods: {
     ...mapActions(useCommentStore, ['createNewComment']),
@@ -46,7 +76,7 @@ export default {
       }
       this.createNewComment(commentData).then(response => {
         if (response.status == 201 && response.statusText == 'Created') {
-          this.$root.$notif(('Send comment successfully'), {
+          this.$root.$notif('Send comment successfully', {
             type: 'success',
             color: 'primary'
           })

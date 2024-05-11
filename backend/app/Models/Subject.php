@@ -11,6 +11,7 @@ class Subject extends Model
     protected $fillable = [
         'id',
         'subject_name',
+        'subject_code',
     ];
 
     public static function store($request, $id = null)
@@ -18,6 +19,7 @@ class Subject extends Model
         $subjects = $request->only(
             'id',
             'subject_name',
+            'subject_code'
         );
         if ($id) {
             $subject = self::find($id);
@@ -34,13 +36,9 @@ class Subject extends Model
         
     }
 
-
-
     public function teachers(){
-        return $this->belongsToMany(User::class,'subject_teacher')->withTimestamps();
+        return $this->belongsToMany(User::class,'subject_teachers', 'subject_id', 'teacher_id')->withTimestamps();
     }
-
-
     public function schedule(){
         return $this->belongsTo(Schedule::class);
     }

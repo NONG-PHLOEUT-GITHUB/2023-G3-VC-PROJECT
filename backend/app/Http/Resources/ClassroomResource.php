@@ -17,6 +17,8 @@ class ClassroomResource extends JsonResource
         return [
             'id'=>$this->id,
             'classroom_name'=>$this->classroom_name,
+            'student_count' => $this->student_count,
+            'class_coordinator' => $this->teacherCoordinator ? $this->teacherCoordinator->first_name . ' ' . $this->teacherCoordinator->last_name : null,
         ];
     }
 }

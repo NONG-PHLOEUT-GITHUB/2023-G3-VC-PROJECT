@@ -11,37 +11,44 @@ class Classroom extends Model
 
     protected $fillable = [
         'classroom_name',
-        'grade',
         'coordinator_id',
+        'teacher_id'
     ];
 
     public static function store($request, $id = null)
     {
-        $classrooms = $request->only(
+        $classroomsData = $request->only(
             'classroom_name',
-            'grade',
-            'coordinator_id'
+            'coordinator_id',
         );
+
+        // Check if the classroom name already exists
+        $existingClassroom = self::where('classroom_name', $classroomsData['classroom_name'])->first();
+
+        if ($existingClassroom && $existingClassroom->id !== $id) {
+            return response()->json(['error' => 'Classroom name already exists'], 400);
+        }
         if ($id) {
             $classroom = self::find($id);
             if (!$classroom) {
                 return response()->json(['error' => 'Record not found'], 404);
             }
-            $classroom->update($classrooms);
+            $classroom->update($classroomsData);
         } else {
-            $classroom = self::create($classrooms);
+            $classroom = self::create($classroomsData);
             $id = $classroom->$id;
         }
         // // Sync the related teachers
-        // $teacherIds = $request->input('coordinator_id', []);
-        // if (empty($teacherIds)) {
-        //     return response()->json(['error' => 'No teachers selected or class coordinator'], 400);
-        // }
+        $teacherIds = $request->input('teacher_id', []);
+        // dd($teacherIds);
+        if (empty($teacherIds)) {
+            return response()->json(['error' => 'No teachers selected'], 400);
+        }
 
         if (!$classroom->save()) {
             return response()->json(['error' => 'Error saving class room record'], 500);
         }
-        // $classroom->teachers()->sync($teacherIds);
+        $classroom->teachers()->sync($teacherIds);
 
         return response()->json(['success' => true, 'data' => $classroom], 201);
     }
@@ -58,8 +65,9 @@ class Classroom extends Model
     // // one class have many teacher also one teacher has many classes
     public function teachers()
     {
-        return $this->belongsToMany(User::class, 'classroom_teachers', 'classroom_id', 'coordinator_id');
+        return $this->belongsToMany(User::class, 'classroom_teachers', 'classroom_id', 'teacher_id');
     }
+
 
     public function students()
     {
@@ -69,6 +77,6 @@ class Classroom extends Model
     ///one teacher have coodinator one 
     public function teacherCoordinator()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'coordinator_id');
     }
 }

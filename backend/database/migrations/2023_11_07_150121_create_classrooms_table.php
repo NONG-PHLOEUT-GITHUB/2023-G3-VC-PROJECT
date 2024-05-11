@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-            $table->string('classroom_name', 100)->nullable();
-            $table->string('grade', 100)->nullable();
-            $table->unsignedBigInteger('coordinator_id');
-            $table->foreign('coordinator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('classroom_name', 100)->unique();
+            $table->unsignedBigInteger('coordinator_id')->unique()->nullable();
+            $table->foreign('coordinator_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

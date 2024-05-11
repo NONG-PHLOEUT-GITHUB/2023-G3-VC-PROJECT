@@ -35,7 +35,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'classroom_id',
         'guardian_id',
-        'is_class_coordinator'
+        'subject_id'
     ];
 
     /**
@@ -102,22 +102,32 @@ class User extends Authenticatable implements JWTSubject
             'password',
             'classroom_id',
             'guardian_id',
-            'is_class_coordinator'
         );
         if ($id) {
             $user = self::find($id);
             if (!$user) {
                 return response()->json(['error' => 'Record not found'], 404);
             }
+            // $request->validate([
+            //     'profile' => 'image|mimes:jpg,jpeg,png|max:2048'
+            // ]);
+            // dd($user);
+            // dd($request->file('profile'));
+            
+            // $image = $request->file('profile');
+            // $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            // $image->move(public_path('images'), $new_name);
+            // $path = asset('images/' . $new_name);
+            // $user->profile = $path;
+
             $user->update($users);
         } else {
 
             // Validate the request for the profile image
-            // dd($request->file('profile'));
+            // dd($users);
             $request->validate([
                 'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
             ]);
-
 
             $image = $request->file('profile');
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
@@ -136,6 +146,9 @@ class User extends Authenticatable implements JWTSubject
                 $message->to($user->email, $user->first_name)->subject('Welcome to our system!');
             });
         }
+
+        $sujectIds = $request->input('subject_id', []);
+        $user->subjects()->sync($sujectIds);
 
         // ================token user password=================
         return response()->json(['success' => true, 'data' => $user], 201);
@@ -180,6 +193,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function coordinator()
     {
-        return $this->hasOne(Classroom::class);
+        return $this->hasOne(Classroom::class, 'coordinator_id');
+    }
+
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'subject_teachers', 'teacher_id', 'subject_id');
     }
 }

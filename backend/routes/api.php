@@ -57,6 +57,8 @@ Route::prefix('users')->group(function () {
     Route::get("/user/{id}", [UserController::class, "getUserIdFromGuardianId"]);
     Route::get("/parents/{id}", [UserController::class, "getParentsByuser"]);
     Route::get("/chat_id/{user_id}", [UserController::class, "getGuardianChatIdOfStudent"]);
+    Route::get("/teacher/coordinator", [UserController::class, "getTeachersWithoutCoordinatorRole"]);
+    Route::get("/students/export-excel", [UserController::class, "exportUsers"]);
 });
 
 // ======================== Attendance Routes ========================
@@ -83,6 +85,7 @@ Route::prefix('attendances')->group(function () {
 
 Route::prefix('classrooms')->group(function () {
     Route::post("/", [ClassRoomController::class, 'store']);
+    Route::get("/{classroom_id}/details", [ClassRoomController::class, 'getClassroomDetails']);
     Route::delete("/{id}/delete", [ClassRoomController::class, 'destroy']);
     Route::put("/{id}/update", [ClassRoomController::class, 'update']);
     Route::get("/{id}", [ClassRoomController::class, 'show']);
@@ -90,6 +93,7 @@ Route::prefix('classrooms')->group(function () {
     Route::get('/students/{class_id}/classroom', [ClassRoomController::class, 'getStudentsInClass']);
     Route::get('/total/get-classroom-total', [ClassRoomController::class, 'getTotalOfEachClass']);
     Route::get('/total/classroom-total', [ClassRoomController::class, 'countTotalClass']);
+    Route::get('/student/{classroom_id}/attendance', [ClassRoomController::class, 'getStudentsAttendees']);
 });
 
 // ======================== Subject Routes ========================

@@ -19,7 +19,9 @@ export const useAuthStore = defineStore('auth', {
     isReset: false,
     isChanged: false,
     isLogout: false,
-    teacherID: null
+    teacherID: null,
+    studentScores:[],
+    studentComments:[],
   }),
   getters: {
     user: state => state.authUser,
@@ -39,6 +41,9 @@ export const useAuthStore = defineStore('auth', {
     },
     async fetchUser() {
       const response = await fetchUserLoged()
+      console.log(response);
+      this.studentScores = response.data.data.scores
+      this.studentComments = response.data.data.comments
       this.authUser = response.data.data
       this.teacherID = response.data.data.id
     },

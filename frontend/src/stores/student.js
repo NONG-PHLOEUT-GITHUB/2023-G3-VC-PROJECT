@@ -1,11 +1,16 @@
 import { defineStore } from 'pinia'
 
-import { fetchStudents, fetchStudentDetails, createUsers, updateUser } from '@/api/student'
+import {
+  fetchStudents,
+  fetchStudentDetails,
+  createUsers,
+  updateUser,
+  deleteStudent
+} from '@/api/student'
 
 export const useStudentStore = defineStore('student', {
   state: () => ({
     students: [],
-    studentDetails: [],
     first_name: '',
     last_name: '',
     gender: '',
@@ -18,7 +23,8 @@ export const useStudentStore = defineStore('student', {
     commentStudent: [],
     scores: [],
     classTeahcer: [],
-    attendances: []
+    attendances: [],
+    studentDetails: []
   }),
   actions: {
     async getStudents() {
@@ -26,26 +32,19 @@ export const useStudentStore = defineStore('student', {
       this.students = response.data.data
     },
     async createNewStudents(data) {
+      console.log('show fiel', data)
       return await createUsers(data)
     },
     async updateUser(data) {
+      console.log('show update', data)
       return await updateUser(data)
+    },
+    async deleteStudent(id) {
+      return await deleteStudent(id)
     },
     async getStudentDetails(id) {
       const response = await fetchStudentDetails(id)
-      this.first_name = response.data.data.first_name
-      this.last_name = response.data.data.last_name
-      this.gender = response.data.data.gender
-      this.date_of_birth = response.data.data.date_of_birth
-      this.profile_image = response.data.data.profile
-      this.age = response.data.data.age
-      this.email = response.data.data.email
-      this.address = response.data.data.address
-      this.phone_number = response.data.data.phone_number
-      this.classTeahcer = response.data.data.class_teacher
-      this.commentStudent = response.data.data.comments
-      this.scores = response.data.data.scores
-      this.attendances = response.data.data.attendances
+      this.studentDetails = response.data.data
     }
   }
 })

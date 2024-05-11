@@ -1,28 +1,26 @@
 <template>
   <custom-title icon="mdi-chart-box-plus-outline"></custom-title>
+{{ studentScores }}
 
   <v-data-table
-    v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items="serverItems"
-    :items-length="serverItems.length || 0"
     :loading="loading"
-    :search="search"
     item-value="name"
-    @update:options="loadItems"
     class="elevation-1"
   ></v-data-table>
 </template>
 
 <script>
-import http from '@/api/api'
-
+import { mapActions, mapState } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
 export default {
   data: () => ({
     tab: null,
     user: [],
     scores: [],
     subjects: [],
+    loading: false,
     monthsWithAttendance: [
       'January',
       'February',
@@ -126,7 +124,11 @@ export default {
       { title: 'Grade', key: 'grade' }
     ]
   }),
+  created(){
+    this.fetchUser()
+  },
   computed: {
+    ...mapState(useAuthStore,['studentScores','authUser']),
     scoresByMonth() {
       const scoresByMonth = {}
       for (const score of this.scores) {
@@ -182,12 +184,7 @@ export default {
     }
   },
   methods: {
-    getScore() {
-      // http.get('/v1/auth/user').then(response => {
-      //   this.scores = response.data.data.scores
-      //   console.log(response.data.data)
-      // })
-    },
+    ...mapActions(useAuthStore,['fetchUser']),
     getScoreByMonth(month) {
       return this.scores
         .filter(score => {
@@ -204,25 +201,6 @@ export default {
           }
         })
     }
-  },
-  mounted() {
-    this.getScore()
   }
 }
 </script>
-
-<style scoped>
-@import '~vuetify/dist/vuetify.css';
-.card {
-  margin-left: 17%;
-}
-.table th {
-  font-size: 20px;
-}
-.title {
-  margin-left: 18%;
-}
-.thead {
-  background: #004d40;
-}
-</style>

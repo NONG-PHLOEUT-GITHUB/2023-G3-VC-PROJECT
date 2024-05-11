@@ -69,72 +69,22 @@ class ClassroomController extends Controller
     }
 
 
-    public function getAllClassrooms()
-    {
-        $classrooms = Classroom::with('teachers:id,first_name,last_name')
-            ->select('classrooms.id', 'classrooms.classroom_name')
-            ->get();
-
-        $classroomCount = $classrooms->count();
-
-        $transformedClassrooms = $classrooms->map(function ($classroom) {
-            $classroom->is_class_coordinator = null;
-            $classroom->first_name = $classroom->teachers->first()->first_name ?? null;
-            $classroom->last_name = $classroom->teachers->first()->last_name ?? null;
-            unset($classroom->teachers);
-            return $classroom;
-        });
-
-        return response()->json(['success' => true, 'data' => $transformedClassrooms, 'count' => $classroomCount], 200);
-    }
-
-    // public function getAllClassrooms()
-    // {
-    //     $classrooms = Classroom::withCount('students')
-    //         ->select('classrooms.id', 'classrooms.classroom_name', 'teachers.first_name as teacher_first_name', 'teachers.last_name as teacher_last_name')
-    //         ->leftJoin('users as teachers', 'classrooms.teacher_id', '=', 'teachers.id') // Add the missing join condition
-    //         ->where('teachers.role', 2)
-    //         ->get();
-
-    //     $classroomCount = $classrooms->count();
-
-    //     return response()->json(['success' => true, 'data' => $classrooms, 'count' => $classroomCount], 200);
-    // }
-
-
     public function countTotalClass()
     {
         $totalClassroom = Classroom::count();
         return response()->json(['success' => true, 'data' => $totalClassroom], 200);
     }
 
-
-    public function getStudentsInClass(string $id)
+    public function getStudentsInClass(string $classroomId)
     {
-        // dd($id);
-        // return $id;
-        $classRooms = Classroom::where('id', $id)
-            ->whereHas('students', function ($query) {
-                $query->where('role', 3);
-            })
-            ->with([
-                'students' => function ($query) {
-                    // $query->withCount('attendances');
-                    // $query->orderByDesc('role_attendances_count');
-                    $query->with([
-                        'scores' => function ($query) {
-                            $query->orderBy('subject_id', 'asc');
-                        }
-                    ]);
-                }
-            ])
-            ->get();
+        // Retrieve the classroom by its ID
+        $classroom = Classroom::findOrFail($classroomId);
 
-        if ($classRooms->isEmpty()) {
-            return response()->json(['success' => false, 'data' => 'record not found'], 404);
-        } else {
-            return response()->json(['success' => true, 'data' => $classRooms], 200);
-        }
+        // Retrieve the students belonging to this classroom with role 3
+        $students = $classroom->students;
+
+        // Return response with the students belonging to the classroom
+        return response()->json(['success' => true, 'data' => $students], 200);
     }
 
     public function getTotalOfEachClass()
@@ -146,5 +96,48 @@ class ClassroomController extends Controller
         ];
 
         return response()->json(['success' => true, 'data' => $classroomCounts], 200);
+    }
+
+
+    public function getClassroomDetails($classroomId)
+    {
+
+        $classroom = Classroom::with(['teachers' => function ($query) {
+            $query->select('users.id', 'users.first_name', 'users.last_name', 'users.profile');
+        }, 'teacherCoordinator' => function ($query) {
+            $query->select('users.id', 'users.first_name', 'users.last_name', 'users.profile');
+        }])->find($classroomId);
+
+        // Accessing the data
+        $teachers = $classroom->teachers;
+        $coordinator = $classroom->teacherCoordinator;
+
+        // Accessing the subjects taught by each teacher
+        $teacherSubjects = [];
+        foreach ($teachers as $teacher) {
+            $teacherSubjects[$teacher->id] = $teacher->subjects;
+        }
+
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'classroom_name' => $classroom->classroom_name,
+                'teachers' => $teachers,
+                'subject_teachers' => $teacherSubjects,
+                'coordinator' => $coordinator
+            ],
+            'message' => 'Classroom data retrieved successfully'
+        ], 200);
+    }
+
+    public function getStudentsAttendees($classroomId)
+    {
+
+        $classroom = Classroom::findOrFail($classroomId);
+        $students = $classroom->students()->with('attendances')->select('id', 'profile', 'first_name', 'last_name')->get();
+
+        // Return response with the students belonging to the classroom along with their attendances
+        return response()->json(['success' => true, 'data' => $students], 200);
     }
 }

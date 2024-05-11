@@ -54,7 +54,7 @@ const routes = [
       {
         path: '/student-comments',
         name: 'My Comments',
-        component: () => import('@/views/comment/Comment.vue'),
+        component: () => import('@/views/comment/CommentStudentView.vue'),
         meta: { requiresAuth: true, requiredRoles: [3] }
       },
       {
@@ -100,6 +100,12 @@ const routes = [
         path: '/create-user',
         name: 'Create new user',
         component: () => import('@/views/common/CreateUser.vue'),
+        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+      },
+      {
+        path: '/new-data',
+        name: 'New data management',
+        component: () => import('@/views/common/NewDataView.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
@@ -175,8 +181,14 @@ const routes = [
       },
       {
         path: '/teacher-classroom',
-        name: 'Classroom management',
+        name: 'My Class Teaching And Coordinator',
         component: () => import('@/views/classroom/ClassroomTeacher.vue'),
+        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+      },
+      {
+        path: '/classroom/:class_id/details',
+        name: 'Classroom Details',
+        component: () => import('@/views/classroom/ClassroomDetails.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {

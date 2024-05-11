@@ -1,5 +1,5 @@
 <template>
-  <Notif ref="notif" dismissible :default-timeout="7000" />
+  <Notif ref="notif" dismissible :default-timeout="2000" />
   <Loading />
   <router-view />
 </template>

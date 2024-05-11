@@ -3,35 +3,43 @@ import {
   fetchStudentsInClassroomById,
   fetchTotalOfClassroom,
   fetchClassrooms,
-  deleteClassroom
+  deleteClassroom,
+  fetchClassroomDetails,
+  createNewClassroom
 } from '@/api/classroom'
 
 export const useClassroomStore = defineStore('classroom', {
   state: () => ({
     studentInClassroom: [],
     classroom: {},
-    classrooms: []
+    classrooms: [],
+    coordinator: [],
+    teachers: []
   }),
   actions: {
     async getStudentsInClassroom(id) {
       const response = await fetchStudentsInClassroomById(id)
-      // console.log(response.data.data[0].students);
-      this.studentInClassroom = response.data.data[0].students
+      this.studentInClassroom = response.data.data
     },
     async getCassroomTotal() {
       const response = await fetchTotalOfClassroom()
-      console.log(response.data.data)
       this.classroom = response.data.data
     },
     async getCassrooms() {
       const response = await fetchClassrooms()
-      console.log(response.data.data)
       this.classrooms = response.data.data
     },
     async deleteCassroom(classroomId) {
-      const response = await deleteClassroom(classroomId)
-      console.log(response)
-      // this.classrooms = response.data.data
+      await deleteClassroom(classroomId)
+    },
+    async getClassroomDetails(classroomId) {
+      const response = await fetchClassroomDetails(classroomId)
+      this.coordinator = response.data.data.coordinator
+      this.teachers = response.data.data.teachers
+      return response.data.data
+    },
+    async createClassroom(data) {
+      return await createNewClassroom(data)
     }
   }
 })

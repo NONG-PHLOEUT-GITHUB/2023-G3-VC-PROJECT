@@ -36,11 +36,6 @@ export default {
         icon: 'mdi-home'
       },
       {
-        path: '/check-attendance/student',
-        title: 'Attendance',
-        icon: 'mdi-calendar-check'
-      },
-      {
         path: '/student-score',
         title: 'Score Management',
         icon: 'mdi-chart-line-variant'
@@ -80,9 +75,9 @@ export default {
         icon: 'mdi-home'
       },
       {
-        path: '/student-attendance',
-        title: 'Attendance',
-        icon: 'mdi-progress-check'
+        path: '/new-data',
+        title: 'New data',
+        icon: 'mdi-database-plus-outline'
       },
       {
         path: '/teacher-list',

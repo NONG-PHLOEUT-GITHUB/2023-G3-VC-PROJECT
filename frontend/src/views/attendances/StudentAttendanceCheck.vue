@@ -28,19 +28,17 @@
       variant="outlined"
     ></v-date-input>
   </v-col>
+  <!-- {{ this.formData }} hello data -->
   <v-data-table
-    v-model:items-per-page="itemsPerPage"
     v-model="selectedValues"
     :item-selectable="studentInClassroom.id"
     :headers="headers"
     :items="studentInClassroom"
-    :items-length="studentInClassroom.length"
-    :loading="loading"
     item-value="id"
+    item-key="id"
     show-select
     class="elevation-2"
   >
-    <!-- :search="search" -->
     <template v-slot:item.profile="{ item }">
       <v-avatar size="large">
         <v-img :src="item.profile" alt="Avatar" cover> </v-img>

@@ -16,18 +16,6 @@ class SubjectFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'Khmer Literature' => "Khmer Literature",
-            'Math' => "Math",
-            "Biology " => "Biology",
-            "Earth Science" => "Earth Science",
-            "Civics & Economics" => "Civics & Economics",
-            "Physics" => "Physics",
-            "Chemistry" => " Chemistry",
-            "ICT" => "ICT",
-            "Physical Education" => "Physical Education",
-            "History" => "History",
-            "Geography" => "Geography",
-        ];
+        return [];
     }
 }

@@ -6,8 +6,8 @@ import http from './api'
  * @returns
  **/
 
-export function createNewClassroom() {
-  return http.post(`/classrooms`)
+export function createNewClassroom(data) {
+  return http.post(`/classrooms`,data)
 }
 export function updateClassroom() {
   return http.put(`${id}/update`)
@@ -27,5 +27,8 @@ export function fetchStudentsInClassroomById(classroom_id) {
 }
 export function fetchTotalOfClassroom() {
   return http.get(`classrooms/total/get-classroom-total`)
+}
+export function fetchClassroomDetails(classroom_id) {
+  return http.get(`classrooms/${classroom_id}/details`)
 }
 

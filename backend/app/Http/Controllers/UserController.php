@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportUser;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\GuardianResource;
@@ -12,9 +13,11 @@ use App\Models\Guardian;
 use App\Models\Role;
 use App\Models\Score;
 use App\Models\Subject;
+use App\Models\SubjectTeacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -95,6 +98,9 @@ class UserController extends Controller
             return response()->json(['message' => 'The record with ID ' . $id . ' was not found.'], 404);
         }
 
+        Classroom::where('coordinator_id', $id)->update(['coordinator_id' => null]);
+        SubjectTeacher::where('teacher_id', $id)->update(['teacher_id' => null]);
+
         $user->delete();
 
         return response()->json(['success' => true, 'message' => 'User deleted successfully'], 200);
@@ -133,17 +139,33 @@ class UserController extends Controller
     {
         $students = User::where('role', 3)
             ->select('*')
+            ->orderBy('created_at', 'desc')
             ->get();
         return response()->json(["message" => true, "data" => $students], 200);
     }
 
     public function getTeachers()
     {
-        $teachers = User::where('role', 2)
+        $teachers = User::where('role', 2 and 1)
             ->select('*')
+            ->orderBy('created_at', 'desc')
             ->get();
         return response()->json(["message" => true, "data" => $teachers], 200);
     }
+
+    public function getTeachersWithoutCoordinatorRole()
+    {
+        $teachersWithoutCoordinatorRole = User::where('role', 2)
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('classrooms')
+                    ->whereRaw('classrooms.coordinator_id = users.id');
+            })
+            ->get();
+
+        return response()->json(["message" => true, "data" => $teachersWithoutCoordinatorRole], 200);
+    }
+
 
     public function getStudentId($id)
     {
@@ -247,19 +269,6 @@ class UserController extends Controller
         ]);
     }
 
-
-    // public function getGuardianChatIdOfStudent($user_id)
-    // {
-    //     $guardian = User::find($user_id);
-    //     if (!$guardian) {
-    //         return response()->json(['error' => 'Guardian not found'], 404);
-    //     }
-    //     return response()->json([
-    //         "id" => $guardian->id,
-    //         'guardian_id' => $guardian->guardian_id
-    //     ]);
-    // }
-
     public function getGuardianChatIdOfStudent($user_id)
     {
         $user = User::find($user_id);
@@ -276,5 +285,11 @@ class UserController extends Controller
             "id" => $user->guardian->id,
             'chat_id' => $user->guardian->chatId
         ]);
+    }
+
+
+    public function exportUsers(){
+        $export = new ExportUser();
+        return Excel::download($export, 'users.xlsx');
     }
 }

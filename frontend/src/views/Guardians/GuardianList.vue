@@ -14,14 +14,10 @@
         @click="downloadPDF()"
       ></v-btn>
       <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+      <v-btn variant="tonal" to="/add-guadian"  class="me-2 bg-green-darken-1" icon="mdi-plus-outline"></v-btn>
     </template>
   </custom-title>
   <filter-guardian v-show="toggleFilter" />
-  <v-card class="mb-4 elevation-0">
-    <v-btn to="/add-guadian" color="teal-darken-4">
-      Add new guardian <v-icon>mdi-plus-outline</v-icon></v-btn
-    >
-  </v-card>
   <v-data-table
     v-model:items-per-page="options.itemsPerPage"
     :headers="headers"
