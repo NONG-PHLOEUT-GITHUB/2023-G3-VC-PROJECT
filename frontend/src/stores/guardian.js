@@ -19,7 +19,7 @@ export const useGuardianStore = defineStore('guardian', {
       this.guardians = response.data
     },
     async deleteGuardianByID(id) {
-      await deleteGuardian(id)
+     return await deleteGuardian(id)
     },
     async getGuardianDetails(id) {
       const response = await fetchGuardianDetails(id)

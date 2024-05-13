@@ -58,16 +58,15 @@ export default {
     return {
       toggleFilter: false,
       headers: [
-        { title: 'ID', key: 'id' },
+        { title: '#ID', key: 'id' },
         { title: 'Profile', key: 'profile' },
         { title: 'First Name', key: 'first_name' },
         { title: 'Last Name', key: 'last_name' },
         { title: 'Gender', key: 'gender' },
         { title: 'Age', key: 'age' },
         { title: 'Phone Number', key: 'phone_number' },
-        { title: 'Address', key: 'address' },
         { title: 'Email', key: 'email' },
-        { title: '', key: 'actions', width: '10%' }
+        { title: '', key: 'actions', width: '13%' }
       ]
     }
   },

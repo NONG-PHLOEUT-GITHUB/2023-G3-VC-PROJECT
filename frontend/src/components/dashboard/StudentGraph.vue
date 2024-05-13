@@ -77,12 +77,12 @@ export default {
       .get('/v1/auth/user')
       .then(response => {
         this.userId = response.data.data.id
-        this.fetchAttendanceData()
-        this.fetchScoreData()
       })
       .catch(error => {
         console.error(error)
       })
+    this.fetchAttendanceData()
+    this.fetchScoreData()
   },
   methods: {
     fetchAttendanceData() {

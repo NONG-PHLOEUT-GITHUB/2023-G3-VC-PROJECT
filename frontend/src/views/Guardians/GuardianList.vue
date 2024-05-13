@@ -64,9 +64,9 @@ export default {
       loading: false,
       toggleFilter: false,
       headers: [
+        { title: '#ID', key: 'id' },
         {
           title: 'Profile',
-          align: 'start',
           sortable: false,
           key: 'profile'
         },
@@ -79,13 +79,26 @@ export default {
         {
           title: 'Last name',
           align: 'start',
-          sortable: false,
           key: 'last_name'
         },
-        { title: 'Gender', key: 'gender', align: 'end' },
-        { title: 'Phone number', key: 'phone_number', align: 'end' },
-        { title: 'Telegram', key: 'chatId', align: 'end' },
-        { title: '', key: 'actions', align: 'end', sortable: false }
+        {
+          title: 'Gender',
+          key: 'gender',
+          sortable: false,
+          align: 'end'
+        },
+        {
+          title: 'Phone number',
+          key: 'phone_number',
+          align: 'end'
+        },
+        {
+          title: 'Telegram',
+          key: 'chatId',
+          align: 'end',
+          sortable: false
+        },
+        { title: '', key: 'actions', align: 'end' }
       ]
     }
   },
@@ -95,7 +108,14 @@ export default {
   methods: {
     ...mapActions(useGuardianStore, ['getAllGuardian', 'deleteGuardianByID']),
     removeGuardian(id) {
-      this.deleteGuardianByID(id)
+      this.deleteGuardianByID(id).then(response => {
+        if (response.status == 200) {
+          this.$root.$notif('Delete successfully', {
+            type: 'success',
+            color: 'primary'
+          })
+        }
+      })
       this.getAllGuardian()
     }
   }

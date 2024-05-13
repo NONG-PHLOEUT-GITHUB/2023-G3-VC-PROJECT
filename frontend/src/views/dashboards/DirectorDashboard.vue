@@ -10,11 +10,11 @@
         </template>
         <v-col>
           <h3>
-            <strong>{{results.total}}</strong>
+            <strong>{{ results.total }}</strong>
           </h3>
           <h5>
-            <v-icon>mdi-gender-male</v-icon>{{results.male}} 
-            <v-icon>mdi-gender-female</v-icon>{{results.female}}
+            <v-icon>mdi-gender-male</v-icon>{{ results.male }} <v-icon>mdi-gender-female</v-icon
+            >{{ results.female }}
           </h5>
         </v-col>
       </v-card>
@@ -28,9 +28,12 @@
         </template>
         <v-col>
           <h3>
-            <strong>{{student.total}}</strong>
+            <strong>{{ student.total }}</strong>
           </h3>
-          <h5><v-icon>mdi-gender-male</v-icon>{{student.male}} <v-icon>mdi-gender-female</v-icon>{{student.female}}</h5>
+          <h5>
+            <v-icon>mdi-gender-male</v-icon>{{ student.male }} <v-icon>mdi-gender-female</v-icon
+            >{{ student.female }}
+          </h5>
         </v-col>
       </v-card>
     </v-col>
@@ -45,20 +48,20 @@
           <h3>
             <strong>{{ classroom }}</strong>
           </h3>
-          <h5>
-            <v-icon>mdi-chair-rolling</v-icon>40
-          </h5>
+          <h5><v-icon>mdi-chair-rolling</v-icon>40</h5>
         </v-col>
       </v-card>
     </v-col>
   </v-row>
 
-  <custom-sub-title icon="mdi-chart-bar">Graph of student attendance and student failed</custom-sub-title>
+  <custom-sub-title icon="mdi-chart-bar"
+    >Graph of student attendance and student failed</custom-sub-title
+  >
   <v-row class="mt-2 px-2">
-    <v-col cols="6"  class="elevation-1">
+    <v-col cols="6" class="elevation-1">
       <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
     </v-col>
-    <v-col cols="6"  class="elevation-1">
+    <v-col cols="6" class="elevation-1">
       <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
     </v-col>
   </v-row>
@@ -91,7 +94,7 @@ export default {
   data() {
     return {
       results: '',
-      student:'',
+      student: '',
       classroom: '',
       attendance: '',
       chartData: {
@@ -112,7 +115,18 @@ export default {
         datasets: [
           {
             label: 'Attendance average',
-            data: []
+            data: [],
+            options: {
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true
+                    }
+                  }
+                ]
+              }
+            }
           }
         ]
       },
@@ -145,7 +159,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.fetchTotalData()
     this.fetchFailedStudentData()
     this.fetchTotalOfClass()

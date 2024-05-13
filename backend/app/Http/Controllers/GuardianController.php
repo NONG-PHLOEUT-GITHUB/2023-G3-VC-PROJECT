@@ -58,9 +58,13 @@ class GuardianController extends Controller
     public function destroy(string $id)
     {
         $guardian = Guardian::find($id);
+        User::where('guardian_id', $id)->update(['guardian_id' => null]);
         $guardian->delete();
         return response()->json(['success' => true, 'data' => "delete successfully"], 200);
     }
+
+
+
     public function getGuardianChatId($id)
     {
         $guardian = Guardian::find($id);
@@ -72,6 +76,9 @@ class GuardianController extends Controller
             'chat_id' => $guardian->chatId
         ]);
     }
+
+
+
 
     public function getGuardianChatIdOfStudent($id)
     {
