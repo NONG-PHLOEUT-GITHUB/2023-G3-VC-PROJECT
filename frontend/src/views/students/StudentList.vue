@@ -66,11 +66,8 @@
   </v-expand-transition>
   <v-card>
     <v-data-table
-      v-model:items-per-page="options.itemsPerPage"
-      v-model:page="options.page"
       :headers="headers"
       :items="students"
-      :items-length="students.length"
       :loading="loading"
       item-value="name"
       id="my-table"

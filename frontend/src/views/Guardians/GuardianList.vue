@@ -2,19 +2,14 @@
   <custom-title icon="mdi-human-male-girl">
     <template #right>
       <v-btn
-        icon="mdi-filter-multiple-outline"
-        variant="tonal"
-        class="me-2 bg-primary"
+        variant="outlined"
+        append-icon="mdi-filter-multiple-outline"
+        class="text-none me-4"
+        color="primary"
         @click="toggleFilter = !toggleFilter"
-      ></v-btn>
-      <v-btn
-        variant="tonal"
-        class="me-2 bg-deep-orange-accent-4"
-        icon="mdi-file-pdf-box"
-        @click="downloadPDF()"
-      ></v-btn>
+        >Filters
+      </v-btn>
       <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
-      <v-btn variant="tonal" to="/add-guadian"  class="me-2 bg-green-darken-1" icon="mdi-plus-outline"></v-btn>
     </template>
   </custom-title>
   <filter-guardian v-show="toggleFilter" />
@@ -26,23 +21,22 @@
     :loading="loading"
     item-value="name"
     class="elevation-1"
-    >
-
+  >
     <template v-slot:item.profile="{ item }">
       <v-avatar size="large">
         <v-img :src="item.profile" alt="Avatar" cover> </v-img>
       </v-avatar>
     </template>
     <template v-slot:item.actions="{ item }">
-        <v-btn
-          :to="{ path: '/guardian/' + item.id + '/edit' }"
-          variant="text"
-          icon="mdi-pencil"
-        ></v-btn>
+      <v-btn
+        :to="{ path: '/guardian/' + item.id + '/edit' }"
+        variant="text"
+        icon="mdi-pencil"
+      ></v-btn>
 
-        <v-btn @click="removeGuardian(item.id)" variant="text" icon="mdi-delete-forever" color="red">
-        </v-btn>
-      </template>
+      <v-btn @click="removeGuardian(item.id)" variant="text" icon="mdi-delete-forever" color="red">
+      </v-btn>
+    </template>
   </v-data-table>
 </template>
 
@@ -90,22 +84,21 @@ export default {
         },
         { title: 'Gender', key: 'gender', align: 'end' },
         { title: 'Phone number', key: 'phone_number', align: 'end' },
-        { title: '', key: 'actions', align: 'end', sortable: false}
+        { title: 'Telegram', key: 'chatId', align: 'end' },
+        { title: '', key: 'actions', align: 'end', sortable: false }
       ]
     }
   },
   computed: {
     ...mapState(useGuardianStore, ['guardians'])
-
   },
   methods: {
-    ...mapActions(useGuardianStore, ['getAllGuardian','deleteGuardianByID']),
-    removeGuardian(id){
-      this.deleteGuardianByID(id);
+    ...mapActions(useGuardianStore, ['getAllGuardian', 'deleteGuardianByID']),
+    removeGuardian(id) {
+      this.deleteGuardianByID(id)
       this.getAllGuardian()
     }
-  },
-
+  }
 }
 </script>
 

@@ -2,21 +2,15 @@
   <custom-title icon="mdi-chair-school">
     <template #right>
       <v-btn
-        icon="mdi-filter-multiple-outline"
-        variant="tonal"
-        class="me-2 bg-primary"
+        variant="outlined"
+        append-icon="mdi-filter-multiple-outline"
+        class="text-none me-4"
+        color="primary"
         @click="toggleFilter = !toggleFilter"
-      ></v-btn>
-      <v-btn
-        variant="tonal"
-        class="me-2 bg-deep-orange-accent-4"
-        icon="mdi-file-pdf-box"
-        @click="downloadPDF()"
-      ></v-btn>
+        >Filters
+      </v-btn>
       <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
-      <v-btn color="teal-darken-4" @click="dialog = true"
-        ><v-icon>mdi-plus-outline</v-icon>Add</v-btn
-      >
+      <v-btn variant="tonal" class="bg-primary" @click="dialog = !dialog" icon="mdi-plus"></v-btn>
     </template>
   </custom-title>
 
@@ -34,18 +28,36 @@
                   v-model="className"
                   label="Class name"
                   required
+                  :error-messages="classNameRole"
                   variant="outlined"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
+                {{ selectedTeachers }}
                 <v-select
-                  label="Teacher assignee"
+                  label="Assigne teacher"
                   variant="outlined"
-                  :items="teacherList"
+                  :items="teachers"
                   :item-title="fullName"
                   item-value="id"
                   clearable
+                  multiple
+                  chips
                   v-model="selectedTeacherId"
+                  @update:model-value="selectClassTeaching()"
+                ></v-select>
+              </v-col>
+              {{ coordinatorId }}
+              <v-col cols="12">
+                <v-select
+                  label="Assign class coordinator"
+                  variant="outlined"
+                  :items="coordinators"
+                  :item-title="fullName"
+                  item-value="id"
+                  clearable
+                  v-model="coordinatorId"
+                  chips
                   @update:model-value="selectCordinator()"
                 ></v-select>
               </v-col>
@@ -60,14 +72,9 @@
       </v-form>
     </v-card>
   </v-dialog>
-
   <v-row dense>
-    <v-col cols="12" md="3" v-for="classroom in classrooms">
-      <v-card
-        prepend-icon="mdi-chair-school"
-        :title="classroom.classroom_name"
-        :subtitle="classroom.student_count"
-      >
+    <v-col v-if="classrooms.length !== 0" cols="12" md="3" v-for="classroom in classrooms">
+      <v-card prepend-icon="mdi-chair-school" :title="classroom.classroom_name">
         <template v-slot:append>
           <v-menu>
             <template v-slot:activator="{ props }">
@@ -89,8 +96,12 @@
             </v-list>
           </v-menu>
         </template>
-        <!-- <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</v-card-text> -->
-        <v-card-actions>
+        <v-card-text>
+          Total student: <strong>{{ classroom.student_count }}</strong
+          ><br />
+          Coordinator : <strong>{{ classroom.class_coordinator }}</strong>
+        </v-card-text>
+        <!-- <v-card-actions> -->
           <!-- <v-btn
           color="teal-darken-4"
           :to="{ path: '/student-score-report/' + classroom.id }"
@@ -98,49 +109,46 @@
         >
           <v-icon>mdi-chart-line</v-icon> Score report
         </v-btn> -->
-          <v-btn color="teal-darken-4" :to="'/student/' + classroom.id + '/feedback'" class="me-1">
-            Studen List
-          </v-btn>
-          <v-btn
-            color="orange"
-            :to="`/attendance/` + classroom.id + `/student`"
-            text="Check attendance"
-          ></v-btn>
-        </v-card-actions>
+        <!-- </v-card-actions> -->
       </v-card>
     </v-col>
+    <v-alert v-else text="Don't have classroom yet. Please create classroom." type="info"></v-alert>
   </v-row>
 </template>
 
 <script>
 import http from '@/api/api'
 import { useClassroomStore } from '@/stores/classroom'
+import { useTeacherStore } from '@/stores/teacher'
 import { mapActions, mapState } from 'pinia'
 export default {
   data() {
     return {
       selectedClass: '',
       dialog: false,
-      teachers: [],
-      selectedTeacher: null,
-      teacherList: [],
       className: '',
       formAction: 'Create new classroom',
       editing: false,
       editId: null,
-      listClass: [],
+      selectedTeachers: [],
+      coordinator: null,
       selectedTeacherId: null,
+      coordinatorId: null,
       items: [
-        { action: 'edit', title: 'Edite', icon: 'mdi-delete', color: 'red' },
-        { action: 'delete', title: 'Delete', icon: 'mdi-pencil' }
-      ]
+        { action: 'details', title: 'Details', icon: 'mdi-eye' },
+        { action: 'edit', title: 'Edite', icon: 'mdi-pencil' },
+        { action: 'delete', title: 'Delete', icon: 'mdi-delete', color: 'red' }
+      ],
+      classNameRole: ''
     }
   },
   created() {
-    this.getCassrooms()
+    this.getCassrooms(), this.getCoordinatorClass()
+    this.getTeachers()
   },
   computed: {
     ...mapState(useClassroomStore, ['classrooms']),
+    ...mapState(useTeacherStore, ['coordinators', 'teachers']),
     fullName() {
       return function (item) {
         return item.first_name + ' ' + item.last_name
@@ -149,66 +157,41 @@ export default {
   },
 
   methods: {
-    ...mapActions(useClassroomStore, ['getCassrooms', 'deleteCassroom']),
+    ...mapActions(useClassroomStore, [
+      'getCassrooms',
+      'deleteCassroom',
+      'createClassroom',
+      'getClassroomDetails'
+    ]),
+    ...mapActions(useTeacherStore, ['getCoordinatorClass', 'getTeachers']),
     onMenuClick(action, id) {
       switch (action) {
         case 'edit':
-          this.deleteClassroom(id)
+          this.editClassroom(id)
           break
         case 'delete':
-          this.deleteClassroom()
+          this.deleteClassroom(id)
+          break
+        case 'details':
+          this.$router.push(`/classroom/${id}/details`)
           break
         default:
           break
       }
     },
 
-    showStudents(classId) {
-      http
-        .get(`/getuserInClass/${classId}`)
-        .then(response => {
-          console.log(classId)
-          this.listUser = response
-        })
-        .catch(error => {
-          this.listUser = []
-          console.log(error.response.data.error)
-        })
-    },
-
-    // ...
-
-    addTeacher() {
-      // Send a POST request to create a new classroom
-      http
-        .post('/classrooms', {
-          classroom_name: this.className,
-          coordinator_id: this.selectedTeacher
-        })
-        .then(response => {
-          this.className = null
-          this.selectedTeacher = null
-
-          this.fetchClassrooms()
-        })
-        .catch(error => {
-          console.log('Error creating classroom:', error)
-        })
-    },
-    getTeacher() {
-      http.get('users/get/teachers').then(response => {
-        this.teacherList = response.data.data
-      })
-    },
     selectCordinator() {
-      this.selectedTeacher = this.selectedTeacherId
-      console.log(this.selectedTeacherId)
+      this.coordinator = this.coordinatorId
+    },
+    selectClassTeaching() {
+      this.selectedTeachers = this.selectedTeacherId
     },
 
     saveClassroom() {
       const newclassroom = {
         classroom_name: this.className,
-        coordinator_id: this.selectedTeacher
+        coordinator_id: this.coordinator,
+        teacher_id: this.selectedTeachers
       }
 
       if (this.editing) {
@@ -216,56 +199,43 @@ export default {
           .put(`/classrooms/${this.editId}`, newclassroom)
           .then(() => {
             this.cancelForm()
-            this.fetchClassrooms()
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      } else {
-        http
-          .post('/classrooms', newclassroom)
-          .then(() => {
-            this.cancelForm()
-            this.fetchClassrooms()
-            Swal.fire({
-              title: 'Teacher added',
-              icon: 'success',
-              timer: 3000
+            this.getCassrooms()
+            this.$root.$notif('Create successfully', {
+              type: 'success',
+              color: 'primary'
             })
           })
           .catch(error => {
             console.log(error)
           })
+      } else {
+        this.createClassroom(newclassroom)
+          .then(() => {
+            this.cancelForm()
+            this.getCassrooms()
+            this.$root.$notif('Create successfully', {
+              type: 'success',
+              color: 'primary'
+            })
+          })
+          .catch(error => {
+            this.classNameRole = error.response.data.error
+            console.log('hello erro', error.response.status == 400)
+          })
       }
     },
 
     editClassroom(classroom) {
+      this.getClassroomDetails(classroom).then(response => {
+        this.className = response.classroom_name
+        this.coordinatorId = response.coordinator.id
+        this.selectedTeachers = response.teachers.map(teacher => teacher.id)
+        console.log(response)
+      })
+      console.log(classroom)
       this.formAction = 'Edit Classroom'
       this.editing = true
-      this.editId = classroom.id
-      this.className = classroom.classroom_name
-      this.selectedTeacher = classroom.teacher_id
       this.dialog = true
-    },
-
-    updateClassroom() {
-      const id = this.editId
-
-      http
-        .put(`/classrooms/${id}/update`, {
-          classroom_name: this.className,
-          teacher_id: this.selectedTeacher
-        })
-        .then(response => {
-          this.fetchClassrooms()
-          console.log('Classroom updated:', response.data)
-          this.className = null
-          this.selectedTeacher = null
-          this.dialog = false
-        })
-        .catch(error => {
-          console.log('Error updating classroom:', error)
-        })
     },
 
     cancelForm() {
@@ -281,22 +251,11 @@ export default {
       this.deleteCassroom(id).then(() => {
         this.getCassrooms()
       })
+      this.$root.$notif('Delete successfully', {
+        type: 'success',
+        color: 'primary'
+      })
     }
-    // getStudentInClass() {
-    //   http
-    //     .get(`/get-students`)
-    //     .then(response => {
-    //       response.data.data
-    //     })
-    //     .catch(error => {
-    //       console.log(error)
-    //     })
-    // }
-  },
-
-  mounted() {
-    // this.getStudentInClass()
-    this.getTeacher()
   }
 }
 </script>

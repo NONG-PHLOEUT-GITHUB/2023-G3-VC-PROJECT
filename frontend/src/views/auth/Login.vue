@@ -2,6 +2,7 @@
 import { mapActions } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import { useLoadingStore } from '@/stores/loading'
+import { el } from 'vuetify/lib/locale/index.mjs'
 export default {
   data: () => ({
     visible: false,
@@ -25,9 +26,13 @@ export default {
       if (this.$refs.form.validate()) {
         this.login({ email: this.email, password: this.password })
           .then(response => {
-            // console.log('res',response)
+            const userRole = response.data.user.role
             this.setLoading(true)
-            if (response) {
+            if (userRole === 1) {
+              this.$router.push('/admin-dashboard')
+            }else if(userRole === 2) {
+              this.$router.push('/teacher-dashboard')
+            }else {
               this.$router.push('/student-home')
             }
             this.setLoading(false)

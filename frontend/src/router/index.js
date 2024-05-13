@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import { useAuthStore } from '@/stores/auth'
 const routes = [
   {
     path: '/',
@@ -36,10 +35,6 @@ const routes = [
     // Stay within the parent route, you can set up your routes to be nested properly.
     children: [
       {
-        path: '', // Set the default child route
-        redirect: 'student-home'
-      },
-      {
         path: '/user-profile',
         name: 'My Profile',
         component: () => import('@/views/userInfo/UserProfile.vue'),
@@ -60,7 +55,7 @@ const routes = [
       {
         path: '/student-attendance',
         name: 'My attendance',
-        component: () => import('@/views/attendances/StudentAttendance.vue'),
+        component: () => import('@/views/attendances/StudentAttendanceView.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
@@ -235,19 +230,7 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach ((to, from, next) => {
-//   const userRole = useAuthStore().userRole; 
-//   // const userRole = localStorage.getItem('role');
-//   console.log('user role',userRole);
-//   if (userRole === 1) {
-//     next('/admin-dashboard');
-//   } else if (userRole === 2 ){
-//     next('/admin-teacher');
-//   }
-//   else {
-//     next();
-//   }
-// })
+
 // https://beginnersoftwaredeveloper.com/how-do-i-protect-my-vue-router/?expand_article=1
 
 // router.beforeEach((to, from, next) => {

@@ -10,28 +10,25 @@
         <v-menu rounded>
           <template v-slot:activator="{ props }">
             <strong class="me-6">{{ authUser.first_name }} {{ authUser.last_name }}</strong>
-            <v-btn icon v-bind="props" class="me-5">
+            <v-btn icon="" v-bind="props" class="me-5">
               <v-avatar color="brown" size="large" class="avatar">
                 <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
               </v-avatar>
             </v-btn>
           </template>
-
           <v-list>
             <v-list-item>
               <v-avatar size="large" class="avatar">
                 <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
               </v-avatar>
-              <span class="font-weight-black ms-2">
+              <strong class="ms-2">
                 {{ authUser.first_name }}
                 {{ authUser.last_name }}
-              </span>
-              <br />
-              <span class="email">{{ email }}</span>
+              </strong>
             </v-list-item>
 
             <v-col cols="auto">
-              <v-btn size="small" block variant="outlined" c olor="primary" to="/user-profile">
+              <v-btn size="small" block variant="outlined" color="primary" to="/user-profile">
                 user profile
               </v-btn>
             </v-col>
@@ -44,7 +41,7 @@
             >
               <template v-slot:prepend>
                 <v-icon size="large" class="icon-setting" :icon="item.icon"></v-icon>
-                <v-list-item-title v-text="item.title" :to="item.path"></v-list-item-title>
+                <v-list-item-title class="ms-3" v-text="item.title" :to="item.path"></v-list-item-title>
               </template>
             </v-list-item>
           </v-list>
@@ -52,18 +49,16 @@
       </v-list-item>
     </div>
   </v-app-bar>
-  
-  
+
   <v-dialog v-model="dialogVisible" transition="dialog-top-transition" width="auto">
     <change-password-dialog
-    @cancel="dialogVisible = false"
-    @password-changed="dialogVisible = false"
+      @cancel="dialogVisible = false"
+      @password-changed="dialogVisible = false"
     />
   </v-dialog>
 </template>
 
 <script>
-import http from '@/api/api'
 import ChangePasswordDialog from '@/views/auth/ChangePassword.vue'
 import Sidebar from './Sidebar.vue'
 import { mapActions, mapState } from 'pinia'
@@ -86,7 +81,7 @@ export default {
     email: '',
     menus: [
       {
-        title: 'Change password',
+        title: 'Change Password',
         action: 'changePassword',
         icon: 'mdi-lock-reset'
       },
@@ -130,7 +125,7 @@ export default {
           break
       }
     }
-  },
+  }
 }
 </script>
 <style scoped>

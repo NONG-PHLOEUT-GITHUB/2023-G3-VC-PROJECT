@@ -27,7 +27,7 @@
       </v-col>
     </v-row>
   </v-card>
-  <v-card class="mt-2">
+  <v-card class="mt-2" v-if="studentComments.length != 0">
     <v-list :items="items" lines="three" item-props>
       <v-list-item
         v-for="file in studentComments"
@@ -49,6 +49,7 @@
       </v-list-item>
     </v-list>
   </v-card>
+  <v-alert v-else text="Donn't have comments yet." type="info"></v-alert>
 </template>
 <script>
 import { mapActions,mapState } from 'pinia';

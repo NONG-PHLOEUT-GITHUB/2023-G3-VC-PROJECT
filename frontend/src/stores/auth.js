@@ -41,7 +41,6 @@ export const useAuthStore = defineStore('auth', {
     },
     async fetchUser() {
       const response = await fetchUserLoged()
-      console.log(response);
       this.studentScores = response.data.data.scores
       this.studentComments = response.data.data.comments
       this.authUser = response.data.data
@@ -53,12 +52,12 @@ export const useAuthStore = defineStore('auth', {
     async forgotPassword(email) {
      return await forgotPassword(email)
     },
-    async userResetNewPassword(token, password, password_confirmation) {
-      await resetNewPassword(token, password, password_confirmation)
+    async userResetNewPassword(data) {
+     return await resetNewPassword(data)
     },
 
-    async userChangePassword(current_password, new_password) {
-      await changeNewPassword(current_password, new_password)
+    async userChangePassword(data) {
+     return await changeNewPassword(data)
     }
   }
 })

@@ -31,13 +31,26 @@ export function deleteStudent(id) {
 }
 
 export function updateUser(data) {
-  const formData = new FormData()
-  // Append each key-value pair to the FormData object
-  Object.entries(data).forEach(([key, value]) => {
-    formData.append(key, value)
+
+  const newData = {
+    first_name: data.first_name,
+    last_name: data.last_name,
+    role: data.role,
+    profile: data.profile,
+    phone_number: data.phone_number,
+    email: data.email,
+    address: data.address,
+    gender: data.gender,
+    date_of_birth: data.date_of_birth,
+  };
+
+  // const formData = new FormData()
+  // // Append each key-value pair to the FormData object
+  // Object.entries(data).forEach(([key, value]) => {
+  //   formData.append(key, value)
     
-  })
-  return http.put(`users/${data.id}/update`, formData, {
+  // })
+  return http.put(`users/${data.id}/update`, newData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }

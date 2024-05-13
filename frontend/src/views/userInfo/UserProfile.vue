@@ -1,5 +1,16 @@
 <template>
-  <custom-title icon="mdi-account-details-outline"></custom-title>
+  <custom-title icon="mdi-account-details-outline">
+    <template #right>
+      <v-btn
+        class="text-none"
+        variant="outlined"
+        color="primary"
+        append-icon="mdi-pencil"
+        @click="isEdit = !isEdit"
+        >Edit profile
+      </v-btn>
+    </template>
+  </custom-title>
   <v-layout class="rounded rounded-md px-0">
     <v-col cols="3">
       <v-card>
@@ -7,7 +18,7 @@
           <v-col>
             <div>
               <v-avatar color="grey" rounded="100" size="150" class="elevation-1">
-                <v-img :src="profile_image" cover></v-img>
+                <v-img :src="authUser.profile" cover></v-img>
               </v-avatar>
             </div>
             <v-btn class="mt-2" :disabled="isEdit">upload new profile</v-btn>
@@ -15,25 +26,13 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="9">
+    <v-col cols="9" class="pa-1">
       <v-card class="px-2">
-        <template v-slot:append>
-          <v-tooltip text="Edit profile">
-            <template v-slot:activator="{ props }">
-              <v-btn
-                v-bind="props"
-                color="primary"
-                icon="mdi-pencil"
-                @click="isEdit = !isEdit"
-              ></v-btn>
-            </template>
-          </v-tooltip>
-        </template>
         <custom-sub-title icon="mdi-account-card">Personal Information</custom-sub-title>
         <v-row>
           <v-col>
             <v-text-field
-              v-model="first_name"
+              v-model="authUser.first_name"
               density="compact"
               label="First name"
               variant="outlined"
@@ -43,7 +42,7 @@
           </v-col>
           <v-col>
             <v-text-field
-              v-model="last_name"
+              v-model="authUser.last_name"
               density="compact"
               label="Last name"
               variant="outlined"
@@ -55,7 +54,7 @@
         <v-row>
           <v-col>
             <v-text-field
-              v-model="gender"
+              v-model="authUser.gender"
               density="compact"
               label="Gender"
               variant="outlined"
@@ -65,7 +64,7 @@
           </v-col>
           <v-col>
             <v-text-field
-              v-model="date_of_birth"
+              v-model="authUser.date_of_birth"
               density="compact"
               label="Date of birth"
               variant="outlined"
@@ -73,7 +72,7 @@
               prepend-inner-icon=" mdi-calendar-range"
             ></v-text-field>
             <v-text-field
-            v-model="age"
+              v-model="authUser.age"
               density="compact"
               label="Age"
               variant="outlined"
@@ -86,7 +85,7 @@
         <v-row>
           <v-col>
             <v-text-field
-            v-model="email"
+              v-model="authUser.email"
               density="compact"
               label="Email"
               variant="outlined"
@@ -96,7 +95,7 @@
           </v-col>
           <v-col>
             <v-text-field
-            v-model="phone_number"
+              v-model="authUser.phone_number"
               density="compact"
               label="Phone number"
               variant="outlined"
@@ -108,7 +107,7 @@
         <v-row>
           <v-col>
             <v-text-field
-            v-model="address"
+              v-model="authUser.address"
               density="compact"
               label="Address"
               variant="outlined"
@@ -128,7 +127,8 @@
 </template>
 
 <script>
-import http from '@/api/api'
+import { useAuthStore } from '@/stores/auth'
+import { mapActions, mapState } from 'pinia'
 export default {
   name: 'UserDetails',
   data() {
@@ -143,27 +143,17 @@ export default {
       age: '',
       email: '',
       address: '',
-      phone_number:''
+      phone_number: ''
     }
+  },
+  created() {
+    this.fetchUser()
+  },
+  computed: {
+    ...mapState(useAuthStore, ['authUser'])
   },
   methods: {
-    fetchData() {
-      http.get('user').then(response => {
-        this.users = response.data.data
-        this.first_name = response.data.data.first_name
-        this.last_name = response.data.data.last_name
-        this.gender = response.data.data.gender
-        this.profile_image = response.data.data.profile
-        this.age = response.data.data.age
-        this.email = response.data.data.email
-        this.address = response.data.data.address
-        this.phone_number = response.data.data.phone_number
-      })
-    }
-  },
-
-  mounted() {
-    this.fetchData()
+    ...mapActions(useAuthStore, ['fetchUser'])
   }
 }
 </script>

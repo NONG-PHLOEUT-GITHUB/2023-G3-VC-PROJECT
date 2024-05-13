@@ -37,37 +37,31 @@ class AuthController extends Controller
             'msg' => 'Logged out Successfully.'
         ], 200);
     }
- 
+
     public function user(Request $request)
     {
-        if (auth()->check()) {
-            $authenticatedAt = Carbon::createFromTimestamp(auth()->user()->authenticated_at)->toDateTimeString();
 
-            $user = User::with([
-                'attendances' => function ($query) {
-                    $query->orderBy('created_at', 'desc');
-                },
-                'teacherClassTeaching',
-                'scores',
-                'coordinator',
-                'comments' => function ($query) {
-                    $query->join('users', 'comments.teacher_id', '=', 'users.id')
-                        ->select('comments.*', 'users.first_name', 'users.last_name', 'users.profile')
-                        ->orderBy('comments.created_at', 'desc');
-                }
-            ])->find(auth()->user()->id);
+        $authenticatedAt = Carbon::createFromTimestamp(auth()->user()->authenticated_at)->toDateTimeString();
 
-            return response()->json([
-                'status' => 'success',
-                'authenticated_at' => $authenticatedAt,
-                'data' => $user
-            ]);
-        }
+        $user = User::with([
+            'attendances' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            },
+            'teacherClassTeaching',
+            'scores',
+            'coordinator',
+            'comments' => function ($query) {
+                $query->join('users', 'comments.teacher_id', '=', 'users.id')
+                    ->select('comments.*', 'users.first_name', 'users.last_name', 'users.profile')
+                    ->orderBy('comments.created_at', 'desc');
+            }
+        ])->find(auth()->user()->id);
 
         return response()->json([
-            'status' => 'error',
-            'message' => 'User not authenticated',
-        ], 401);
+            'status' => 'success',
+            'authenticated_at' => $authenticatedAt,
+            'data' => $user
+        ]);
     }
 
     /**
@@ -82,7 +76,7 @@ class AuthController extends Controller
         }
         return response()->json(['error' => 'refresh_token_error'], 401);
     }
-    
+
     /**
      * Return auth guard
      */

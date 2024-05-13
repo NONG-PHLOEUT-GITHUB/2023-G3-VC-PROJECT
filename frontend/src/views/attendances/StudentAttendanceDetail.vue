@@ -32,13 +32,8 @@
 
   <!-- v-model="selected" -->
   <v-data-table
-    v-model:items-per-page="options.itemsPerPage"
-    v-model:page="options.page"
-    v-model:sort-by="options.sortBy"
-    :items-length="attendanceDetails.length || 0"
     :headers="headers"
     :items="attendanceDetails"
-    :loading="loading"
     item-value="name"
     class="elevation-2"
   >
@@ -68,13 +63,6 @@ export default {
           href: '/teacher-dashboard'
         }
       ],
-      options: {
-        itemsPerPage: 10,
-        page: 1,
-        sortBy: [{ date: 'date', key: 'date' }],
-        sortDesc: []
-      },
-      loading: false,
       pdfFile: null
     }
   },

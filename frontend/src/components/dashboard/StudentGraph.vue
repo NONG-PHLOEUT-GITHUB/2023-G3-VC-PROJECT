@@ -1,12 +1,6 @@
 <template>
-  <v-row>
-    <v-col cols="6" >
-      <Bar class="elevation-1" :options="chartOptions" :data="chartData" />
-      <Bar class="elevation-1 mt-2" :options="chartOptions" :data="chartData1" />
-    </v-col>
-    <!-- <v-col cols="3" class="elevation-1">
-    </v-col> -->
-  </v-row>
+  <Bar class="elevation-1" :options="chartOptions" :data="chartData" />
+  <Bar class="elevation-1 mt-2" :options="chartOptions" :data="chartData1" />
 </template>
 <script>
 import http from '@/api/api.js'
@@ -80,7 +74,7 @@ export default {
   },
   mounted() {
     http
-      .get('/user')
+      .get('/v1/auth/user')
       .then(response => {
         this.userId = response.data.data.id
         this.fetchAttendanceData()
@@ -120,4 +114,3 @@ export default {
   }
 }
 </script>
-

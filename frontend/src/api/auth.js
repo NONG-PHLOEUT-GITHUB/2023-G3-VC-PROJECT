@@ -16,30 +16,27 @@ export function userLogin(email, password) {
   return http.post('/v1/auth/login', user)
 }
 export function fetchUserLoged() {
-  return http.get('/user')
+  return http.get('v1/auth/user')
 }
 
 export function forgotPassword(email) {
+  console.log(email);
   const data = {
     email
   }
-  return http.post('auth/forgot-password', email)
+  return http.post('auth/forgot-password', data)
 }
 
-export function resetNewPassword(token, password, password_confirmation) {
-  const data = {
-    password,
-    password_confirmation
-  }
-  return http.post(`/reset-password/${token}`, data)
+export function resetNewPassword(data) {
+  // const data = {
+  //   password,
+  //   password_confirmation
+  // }
+  return http.post(`auth/reset-password/${data.token}`, data)
 }
 
-export function changeNewPassword(current_password, new_password) {
-  const data = {
-    current_password,
-    new_password
-  }
-  return http.post(`/change-password`, data)
+export function changeNewPassword(data) {
+  return http.post(`auth/password/change`, data)
 }
 
 export function logout() {

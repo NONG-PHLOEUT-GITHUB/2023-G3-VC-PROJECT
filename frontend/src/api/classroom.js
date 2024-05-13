@@ -22,7 +22,6 @@ export function fetchClassroomById() {
   return http.get(`/classrooms/${id}`)
 }
 export function fetchStudentsInClassroomById(classroom_id) {
-  console.log(classroom_id);
   return http.get(`classrooms/students/${classroom_id}/classroom`)
 }
 export function fetchTotalOfClassroom() {

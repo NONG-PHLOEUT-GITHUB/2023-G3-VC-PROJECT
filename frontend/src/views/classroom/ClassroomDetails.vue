@@ -2,14 +2,29 @@
   <custom-title icon="mdi-table-chair"></custom-title>
   <v-card class="" elevation="1">
     <template v-slot:append>
-      <v-btn class="me-2">Student list</v-btn>
-      <v-btn class="me-2">View Score Report</v-btn>
-      <v-btn class="me-2">View attendance Report</v-btn>
-      <v-btn icon="mdi-pencil"></v-btn>
+      <v-btn
+        class="me-2 text-none"
+        :to="'/student/' + classroomDetails.id + '/feedback'"
+        color="primary"
+        append-icon="$vuetify"
+        variant="outlined"
+        >Students List</v-btn
+      >
+      <v-btn class="me-2 text-none" color="primary" append-icon="$vuetify" variant="outlined"
+        >View Score Report</v-btn
+      >
+      <v-btn
+        class="me-2 text-none"
+        :to="`/attendance/` + classroomDetails.id + `/student`"
+        color="primary"
+        append-icon="$vuetify"
+        variant="outlined"
+        >View Attendance Report</v-btn
+      >
     </template>
     <template v-slot:prepend>
       <v-btn icon="mdi-table-chair" variant="text"></v-btn>
-      <v-card-title> 12 A </v-card-title>
+      <v-card-title> {{ classroomDetails.classroom_name }} </v-card-title>
     </template>
 
     <v-card-text>
@@ -40,14 +55,12 @@
             :value="item"
             :prepend-avatar="item.profile"
           >
-          <v-card-item v-for="subject in item.subjects">
-           Subject: <strong>{{ subject.subject_name }}</strong> 
-          </v-card-item>
+            <v-card-item v-for="subject in item.subjects">
+              Subject: <strong>{{ subject.subject_name }}</strong>
+            </v-card-item>
           </v-card>
         </v-col>
-        <v-alert v-else type="info" variant="outlined">
-          There is no teacher assigned yet.
-        </v-alert>
+        <v-alert v-else type="info" variant="outlined"> There is no teacher assigned yet. </v-alert>
       </v-row>
     </v-card-text>
   </v-card>
@@ -64,7 +77,7 @@ export default {
     this.getClassroomDetails(classroomId)
   },
   computed: {
-    ...mapState(useClassroomStore, ['coordinator', 'teachers'])
+    ...mapState(useClassroomStore, ['coordinator', 'teachers', 'classroomDetails'])
   },
   methods: {
     ...mapActions(useClassroomStore, ['getClassroomDetails'])

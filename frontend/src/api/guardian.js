@@ -26,8 +26,8 @@ export function fetchGuardianDetails(id) {
  export function deleteGuardian(id) {
   return http.delete(`/guardians/${id}/delete`)
 }
-export function updateGuardian() {
-  return http.put(`/guardians/${id}/update`)
+export function updateGuardian(data) {
+  return http.put(`/guardians/${data.id}/update`,data)
 }
 export function getCharIdGuardianOfStudent(user_id) {
   return http.get(`/users/chat_id/${user_id}`)

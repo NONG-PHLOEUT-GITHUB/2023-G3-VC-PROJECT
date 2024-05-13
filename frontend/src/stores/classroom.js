@@ -14,7 +14,8 @@ export const useClassroomStore = defineStore('classroom', {
     classroom: {},
     classrooms: [],
     coordinator: [],
-    teachers: []
+    teachers: [],
+    classroomDetails:""
   }),
   actions: {
     async getStudentsInClassroom(id) {
@@ -36,6 +37,7 @@ export const useClassroomStore = defineStore('classroom', {
       const response = await fetchClassroomDetails(classroomId)
       this.coordinator = response.data.data.coordinator
       this.teachers = response.data.data.teachers
+      this.classroomDetails = response.data.data
       return response.data.data
     },
     async createClassroom(data) {

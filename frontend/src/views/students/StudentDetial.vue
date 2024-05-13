@@ -326,10 +326,8 @@
       <v-window-item value="4"> score {{ scores }} </v-window-item>
       <v-window-item value="5">
         <v-data-table
-          v-model:items-per-page="itemsPerPage"
           :headers="headers"
           :items="attendances"
-          :items-length="attendances.length || 0"
           item-value="name"
           class="elevation-2"
         >

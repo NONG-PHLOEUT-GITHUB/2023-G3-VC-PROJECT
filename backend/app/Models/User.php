@@ -87,7 +87,12 @@ class User extends Authenticatable implements JWTSubject
 
     public static function store($request, $id = null)
     {
-        $users = $request->only(
+        // Check if the email already exists
+        if ($request->has('email') && self::where('email', $request->input('email'))->exists()) {
+            return response()->json(['error' => 'Email is already taken'], 422);
+        }
+
+        $requestData = $request->only(
             'id',
             'role',
             'first_name',
@@ -108,23 +113,10 @@ class User extends Authenticatable implements JWTSubject
             if (!$user) {
                 return response()->json(['error' => 'Record not found'], 404);
             }
-            // $request->validate([
-            //     'profile' => 'image|mimes:jpg,jpeg,png|max:2048'
-            // ]);
-            // dd($user);
-            // dd($request->file('profile'));
-            
-            // $image = $request->file('profile');
-            // $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            // $image->move(public_path('images'), $new_name);
-            // $path = asset('images/' . $new_name);
-            // $user->profile = $path;
-
-            $user->update($users);
+            $user->update($requestData);
         } else {
 
             // Validate the request for the profile image
-            // dd($users);
             $request->validate([
                 'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
             ]);
@@ -133,12 +125,12 @@ class User extends Authenticatable implements JWTSubject
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $new_name);
             $path = asset('images/' . $new_name);
-            $users['profile'] = $path;
+            $requestData['profile'] = $path;
 
             $password = Str::random(8);
-            $users['password'] = bcrypt($password);
+            $requestData['password'] = bcrypt($password);
 
-            $user = self::create($users);
+            $user = self::create($requestData);
             $id = $user->$id;
 
             // Send an email notification to the user

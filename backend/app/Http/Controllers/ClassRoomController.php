@@ -123,6 +123,7 @@ class ClassroomController extends Controller
             'success' => true,
             'data' => [
                 'classroom_name' => $classroom->classroom_name,
+                'id' => $classroom->id,
                 'teachers' => $teachers,
                 'subject_teachers' => $teacherSubjects,
                 'coordinator' => $coordinator

@@ -1,7 +1,6 @@
 <template>
   <custom-sub-title class="mt-4" icon="mdi-chart-timeline">Student most absent list</custom-sub-title>
   <v-data-table
-    :items-per-page="itemsPerPage"
     :headers="headers"
     :items="attendanceMostAbsencData"
     :loading="loading"
