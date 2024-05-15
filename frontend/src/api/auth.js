@@ -42,3 +42,17 @@ export function changeNewPassword(data) {
 export function logout() {
   return http.post(`v1/auth/logout`)
 }
+export function updateProfile(data) {
+  console.log(data);
+  const formData = new FormData()
+  // Append each key-value pair to the FormData object
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value)
+    
+  })
+  return http.put(`users/profile/update/${data.id}`,formData ,{
+    headers: {
+      'Content-Type': 'multipart/form-data' // Set content type to multipart/form-data
+    }
+  })
+}

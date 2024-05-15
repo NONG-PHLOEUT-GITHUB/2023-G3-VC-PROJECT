@@ -118,15 +118,14 @@ export default {
       isEmport: false,
       loading: false,
       headers: [
-        { title: '#ID', key: 'id' },
+        { title: '#ID', key: 'id',width: '2px'  },
         { title: 'Profile', key: 'profile' },
         { title: 'First Name', key: 'first_name' },
         { title: 'Last Name', key: 'last_name' },
         { title: 'Gender', key: 'gender' },
-        { title: 'Age', key: 'age', width: '5' },
         { title: 'Phone Number', key: 'phone_number' },
         { title: 'Email', key: 'email' },
-        { title: '', key: 'actions', width: '15%' }
+        { title: '', key: 'actions', width: '16%' }
       ]
     }
   },

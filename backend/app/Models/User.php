@@ -113,6 +113,7 @@ class User extends Authenticatable implements JWTSubject
             if (!$user) {
                 return response()->json(['error' => 'Record not found'], 404);
             }
+            dd($user);
             $user->update($requestData);
         } else {
 

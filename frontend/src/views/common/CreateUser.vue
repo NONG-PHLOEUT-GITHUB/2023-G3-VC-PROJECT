@@ -189,7 +189,8 @@
         <v-btn type="submit" class="mr-2" :to="{ path: '/student-list' }" variant="outlined"
           >Cancel
         </v-btn>
-        <v-btn type="submit" class="bg-primary">Create</v-btn>
+        <v-btn v-if="!btn" type="submit" class="bg-primary">Create</v-btn>
+        <v-btn v-else type="submit" class="bg-primary">Update</v-btn>
       </div>
     </v-form>
   </v-card>
@@ -201,7 +202,7 @@ import http from '@/api/api'
 import { useStudentStore } from '@/stores/student'
 import { useClassroomStore } from '@/stores/classroom'
 import { useSubjectStore } from '@/stores/subject'
-import { format } from 'date-fns';
+import { format } from 'date-fns'
 
 export default {
   data() {
@@ -246,14 +247,16 @@ export default {
         phone_number: '',
         address: '',
         chatId: ''
-      }
+      },
+      btn:false,
     }
   },
   created() {
     const userId = this.$route.params.id
     if (userId) {
       this.isUpdate = true
-      this.getStudentDetails(userId)
+      this.getStudentDetails(userId),
+      this.btn = true
     }
     this.getSubjects()
     this.getCassrooms()
@@ -268,8 +271,8 @@ export default {
     ...mapState(useSubjectStore, ['subjects']),
     formattedDate() {
       // Use the format function to format the date
-      return format(this.studentDetails.date_of_birth, 'yyyy-MM-dd');
-    },
+      return format(this.studentDetails.date_of_birth, 'yyyy-MM-dd')
+    }
   },
   methods: {
     ...mapActions(useStudentStore, ['createNewStudents', 'updateUser', 'getStudentDetails']),
@@ -309,7 +312,7 @@ export default {
         email: this.studentDetails.email,
         phone_number: this.studentDetails.phone_number || '',
         address: this.studentDetails.address || '',
-        date_of_birth:this.formattedDate,
+        date_of_birth: this.formattedDate,
         age: this.studentDetails.age || '',
         gender: this.studentDetails.gender || '',
         profile: this.form.profile_picture || '',
@@ -345,7 +348,12 @@ export default {
               type: 'success',
               color: 'primary'
             })
-            this.$router.push({ path: '/student-list' })
+            const role = response.data.data.role
+            if (role == 1 || role == 2) {
+              this.$router.push({ path: '/teacher-list' })
+            }else {
+              this.$router.push({ path: '/student-list' })
+            }
           }
         })
       }

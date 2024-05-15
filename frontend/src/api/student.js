@@ -31,18 +31,19 @@ export function deleteStudent(id) {
 }
 
 export function updateUser(data) {
+  console.log(data);
 
-  const newData = {
-    first_name: data.first_name,
-    last_name: data.last_name,
-    role: data.role,
-    profile: data.profile,
-    phone_number: data.phone_number,
-    email: data.email,
-    address: data.address,
-    gender: data.gender,
-    date_of_birth: data.date_of_birth,
-  };
+  // const newData = {
+  //   first_name: data.first_name,
+  //   last_name: data.last_name,
+  //   role: data.role,
+  //   profile: data.profile,
+  //   phone_number: data.phone_number,
+  //   email: data.email,
+  //   address: data.address,
+  //   gender: data.gender,
+  //   date_of_birth: data.date_of_birth,
+  // };
 
   // const formData = new FormData()
   // // Append each key-value pair to the FormData object
@@ -50,7 +51,7 @@ export function updateUser(data) {
   //   formData.append(key, value)
     
   // })
-  return http.put(`users/${data.id}/update`, newData, {
+  return http.put(`users/${data.id}/update`, data, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
