@@ -6,7 +6,8 @@ import {
   forgotPassword,
   resetNewPassword,
   changeNewPassword,
-  logout
+  logout,
+  updateProfile
 } from '@/api/auth.js'
 
 export const useAuthStore = defineStore('auth', {
@@ -58,6 +59,9 @@ export const useAuthStore = defineStore('auth', {
 
     async userChangePassword(data) {
      return await changeNewPassword(data)
+    },
+    async userUpdateProfile(data) {
+     return await updateProfile(data)
     }
   }
 })

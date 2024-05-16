@@ -195,7 +195,8 @@
         <v-btn type="submit" class="mr-2" :to="{ path: '/student-list' }" variant="outlined"
           >Cancel
         </v-btn>
-        <v-btn type="submit" class="bg-primary">Create</v-btn>
+        <v-btn v-if="!btn" type="submit" class="bg-primary">Create</v-btn>
+        <v-btn v-else type="submit" class="bg-primary">Update</v-btn>
       </div>
     </v-form>
   </v-card>
@@ -207,7 +208,7 @@ import http from '@/api/api'
 import { useStudentStore } from '@/stores/student'
 import { useClassroomStore } from '@/stores/classroom'
 import { useSubjectStore } from '@/stores/subject'
-import { format } from 'date-fns';
+import { format } from 'date-fns'
 
 export default {
   data() {
@@ -252,14 +253,16 @@ export default {
         phone_number: '',
         address: '',
         chatId: ''
-      }
+      },
+      btn:false,
     }
   },
   created() {
     const userId = this.$route.params.id
     if (userId) {
       this.isUpdate = true
-      this.getStudentDetails(userId)
+      this.getStudentDetails(userId),
+      this.btn = true
     }
     this.getSubjects()
     this.getCassrooms()
@@ -314,17 +317,17 @@ export default {
         first_name: this.studentDetails.first_name,
         last_name: this.studentDetails.last_name,
         email: this.studentDetails.email,
-        phone_number: this.studentDetails.phone_number,
-        address: this.studentDetails.address,
-        date_of_birth:this.formattedDate,
-        age: this.studentDetails.age,
-        gender: this.studentDetails.gender,
-        profile: this.form.profile_picture,
-        role: this.studentDetails.role,
-        classroom_id: this.studentDetails.classroom_id,
-        subject_id: this.studentDetails.subject_id,
-        guardian_id: this.studentDetails.guardian_id,
-        classrooms: this.studentDetails.classrooms
+        phone_number: this.studentDetails.phone_number || '',
+        address: this.studentDetails.address || '',
+        date_of_birth: this.formattedDate,
+        age: this.studentDetails.age || '',
+        gender: this.studentDetails.gender || '',
+        profile: this.form.profile_picture || '',
+        role: this.studentDetails.role || '',
+        classroom_id: this.studentDetails.classroom_id || '',
+        subject_id: this.studentDetails.subject_id || '',
+        guardian_id: this.studentDetails.guardian_id || '',
+        classrooms: this.studentDetails.classrooms || ''
       }
       if (!this.isUpdate) {
         this.createNewStudents(formData)
@@ -352,7 +355,12 @@ export default {
               type: 'success',
               color: 'primary'
             })
-            this.$router.push({ path: '/student-list' })
+            const role = response.data.data.role
+            if (role == 1 || role == 2) {
+              this.$router.push({ path: '/teacher-list' })
+            }else {
+              this.$router.push({ path: '/student-list' })
+            }
           }
         })
       }

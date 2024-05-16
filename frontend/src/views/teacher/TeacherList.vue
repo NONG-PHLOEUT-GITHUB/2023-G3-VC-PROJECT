@@ -58,7 +58,7 @@ export default {
     return {
       toggleFilter: false,
       headers: [
-        { title: '#ID', key: 'id' },
+        { title: '#ID', key: 'id',width: '5%'  },
         { title: 'Profile', key: 'profile' },
         { title: 'First Name', key: 'first_name' },
         { title: 'Last Name', key: 'last_name' },

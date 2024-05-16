@@ -59,6 +59,8 @@ Route::prefix('users')->group(function () {
     Route::get("/chat_id/{user_id}", [UserController::class, "getGuardianChatIdOfStudent"]);
     Route::get("/teacher/coordinator", [UserController::class, "getTeachersWithoutCoordinatorRole"]);
     Route::get("/students/export-excel", [UserController::class, "exportUsers"]);
+    Route::put('/profile/update/{id}', [UserController::class, 'profileUpdate']);
+
 });
 
 // ======================== Attendance Routes ========================
