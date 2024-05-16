@@ -56,6 +56,10 @@ class Classroom extends Model
 
     // get by attributes
     protected $appends = ['student_count'];
+    
+    public function getTeacherFullNameAttributeInClassroom(){
+        return $this->teachers->first_name.' '.$this->teachers->last_name;
+    }
 
     public function getStudentCountAttribute()
     {

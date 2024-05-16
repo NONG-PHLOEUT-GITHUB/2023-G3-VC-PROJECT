@@ -10,7 +10,12 @@
         >Filters
       </v-btn>
       <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
-      <v-btn variant="tonal" class="bg-primary" @click="dialog = !dialog" icon="mdi-plus"></v-btn>
+      <v-btn
+        variant="tonal"
+        class="bg-primary"
+        @click="dialog = !dialog"
+        icon="mdi-database-plus"
+      ></v-btn>
     </template>
   </custom-title>
 
@@ -55,6 +60,7 @@
                   :items="coordinators"
                   :item-title="fullName"
                   item-value="id"
+                  item-key="id"
                   clearable
                   v-model="coordinatorId"
                   chips
@@ -101,15 +107,6 @@
           ><br />
           Coordinator : <strong>{{ classroom.class_coordinator }}</strong>
         </v-card-text>
-        <!-- <v-card-actions> -->
-          <!-- <v-btn
-          color="teal-darken-4"
-          :to="{ path: '/student-score-report/' + classroom.id }"
-          class="me-4"
-        >
-          <v-icon>mdi-chart-line</v-icon> Score report
-        </v-btn> -->
-        <!-- </v-card-actions> -->
       </v-card>
     </v-col>
     <v-alert v-else text="Don't have classroom yet. Please create classroom." type="info"></v-alert>
@@ -151,6 +148,7 @@ export default {
     ...mapState(useTeacherStore, ['coordinators', 'teachers']),
     fullName() {
       return function (item) {
+        console.log(item);
         return item.first_name + ' ' + item.last_name
       }
     }
@@ -230,9 +228,7 @@ export default {
         this.className = response.classroom_name
         this.coordinatorId = response.coordinator.id
         this.selectedTeachers = response.teachers.map(teacher => teacher.id)
-        console.log(response)
       })
-      console.log(classroom)
       this.formAction = 'Edit Classroom'
       this.editing = true
       this.dialog = true
@@ -242,8 +238,10 @@ export default {
       this.formAction = 'Add Classroom'
       this.editing = false
       this.editId = null
-      this.classroom = { className: '', teacher: '' }
+      this.className = ""
+      this.coordinatorId = null
       this.selectedTeacher = null
+      this.selectedTeacherId = null
       this.dialog = false
     },
 
