@@ -74,12 +74,12 @@
             variant="outlined"
             v-model="studentDetails.date_of_birth"
           ></v-date-input>
-          <v-text-field
+          <!-- <v-text-field
             variant="outlined"
             v-model="studentDetails.date_of_birth"
             label="First name"
             type="date"
-          ></v-text-field>
+          ></v-text-field> -->
         </v-col>
         <v-col>
           <v-text-field
@@ -276,10 +276,10 @@ export default {
     ...mapState(useStudentStore, ['students', 'studentDetails']),
     ...mapState(useClassroomStore, ['classrooms']),
     ...mapState(useSubjectStore, ['subjects']),
-    // formattedDate() {
-    //   // Use the format function to format the date
-    //   return format(this.studentDetails.date_of_birth, 'yyyy-MM-dd');
-    // },
+    formattedDate() {
+      // Use the format function to format the date
+      return format(this.studentDetails.date_of_birth, 'yyyy-MM-dd');
+    },
   },
   methods: {
     ...mapActions(useStudentStore, ['createNewStudents', 'updateUser', 'getStudentDetails']),

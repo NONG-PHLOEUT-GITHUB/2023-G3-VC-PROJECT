@@ -1,3 +1,52 @@
+# II. Backend
+### Step 1: Install the Packages
+- [x] cd .\backend\
+> <code> composer install **or** composer i </code>
+
+### Step 2: Update the Environment Variables
+- [x] copy <code>.env.example </code> file **to** the <code>.env </code> file
+```
+DB_DATABASE= YOUR_DB_NAME
+DB_USERNAME= root
+```
+### Step 3: Create app key
+> <code> php artisan key:generate </code>
+
+### Step 4: Create app key for JWT token
+
+php artisan jwt:secret
+
+### Step 5: Migrate migrateion table to database
+> <code> php artisan migrate </code>
+
+### Step 6: Migrate default admin user to database with seeder
+> <code> php artisan db:seed </code>
+
+### Step 7: Set up your email in .env file
+#### Example:
+```
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.googlemail.com
+MAIL_PORT=587
+MAIL_USERNAME=you@gmail.com
+MAIL_PASSWORD=sadanfsnskadf
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS=you@gmail.com
+MAIL_FROM_NAME=
+```
+
+### Step 8: Running Application
+- [x] If you are in local development environments
+> <code> php artisan serve </code> --port=YOUR_PORT (port is optional) 
+
+- [x] If you are in production environments
+> <code> http:://YOUR_IP_ADDRESS:YOUR_PORT </code>
+#### Example for <code>local development environments</code>:
+```
+http://127.0.0.1:8000
+```
+
+###### Aditional command ########
 ## 1.Installation:
 
 composer install: Install project dependencies.
