@@ -74,6 +74,12 @@
             variant="outlined"
             v-model="studentDetails.date_of_birth"
           ></v-date-input>
+          <v-text-field
+            variant="outlined"
+            v-model="studentDetails.date_of_birth"
+            label="First name"
+            type="date"
+          ></v-text-field>
         </v-col>
         <v-col>
           <v-text-field
@@ -260,6 +266,7 @@ export default {
     }
     this.getSubjects()
     this.getCassrooms()
+    this.handleRoleChange()
   },
   watch: {
     // Watch for changes in the selected role
@@ -269,10 +276,10 @@ export default {
     ...mapState(useStudentStore, ['students', 'studentDetails']),
     ...mapState(useClassroomStore, ['classrooms']),
     ...mapState(useSubjectStore, ['subjects']),
-    formattedDate() {
-      // Use the format function to format the date
-      return format(this.studentDetails.date_of_birth, 'yyyy-MM-dd')
-    }
+    // formattedDate() {
+    //   // Use the format function to format the date
+    //   return format(this.studentDetails.date_of_birth, 'yyyy-MM-dd');
+    // },
   },
   methods: {
     ...mapActions(useStudentStore, ['createNewStudents', 'updateUser', 'getStudentDetails']),
@@ -306,7 +313,7 @@ export default {
     },
     addOrUpdateUser() {
       const formData = {
-        id: parseInt(this.$route.params.id) || '',
+        id: parseInt(this.$route.params.id),
         first_name: this.studentDetails.first_name,
         last_name: this.studentDetails.last_name,
         email: this.studentDetails.email,

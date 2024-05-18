@@ -8,12 +8,12 @@
         placeholder="Enter current password"
         prepend-inner-icon="mdi-lock-outline"
         v-model="currentPassword"
-        :rules="newPasswordRole"
+        :rules="currentPasswordRole"
+        :error-messages="currentPasswordError"
         variant="outlined"
         @click:append-inner="visibleCurrent = !visibleCurrent"
       >
       </v-text-field>
-      <span :rules="currentPasswordRole"></span>
       <v-text-field
         :append-inner-icon="visibleNew ? 'mdi-eye-off' : 'mdi-eye'"
         :type="visibleNew ? 'text' : 'password'"
@@ -33,6 +33,7 @@
         prepend-inner-icon="mdi-lock-outline"
         v-model="confirmPassword"
         :rules="confirmPasswordRoles"
+        :error-messages="confirmPasswordError"
         variant="outlined"
         class="mt-4"
         @click:append-inner="visibleConfirm = !visibleConfirm"
@@ -50,7 +51,6 @@
   </v-card>
 </template>
 <script>
-import http from '@/api/api'
 import { useAuthStore } from '@/stores/auth'
 import { mapActions } from 'pinia'
 export default {
@@ -65,19 +65,20 @@ export default {
       currentPassword: '',
       newPassword: '',
       confirmPassword: '',
+      currentPasswordError: '',
+      confirmPasswordError: '',
 
       currentPasswordRole: [
-        v => !!v || 'Current password is required',
+        v => !!v || 'Current password is required.',
         v => (v && v.length >= 8) || 'Password must be 8  characters or more!'
       ],
       newPasswordRole: [
-        v => !!v || 'New password is required',
+        v => !!v || 'New password is required.',
         v => (v && v.length >= 8) || 'Password must be 8  characters or more!'
       ],
       confirmPasswordRoles: [
-        v => !!v || 'Confirm new password is required',
-        v => (v && v.length >= 8) || 'Password must be 8  characters or more!',
-        v => v === this.newPassword || 'Passwords do not match'
+        v => !!v || 'Confirm new password is required.',
+        v => (v && v.length >= 8) || 'Password must be 8  characters or more!'
       ]
     }
   },
@@ -85,8 +86,7 @@ export default {
     ...mapActions(useAuthStore, ['userChangePassword']),
     changePassword() {
       if (this.newPassword !== this.confirmPassword) {
-        this.confirmPasswordRoles = ['Confirm password does not match']
-        return
+        this.confirmPasswordError = 'Confirm password does not match'
       }
       const data = {
         current_password: this.currentPassword,
@@ -101,32 +101,8 @@ export default {
           this.$emit('password-changed')
         })
         .catch(error => {
-          if (
-            error.response &&
-            error.response.status === 400 &&
-            error.response.data.error === 'Current password is incorrect'
-          ) {
-            this.currentPasswordRole = [
-              'The current password you entered is incorrect. Please try again.'
-            ]
-          } else if (error.response && error.response.status === 400) {
-            const errorData = error.response.data
-            if (errorData.error && errorData.error.current_password) {
-              this.currentPasswordRole = [errorData.error.current_password[0]]
-            } else if (errorData.error && errorData.error.new_password) {
-              this.newPasswordRole = [errorData.error.new_password[0]]
-            } else {
-              console.log(errorData)
-            }
-          } else if (error.response && error.response.status === 404) {
-            const errorData = error.response.data
-            if (errorData.error === 'User not found') {
-              this.currentPasswordRole = ['User not found. Please try again.']
-            } else {
-              console.log(errorData)
-            }
-          } else {
-            console.log(error)
+          if (error.response.status === 400) {
+            this.currentPasswordError = 'Current password is incorrect.'
           }
         })
     },

@@ -41,7 +41,11 @@
             >
               <template v-slot:prepend>
                 <v-icon size="large" class="icon-setting" :icon="item.icon"></v-icon>
-                <v-list-item-title class="ms-3" v-text="item.title" :to="item.path"></v-list-item-title>
+                <v-list-item-title
+                  class="ms-3"
+                  v-text="item.title"
+                  :to="item.path"
+                ></v-list-item-title>
               </template>
             </v-list-item>
           </v-list>
@@ -107,6 +111,10 @@ export default {
           this.$router.push('/login')
           localStorage.removeItem('access_token')
           localStorage.removeItem('user_role')
+          this.$root.$notif('Logout successfully', {
+            type: 'success',
+            color: 'primary'
+          })
         }
       })
     },

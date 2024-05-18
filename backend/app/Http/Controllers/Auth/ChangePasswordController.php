@@ -12,14 +12,10 @@ class ChangePasswordController extends Controller
 {
     public function change(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'current_password' => 'required|min:6',
             'new_password' => 'required|min:6|confirmed',
         ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
-        }
 
         $user = JWTAuth::parseToken()->authenticate();
  
@@ -28,7 +24,6 @@ class ChangePasswordController extends Controller
             return response()->json(['error' => 'User not found'], 404);
         }
 
-        
         if (!Hash::check($request->current_password, $user->password)) {
             return response()->json(['error' => 'Current password is incorrect'], 400);
         }
