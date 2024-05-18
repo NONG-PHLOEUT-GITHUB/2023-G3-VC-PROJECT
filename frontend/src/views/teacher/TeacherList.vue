@@ -4,7 +4,7 @@
       <v-btn
         variant="outlined"
         append-icon="mdi-filter-multiple-outline"
-        class="text-none me-2"
+        class="text-none me-4"
         color="primary"
         @click="toggleFilter = !toggleFilter"
         >Filters</v-btn
@@ -14,7 +14,7 @@
           <v-btn
             v-bind="props"
             variant="tonal"
-            class="me-2 bg-green-darken-1"
+            class="bg-green-darken-1"
             icon="mdi-file-excel"
           ></v-btn>
         </template>
