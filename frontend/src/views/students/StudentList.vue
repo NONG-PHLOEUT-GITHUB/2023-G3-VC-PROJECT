@@ -42,7 +42,7 @@
               v-bind="props"
               :to="{ path: '/create-user' }"
               variant="tonal"
-              class="me-2 bg-dark-darken-4"
+              class="bg-dark-darken-4"
               icon="mdi-database-plus"
             ></v-btn>
           </template>

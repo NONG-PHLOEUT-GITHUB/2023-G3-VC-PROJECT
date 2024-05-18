@@ -14,7 +14,7 @@
           <v-btn
             v-bind="props"
             variant="tonal"
-            class="ms-2 bg-green-darken-1"
+            class="bg-green-darken-1"
             icon="mdi-file-excel"
           ></v-btn>
         </template>

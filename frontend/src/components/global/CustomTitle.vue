@@ -1,5 +1,5 @@
 <template>
-  <v-card class="d-flex justify-space-between py-0 px-0 elevation-0 mb-3" >
+  <v-card class="d-flex justify-space-between py-0 px-0 elevation-0 mb-3">
     <div
       class="header-title-wrapper d-flex align-center"
     >
@@ -11,7 +11,7 @@
         <slot />
       </h4>
     </div>
-    <div class="d-flex align-center me-1">
+    <div class="d-flex align-center">
       <slot name="right">
         <v-btn v-if="rightIcon">
           <v-icon>

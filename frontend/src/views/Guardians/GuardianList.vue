@@ -9,7 +9,7 @@
         @click="toggleFilter = !toggleFilter"
         >Filters
       </v-btn>
-      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+      <v-btn variant="tonal" class="bg-green-darken-1" icon="mdi-file-excel"></v-btn>
     </template>
   </custom-title>
   <filter-guardian v-show="toggleFilter" />
