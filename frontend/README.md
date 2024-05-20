@@ -20,7 +20,7 @@ VUE_APP_API_URL=http://localhost:8000/api
 
 VUE_APP_MODE=production
 VUE_APP_API_URL=http://localhost:8000/api
-```
+
 
 ### Compiles and hot-reloads for development
 ```

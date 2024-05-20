@@ -45,9 +45,7 @@ import { mapActions, mapState } from 'pinia'
 import { useAttendanceStore } from '@/stores/attendance'
 import { useGuardianStore } from '@/stores/guardian'
 import axios from 'axios'
-import jsPDF from 'jspdf'
 import http from '@/api/api'
-import 'jspdf-autotable'
 export default {
   data() {
     return {

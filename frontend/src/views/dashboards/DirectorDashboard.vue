@@ -59,45 +59,28 @@
   >
   <v-row class="mt-2 px-2">
     <v-col cols="6" class="elevation-1">
-      <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+      <canvas id="attendanceChart" width="400" height="200"></canvas>
     </v-col>
     <v-col cols="6" class="elevation-1">
-      <Bar id="my-chart-id" :options="chartOptions" :data="chartData1" />
+      <canvas id="FailedChart" width="400" height="200"></canvas>
     </v-col>
   </v-row>
-
-  <!-- <StudentMostAbsence /> -->
 </template>
 
 <script>
-import { Bar } from 'vue-chartjs'
+import Chart from 'chart.js/auto'
 import http from '@/api/api'
-// import StudentMostAbsence from '@/components/dashboard/StudentMostAbsence.vue'
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
-} from 'chart.js'
-
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
   name: 'BarChart',
-  components: {
-    // StudentMostAbsence,
-    Bar
-  },
   data() {
     return {
       results: '',
       student: '',
       classroom: '',
-      attendance: '',
-      chartData: {
+      chartAttendance: null,
+      studentFailed: null,
+      chartDataAttendance: {
         labels: [
           'January',
           'February',
@@ -115,22 +98,11 @@ export default {
         datasets: [
           {
             label: 'Attendance average',
-            data: [],
-            options: {
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      beginAtZero: true
-                    }
-                  }
-                ]
-              }
-            }
+            data: []
           }
         ]
       },
-      chartData1: {
+      chartDataStudentFailed: {
         labels: [
           'January',
           'February',
@@ -190,8 +162,9 @@ export default {
         const response = await http.get('users/graph-student/fail')
         const mydata = response.data.failed_users_percentage
         for (let i = 0; i < mydata.length; i++) {
-          this.chartData1.datasets[0].data[i] = mydata[i]
+          this.chartDataStudentFailed.datasets[0].data[i] = mydata[i]
         }
+        this.renderFailedChart()
       } catch (error) {
         console.log(error)
       }
@@ -202,11 +175,34 @@ export default {
         const response = await http.get('attendances/show-grahp-of-student-attendance')
         const mydata = Object.values(response.data)
         for (let i = 0; i < mydata.length; i++) {
-          this.chartData.datasets[0].data[i] = mydata[i]
+          this.chartDataAttendance.datasets[0].data[i] = mydata[i]
         }
+        this.renderAttendanceChart()
       } catch (error) {
         console.error(error)
       }
+    },
+    renderAttendanceChart() {
+      if (this.chartAttendance) {
+        this.chartAttendance.destroy()
+      }
+      const ctx = document.getElementById('attendanceChart').getContext('2d')
+      this.chartAttendance = new Chart(ctx, {
+        type: 'bar',
+        data: this.chartDataAttendance,
+        options: this.chartOptions
+      })
+    },
+    renderFailedChart() {
+      if (this.studentFailed) {
+        this.studentFailed.destroy()
+      }
+      const ctx = document.getElementById('FailedChart').getContext('2d')
+      this.studentFailed = new Chart(ctx, {
+        type: 'bar',
+        data: this.chartDataStudentFailed,
+        options: this.chartOptions
+      })
     }
   }
 }

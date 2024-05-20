@@ -1,28 +1,19 @@
 <template>
-  <Bar class="elevation-1" :options="chartOptions" :data="chartData" />
-  <Bar class="elevation-1 mt-2" :options="chartOptions" :data="chartData1" />
+  <canvas id="attendanceChart" class="elevation-1"></canvas>
+  <canvas id="scoreChart" class="elevation-1 mt-2"></canvas>
 </template>
 <script>
 import http from '@/api/api.js'
-import { Bar } from 'vue-chartjs'
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
-} from 'chart.js'
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+import Chart from 'chart.js/auto'
 
 export default {
   name: 'BarChart',
-  components: { Bar },
   data() {
     return {
       userId: null,
-      chartData: {
+      chartAttendance: null,
+      chartScore: null,
+      chartDataAttendance: {
         labels: [
           'January',
           'February',
@@ -44,7 +35,7 @@ export default {
           }
         ]
       },
-      chartData1: {
+      chartDataScore: {
         labels: [
           'January',
           'February',
@@ -77,12 +68,12 @@ export default {
       .get('/v1/auth/user')
       .then(response => {
         this.userId = response.data.data.id
+        this.fetchAttendanceData()
+        this.fetchScoreData()
       })
       .catch(error => {
         console.error(error)
       })
-    this.fetchAttendanceData()
-    this.fetchScoreData()
   },
   methods: {
     fetchAttendanceData() {
@@ -91,8 +82,9 @@ export default {
         .then(response => {
           const mydata = Object.values(response.data)
           for (let i = 0; i < mydata.length; i++) {
-            this.chartData.datasets[0].data[i] = mydata[i]
+            this.chartDataAttendance.datasets[0].data[i] = mydata[i]
           }
+          this.renderAttendanceChart()
         })
         .catch(error => {
           console.error(error)
@@ -104,12 +96,35 @@ export default {
         .then(response => {
           const mydata = Object.values(response.data.average_scores)
           for (let i = 0; i < mydata.length; i++) {
-            this.chartData1.datasets[0].data[i] = mydata[i]
+            this.chartDataScore.datasets[0].data[i] = mydata[i]
           }
+          this.renderScoreChart()
         })
         .catch(error => {
           console.error(error)
         })
+    },
+    renderAttendanceChart() {
+      if (this.chartAttendance) {
+        this.chartAttendance.destroy()
+      }
+      const ctx = document.getElementById('attendanceChart').getContext('2d')
+      this.chartAttendance = new Chart(ctx, {
+        type: 'bar',
+        data: this.chartDataAttendance,
+        options: this.chartOptions
+      })
+    },
+    renderScoreChart() {
+      if (this.chartScore) {
+        this.chartScore.destroy()
+      }
+      const ctx = document.getElementById('scoreChart').getContext('2d')
+      this.chartScore = new Chart(ctx, {
+        type: 'bar',
+        data: this.chartDataScore,
+        options: this.chartOptions
+      })
     }
   }
 }

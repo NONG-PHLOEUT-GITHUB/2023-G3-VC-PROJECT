@@ -171,7 +171,7 @@ class UserController extends Controller
 
     public function getTeachers()
     {
-        $teachers = User::where('role', 2 and 1)
+        $teachers = User::whereIn('role', [1, 2])
             ->select('*')
             ->orderBy('created_at', 'desc')
             ->get();
