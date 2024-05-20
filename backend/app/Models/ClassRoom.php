@@ -22,12 +22,6 @@ class Classroom extends Model
             'coordinator_id',
         );
 
-        // Check if the classroom name already exists
-        $existingClassroom = self::where('classroom_name', $classroomsData['classroom_name'])->first();
-
-        if ($existingClassroom && $existingClassroom->id !== $id) {
-            return response()->json(['error' => 'Classroom name already exists'], 400);
-        }
         if ($id) {
             $classroom = self::find($id);
             if (!$classroom) {
@@ -35,6 +29,12 @@ class Classroom extends Model
             }
             $classroom->update($classroomsData);
         } else {
+            // Check if the classroom name already exists
+            $existingClassroom = self::where('classroom_name', $classroomsData['classroom_name'])->first();
+
+            if ($existingClassroom && $existingClassroom->id !== $id) {
+                return response()->json(['error' => 'Classroom name already exists'], 400);
+            }
             $classroom = self::create($classroomsData);
             $id = $classroom->$id;
         }
@@ -56,9 +56,10 @@ class Classroom extends Model
 
     // get by attributes
     protected $appends = ['student_count'];
-    
-    public function getTeacherFullNameAttributeInClassroom(){
-        return $this->teachers->first_name.' '.$this->teachers->last_name;
+
+    public function getTeacherFullNameAttributeInClassroom()
+    {
+        return $this->teachers->first_name . ' ' . $this->teachers->last_name;
     }
 
     public function getStudentCountAttribute()

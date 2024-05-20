@@ -5,7 +5,7 @@ const api = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL || 'http://127.0.0.1:8000/api/',
   headers: {
     'Access-Control-Allow-Origin': '*',
-    'Content-type': 'application/json'
+    'Content-type': 'application/json',
   }
 })
 
@@ -25,9 +25,9 @@ api.interceptors.request.use(async config => {
 
 api.interceptors.response.use(async response => {
   try {
-    console.log(response.statusText);
     return response
   } catch (error) {
+    console.log('log eror',error);
     return Promise.reject(error)
   }
 })

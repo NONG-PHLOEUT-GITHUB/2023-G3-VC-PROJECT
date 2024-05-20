@@ -48,7 +48,6 @@
                 density="compact"
                 @change="handleFileChange"
               ></v-file-input>
-              <!-- @click:clear="cancel()" -->
             </v-col>
           </v-card-text>
         </v-card>
@@ -146,7 +145,9 @@
 
           <v-card-actions class="px-0">
             <v-spacer></v-spacer>
-            <v-btn color="red" variant="outlined" @click="cancel()">Cancel</v-btn>
+            <v-btn color="red" variant="outlined" :disabled="isEdit" @click="cancel()"
+              >Cancel</v-btn
+            >
             <v-btn class="bg-primary" :disabled="isEdit" type="submit">Save change</v-btn>
           </v-card-actions>
         </v-card>
@@ -164,9 +165,7 @@ export default {
   data() {
     return {
       isEdit: true,
-      form: {
-        profile_picture: ''
-      },
+      profile_picture: '',
       previewImage: '',
       rules: [
         value => {
@@ -189,12 +188,19 @@ export default {
   methods: {
     ...mapActions(useAuthStore, ['fetchUser']),
     ...mapActions(useStudentStore, ['updateUser']),
+
     handleFileChange(event) {
-      this.form.profile_picture = event.target.files[0]
-      const reader = new FileReader()
-      reader.readAsDataURL(this.form.profile_picture)
-      reader.onload = e => {
-        this.previewImage = e.target.result
+      const file = event.target.files[0]
+      if (file) {
+        this.profile_picture = file
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = e => {
+          this.previewImage = e.target.result
+        }
+      } else {
+        this.profile_picture = ''
+        this.previewImage = ''
       }
     },
     cancel() {
@@ -206,9 +212,10 @@ export default {
         email: this.authUser.email,
         phone_number: this.authUser.phone_number,
         address: this.authUser.address,
-        profile: this.form.profile_picture
+        profile: this.profile_picture
       }
-      this.updateUser(data)
+      console.log('in vue',data);
+      this.updateUser(data,data.id)
         .then(response => {
           console.log(response)
           this.$root.$notif('Update profile successfully', {
@@ -218,6 +225,10 @@ export default {
           this.fetchUser()
         })
         .catch(e => {
+          this.$root.$notif('Update profile failed', {
+            type: 'error',
+            color: 'danger'
+          })
           console.log(e)
         })
     }

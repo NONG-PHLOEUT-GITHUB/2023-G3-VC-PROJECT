@@ -30,30 +30,25 @@ export function deleteStudent(id) {
   return http.delete(`users/student/${id}/delete`)
 }
 
-export function updateUser(data) {
-  console.log(data);
-
-  // const newData = {
-  //   first_name: data.first_name,
-  //   last_name: data.last_name,
-  //   role: data.role,
-  //   profile: data.profile,
-  //   phone_number: data.phone_number,
-  //   email: data.email,
-  //   address: data.address,
-  //   gender: data.gender,
-  //   date_of_birth: data.date_of_birth,
-  // };
-
+export function updateUser(data,id) {  
   // const formData = new FormData()
   // // Append each key-value pair to the FormData object
   // Object.entries(data).forEach(([key, value]) => {
   //   formData.append(key, value)
-    
+  //   console.log(key,value);
   // })
-  return http.put(`users/${data.id}/update`, data, {
+
+  const formData = new FormData();
+  formData.append('email', data.email);
+  formData.append('phone_number', data.phone_number);
+  formData.append('address', data.address);
+  formData.append('profile', data.profile);
+
+  // return http.put(`users/${id}/update`,formData, {
+  return http.put(`users/${id}/update`, formData, {
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     }
-  })
+  });
 }

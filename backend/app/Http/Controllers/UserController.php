@@ -43,8 +43,12 @@ class UserController extends Controller
 
     public function getImage(StoreUserRequest $request)
     {
+        $request->validate([
+            'profile' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
         $image = $request->file('profile');
-        dd($image);
+        // dd($image);
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('images'), $new_name);
         $path = asset('images/' . $new_name);
@@ -88,30 +92,6 @@ class UserController extends Controller
         return $user;
     }
 
-
-
-    public function profileUpdate(Request $request, string $id)
-    {
-        $user = User::find($id);
-        
-        // $user->id = $request->input('id');
-        // $user->email = $request->input('email');
-        $user->phone_number = $request->input('phone_number');
-        $user->address = $request->input('address');
-
-        if ($request->hasFile('profile_image')) {
-            // Handle profile image upload
-            $profileImage = $request->file('profile');
-            $new_name = rand() . '.' . $profileImage->getClientOriginalExtension();
-            $profileImage->move(public_path('images'), $new_name);
-            $path = asset('images/' . $new_name);
-            $requestData['profile'] = $path;
-        }
-
-        $user->save();
-        // dd($user);
-        return response()->json(["message" => true, "data" => $user], 200);
-    }
     /**
      * Remove the specified resource from storage.F
      */

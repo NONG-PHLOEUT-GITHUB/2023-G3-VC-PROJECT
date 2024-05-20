@@ -5,7 +5,8 @@ import {
   fetchClassrooms,
   deleteClassroom,
   fetchClassroomDetails,
-  createNewClassroom
+  createNewClassroom,
+  updateClassroom
 } from '@/api/classroom'
 
 export const useClassroomStore = defineStore('classroom', {
@@ -42,6 +43,9 @@ export const useClassroomStore = defineStore('classroom', {
     },
     async createClassroom(data) {
       return await createNewClassroom(data)
+    },
+    async updateClassroom(data,id) {
+      return await updateClassroom(data,id)
     }
   }
 })
