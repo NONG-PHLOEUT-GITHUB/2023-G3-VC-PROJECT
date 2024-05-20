@@ -84,27 +84,57 @@ export default {
   },
   methods: {
     ...mapActions(useAuthStore, ['userChangePassword']),
-    changePassword() {
+
+    validatePasswords() {
+      this.currentPasswordError = ''
+      this.newPasswordError = ''
+      this.confirmPasswordError = ''
+
+      let valid = true
+
+      if (!this.currentPassword || this.currentPassword.length < 8) {
+        this.currentPasswordError = 'Current password is required and must be 8 characters or more!'
+        valid = false
+      }
+
+      if (!this.newPassword || this.newPassword.length < 8) {
+        this.newPasswordError = 'New password is required and must be 8 characters or more!'
+        valid = false
+      }
+
+      if (!this.confirmPassword || this.confirmPassword.length < 8) {
+        this.confirmPasswordError =
+          'Confirm new password is required and must be 8 characters or more!'
+        valid = false
+      }
+
       if (this.newPassword !== this.confirmPassword) {
         this.confirmPasswordError = 'Confirm password does not match'
+        valid = false
       }
-      const data = {
-        current_password: this.currentPassword,
-        new_password: this.newPassword,
-        new_password_confirmation: this.confirmPassword
+
+      return valid
+    },
+    changePassword() {
+      if (this.validatePasswords()) {
+        const data = {
+          current_password: this.currentPassword,
+          new_password: this.newPassword,
+          new_password_confirmation: this.confirmPassword
+        }
+        this.userChangePassword(data)
+          .then(() => {
+            this.currentPassword = ''
+            this.newPassword = ''
+            this.confirmPassword = ''
+            this.$emit('password-changed')
+          })
+          .catch(error => {
+            if (error.response.status === 400) {
+              this.currentPasswordError = 'Current password is incorrect.'
+            }
+          })
       }
-      this.userChangePassword(data)
-        .then(() => {
-          this.currentPassword = ''
-          this.newPassword = ''
-          this.confirmPassword = ''
-          this.$emit('password-changed')
-        })
-        .catch(error => {
-          if (error.response.status === 400) {
-            this.currentPasswordError = 'Current password is incorrect.'
-          }
-        })
     },
     cancel() {
       this.$emit('cancel')

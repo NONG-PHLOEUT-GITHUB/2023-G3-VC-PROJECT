@@ -9,8 +9,8 @@ import http from './api'
 export function createNewClassroom(data) {
   return http.post(`/classrooms`,data)
 }
-export function updateClassroom() {
-  return http.put(`${id}/update`)
+export function updateClassroom(data,id) {
+  return http.put(`classrooms/${id}/update`,data)
 }
 export function deleteClassroom(id) {
   return http.delete(`/classrooms/${id}/delete`)

@@ -88,10 +88,7 @@ class User extends Authenticatable implements JWTSubject
     public static function store($request, $id = null)
     {
         // Check if the email already exists
-        if ($request->has('email') && self::where('email', $request->input('email'))->exists()) {
-            return response()->json(['error' => 'Email is already taken'], 422);
-        }
-
+      
         $requestData = $request->only(
             'id',
             'role',
@@ -108,25 +105,52 @@ class User extends Authenticatable implements JWTSubject
             'classroom_id',
             'guardian_id',
         );
+
+
+        $request->validate([
+            'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        $image = $request->file('profile');
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $new_name);
+        $path = asset('images/' . $new_name);
+        $requestData['profile'] = $path;
+
+        
         if ($id) {
             $user = self::find($id);
             if (!$user) {
                 return response()->json(['error' => 'Record not found'], 404);
             }
-            dd($user);
+            // Validate the request for the profile image
+            // $request->validate([
+            //     'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+            // ]);
+
+            // $image = $request->file('profile');
+            // $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            // $image->move(public_path('images'), $new_name);
+            // $path = asset('images/' . $new_name);
+            // $requestData['profile'] = $path;
+
             $user->update($requestData);
         } else {
-
+            
+            if ($request->has('email') && self::where('email', $request->input('email'))->exists()) {
+                return response()->json(['error' => 'Email is already taken'], 422);
+            }
+    
             // Validate the request for the profile image
-            $request->validate([
-                'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-            ]);
+            // $request->validate([
+            //     'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+            // ]);
 
-            $image = $request->file('profile');
-            $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $new_name);
-            $path = asset('images/' . $new_name);
-            $requestData['profile'] = $path;
+            // $image = $request->file('profile');
+            // $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            // $image->move(public_path('images'), $new_name);
+            // $path = asset('images/' . $new_name);
+            // $requestData['profile'] = $path;
 
             $password = Str::random(8);
             $requestData['password'] = bcrypt($password);

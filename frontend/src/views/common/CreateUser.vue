@@ -302,24 +302,15 @@ export default {
       //If the role is 3, this.showRow is set to true,
       //If the role is 2, this.showSubject is set to true
     },
-    getImage(event) {
-      let file = event.target.files[0]
-      console.log(event.target.files[0])
-      var form = new FormData()
-      form.append('profile', file)
-      http.post(form).then(response => {
-        this.profile = response.data
-      })
-    },
+
     addOrUpdateUser() {
       const formData = {
-        id: parseInt(this.$route.params.id),
         first_name: this.studentDetails.first_name,
         last_name: this.studentDetails.last_name,
         email: this.studentDetails.email,
         phone_number: this.studentDetails.phone_number || '',
         address: this.studentDetails.address || '',
-        date_of_birth: this.formattedDate,
+        date_of_birth: this.formattedDate || "",
         age: this.studentDetails.age || '',
         gender: this.studentDetails.gender || '',
         profile: this.form.profile_picture || '',
@@ -349,7 +340,8 @@ export default {
             }
           })
       } else {
-        this.updateUser(formData).then(response => {
+        const id = parseInt(this.$route.params.id)
+        this.updateUser(formData,id).then(response => {
           if (response.status == 201 && response.statusText == 'Created') {
             this.$root.$notif('Update successfully', {
               type: 'success',

@@ -38,7 +38,6 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                {{ selectedTeachers }}
                 <v-select
                   label="Assigne teacher"
                   variant="outlined"
@@ -48,11 +47,10 @@
                   clearable
                   multiple
                   chips
-                  v-model="selectedTeacherId"
-                  @update:model-value="selectClassTeaching()"
-                ></v-select>
+                  v-model="selectedTeachers"
+                >
+                </v-select>
               </v-col>
-              {{ coordinatorId }}
               <v-col cols="12">
                 <v-select
                   label="Assign class coordinator"
@@ -60,11 +58,9 @@
                   :items="coordinators"
                   :item-title="fullName"
                   item-value="id"
-                  item-key="id"
                   clearable
                   v-model="coordinatorId"
                   chips
-                  @update:model-value="selectCordinator()"
                 ></v-select>
               </v-col>
             </v-row>
@@ -114,33 +110,30 @@
 </template>
 
 <script>
-import http from '@/api/api'
 import { useClassroomStore } from '@/stores/classroom'
 import { useTeacherStore } from '@/stores/teacher'
 import { mapActions, mapState } from 'pinia'
 export default {
   data() {
     return {
-      selectedClass: '',
       dialog: false,
       className: '',
       formAction: 'Create new classroom',
       editing: false,
       editId: null,
       selectedTeachers: [],
-      coordinator: null,
-      selectedTeacherId: null,
       coordinatorId: null,
+      classNameRole: '',
       items: [
         { action: 'details', title: 'Details', icon: 'mdi-eye' },
         { action: 'edit', title: 'Edite', icon: 'mdi-pencil' },
         { action: 'delete', title: 'Delete', icon: 'mdi-delete', color: 'red' }
-      ],
-      classNameRole: ''
+      ]
     }
   },
   created() {
-    this.getCassrooms(), this.getCoordinatorClass()
+    this.getCassrooms()
+    this.getCoordinatorClass()
     this.getTeachers()
   },
   computed: {
@@ -148,7 +141,6 @@ export default {
     ...mapState(useTeacherStore, ['coordinators', 'teachers']),
     fullName() {
       return function (item) {
-        console.log(item);
         return item.first_name + ' ' + item.last_name
       }
     }
@@ -159,7 +151,8 @@ export default {
       'getCassrooms',
       'deleteCassroom',
       'createClassroom',
-      'getClassroomDetails'
+      'getClassroomDetails',
+      'updateClassroom'
     ]),
     ...mapActions(useTeacherStore, ['getCoordinatorClass', 'getTeachers']),
     onMenuClick(action, id) {
@@ -178,23 +171,15 @@ export default {
       }
     },
 
-    selectCordinator() {
-      this.coordinator = this.coordinatorId
-    },
-    selectClassTeaching() {
-      this.selectedTeachers = this.selectedTeacherId
-    },
-
     saveClassroom() {
       const newclassroom = {
-        classroom_name: this.className,
-        coordinator_id: this.coordinator,
+        classroom_name: this.className.toUpperCase(),
+        coordinator_id: this.coordinatorId,
         teacher_id: this.selectedTeachers
       }
 
       if (this.editing) {
-        http
-          .put(`/classrooms/${this.editId}`, newclassroom)
+        this.updateClassroom(newclassroom, this.editId)
           .then(() => {
             this.cancelForm()
             this.getCassrooms()
@@ -218,15 +203,15 @@ export default {
           })
           .catch(error => {
             this.classNameRole = error.response.data.error
-            console.log('hello erro', error.response.status == 400)
           })
       }
     },
 
     editClassroom(classroom) {
       this.getClassroomDetails(classroom).then(response => {
+        this.editId = response.id
         this.className = response.classroom_name
-        this.coordinatorId = response.coordinator.id
+        this.coordinatorId = response.coordinator
         this.selectedTeachers = response.teachers.map(teacher => teacher.id)
       })
       this.formAction = 'Edit Classroom'
@@ -238,20 +223,30 @@ export default {
       this.formAction = 'Add Classroom'
       this.editing = false
       this.editId = null
-      this.className = ""
+      this.className = ''
       this.coordinatorId = null
-      this.selectedTeacher = null
-      this.selectedTeacherId = null
+      this.selectedTeachers = null
       this.dialog = false
     },
 
     deleteClassroom(id) {
-      this.deleteCassroom(id).then(() => {
-        this.getCassrooms()
-      })
-      this.$root.$notif('Delete successfully', {
-        type: 'success',
-        color: 'primary'
+      this.$root.$confirm({
+        title: 'Are you sure?',
+        message: "Are you sure you want to delete this classroom?",
+        options: {
+          agreeBtnText: 'Yes',
+          type: 'error',
+          color: 'error',
+          width: 400
+        },
+        agree: () =>
+          this.deleteCassroom(id).then(() => {
+            this.getCassrooms()
+            this.$root.$notif('Delete successfully', {
+              type: 'success',
+              color: 'primary'
+            })
+          })
       })
     }
   }
