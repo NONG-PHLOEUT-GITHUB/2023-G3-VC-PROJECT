@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('guardians', function (Blueprint $table) {
             $table->id();
-            $table->string('profile', 500);
-            $table->string('first_name', 500);
-            $table->string('last_name', 500);
-            $table->string('gender', 200);
-            $table->date('date_of_birth', 500);
-            $table->string('age', 100);
-            $table->string('chatId');
-            $table->string('phone_number', 24);
-            $table->string('email', 255);
-            $table->string('address', 255);
+            $table->string('profile', 500)->nullable();
+            $table->string('first_name', 500)->nullable();
+            $table->string('last_name', 500)->nullable();
+            $table->string('gender', 200)->nullable();
+            $table->date('date_of_birth', 500)->nullable();
+            $table->string('age', 100)->nullable();
+            $table->string('chat_id')->nullable();
+            $table->string('phone_number', 24)->nullable();
+            $table->string('email', 255)->nullable();
+            $table->string('address', 255)->nullable();
             $table->timestamps();
         });
     }

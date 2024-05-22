@@ -16,14 +16,13 @@
               </v-avatar>
             </v-btn>
           </template>
-          <v-list>
+          <v-list >
             <v-list-item>
               <v-avatar size="large" class="avatar">
                 <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
               </v-avatar>
               <strong class="ms-2">
-                {{ authUser.first_name }}
-                {{ authUser.last_name }}
+                {{ abbreviatedName }}
               </strong>
             </v-list-item>
 
@@ -100,11 +99,18 @@ export default {
     this.fetchUser()
   },
   computed: {
-    ...mapState(useAuthStore, ['authUser'])
+    ...mapState(useAuthStore, ['authUser']),
+    abbreviatedName() {
+      const fullName = `${this.authUser.first_name} ${this.authUser.last_name}`
+      if (fullName.length > 15) {
+        return fullName.substring(0, 15) + '...';
+      } else {
+        return fullName;
+      }
+    }
   },
   methods: {
     ...mapActions(useAuthStore, ['logout', 'fetchUser']),
-
     logoutUser() {
       this.logout().then(response => {
         if (response.status === 200) {
@@ -143,4 +149,8 @@ export default {
 .font-weight-black {
   text-transform: uppercase;
 }
+/* .v-list-item-title{
+  font-weight: bold;
+  text-transform: uppercase;
+} */
 </style>

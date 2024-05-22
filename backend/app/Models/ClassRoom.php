@@ -24,6 +24,7 @@ class Classroom extends Model
 
         if ($id) {
             $classroom = self::find($id);
+            // dd($classroom);
             if (!$classroom) {
                 return response()->json(['error' => 'Record not found'], 404);
             }

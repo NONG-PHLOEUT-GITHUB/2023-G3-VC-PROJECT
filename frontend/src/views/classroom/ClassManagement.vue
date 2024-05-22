@@ -68,8 +68,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue-darken-1" variant="text" @click="dialog = false">Cancel</v-btn>
-          <v-btn type="submit" color="blue-darken-1">Save</v-btn>
+          <v-btn color="blue-darken-1" variant="outlined"  @click="dialog = false">Cancel</v-btn>
+          <v-btn type="submit" class="bg-blue-darken-1">Save</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -196,7 +196,7 @@ export default {
           .then(() => {
             this.cancelForm()
             this.getCassrooms()
-            this.$root.$notif('Create successfully', {
+            this.$root.$notif('Update successfully', {
               type: 'success',
               color: 'primary'
             })

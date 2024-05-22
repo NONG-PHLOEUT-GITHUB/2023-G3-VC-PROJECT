@@ -21,6 +21,7 @@ export function fetchClassrooms() {
 export function fetchClassroomById() {
   return http.get(`/classrooms/${id}`)
 }
+//get the classroom to check attendance in class 
 export function fetchStudentsInClassroomById(classroom_id) {
   return http.get(`classrooms/students/${classroom_id}/classroom`)
 }

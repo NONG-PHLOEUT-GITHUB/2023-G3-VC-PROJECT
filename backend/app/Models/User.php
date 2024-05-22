@@ -99,11 +99,11 @@ class User extends Authenticatable implements JWTSubject
             'date_of_birth',
             'phone_number',
             'address',
-            'profile',
             'email',
             'password',
             'classroom_id',
             'guardian_id',
+            'profile'
         );
 
 
@@ -120,6 +120,7 @@ class User extends Authenticatable implements JWTSubject
         
         if ($id) {
             $user = self::find($id);
+            dd($request->file('profile'));
             if (!$user) {
                 return response()->json(['error' => 'Record not found'], 404);
             }

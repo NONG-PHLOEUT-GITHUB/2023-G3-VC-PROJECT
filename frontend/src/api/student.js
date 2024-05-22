@@ -1,3 +1,4 @@
+import { da } from 'vuetify/lib/locale/index.mjs'
 import http from './api'
 
 /**
@@ -30,6 +31,13 @@ export function deleteStudent(id) {
   return http.delete(`users/student/${id}/delete`)
 }
 
+export function deleteMultipleUsers(ids) {
+  const arrayIds = ids.map(id => {
+    return id;
+  });
+  return http.delete(`users/delete-multiple`,{ data: { ids: arrayIds } })
+}
+
 export function updateUser(data,id) {  
   // const formData = new FormData()
   // // Append each key-value pair to the FormData object
@@ -43,7 +51,7 @@ export function updateUser(data,id) {
   formData.append('phone_number', data.phone_number);
   formData.append('address', data.address);
   formData.append('profile', data.profile);
-
+console.log(formData);
   // return http.put(`users/${id}/update`,formData, {
   return http.put(`users/${id}/update`, formData, {
     headers: {

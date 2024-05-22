@@ -111,6 +111,19 @@ class UserController extends Controller
         return response()->json(['success' => true, 'message' => 'User deleted successfully'], 200);
     }
 
+
+    public function deleteMultiple(Request $request)
+    {
+        $ids = $request->input('ids');
+        // dd($ids);
+        if (is_array($ids)) {
+            User::whereIn('id', $ids)->delete();
+            return response()->json(['message' => 'Items deleted successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Invalid request'], 400);
+        }
+    }
+
     public function getTotalByRoleAndGender()
     {
         $maleCounts = [];

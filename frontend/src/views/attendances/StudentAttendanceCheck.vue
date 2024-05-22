@@ -26,36 +26,52 @@
       prepend-icon=""
       prepend-inner-icon="$calendar"
       variant="outlined"
+      v-model="checkDate"
     ></v-date-input>
   </v-col>
-  <!-- {{ this.formData }} hello data -->
+  <!-- {{ studentInClassroom }} -->
   <v-data-table
     v-model="selectedValues"
     :item-selectable="studentInClassroom.id"
     :headers="headers"
     :items="studentInClassroom"
     item-value="id"
-    item-key="id"
-    show-select
     class="elevation-2"
-  >
-    <template v-slot:item.profile="{ item }">
-      <v-avatar size="large">
-        <v-img :src="item.profile" alt="Avatar" cover> </v-img>
-      </v-avatar>
+    >
+    <!-- show-select -->
+    <template v-slot:body="{ items }">
+      <tr v-for="item in items">
+        <td>
+          <v-checkbox
+          v-model="selectedValues"
+            class="selectstudent"
+            color="red"
+            value="red"
+            hide-details
+          ></v-checkbox>
+        </td>
+        <td>
+          <v-avatar size="large">
+            <v-img :src="item.profile" alt="Avatar" cover> </v-img>
+          </v-avatar>
+        </td>
+        <td>{{ item.first_name }}</td>
+        <td>{{ item.last_name }}</td>
+        <td>{{ item.gender }}</td>
+        <td>{{ item.email }}</td>
+        <td>
+          <v-select
+            :items="statusOptions"
+            variant="outlined"
+            item-title="label"
+            item-value="value"
+            v-model="status"
+          ></v-select>
+        </td>
+        <td><v-textarea rows="1" variant="outlined" v-model="reason"></v-textarea></td>
+      </tr>
     </template>
-    <template v-slot:item.status="{ item }">
-      <v-select
-        :items="statusOptions"
-        variant="outlined"
-        item-title="label"
-        item-value="value"
-        v-model="item.status"
-      ></v-select>
-    </template>
-    <template v-slot:item.reason="{ item }">
-      <v-textarea rows="1" variant="outlined" v-model="item.reason"></v-textarea>
-    </template>
+    <!-- @click:row="onRowClick" -->
   </v-data-table>
 </template>
 
@@ -65,18 +81,18 @@ import { useClassroomStore } from '@/stores/classroom'
 import { useAttendanceStore } from '@/stores/attendance'
 import { useGuardianStore } from '@/stores/guardian'
 import axios from 'axios'
+import { format } from 'date-fns'
 export default {
   data() {
     return {
       selectedValues: [],
       loading: false,
-      date: null,
-      classrooms: [],
+      checkDate: null,
       itemsPerPage: 10,
       reason: '',
-      telegramToken:
-        'https://api.telegram.org/bot6454815254:AAGSFsqSRlS2kBCREs5Kt0NDnVFZjk0fUIU/sendMessage',
+      status: '',
       headers: [
+        { title: 'Select', key: 'select' },
         { title: 'Profile', key: 'profile' },
         { title: 'First Name', key: 'first_name' },
         { title: 'Last Name', key: 'last_name' },
@@ -109,30 +125,38 @@ export default {
   },
   computed: {
     ...mapState(useClassroomStore, ['studentInClassroom']),
-    ...mapState(useGuardianStore, ['chat_id'])
+    ...mapState(useGuardianStore, ['chat_id']),
+    formattedDate() {
+      // Use the format function to format the date
+      return format(this.checkDate, 'yyyy-MM-dd')
+    }
   },
   methods: {
     ...mapActions(useClassroomStore, ['getStudentsInClassroom']),
     ...mapActions(useAttendanceStore, ['checkAttendance']),
     ...mapActions(useGuardianStore, ['getChatIdOfGuardian']),
-
+    onRowClick(event, { item }) {
+      console.log('Row clicked:', item)
+      alert(`You clicked on ${item.name}`)
+    },
     createAttendance() {
       this.selectedValues.forEach(selected => {
         // Prepare attendance data
+        console.log(this.selectedValues)
         const formData = {
           status: selected.status,
           reason: selected.reason,
-          date: this.date,
+          date: this.formattedDate,
           user_id: selected
         }
         this.getChatIdOfGuardian(selected)
         this.checkAttendance(formData).then(res => {
-          // console.log(res)
+          console.log(res)
           // const message = `Name: ${student.first_name} ${student.last_name}\nGender: ${student.gender}\nStatus: ${student.status}\nReason: ${student.reason}`
 
           axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
             chat_id: this.chat_id,
-            text: 'message'
+            text: message
           })
         })
       })

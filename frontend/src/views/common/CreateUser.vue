@@ -74,19 +74,9 @@
             variant="outlined"
             v-model="studentDetails.date_of_birth"
           ></v-date-input>
-          <!-- <v-text-field
-            variant="outlined"
-            v-model="studentDetails.date_of_birth"
-            label="First name"
-            type="date"
-          ></v-text-field> -->
         </v-col>
         <v-col>
-          <v-text-field
-            variant="outlined"
-            label="Age"
-            v-model="studentDetails.email"
-          ></v-text-field>
+          <v-text-field variant="outlined" label="Age" v-model="studentDetails.age"> </v-text-field>
         </v-col>
       </v-row>
       <v-row>
@@ -204,10 +194,10 @@
 
 <script>
 import { mapActions, mapState } from 'pinia'
-import http from '@/api/api'
 import { useStudentStore } from '@/stores/student'
 import { useClassroomStore } from '@/stores/classroom'
 import { useSubjectStore } from '@/stores/subject'
+import { useGuardianStore } from '@/stores/guardian'
 import { format } from 'date-fns'
 
 export default {
@@ -254,15 +244,14 @@ export default {
         address: '',
         chatId: ''
       },
-      btn:false,
+      btn: false
     }
   },
   created() {
     const userId = this.$route.params.id
     if (userId) {
       this.isUpdate = true
-      this.getStudentDetails(userId),
-      this.btn = true
+      this.getStudentDetails(userId), (this.btn = true)
     }
     this.getSubjects()
     this.getCassrooms()
@@ -278,13 +267,14 @@ export default {
     ...mapState(useSubjectStore, ['subjects']),
     formattedDate() {
       // Use the format function to format the date
-      return format(this.studentDetails.date_of_birth, 'yyyy-MM-dd');
-    },
+      return format(this.studentDetails.date_of_birth, 'yyyy-MM-dd')
+    }
   },
   methods: {
     ...mapActions(useStudentStore, ['createNewStudents', 'updateUser', 'getStudentDetails']),
     ...mapActions(useClassroomStore, ['getCassrooms']),
     ...mapActions(useSubjectStore, ['getSubjects']),
+    ...mapActions(useGuardianStore, ['createNewGuardian']),
 
     handleFileChange(event) {
       this.form.profile_picture = event.target.files[0]
@@ -304,13 +294,14 @@ export default {
     },
 
     addOrUpdateUser() {
+      let isSuccess = 0
       const formData = {
         first_name: this.studentDetails.first_name,
         last_name: this.studentDetails.last_name,
         email: this.studentDetails.email,
         phone_number: this.studentDetails.phone_number || '',
         address: this.studentDetails.address || '',
-        date_of_birth: this.formattedDate || "",
+        date_of_birth: this.formattedDate || '',
         age: this.studentDetails.age || '',
         gender: this.studentDetails.gender || '',
         profile: this.form.profile_picture || '',
@@ -323,15 +314,15 @@ export default {
       if (!this.isUpdate) {
         this.createNewStudents(formData)
           .then(response => {
-            if (response.status == 201 && response.statusText == 'Created') {
-              this.$root.$notif('Create successfully', {
-                type: 'success',
-                color: 'primary'
-              })
-              if (response) {
-                console.log(response)
+            if (response.status == 201) {
+              if (this.studentDetails.role == 2 || this.studentDetails.role == 1) {
+                this.$root.$notif('Create successfully', {
+                  type: 'success',
+                  color: 'primary'
+                })
+                this.$router.push({ path: '/student-list' })
               }
-              this.$router.push({ path: '/student-list' })
+              isSuccess += 1
             }
           })
           .catch(error => {
@@ -339,20 +330,47 @@ export default {
               this.emailErrorMessage = 'Email already exists.'
             }
           })
+
+        ///create new parent
+        const parentsData = {
+          first_name: this.parents.first_name,
+          last_name: this.parents.last_name,
+          email: this.parents.email,
+          phone_number: this.parents.phone_number,
+          address: this.parents.address,
+          chatId: this.parents.chatId
+        }
+        if (this.studentDetails.role == 3) {
+          this.createNewGuardian(parentsData)
+            .then(response => {
+              isSuccess += 1
+              console.log(response)
+            })
+            .catch(error => {
+              if (error.response.status === 422) {
+                this.emailErrorMessage = 'Email already exists.'
+              }
+            })
+        }
+        console.log(isSuccess)
+        if (isSuccess === 2) {
+          this.$root.$notif('Create successfully', {
+            type: 'success',
+            color: 'primary'
+          })
+          this.$router.push({ path: '/student-list' })
+        }
       } else {
         const id = parseInt(this.$route.params.id)
-        this.updateUser(formData,id).then(response => {
+        this.updateUser(formData, id).then(response => {
           if (response.status == 201 && response.statusText == 'Created') {
             this.$root.$notif('Update successfully', {
               type: 'success',
               color: 'primary'
             })
             const role = response.data.data.role
-            if (role == 1 || role == 2) {
-              this.$router.push({ path: '/teacher-list' })
-            }else {
-              this.$router.push({ path: '/student-list' })
-            }
+            const redirectPath = role === 1 || role === 2 ? '/teacher-list' : '/student-list';
+            this.$router.push({ path: redirectPath })
           }
         })
       }

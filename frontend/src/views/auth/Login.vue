@@ -72,6 +72,10 @@ export default {
       if (this.$refs.form.validate()) {
         this.login({ email: this.email, password: this.password })
           .then(response => {
+            this.$root.$notif('Login successfully', {
+              type: 'success',
+              color: 'primary'
+            })
             const userRole = response.data.user.role
             this.setLoading(true)
             if (userRole === 1) {
@@ -86,6 +90,11 @@ export default {
           .catch(error => {
             if (error.response.status === 401) {
               this.incorrect = 'Email or password is incorrect'
+            } else if (error.response.status === 500) {
+              this.$root.$notif(error.response.data.message, {
+                type: 'info',
+                color: 'info'
+              })
             }
           })
       }

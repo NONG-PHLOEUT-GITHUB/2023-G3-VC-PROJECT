@@ -48,29 +48,46 @@
           </template>
         </v-tooltip>
       </div>
+      <v-btn
+        v-if="this.selectedUser.length > 0"
+        variant="tonal"
+        class="ms-4 bg-deep-orange-accent-4"
+        icon="mdi-delete-forever"
+        @click="deleteMultiple"
+      ></v-btn>
     </template>
   </custom-title>
   <v-expand-transition>
     <v-card class="mb-3 pa-0" v-show="isEmport">
-      <v-col cols="4" class="pa-2">
-        <v-file-input
-          label="Upload Excel file"
-          variant="outlined"
-          prepend-icon=""
-          prepend-inner-icon="mdi-paperclip"
-          hide-details
-          @submit.prevent="importFile"
-        ></v-file-input>
-      </v-col>
+      <v-form @submit.prevent="importUserExcelFile">
+        <v-row cols="4" class="pa-2">
+          <v-col>
+            <v-file-input
+              label="Upload Excel file"
+              variant="outlined"
+              prepend-icon=""
+              prepend-inner-icon="mdi-paperclip"
+              hide-details
+              density="compact"
+            ></v-file-input>
+          </v-col>
+          <v-col>
+            <v-btn type="submit">Send</v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
     </v-card>
   </v-expand-transition>
   <v-card>
     <v-data-table
+      v-model="selectedUser"
       :headers="headers"
       :items="students"
       :loading="loading"
-      item-value="name"
+      item-value="id"
       id="my-table"
+      show-select
+      hover
     >
       <template v-slot:item.profile="{ item }">
         <v-avatar size="large" v-if="item.profile">
@@ -104,21 +121,12 @@ import { useStudentStore } from '@/stores/student'
 export default {
   data() {
     return {
-      listStudents: [],
+      selectedUser: [],
       errorMessage: '',
-      searchQuery: '',
-      selectedClass: null,
-      classrooms: [],
-      options: {
-        itemsPerPage: 10,
-        page: 1,
-        sortBy: [],
-        sortDesc: []
-      },
       isEmport: false,
       loading: false,
       headers: [
-        { title: '#ID', key: 'id',width: '2px'  },
+        { title: '#ID', key: 'id', width: '2px' },
         { title: 'Profile', key: 'profile' },
         { title: 'First Name', key: 'first_name' },
         { title: 'Last Name', key: 'last_name' },
@@ -136,7 +144,7 @@ export default {
     ...mapState(useStudentStore, ['students'])
   },
   methods: {
-    ...mapActions(useStudentStore, ['getStudents', 'deleteStudent']),
+    ...mapActions(useStudentStore, ['getStudents', 'deleteStudent', 'deleteMultipleUsers']),
 
     deleteStudentFromList(id) {
       console.log(id)
@@ -146,6 +154,19 @@ export default {
             type: 'success',
             color: 'primary'
           })
+        }
+        this.getStudents()
+      })
+    },
+
+    deleteMultiple() {
+      this.deleteMultipleUsers(this.selectedUser).then(response => {
+        if (response.status == 200) {
+          this.$root.$notif('Delete successfully', {
+            type: 'success',
+            color: 'primary'
+          })
+          this.selectedUser = []
         }
         this.getStudents()
       })
@@ -181,38 +202,10 @@ export default {
         })
     },
 
-    importFile() {
-      /// progressbar
-      let timerInterval
-      Swal.fire({
-        title: 'File Uploading',
-        html: 'Please wait for file upload <b></b> %.',
-        timer: 2000, // Change the timer to 5000ms (5 seconds)
-        timerProgressBar: true,
-        didOpen: () => {
-          Swal.showLoading()
-          const b = Swal.getHtmlContainer().querySelector('b')
-          let startTime = Date.now()
-          timerInterval = setInterval(() => {
-            let elapsedTime = Date.now() - startTime
-            let progress = Math.min(100, Math.round(elapsedTime / 20))
-            b.textContent = progress
-          }, 20)
-        },
-        willClose: () => {
-          clearInterval(timerInterval)
-        }
-      }).then(result => {
-        if (result.dismiss === Swal.DismissReason.timer) {
-          console.log('I was closed by the timer')
-        }
-      })
-      /// data upload
-
+    importUserExcelFile() {
       const file = this.$refs.fileInput.files[0]
       const formData = new FormData()
       formData.append('file', file)
-
       http
         .post('/users-import', formData, {
           headers: {

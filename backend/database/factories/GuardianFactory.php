@@ -26,7 +26,7 @@ class GuardianFactory extends Factory
             'last_name' => fake()->lastName(),
             'gender' => fake()->randomElement(['male', 'female']),
             'date_of_birth' => $dateOfBirth,
-            'chatId' => fake()->randomElement(['5220313063', '1087047347']),
+            'chat_id' => fake()->randomElement(['5220313063', '1087047347']),
             'age' => $age,
             'phone_number' => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
