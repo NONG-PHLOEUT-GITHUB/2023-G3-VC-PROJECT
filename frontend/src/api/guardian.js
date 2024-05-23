@@ -8,8 +8,8 @@ import http from './api'
  * @returns
  */
 
-export function createGuardian() {
-  return http.post('/guardians')
+export function createGuardian(data) {
+  return http.post('/guardians/create-guardian',data)
 }
 export function fetchGuardian() {
   return http.get('/guardians')
@@ -26,6 +26,14 @@ export function fetchGuardianDetails(id) {
  export function deleteGuardian(id) {
   return http.delete(`/guardians/${id}/delete`)
 }
+
+export function deleteMultipleGuardians(ids) {
+  const arrayIds = ids.map(id => {
+    return id;
+  });
+  return http.delete(`guardians/delete-multiple`,{ data: { ids: arrayIds } })
+}
+
 export function updateGuardian(data) {
   return http.put(`/guardians/${data.id}/update`,data)
 }

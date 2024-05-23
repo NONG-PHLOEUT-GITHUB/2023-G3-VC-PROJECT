@@ -2,6 +2,13 @@
   <custom-title icon="mdi-human-male-board">
     <template #right>
       <v-btn
+        v-if="this.selectedUser.length > 0"
+        variant="tonal"
+        class="me-4 bg-deep-orange-accent-4"
+        icon="mdi-delete-forever"
+        @click="deleteMultiple"
+      ></v-btn>
+      <v-btn
         variant="outlined"
         append-icon="mdi-filter-multiple-outline"
         class="text-none me-4"
@@ -23,7 +30,14 @@
   </custom-title>
   <teacher-filter v-show="toggleFilter" />
   <v-card>
-    <v-data-table :headers="headers" :items="teachers" item-value="name">
+    <v-data-table
+      show-select
+      :headers="headers"
+      :items="teachers"
+      v-model="selectedUser"
+      item-value="id"
+      hover
+    >
       <template v-slot:item.profile="{ item }">
         <v-avatar size="large">
           <v-img :src="item.profile" alt="Avatar" cover> </v-img>
@@ -47,6 +61,7 @@
 import TeacherFilter from '@/components/filters/TeacherFilter.vue'
 import { useTeacherStore } from '@/stores/teacher'
 import { mapActions, mapState } from 'pinia'
+import { useStudentStore } from '@/stores/student'
 export default {
   components: {
     TeacherFilter
@@ -57,8 +72,8 @@ export default {
   data() {
     return {
       toggleFilter: false,
+      selectedUser: [],
       headers: [
-        { title: '#ID', key: 'id',width: '5%'  },
         { title: 'Profile', key: 'profile' },
         { title: 'First Name', key: 'first_name' },
         { title: 'Last Name', key: 'last_name' },
@@ -66,7 +81,7 @@ export default {
         { title: 'Age', key: 'age' },
         { title: 'Phone Number', key: 'phone_number' },
         { title: 'Email', key: 'email' },
-        { title: '', key: 'actions', width: '13%' }
+        { title: '', key: 'actions', width: '15%' }
       ]
     }
   },
@@ -75,6 +90,7 @@ export default {
   },
   methods: {
     ...mapActions(useTeacherStore, ['getTeachers', 'deleteTeacher']),
+    ...mapActions(useStudentStore, ['deleteMultipleUsers']),
     removeTeacher(id) {
       this.deleteTeacher(id).then(response => {
         if (response.status == 200) {
@@ -82,6 +98,18 @@ export default {
             type: 'success',
             color: 'primary'
           })
+        }
+        this.getTeachers()
+      })
+    },
+    deleteMultiple() {
+      this.deleteMultipleUsers(this.selectedUser).then(response => {
+        if (response.status == 200) {
+          this.$root.$notif('Delete successfully', {
+            type: 'success',
+            color: 'primary'
+          })
+          this.selectedUser = []
         }
         this.getTeachers()
       })

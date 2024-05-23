@@ -4,10 +4,12 @@ namespace App\Imports;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Validator;
+use Illuminate\Support\Str;
 
 class ImportUsers implements ToModel,WithHeadingRow
 {
@@ -36,10 +38,16 @@ class ImportUsers implements ToModel,WithHeadingRow
                 'date_of_birth'=> date('Y-m-d H:i:s', strtotime($row['date_of_birth'] ?? $row['Date of birth'] ?? $row['date of birth'])),
                 'phone_number'=> $row['phone_number'] ?? $row['Phone number'] ?? $row['phone number'],
                 'address'=> $row['address'] ?? $row['Address'] ?? $row['address'],
-                'password' => Hash::make($row['password'] ?? $row['Password']),
                 'profile'=>$row['profile'] ?? $row['Profile'],
                 'role'=> 3,
             ]);
+            $password = Str::random(8);
+            $user['password'] = bcrypt($password);
+
+            // Send an email notification to the user
+            Mail::send('email.new_user', ['user' => $user, 'password' => $password], function ($message) use ($user) {
+                $message->to($user->email, $user->first_name)->subject('Welcome to our system!');
+            });
             $user->save();
         }
     }

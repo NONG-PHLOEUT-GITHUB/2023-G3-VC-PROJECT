@@ -5,7 +5,8 @@ import {
   fetchStudentDetails,
   createUsers,
   updateUser,
-  deleteStudent
+  deleteStudent,
+  deleteMultipleUsers
 } from '@/api/student'
 
 export const useStudentStore = defineStore('student', {
@@ -28,6 +29,9 @@ export const useStudentStore = defineStore('student', {
     },
     async deleteStudent(id) {
       return await deleteStudent(id)
+    },
+    async deleteMultipleUsers(ids) {
+      return await deleteMultipleUsers(ids)
     },
     async getStudentDetails(id) {
       const response = await fetchStudentDetails(id)

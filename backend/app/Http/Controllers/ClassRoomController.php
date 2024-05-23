@@ -82,8 +82,21 @@ class ClassroomController extends Controller
         // Retrieve the students belonging to this classroom with role 3
         $students = $classroom->students;
 
+        // Map through the students to include parent chat_id
+        $studentsWithParentChatId = $students->map(function ($student) {
+            return [
+                'id' => $student->id,
+                'profile' => $student->profile,
+                'gender' => $student->gender,
+                'email' => $student->email,
+                'first_name' => $student->first_name,
+                'last_name' => $student->last_name,
+                'parent_chat_id' => $student->guardian->chat_id ?? null, // Assuming parent can be null
+            ];
+        });
+
         // Return response with the students belonging to the classroom
-        return response()->json(['success' => true, 'data' => $students], 200);
+        return response()->json(['success' => true, 'data' => $studentsWithParentChatId], 200);
     }
 
     public function getTotalOfEachClass()

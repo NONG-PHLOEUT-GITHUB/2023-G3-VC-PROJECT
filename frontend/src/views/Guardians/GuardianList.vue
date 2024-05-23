@@ -10,17 +10,25 @@
         >Filters
       </v-btn>
       <v-btn variant="tonal" class="bg-green-darken-1" icon="mdi-file-excel"></v-btn>
+      <v-btn
+        v-if="this.selectedItem.length > 0"
+        variant="tonal"
+        class="ms-4 bg-deep-orange-accent-4"
+        icon="mdi-delete-forever"
+        @click="deleteMultiple"
+      ></v-btn>
     </template>
   </custom-title>
   <filter-guardian v-show="toggleFilter" />
   <v-data-table
-    v-model:items-per-page="options.itemsPerPage"
+    v-model="selectedItem"
     :headers="headers"
-    :items-length="guardians.length"
     :items="guardians"
     :loading="loading"
-    item-value="name"
+    item-value="id"
+    show-select
     class="elevation-1"
+    hover
   >
     <template v-slot:item.profile="{ item }">
       <v-avatar size="large">
@@ -53,18 +61,10 @@ export default {
   },
   data() {
     return {
-      listGuardian: [],
-      searchQuery: '',
-      options: {
-        itemsPerPage: 10,
-        page: 1,
-        sortBy: [],
-        sortDesc: []
-      },
+      selectedItem: [],
       loading: false,
       toggleFilter: false,
       headers: [
-        { title: '#ID', key: 'id' },
         {
           title: 'Profile',
           sortable: false,
@@ -106,7 +106,11 @@ export default {
     ...mapState(useGuardianStore, ['guardians'])
   },
   methods: {
-    ...mapActions(useGuardianStore, ['getAllGuardian', 'deleteGuardianByID']),
+    ...mapActions(useGuardianStore, [
+      'getAllGuardian',
+      'deleteGuardianByID',
+      'deleteMultipleGuardians'
+    ]),
     removeGuardian(id) {
       this.deleteGuardianByID(id).then(response => {
         if (response.status == 200) {
@@ -115,11 +119,21 @@ export default {
             color: 'primary'
           })
         }
+        this.getAllGuardian()
       })
-      this.getAllGuardian()
+    },
+    deleteMultiple() {
+      this.deleteMultipleGuardians(this.selectedItem).then(response => {
+        if (response.status == 200) {
+          this.$root.$notif('Delete successfully', {
+            type: 'success',
+            color: 'primary'
+          })
+          this.getAllGuardian()
+        }
+        this.selectedItem = []
+      })
     }
   }
 }
 </script>
-
-<style scoped></style>

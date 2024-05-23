@@ -13,10 +13,14 @@ class Guardian extends Model
         'id',
         'first_name',
         'last_name',
+        'email',
         'gender',
-        'chatId',
+        'chat_id',
         'phone_number',
         'address',
+        'profile',
+        'date_of_birth',
+        'age'
     ];
     public function users()
     {
@@ -29,10 +33,14 @@ class Guardian extends Model
             'id',
             'first_name',
             'last_name',
+            'email',
             'gender',
-            'chatId',
+            'chat_id',
             'phone_number',
             'address',
+            'profile',
+            'date_of_birth',
+            'age'
         );
 
         if ($id) {

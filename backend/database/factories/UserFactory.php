@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'phone_number' => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
             'address' => $address,
-            'role' => \Faker\Factory::create()->randomElement([1, 2, 3]),
+            'role' => \Faker\Factory::create()->randomElement([2, 3]),
             'guardian_id' => function (array $attributes) {
                 return $attributes['role'] == 3 ? Guardian::factory()->create()->id : null;
             },

@@ -4,6 +4,10 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\ConnectionException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Client\ConnectionException as ClientConnectionException;
 
 class Handler extends ExceptionHandler
 {
@@ -27,4 +31,33 @@ class Handler extends ExceptionHandler
             //
         });
     }
+   /**
+     * Handle unauthenticated user exceptions.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Auth\AuthenticationException $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return response()->json(['message' => 'Unauthenticated.'], 401);
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Throwable $exception
+     * @return \Illuminate\Http\Response
+     */
+    // public function render($request, Throwable $exception)
+    // {
+    //     if ($exception instanceof ClientConnectionException || $exception instanceof QueryException) {
+    //         return response()->json([
+    //             'message' => 'Could not connect to the database. Please check your database server.'
+    //         ], 500);
+    //     }
+
+    //     return parent::render($request, $exception);
+    // }
 }

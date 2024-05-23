@@ -12,7 +12,6 @@ use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\ImportExelFileController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SubjectController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,6 +58,7 @@ Route::prefix('users')->group(function () {
     Route::get("/chat_id/{user_id}", [UserController::class, "getGuardianChatIdOfStudent"]);
     Route::get("/teacher/coordinator", [UserController::class, "getTeachersWithoutCoordinatorRole"]);
     Route::get("/students/export-excel", [UserController::class, "exportUsers"]);
+    Route::delete('/delete-multiple', [UserController::class, 'deleteMultiple']);
 });
 
 // ======================== Attendance Routes ========================
@@ -128,9 +128,10 @@ Route::prefix('guardians')->group(function () {
     Route::get("/{student_id}/chat-id", [GuardianController::class, "getGuardianChatId"]);
     Route::get("/", [GuardianController::class, "index"]);
     Route::get("/{id}/details", [GuardianController::class, "show"]);
-    Route::post("/guardians-create", [GuardianController::class, "store"]);
+    Route::post("/create-guardian", [GuardianController::class, "store"]);
     Route::put("/{id}/update", [GuardianController::class, "update"]);
     Route::delete("/{id}/delete", [GuardianController::class, "destroy"]);
+    Route::delete('/delete-multiple', [GuardianController::class, 'deleteMultiple']);
 });
 
 // ======================== API Authentication Routes ========================

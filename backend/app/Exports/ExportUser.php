@@ -16,7 +16,17 @@ class ExportUser implements FromCollection, ShouldAutoSize, WithHeadings, WithEv
      */
     public function collection()
     {
-        return User::all();
+        return User::where("role", "=", '3')->select(
+            'first_name',
+            'last_name',
+            'gender',
+            'age',
+            'role',
+            'date_of_birth',
+            'phone_number',
+            'address',
+            'email',
+        )->get();
     }
 
     /**
@@ -25,7 +35,6 @@ class ExportUser implements FromCollection, ShouldAutoSize, WithHeadings, WithEv
     public function headings(): array
     {
         return [
-            '#',
             'First Name',
             'Last Name',
             'Gender',
@@ -34,10 +43,7 @@ class ExportUser implements FromCollection, ShouldAutoSize, WithHeadings, WithEv
             'Date of Birth',
             'Phone Number',
             'Address',
-            'Profile',
-            'Email',
-            'Created at',
-            'Updated at',
+            'Email'
         ];
     }
 
@@ -49,8 +55,7 @@ class ExportUser implements FromCollection, ShouldAutoSize, WithHeadings, WithEv
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-                $cellRange = 'A1:W1'; // All headers
-                // $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(20);
+                $cellRange = 'A1:I1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->applyFromArray([
                     'font' => [
                         'size' => 14,

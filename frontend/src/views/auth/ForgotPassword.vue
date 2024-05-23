@@ -62,6 +62,11 @@ export default {
           if (error.response.status === 404) {
             this.emailError = "Email doesn't exists."
             this.emailRules !== ''
+          } else if (error.response.status === 500) {
+            this.$root.$notif(error.response.data.message, {
+              type: 'info',
+              color: 'info'
+            })
           }
         })
     }

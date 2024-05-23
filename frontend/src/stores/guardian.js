@@ -4,7 +4,9 @@ import {
   deleteGuardian,
   fetchGuardianDetails,
   getCharIdGuardianOfStudent,
-  updateGuardian
+  updateGuardian,
+  deleteMultipleGuardians,
+  createGuardian
 } from '@/api/guardian'
 
 export const useGuardianStore = defineStore('guardian', {
@@ -18,8 +20,14 @@ export const useGuardianStore = defineStore('guardian', {
       const response = await fetchGuardian()
       this.guardians = response.data
     },
+    async createNewGuardian(data) {
+      return await createGuardian(data)
+    },
     async deleteGuardianByID(id) {
      return await deleteGuardian(id)
+    },
+    async deleteMultipleGuardians(ids) {
+     return await deleteMultipleGuardians(ids)
     },
     async getGuardianDetails(id) {
       const response = await fetchGuardianDetails(id)
@@ -27,8 +35,6 @@ export const useGuardianStore = defineStore('guardian', {
     },
     async updateGuardianList(data) {
       return await updateGuardian(data)
-      // console.log(response)
-      // return response
     },
     async getChatIdOfGuardian(student_id) {
       const response = await getCharIdGuardianOfStudent(student_id)

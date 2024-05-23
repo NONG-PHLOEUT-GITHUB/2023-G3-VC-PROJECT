@@ -21,6 +21,8 @@ php artisan jwt:secret
 
 ### Step 6: Migrate default admin user to database with seeder
 > <code> php artisan db:seed </code>
+## get user for login see in file UserSeeder
+php artisan db:seed --class=UserSeeder
 
 ### Step 7: Set up your email in .env file
 #### Example:

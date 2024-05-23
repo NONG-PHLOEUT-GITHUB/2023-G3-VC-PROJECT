@@ -18,6 +18,7 @@ api.interceptors.request.use(async config => {
     }
     return config
   } catch (error) {
+    console.log('error: ',error);
     // useLoadingStore.setLoading(false)
     return Promise.reject(error)
   }
@@ -27,7 +28,8 @@ api.interceptors.response.use(async response => {
   try {
     return response
   } catch (error) {
-    console.log('log eror',error);
+    // return console.log('riii',error.message);
+    // console.log('log eror',error);
     return Promise.reject(error)
   }
 })
