@@ -57,13 +57,13 @@
   <custom-sub-title icon="mdi-chart-bar"
     >Graph of student attendance and student failed</custom-sub-title
   >
-  <v-row class="mt-2 px-2">
-    <v-col cols="6" class="elevation-1">
-      <canvas id="attendanceChart" width="400" height="200"></canvas>
-    </v-col>
-    <v-col cols="6" class="elevation-1">
-      <canvas id="FailedChart" width="400" height="200"></canvas>
-    </v-col>
+  <v-row class="mt-2 px-2 d-flex justify-space-between">
+    <v-card  width="48%"  class="elevation-1">
+      <canvas id="attendanceChart" height="170"></canvas>
+    </v-card>
+    <v-card width="48%" class="elevation-1">
+      <canvas id="FailedChart" height="170"></canvas>
+    </v-card>
   </v-row>
 </template>
 

@@ -2,7 +2,7 @@
 
 ## Project setup
 ```
-npm install
+npm install --legacy-peer-deps
 ```
 
 ### Step 2: Update Environment Variables
