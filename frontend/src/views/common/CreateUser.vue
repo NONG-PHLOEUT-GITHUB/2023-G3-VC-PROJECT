@@ -152,8 +152,8 @@
         <v-row>
           <v-col>
             <v-radio-group inline v-model="parents.gender">
-              <v-radio label="Male"></v-radio>
-              <v-radio label="Female"></v-radio>
+              <v-radio label="Male"  value="Male"></v-radio>
+              <v-radio label="Female"  value="Female"></v-radio>
             </v-radio-group>
           </v-col>
           <v-col>
@@ -242,7 +242,11 @@ export default {
         email: '',
         phone_number: '',
         address: '',
-        chatId: ''
+        chatId: '',
+        profile:'http://127.0.0.1:8000/images/2057164142.jpg',
+        gender:'',
+        age:'',
+        date_of_birth:''
       },
       btn: false
     }
@@ -338,7 +342,10 @@ export default {
           email: this.parents.email,
           phone_number: this.parents.phone_number,
           address: this.parents.address,
-          chatId: this.parents.chatId
+          chatId: this.parents.chatId,
+          profile:this.parents.profile,
+          gender:this.parents.gender,
+          date_of_birth:this.parents.date_of_birth
         }
         if (this.studentDetails.role == 3) {
           this.createNewGuardian(parentsData)
