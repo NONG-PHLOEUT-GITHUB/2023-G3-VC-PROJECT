@@ -24,7 +24,7 @@ class UserFactory extends Factory
         $address = fake()->streetAddress() . ', ' . fake()->streetName() . ', ' . fake()->citySuffix() . ': ' . fake()->citySuffix();
 
         return [
-            'profile' => "http://127.0.0.1:8000/images/408632910.JPG",
+            'profile' => "http://127.0.0.1:8000/images/26309016.png",
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'gender' => fake()->randomElement(['male', 'female']),
