@@ -21,7 +21,6 @@ class ExportUser implements FromCollection, ShouldAutoSize, WithHeadings, WithEv
             'last_name',
             'gender',
             'age',
-            'role',
             'date_of_birth',
             'phone_number',
             'address',
@@ -39,7 +38,6 @@ class ExportUser implements FromCollection, ShouldAutoSize, WithHeadings, WithEv
             'Last Name',
             'Gender',
             'Age',
-            'Role',
             'Date of Birth',
             'Phone Number',
             'Address',
@@ -55,7 +53,7 @@ class ExportUser implements FromCollection, ShouldAutoSize, WithHeadings, WithEv
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-                $cellRange = 'A1:I1'; // All headers
+                $cellRange = 'A1:H1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->applyFromArray([
                     'font' => [
                         'size' => 14,

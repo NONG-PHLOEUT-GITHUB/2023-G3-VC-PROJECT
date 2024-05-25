@@ -6,17 +6,12 @@ use App\Exports\ExportUser;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\GuardianResource;
-use App\Http\Resources\UserResource;
 use App\Models\ClassRoom;
 use App\Models\Comment;
 use App\Models\Guardian;
-use App\Models\Role;
 use App\Models\Score;
-use App\Models\Subject;
-use App\Models\SubjectTeacher;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -86,9 +81,12 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreUserRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
-        $user = User::store($request, $id);
+        $user = User::findOrFail($id); // Retrieve the user by ID or throw an error if not found
+        $user->update($request->all());
+        // $user = User::store($request, $id);
+        // dd($user);
         return $user;
     }
 
@@ -104,7 +102,6 @@ class UserController extends Controller
         }
 
         Classroom::where('coordinator_id', $id)->update(['coordinator_id' => null]);
-        SubjectTeacher::where('teacher_id', $id)->update(['teacher_id' => null]);
 
         $user->delete();
 
@@ -115,13 +112,25 @@ class UserController extends Controller
     public function deleteMultiple(Request $request)
     {
         $ids = $request->input('ids');
-        // dd($ids);
-        if (is_array($ids)) {
-            User::whereIn('id', $ids)->delete();
-            return response()->json(['message' => 'Items deleted successfully'], 200);
-        } else {
-            return response()->json(['message' => 'Invalid request'], 400);
+
+        if (!is_array($ids)) {
+            return response()->json(['message' => 'Invalid request: IDs should be an array.'], 400);
         }
+
+        // Retrieve users to be deleted
+        $users = User::whereIn('id', $ids)->get();
+
+        if ($users->isEmpty()) {
+            return response()->json(['message' => 'No records found for the provided IDs.'], 404);
+        }
+
+        // Update related records
+        Classroom::whereIn('coordinator_id', $ids)->update(['coordinator_id' => null]);
+
+        // Delete users
+        User::whereIn('id', $ids)->delete();
+
+        return response()->json(['success' => true, 'message' => 'Items deleted successfully'], 200);
     }
 
     public function getTotalByRoleAndGender()

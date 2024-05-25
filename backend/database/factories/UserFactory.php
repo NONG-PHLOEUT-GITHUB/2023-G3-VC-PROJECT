@@ -24,10 +24,10 @@ class UserFactory extends Factory
         $address = fake()->streetAddress() . ', ' . fake()->streetName() . ', ' . fake()->citySuffix() . ': ' . fake()->citySuffix();
 
         return [
-            'profile' => "http://127.0.0.1:8000/images/26309016.png",
+            'profile' => "http://127.0.0.1:8000/images/1092285593.png",
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'gender' => fake()->randomElement(['male', 'female']),
+            'gender' => fake()->randomElement(['Male', 'Female']),
             'date_of_birth' => $dateOfBirth,
             'age' => $age,
             'phone_number' => fake()->phoneNumber(),

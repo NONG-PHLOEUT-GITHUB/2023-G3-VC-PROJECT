@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -80,15 +79,22 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-
-
-
     // model create 
 
     public static function store($request, $id = null)
     {
+
+        $request->validate([
+            'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        $image = $request->file('profile');
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $new_name);
+        $path = asset('images/' . $new_name);
+
         // Check if the email already exists
-      
+
         $requestData = $request->only(
             'id',
             'role',
@@ -103,24 +109,12 @@ class User extends Authenticatable implements JWTSubject
             'password',
             'classroom_id',
             'guardian_id',
-            'profile'
         );
 
-
-        $request->validate([
-            'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-        ]);
-
-        $image = $request->file('profile');
-        $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images'), $new_name);
-        $path = asset('images/' . $new_name);
         $requestData['profile'] = $path;
 
-        
         if ($id) {
             $user = self::find($id);
-            dd($request->file('profile'));
             if (!$user) {
                 return response()->json(['error' => 'Record not found'], 404);
             }
@@ -137,21 +131,10 @@ class User extends Authenticatable implements JWTSubject
 
             $user->update($requestData);
         } else {
-            
+
             if ($request->has('email') && self::where('email', $request->input('email'))->exists()) {
                 return response()->json(['error' => 'Email is already taken'], 422);
             }
-    
-            // Validate the request for the profile image
-            // $request->validate([
-            //     'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
-            // ]);
-
-            // $image = $request->file('profile');
-            // $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            // $image->move(public_path('images'), $new_name);
-            // $path = asset('images/' . $new_name);
-            // $requestData['profile'] = $path;
 
             $password = Str::random(8);
             $requestData['password'] = bcrypt($password);
@@ -165,8 +148,17 @@ class User extends Authenticatable implements JWTSubject
             });
         }
 
-        $sujectIds = $request->input('subject_id', []);
-        $user->subjects()->sync($sujectIds);
+        // Retrieve the subject_id string from the request
+        $subjectIdsString = $request->input('subject_id', '');
+
+        // Split the string into an array of strings
+        $subjectIdsArray = explode(',', $subjectIdsString);
+
+        // Convert the array of strings to an array of integers
+        $subjectIds = array_map('intval', $subjectIdsArray);
+
+        // Sync subjects with the user
+        $user->subjects()->sync($subjectIds);
 
         // ================token user password=================
         return response()->json(['success' => true, 'data' => $user], 201);

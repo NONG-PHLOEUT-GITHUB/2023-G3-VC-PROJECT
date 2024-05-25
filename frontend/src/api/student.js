@@ -39,24 +39,17 @@ export function deleteMultipleUsers(ids) {
 }
 
 export function updateUser(data,id) {  
+  // console.log('data',data,'id',id);
   // const formData = new FormData()
   // // Append each key-value pair to the FormData object
   // Object.entries(data).forEach(([key, value]) => {
   //   formData.append(key, value)
-  //   console.log(key,value);
   // })
+  // const jsonData = JSON.stringify(data);
 
-  const formData = new FormData();
-  formData.append('email', data.email);
-  formData.append('phone_number', data.phone_number);
-  formData.append('address', data.address);
-  formData.append('profile', data.profile);
-console.log(formData);
-  // return http.put(`users/${id}/update`,formData, {
-  return http.put(`users/${id}/update`, formData, {
+  return http.put(`users/${id}/update`, data, {
     headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Content-Type': 'multipart/form-data' 
     }
   });
 }

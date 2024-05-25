@@ -78,14 +78,14 @@ export default {
         icon: 'mdi-database-plus-outline'
       },
       {
-        path: '/teacher-list',
-        title: 'Teacher management',
-        icon: 'mdi-human-male-board-poll'
-      },
-      {
         path: '/guardian-list',
         title: 'Guardian management',
         icon: 'mdi-human-male-female-child'
+      },
+      {
+        path: '/teacher-list',
+        title: 'Teacher management',
+        icon: 'mdi-human-male-board-poll'
       },
       {
         path: '/student-list',

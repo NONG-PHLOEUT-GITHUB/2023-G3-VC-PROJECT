@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('date_of_birth', 500)->nullable();
             $table->string('chat_id')->nullable();
             $table->string('phone_number', 24)->nullable();
-            $table->string('email', 255)->nullable();
             $table->string('address', 255)->nullable();
             $table->timestamps();
         });

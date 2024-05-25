@@ -14,16 +14,17 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        
         \App\Models\User::create([
-            'profile' => "http://127.0.0.1:8000/images/408632910.JPG",
+            'profile' => "http://127.0.0.1:8000/images/87762439.png",
             'first_name' => "Super",
             'last_name' => "Administrator",
-            'gender' => 'female',
+            'gender' => 'Female',
             'date_of_birth' => "2012-03-02",
             'age' => "23",
             'phone_number' => "0 94 94 94 08",
             'email' => "admin@example.com",
-            'address' => "admin address",
+            'address' => "#st 1002",
             'role' => "1",
             'email_verified_at' => now(),
             'password' => Hash::make('admin1234'),

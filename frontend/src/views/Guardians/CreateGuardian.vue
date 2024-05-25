@@ -22,6 +22,14 @@
       <v-row>
         <v-col>
           <v-text-field
+            label="Date of birth"
+            variant="outlined"
+            v-model="guardianDetails.date_of_birth"
+            type="date"
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field
             variant="outlined"
             v-model="guardianDetails.address"
             label="Address"
@@ -36,7 +44,7 @@
         <v-col>
           <v-text-field
             variant="outlined"
-            v-model="guardianDetails.chatId"
+            v-model="guardianDetails.chat_id"
             label="Chat id of guadian"
           ></v-text-field>
         </v-col>
@@ -61,6 +69,7 @@
 <script>
 import { mapActions, mapState } from 'pinia'
 import { useGuardianStore } from '@/stores/guardian'
+
 export default {
   created() {
     const id = this.$route.params.id
@@ -71,13 +80,14 @@ export default {
       first_name: '',
       last_name: '',
       gender: '',
-      chatId: '',
+      chat_id: '',
       phone_number: '',
       address: '',
+      date_of_birth:''
     }
   },
   computed: {
-    ...mapState(useGuardianStore, ['guardianDetails'])
+    ...mapState(useGuardianStore, ['guardianDetails']),
   },
   methods: {
     ...mapActions(useGuardianStore, ['getGuardianDetails', 'updateGuardianList']),
@@ -87,9 +97,10 @@ export default {
         first_name: this.guardianDetails.first_name,
         last_name: this.guardianDetails.last_name,
         gender: this.guardianDetails.gender,
-        chatId: this.guardianDetails.chatId,
+        chat_id: this.guardianDetails.chat_id,
         phone_number: this.guardianDetails.phone_number,
-        address: this.guardianDetails.address
+        address: this.guardianDetails.address,
+        date_of_birth: this.guardianDetails.date_of_birth
       }
       this.updateGuardianList(formData)
         .then(() => {

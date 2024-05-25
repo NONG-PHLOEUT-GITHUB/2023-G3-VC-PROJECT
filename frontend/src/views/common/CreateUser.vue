@@ -67,13 +67,13 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-date-input
-            label="Select a date"
-            prepend-icon=""
-            prepend-inner-icon="$calendar"
+          <v-text-field
+            label="Date of Birth"
             variant="outlined"
             v-model="studentDetails.date_of_birth"
-          ></v-date-input>
+            type="date"
+            :rules="dateOfBirthRules"
+          ></v-text-field>
         </v-col>
         <v-col>
           <v-text-field variant="outlined" label="Age" v-model="studentDetails.age"> </v-text-field>
@@ -82,9 +82,9 @@
       <v-row>
         <v-col cols="6">
           <v-file-input
-            :rules="rules"
+            :rules="profileRules"
             accept="image/png, image/jpeg, image/bmp"
-            label="Avatar"
+            label="Apload user profile"
             placeholder="Pick an avatar"
             prepend-icon=""
             prepend-inner-icon="mdi-camera"
@@ -113,6 +113,7 @@
             item-value="id"
             multiple
             chips
+            clearable
             v-model="studentDetails.subject_id"
           ></v-select>
         </v-col>
@@ -152,10 +153,12 @@
         <v-row>
           <v-col>
             <v-radio-group inline v-model="parents.gender">
-              <v-radio label="Male"  value="Male"></v-radio>
-              <v-radio label="Female"  value="Female"></v-radio>
+              <v-radio label="Male" value="Male"></v-radio>
+              <v-radio label="Female" value="Female"></v-radio>
             </v-radio-group>
           </v-col>
+        </v-row>
+        <v-row>
           <v-col>
             <v-text-field
               variant="outlined"
@@ -163,12 +166,20 @@
               label="Address"
             ></v-text-field>
           </v-col>
+          <v-col>
+            <v-text-field
+              label="Date of birth"
+              variant="outlined"
+              v-model="parents.date_of_birth"
+              type="date"
+            ></v-text-field>
+          </v-col>
         </v-row>
         <v-row>
           <v-col>
             <v-text-field
               variant="outlined"
-              v-model="parents.chatId"
+              v-model="parents.chat_id"
               label="Chat id of guadian"
             ></v-text-field>
           </v-col>
@@ -182,7 +193,15 @@
         </v-row>
       </v-card-text>
       <div class="col-12 d-flex justify-content-end">
-        <v-btn type="submit" class="mr-2" :to="{ path: '/student-list' }" variant="outlined"
+        <v-btn
+          v-if="studentDetails.role == 3"
+          type="submit"
+          class="mr-2"
+          :to="{ path: '/student-list' }"
+          variant="outlined"
+          >Cancel
+        </v-btn>
+        <v-btn v-else type="submit" class="mr-2" :to="{ path: '/teacher-list' }" variant="outlined"
           >Cancel
         </v-btn>
         <v-btn v-if="!btn" type="submit" class="bg-primary">Create</v-btn>
@@ -198,11 +217,19 @@ import { useStudentStore } from '@/stores/student'
 import { useClassroomStore } from '@/stores/classroom'
 import { useSubjectStore } from '@/stores/subject'
 import { useGuardianStore } from '@/stores/guardian'
-import { format } from 'date-fns'
 
 export default {
   data() {
     return {
+      first_name: '',
+      last_name: '',
+      email: '',
+      phophone_number: '',
+      address: '',
+      date_of_birth: '',
+      age: '',
+      gender: '',
+
       profile: 'http://127.0.0.1:8000/images/2057164142.jpg',
       roleOption: [
         { value: 1, title: 'Administrator' },
@@ -215,7 +242,23 @@ export default {
       showRow: false,
       showSubject: false,
       previewImage: '',
-      rules: [
+
+      dateOfBirthRules: [
+        value => !!value || 'Date of Birth is required',
+        value => {
+          if (!value) return true
+          const selectedDate = new Date(value)
+          const today = new Date()
+          return selectedDate <= today || 'Date of Birth cannot be in the future'
+        }
+      ],
+      profileRules: [
+        value => {
+          if (!value || value.length === 0) {
+            return 'Avatar is required!'
+          }
+          return true
+        },
         value => {
           return (
             !value ||
@@ -239,14 +282,11 @@ export default {
       parents: {
         first_name: '',
         last_name: '',
-        email: '',
         phone_number: '',
         address: '',
-        chatId: '',
-        profile:'http://127.0.0.1:8000/images/2057164142.jpg',
-        gender:'',
-        age:'',
-        date_of_birth:''
+        chat_id: '',
+        gender: '',
+        date_of_birth: ''
       },
       btn: false
     }
@@ -263,16 +303,15 @@ export default {
   },
   watch: {
     // Watch for changes in the selected role
-    'studentDetails.role': 'handleRoleChange'
+    'studentDetails.role': 'handleRoleChange',
+    'studentDetails.date_of_birth': function (newDate) {
+      this.studentDetails.age = this.calculateAge(newDate)
+    }
   },
   computed: {
     ...mapState(useStudentStore, ['students', 'studentDetails']),
     ...mapState(useClassroomStore, ['classrooms']),
-    ...mapState(useSubjectStore, ['subjects']),
-    formattedDate() {
-      // Use the format function to format the date
-      return format(this.studentDetails.date_of_birth, 'yyyy-MM-dd')
-    }
+    ...mapState(useSubjectStore, ['subjects'])
   },
   methods: {
     ...mapActions(useStudentStore, ['createNewStudents', 'updateUser', 'getStudentDetails']),
@@ -280,6 +319,17 @@ export default {
     ...mapActions(useSubjectStore, ['getSubjects']),
     ...mapActions(useGuardianStore, ['createNewGuardian']),
 
+    calculateAge(dateOfBirth) {
+      if (!dateOfBirth) return ''
+      const birthDate = new Date(dateOfBirth)
+      const today = new Date()
+      let age = today.getFullYear() - birthDate.getFullYear()
+      const monthDifference = today.getMonth() - birthDate.getMonth()
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        age--
+      }
+      return age
+    },
     handleFileChange(event) {
       this.form.profile_picture = event.target.files[0]
       const reader = new FileReader()
@@ -298,14 +348,13 @@ export default {
     },
 
     addOrUpdateUser() {
-      let isSuccess = 0
       const formData = {
         first_name: this.studentDetails.first_name,
         last_name: this.studentDetails.last_name,
         email: this.studentDetails.email,
         phone_number: this.studentDetails.phone_number || '',
         address: this.studentDetails.address || '',
-        date_of_birth: this.formattedDate || '',
+        date_of_birth: this.date_of_birth || '',
         age: this.studentDetails.age || '',
         gender: this.studentDetails.gender || '',
         profile: this.form.profile_picture || '',
@@ -315,6 +364,7 @@ export default {
         guardian_id: this.studentDetails.guardian_id || '',
         classrooms: this.studentDetails.classrooms || ''
       }
+
       if (!this.isUpdate) {
         this.createNewStudents(formData)
           .then(response => {
@@ -324,9 +374,16 @@ export default {
                   type: 'success',
                   color: 'primary'
                 })
+                this.$router.push({ path: '/teacher-list' })
+              } else {
+                // call to create the parent
+                this.createParents()
+                this.$root.$notif('Create successfully', {
+                  type: 'success',
+                  color: 'primary'
+                })
                 this.$router.push({ path: '/student-list' })
               }
-              isSuccess += 1
             }
           })
           .catch(error => {
@@ -334,39 +391,6 @@ export default {
               this.emailErrorMessage = 'Email already exists.'
             }
           })
-
-        ///create new parent
-        const parentsData = {
-          first_name: this.parents.first_name,
-          last_name: this.parents.last_name,
-          email: this.parents.email,
-          phone_number: this.parents.phone_number,
-          address: this.parents.address,
-          chatId: this.parents.chatId,
-          profile:this.parents.profile,
-          gender:this.parents.gender,
-          date_of_birth:this.parents.date_of_birth
-        }
-        if (this.studentDetails.role == 3) {
-          this.createNewGuardian(parentsData)
-            .then(response => {
-              isSuccess += 1
-              console.log(response)
-            })
-            .catch(error => {
-              if (error.response.status === 422) {
-                this.emailErrorMessage = 'Email already exists.'
-              }
-            })
-        }
-        console.log(isSuccess)
-        if (isSuccess === 2) {
-          this.$root.$notif('Create successfully', {
-            type: 'success',
-            color: 'primary'
-          })
-          this.$router.push({ path: '/student-list' })
-        }
       } else {
         const id = parseInt(this.$route.params.id)
         this.updateUser(formData, id).then(response => {
@@ -376,11 +400,30 @@ export default {
               color: 'primary'
             })
             const role = response.data.data.role
-            const redirectPath = role === 1 || role === 2 ? '/teacher-list' : '/student-list';
+            const redirectPath = role === 1 || role === 2 ? '/teacher-list' : '/student-list'
             this.$router.push({ path: redirectPath })
           }
         })
       }
+    },
+    createParents() {
+      ///create new parent
+      const parentsData = {
+        first_name: this.parents.first_name,
+        last_name: this.parents.last_name,
+        phone_number: this.parents.phone_number,
+        address: this.parents.address,
+        chat_id: this.parents.chat_id,
+        gender: this.parents.gender,
+        date_of_birth: this.parents.date_of_birth
+      }
+      this.createNewGuardian(parentsData)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }

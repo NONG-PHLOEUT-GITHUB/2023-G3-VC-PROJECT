@@ -66,11 +66,6 @@ export default {
       toggleFilter: false,
       headers: [
         {
-          title: 'Profile',
-          sortable: false,
-          key: 'profile'
-        },
-        {
           title: 'First name',
           align: 'start',
           sortable: false,
@@ -94,7 +89,7 @@ export default {
         },
         {
           title: 'Telegram',
-          key: 'chatId',
+          key: 'chat_id',
           align: 'end',
           sortable: false
         },
