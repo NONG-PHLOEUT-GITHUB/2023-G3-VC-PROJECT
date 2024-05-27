@@ -42,20 +42,31 @@ class AuthController extends Controller
     {
 
         $authenticatedAt = Carbon::createFromTimestamp(auth()->user()->authenticated_at)->toDateTimeString();
-
+        $exam_id = $request->input('exam_id');
+        // dd($exam_id);
         $user = User::with([
             'attendances' => function ($query) {
                 $query->orderBy('created_at', 'desc');
             },
             'teacherClassTeaching',
-            'scores',
+            'subjects',
+            'scores' => function ($query) use ($exam_id) {
+                $query->join('subjects', 'scores.subject_id', '=', 'subjects.id')
+                      ->select('scores.*', 'subjects.subject_code', 'subjects.subject_name as subject_name')
+                      ->orderBy('scores.created_at', 'desc');
+                if ($exam_id) {
+                    $query->where('scores.exam_id', $exam_id);
+                }
+            },
             'coordinator',
+            'exams',
             'comments' => function ($query) {
                 $query->join('users', 'comments.teacher_id', '=', 'users.id')
                     ->select('comments.*', 'users.first_name', 'users.last_name', 'users.profile')
                     ->orderBy('comments.created_at', 'desc');
             }
         ])->find(auth()->user()->id);
+
 
         return response()->json([
             'status' => 'success',

@@ -45,4 +45,8 @@ class Subject extends Model
     public function score(){
         return $this->belongsTo(Score::class);
     }
+    public function exams()
+    {
+        return $this->hasMany(Exam::class);
+    }
 }

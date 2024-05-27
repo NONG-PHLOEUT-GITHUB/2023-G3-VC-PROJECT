@@ -18,12 +18,15 @@
       </v-card-actions>
     </v-form>
   </v-card>
+  {{ authUser }}
 </template>
 
 <script>
 import { mapActions, mapState } from 'pinia'
 import { useCommentStore } from '@/stores/comment'
 import { useAuthStore } from '@/stores/auth'
+import { useStudentStore } from '@/stores/student'
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -34,10 +37,13 @@ export default {
     }
   },
   created() {
+    const id = this.$route.params.studentId
     this.fetchUser()
+    this.getStudentDetails(id)
   },
   computed: {
-    ...mapState(useAuthStore, ['teacherID']),
+    ...mapState(useAuthStore, ['teacherID','authUser']),
+    ...mapState(useStudentStore, ['studentDetails']),
     breadcrumbs() {
       const user_role = parseInt(localStorage.getItem('user_role'))
       if (user_role === 1) {
@@ -51,7 +57,7 @@ export default {
             title: 'Student comments list',
             disabled: false,
             href: '/student/1/feedback'
-          },
+          }
         ]
       } else {
         return [
@@ -66,6 +72,7 @@ export default {
   },
   methods: {
     ...mapActions(useCommentStore, ['createNewComment']),
+    ...mapActions(useStudentStore, ['getStudentDetails']),
     ...mapActions(useAuthStore, ['fetchUser']),
     sendFeedbackStudent() {
       const commentData = {
@@ -76,13 +83,30 @@ export default {
       }
       this.createNewComment(commentData).then(response => {
         if (response.status == 201 && response.statusText == 'Created') {
-          this.$root.$notif('Send comment successfully', {
-            type: 'success',
-            color: 'primary'
-          })
-          this.$router.push('/student-home')
+          this.$router.push(``)
         }
       })
+      this.sendToTelegram()
+    },
+
+    async sendToTelegram() {
+      try {
+        const message = `Comments: \nTitle: ${this.title}  \nBody: ${this.body} \nBy teacher: ${this.authUser.first_name} ${this.authUser.last_name}`
+       
+        await axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
+          chat_id: this.studentDetails.chat_id, // Use parent_chat_id for the Telegram message
+          text: message
+        })
+        this.$root.$notif('Comments sent successfully!', {
+          type: 'success',
+          color: 'primary'
+        })
+      } catch (error) {
+        this.$root.$notif(error, {
+          type: 'error',
+          color: 'red'
+        })
+      }
     }
   }
 }

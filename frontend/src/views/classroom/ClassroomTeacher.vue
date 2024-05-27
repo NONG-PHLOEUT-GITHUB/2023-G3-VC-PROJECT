@@ -7,18 +7,11 @@
         class="me-2 bg-primary"
         @click="toggleFilter = !toggleFilter"
       ></v-btn>
-      <v-btn
-        variant="tonal"
-        class="me-2 bg-deep-orange-accent-4"
-        icon="mdi-file-pdf-box"
-        @click="downloadPDF()"
-      ></v-btn>
-      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
     </template>
   </custom-title>
   <div class="main">
     <v-row dense class="py-4">
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="7">
         <custom-sub-title icon="mdi-account-tie-woman">Class Coordinator</custom-sub-title>
         <v-card
           v-if="coordinator !== null"
@@ -30,21 +23,24 @@
             <v-btn
               color="teal-darken-4"
               :to="'/student/' + coordinator.id + '/feedback'"
-              class="me-1"
+              class="me-1 bg-primary"
             >
               Studen List
             </v-btn>
             <v-btn
               color="orange"
+              class="bg-secondary"
               :to="`/attendance/` + coordinator.id + `/student`"
               text="Check attendance"
             ></v-btn>
             <v-btn
+              class="bg-info"
               color="orange"
               :to="`/attendance/` + coordinator.id + `/student`"
               text="score report"
             ></v-btn>
             <v-btn
+              class="bg-warning"
               color="orange"
               :to="`/attendance-report/` + coordinator.id + `/by-class`"
               text="attendance report"
@@ -56,7 +52,12 @@
     </v-row>
     <custom-sub-title icon="mdi-account-tie">Classroom teaching</custom-sub-title>
     <v-row dense>
-      <v-col v-if="teacherTeachingClass.length !== 0" cols="12" md="6" v-for="classroom in teacherTeachingClass">
+      <v-col
+        v-if="teacherTeachingClass.length !== 0"
+        cols="12"
+        md="7"
+        v-for="classroom in teacherTeachingClass"
+      >
         <v-card
           prepend-icon="mdi-chair-school"
           :title="classroom.classroom_name"
@@ -66,21 +67,24 @@
             <v-btn
               color="teal-darken-4"
               :to="'/student/' + classroom.id + '/feedback'"
-              class="me-1"
+              class="me-1 bg-primary"
             >
               Studen List
             </v-btn>
             <v-btn
               color="orange"
+              class="bg-secondary"
               :to="`/attendance/` + classroom.id + `/student`"
               text="Check attendance"
             ></v-btn>
             <v-btn
+              class="bg-info"
               color="orange"
               :to="`/attendance/` + classroom.id + `/student`"
               text="score report"
             ></v-btn>
             <v-btn
+              class="bg-warning"
               color="orange"
               :to="`/attendance-report/` + classroom.id + `/by-class`"
               text="attendance report"

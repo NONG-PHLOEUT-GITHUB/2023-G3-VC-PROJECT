@@ -23,6 +23,7 @@ export const useAuthStore = defineStore('auth', {
     teacherID: null,
     studentScores:[],
     studentComments:[],
+    exams:[]
   }),
   getters: {
     user: state => state.authUser,
@@ -40,9 +41,11 @@ export const useAuthStore = defineStore('auth', {
       localStorage.setItem('access_token', response.data.access_token)
       return response
     },
-    async fetchUser() {
-      const response = await fetchUserLoged()
+    async fetchUser(exam_id) {
+      console.log(exam_id);
+      const response = await fetchUserLoged(exam_id)
       this.studentScores = response.data.data.scores
+      this.exams = response.data.data.exams
       this.studentComments = response.data.data.comments
       this.authUser = response.data.data
       this.teacherID = response.data.data.id

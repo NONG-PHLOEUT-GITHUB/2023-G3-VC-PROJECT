@@ -1,4 +1,3 @@
-import { da } from 'vuetify/lib/locale/index.mjs'
 import http from './api'
 
 /**
@@ -39,15 +38,13 @@ export function deleteMultipleUsers(ids) {
 }
 
 export function updateUser(data,id) {  
-  // console.log('data',data,'id',id);
-  // const formData = new FormData()
-  // // Append each key-value pair to the FormData object
-  // Object.entries(data).forEach(([key, value]) => {
-  //   formData.append(key, value)
-  // })
-  // const jsonData = JSON.stringify(data);
-
-  return http.put(`users/${id}/update`, data, {
+  const formData = new FormData()
+  // Append each key-value pair to the FormData object
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value)
+    
+  })
+  return http.put(`users/${id}/update`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data' 
     }

@@ -78,6 +78,12 @@ const routes = [
         component: () => import('@/views/dashboards/TeacherDashboard.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
+      {
+        path: '/telegram-messaging',
+        name: 'Send File via Telegram Bot',
+        component: () => import('@/views/common/TelegramMessaging.vue'),
+        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+      },
 
       {
         path: '/student-list',
@@ -113,13 +119,6 @@ const routes = [
         path: '/teacher-attendance/:id/details',
         name: 'Teacher attendance detail',
         component: () => import('@/views/attendances/TeacherAttendanceDetail.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
-      },
-      //
-      {
-        path: '/check-attendance/student',
-        name: 'Check attendance',
-        component: () => import('@/views/attendances/CheckAttendance.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
@@ -187,9 +186,15 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/student-score',
-        name: 'Student score management',
-        component: () => import('@/views/scores/StudentScore.vue'),
+        path: '/student-exam',
+        name: 'Student exam management',
+        component: () => import('@/views/scores/ExamManagment.vue'),
+        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+      },
+      {
+        path: '/student-score/:id/details',
+        name: 'Student score details',
+        component: () => import('@/views/scores/StudentScoreViewDetails.vue'),
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {

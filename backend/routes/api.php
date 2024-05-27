@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ExamController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\ImportExelFileController;
 use App\Http\Controllers\ScoreController;
@@ -78,7 +79,6 @@ Route::prefix('attendances')->group(function () {
     Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
     Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
     Route::get('/export-excel/{id}', [AttendanceController::class, "exportAttendance"]);
-
 });
 
 // ======================== Classroom Routes ========================
@@ -90,7 +90,7 @@ Route::prefix('classrooms')->group(function () {
     Route::put("/{id}/update", [ClassRoomController::class, 'update']);
     Route::get("/{id}", [ClassRoomController::class, 'show']);
     Route::get("/", [ClassRoomController::class, 'index']);
-    Route::get('/students/{class_id}/classroom', [ClassRoomController::class, 'getStudentsInClass']);
+    Route::get('/students/{class_id}/student-in-classroom', [ClassRoomController::class, 'getStudentsInClass']);
     Route::get('/total/get-classroom-total', [ClassRoomController::class, 'getTotalOfEachClass']);
     Route::get('/total/classroom-total', [ClassRoomController::class, 'countTotalClass']);
     Route::get('/student/{classroom_id}/attendance', [ClassRoomController::class, 'getStudentsAttendees']);
@@ -122,6 +122,16 @@ Route::prefix('scores')->group(function () {
     Route::get('/student/{id}/{month}', [ScoreController::class, 'getStudentScore']);
 });
 
+// ======================== Exam Routes ========================
+
+Route::prefix('exams')->group(function () {
+    Route::get('/', [ExamController::class, 'index']);
+    Route::post('/', [ExamController::class, 'store']);
+    Route::delete('/{id}/delete', [ExamController::class, 'destroy']);
+    // Route::get('/student/{user_id}/monthly-score', [ExamController::class, 'getStudentScoreEveryMonth']);
+    // Route::get('/student/{id}/{month}', [ExamController::class, 'getStudentScore']);
+});
+
 // ======================== Guardians Routes ========================
 
 Route::prefix('guardians')->group(function () {
@@ -139,11 +149,10 @@ Route::prefix('guardians')->group(function () {
 Route::prefix('v1/auth')->group(function () {
     // Login User
     Route::post('/login', [AuthController::class, "login"]);
-    
+
     Route::middleware('auth:api')->group(function () {
         Route::get('/user', [AuthController::class, "user"]);
         // Logout user from application
         Route::post('/logout', [AuthController::class, 'logout']);
     });
 });
-

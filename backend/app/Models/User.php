@@ -150,15 +150,23 @@ class User extends Authenticatable implements JWTSubject
 
         // Retrieve the subject_id string from the request
         $subjectIdsString = $request->input('subject_id', '');
-
-        // Split the string into an array of strings
-        $subjectIdsArray = explode(',', $subjectIdsString);
-
-        // Convert the array of strings to an array of integers
-        $subjectIds = array_map('intval', $subjectIdsArray);
-
-        // Sync subjects with the user
-        $user->subjects()->sync($subjectIds);
+        // dd($subjectIdsString);
+        if (!is_null($subjectIdsString) && $subjectIdsString !== '') {
+            // Split the string into an array of strings
+            $subjectIdsArray = explode(',', $subjectIdsString);
+    
+            // Convert the array of strings to an array of integers
+            $subjectIds = array_map('intval', $subjectIdsArray);
+    
+            // Filter out any invalid IDs
+            $subjectIds = array_filter($subjectIds, function ($id) {
+                return $id > 0;
+            });
+    
+            // Sync subjects with the user
+            $user->subjects()->sync($subjectIds);
+        }
+    
 
         // ================token user password=================
         return response()->json(['success' => true, 'data' => $user], 201);
@@ -210,5 +218,10 @@ class User extends Authenticatable implements JWTSubject
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'subject_teachers', 'teacher_id', 'subject_id');
+    }
+
+    public function exams()
+    {
+        return $this->belongsToMany(Exam::class, 'exam_students', 'user_id', 'exam_id');
     }
 }

@@ -76,10 +76,11 @@ export default {
   methods: {
     ...mapActions(useAttendanceStore, ['getAttendanceStudentDetails']),
     ...mapActions(useGuardianStore, ['getChatIdOfGuardian']),
+    
     sendAttendancStudentAsExecl() {
       axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
         chat_id: this.chat_id,
-        text: 'Hello'
+        text: this.attendanceDetails
       })
     },
     exportExcel() {

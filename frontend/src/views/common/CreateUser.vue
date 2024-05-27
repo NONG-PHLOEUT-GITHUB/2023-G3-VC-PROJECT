@@ -15,6 +15,7 @@
             chips
             @change="handleRoleChange()"
             clearable
+            :rules="[() => !!studentDetails.role || 'This field is required']"
           ></v-select>
         </v-col>
         <v-col>
@@ -22,6 +23,7 @@
             variant="outlined"
             v-model="studentDetails.first_name"
             label="First name"
+            :rules="[() => !!studentDetails.first_name || 'This field is required']"
           ></v-text-field>
         </v-col>
         <v-col>
@@ -29,12 +31,17 @@
             variant="outlined"
             v-model="studentDetails.last_name"
             label="Last name"
+            :rules="[() => !!studentDetails.last_name || 'This field is required']"
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-radio-group v-model="studentDetails.gender" inline>
+          <v-radio-group
+            :rules="[() => !!studentDetails.gender || 'This field is required']"
+            v-model="studentDetails.gender"
+            inline
+          >
             <v-radio label="Male" value="male"></v-radio>
             <v-radio label="Female" value="female"></v-radio>
           </v-radio-group>
@@ -44,6 +51,7 @@
             variant="outlined"
             v-model="studentDetails.address"
             label="Address"
+            :rules="[() => !!studentDetails.address || 'This field is required']"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -53,6 +61,7 @@
             variant="outlined"
             v-model="studentDetails.phone_number"
             label="Phone Number"
+            :rules="[() => !!studentDetails.phone_number || 'This field is required']"
           ></v-text-field>
         </v-col>
         <v-col>
@@ -72,11 +81,25 @@
             variant="outlined"
             v-model="studentDetails.date_of_birth"
             type="date"
-            :rules="dateOfBirthRules"
+            :rules="[
+              () => !!studentDetails.date_of_birth || 'This field is required',
+              value => {
+                if (!value) return true
+                const selectedDate = new Date(value)
+                const today = new Date()
+                return selectedDate <= today || 'Date of Birth cannot be in the future'
+              }
+            ]"
           ></v-text-field>
         </v-col>
         <v-col>
-          <v-text-field variant="outlined" label="Age" v-model="studentDetails.age"> </v-text-field>
+          <v-text-field
+            variant="outlined"
+            :rules="[() => !!studentDetails.age || 'This field is required']"
+            label="Age"
+            v-model="studentDetails.age"
+          >
+          </v-text-field>
         </v-col>
       </v-row>
       <v-row>
@@ -94,7 +117,6 @@
             chips
             @change="handleFileChange"
           ></v-file-input>
-          <!-- :modelValue="studentDetails.profile" -->
         </v-col>
         <v-col>
           <v-avatar size="62">
@@ -221,36 +243,17 @@ import { useGuardianStore } from '@/stores/guardian'
 export default {
   data() {
     return {
-      first_name: '',
-      last_name: '',
-      email: '',
-      phophone_number: '',
-      address: '',
-      date_of_birth: '',
-      age: '',
-      gender: '',
+      btn: false,
+      emailErrorMessage: '',
+      profile_picture: '',
+      previewImage: '',
+      showRow: false,
+      showSubject: false,
 
-      profile: 'http://127.0.0.1:8000/images/2057164142.jpg',
       roleOption: [
         { value: 1, title: 'Administrator' },
         { value: 2, title: 'Teacher' },
         { value: 3, title: 'Student' }
-      ],
-      form: {
-        profile_picture: ''
-      },
-      showRow: false,
-      showSubject: false,
-      previewImage: '',
-
-      dateOfBirthRules: [
-        value => !!value || 'Date of Birth is required',
-        value => {
-          if (!value) return true
-          const selectedDate = new Date(value)
-          const today = new Date()
-          return selectedDate <= today || 'Date of Birth cannot be in the future'
-        }
       ],
       profileRules: [
         value => {
@@ -269,7 +272,7 @@ export default {
         }
       ],
       rulesEmail: {
-        required: value => !!value || 'Required.',
+        required: value => !!value || 'Email is required.',
         counter: value => value.length <= 20 || 'Max 20 characters',
         email: value => {
           const pattern =
@@ -277,8 +280,6 @@ export default {
           return pattern.test(value) || 'Invalid e-mail.'
         }
       },
-      email: '',
-      emailErrorMessage: '',
       parents: {
         first_name: '',
         last_name: '',
@@ -287,8 +288,7 @@ export default {
         chat_id: '',
         gender: '',
         date_of_birth: ''
-      },
-      btn: false
+      }
     }
   },
   created() {
@@ -314,7 +314,7 @@ export default {
     ...mapState(useSubjectStore, ['subjects'])
   },
   methods: {
-    ...mapActions(useStudentStore, ['createNewStudents', 'updateUser', 'getStudentDetails']),
+    ...mapActions(useStudentStore, ['createNewStudents', 'updateUserList', 'getStudentDetails']),
     ...mapActions(useClassroomStore, ['getCassrooms']),
     ...mapActions(useSubjectStore, ['getSubjects']),
     ...mapActions(useGuardianStore, ['createNewGuardian']),
@@ -331,9 +331,9 @@ export default {
       return age
     },
     handleFileChange(event) {
-      this.form.profile_picture = event.target.files[0]
+      this.profile_picture = event.target.files[0]
       const reader = new FileReader()
-      reader.readAsDataURL(this.form.profile_picture)
+      reader.readAsDataURL(this.profile_picture)
       reader.onload = e => {
         this.previewImage = e.target.result
       }
@@ -357,12 +357,11 @@ export default {
         date_of_birth: this.date_of_birth || '',
         age: this.studentDetails.age || '',
         gender: this.studentDetails.gender || '',
-        profile: this.form.profile_picture || '',
+        profile: this.profile_picture || '',
         role: this.studentDetails.role || '',
         classroom_id: this.studentDetails.classroom_id || '',
-        subject_id: this.studentDetails.subject_id || '',
+        subject_id: this.studentDetails.subject_id || null,
         guardian_id: this.studentDetails.guardian_id || '',
-        classrooms: this.studentDetails.classrooms || ''
       }
 
       if (!this.isUpdate) {
@@ -393,7 +392,7 @@ export default {
           })
       } else {
         const id = parseInt(this.$route.params.id)
-        this.updateUser(formData, id).then(response => {
+        this.updateUserList(formData,id).then(response => {
           if (response.status == 201 && response.statusText == 'Created') {
             this.$root.$notif('Update successfully', {
               type: 'success',

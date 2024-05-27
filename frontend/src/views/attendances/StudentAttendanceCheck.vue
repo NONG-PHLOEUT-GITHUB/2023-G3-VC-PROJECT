@@ -20,35 +20,36 @@
       ></v-btn>
     </template>
   </custom-title>
-  <v-col>
+  <v-col cols="4" class="pa-0">
     <v-date-input
+      :allowed-dates="allowedDates"
       label="Select a date"
       prepend-icon=""
       prepend-inner-icon="$calendar"
       variant="outlined"
       v-model="checkDate"
+      :rules="[() => !!checkDate || 'This field is required']"
     ></v-date-input>
   </v-col>
-  <!-- {{ studentInClassroom }} -->
+
   <v-data-table
     v-model="selectedValues"
-    :item-selectable="studentInClassroom.id"
     :headers="headers"
     :items="studentInClassroom"
     item-value="id"
     class="elevation-2"
-    >
-    <!-- show-select -->
+  >
     <template v-slot:body="{ items }">
-      <tr v-for="item in items">
+      <tr v-for="item in items" :key="item.id">
         <td>
-          <v-checkbox
-          v-model="selectedValues"
-            class="selectstudent"
+          <v-switch
+            @update:modelValue="getSelected(item)"
+            inset
+            v-model="item.selected"
             color="red"
-            value="red"
-            hide-details
-          ></v-checkbox>
+            :false-value="switchValue"
+            :true-value="switchValue"
+          ></v-switch>
         </td>
         <td>
           <v-avatar size="large">
@@ -65,13 +66,12 @@
             variant="outlined"
             item-title="label"
             item-value="value"
-            v-model="status"
+            v-model="item.status"
           ></v-select>
         </td>
-        <td><v-textarea rows="1" variant="outlined" v-model="reason"></v-textarea></td>
+        <td><v-textarea rows="1" variant="outlined" v-model="item.reason"></v-textarea></td>
       </tr>
     </template>
-    <!-- @click:row="onRowClick" -->
   </v-data-table>
 </template>
 
@@ -79,16 +79,15 @@
 import { mapActions, mapState } from 'pinia'
 import { useClassroomStore } from '@/stores/classroom'
 import { useAttendanceStore } from '@/stores/attendance'
-import { useGuardianStore } from '@/stores/guardian'
 import axios from 'axios'
 import { format } from 'date-fns'
 export default {
   data() {
     return {
       selectedValues: [],
+      chat_id: '',
       loading: false,
       checkDate: null,
-      itemsPerPage: 10,
       reason: '',
       status: '',
       headers: [
@@ -125,8 +124,12 @@ export default {
   },
   computed: {
     ...mapState(useClassroomStore, ['studentInClassroom']),
-    ...mapState(useGuardianStore, ['chat_id']),
     formattedDate() {
+      // Use the format function to format the date
+      // return format(this.checkDate, 'yyyy-MM-dd')
+      if (!(this.checkDate instanceof Date) || isNaN(this.checkDate.getTime())) {
+        return '' // Return an empty string or another default value if this.checkDate is not valid
+      }
       // Use the format function to format the date
       return format(this.checkDate, 'yyyy-MM-dd')
     }
@@ -134,40 +137,66 @@ export default {
   methods: {
     ...mapActions(useClassroomStore, ['getStudentsInClassroom']),
     ...mapActions(useAttendanceStore, ['checkAttendance']),
-    ...mapActions(useGuardianStore, ['getChatIdOfGuardian']),
-    onRowClick(event, { item }) {
-      console.log('Row clicked:', item)
-      alert(`You clicked on ${item.name}`)
+    allowedDates(date) {
+      const today = new Date()
+      today.setHours(0, 0, 0, 0) // Ensure comparison is only by date, not time
+      const selectedDate = new Date(date)
+      selectedDate.setHours(0, 0, 0, 0) // Ensure comparison is only by date, not time
+      return selectedDate <= today
+    },
+    getSelected(item) {
+      this.selectedValues.push(item)
     },
     createAttendance() {
-      this.selectedValues.forEach(selected => {
-        // Prepare attendance data
-        console.log(this.selectedValues)
-        const formData = {
-          status: selected.status,
-          reason: selected.reason,
-          date: this.formattedDate,
-          user_id: selected
-        }
-        this.getChatIdOfGuardian(selected)
-        this.checkAttendance(formData).then(res => {
-          console.log(res)
-          // const message = `Name: ${student.first_name} ${student.last_name}\nGender: ${student.gender}\nStatus: ${student.status}\nReason: ${student.reason}`
-
-          axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
-            chat_id: this.chat_id,
-            text: message
-          })
+      if (!this.formattedDate || isNaN(new Date(this.formattedDate))) {
+        this.$root.$notif('Please select a date', {
+          type: 'warning',
+          color: 'yellow'
         })
+        return // Exit the function early if the date is empty
+      }
+
+      this.selectedValues.forEach(selected => {
+        const formData = {
+          status: selected.status || '', // Default to 'undefined' if status is not provided
+          reason: selected.reason || '', // Default to 'undefined' if reason is not provided
+          date: this.formattedDate,
+          user_id: selected.id
+        }
+
+        this.checkAttendance(formData)
+          .then(res => {
+            console.log(res)
+            const message = `Student name: ${selected.first_name} ${selected.last_name}\nGender: ${selected.gender}\nStatus: ${selected.status}\nReason: ${selected.reason}\nAbsent date: ${this.formattedDate}`
+
+            axios
+              .post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
+                chat_id: selected.parent_chat_id, // Use parent_chat_id for the Telegram message
+                text: message
+              })
+              .then(telegramRes => {
+                console.log('Message sent to Telegram:', telegramRes.data)
+              })
+              .catch(telegramErr => {
+                console.error('Error sending message to Telegram:', telegramErr)
+              })
+            if (res) {
+              this.$root.$notif('Create successfully', {
+                type: 'success',
+                color: 'primary'
+              })
+              this.selectedValues = []
+              this.switchValue = false
+            }
+          })
+          .catch(err => {
+            this.$root.$notif(err, {
+              type: 'error',
+              color: 'red'
+            })
+          })
       })
     }
   }
 }
-
-// this.getChatId(student.id) // pass the guardian_id as the parameter
-// const message = `Name: ${student.first_name} ${student.last_name}\nGender: ${student.gender}\nStatus: ${student.status}\nReason: ${student.reason}`
-// const response = axios.post(telegramToken, {
-//   chat_id: this.chat_id,
-//   text: message
-// })
 </script>

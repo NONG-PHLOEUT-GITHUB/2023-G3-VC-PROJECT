@@ -34,8 +34,13 @@ export default {
         icon: 'mdi-home'
       },
       {
-        path: '/student-score',
-        title: 'Score Management',
+        path: '/telegram-messaging',
+        title: 'Telegram Messaging',
+        icon: 'mdi-send-circle-outline'
+      },
+      {
+        path: '/student-exam',
+        title: 'Exam Management',
         icon: 'mdi-chart-line-variant'
       },
       {
@@ -57,7 +62,7 @@ export default {
       },
       {
         path: '/student-score/view',
-        title: 'Score',
+        title: 'Examination',
         icon: 'mdi-chart-bar'
       },
       {

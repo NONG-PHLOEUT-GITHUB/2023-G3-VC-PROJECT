@@ -12,9 +12,6 @@
           <h3>
             <strong>{{ classroom['12'] }}</strong>
           </h3>
-          <h5>
-            <v-icon>mdi-gender-male</v-icon>30 <v-icon>mdi-gender-female</v-icon>30
-          </h5>
         </v-col>
       </v-card>
     </v-col>
@@ -29,7 +26,6 @@
           <h3>
             <strong>{{ classroom['11'] }}</strong>
           </h3>
-          <h5><v-icon>mdi-gender-male</v-icon>30 <v-icon>mdi-gender-female</v-icon>30</h5>
         </v-col>
       </v-card>
     </v-col>
@@ -44,9 +40,6 @@
           <h3>
             <strong>{{ classroom['10'] }}</strong>
           </h3>
-          <h5>
-            <v-icon>mdi-chair-rolling</v-icon>40
-          </h5>
         </v-col>
       </v-card>
     </v-col>

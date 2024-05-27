@@ -23,7 +23,7 @@ export function fetchClassroomById() {
 }
 //get the classroom to check attendance in class 
 export function fetchStudentsInClassroomById(classroom_id) {
-  return http.get(`classrooms/students/${classroom_id}/classroom`)
+  return http.get(`classrooms/students/${classroom_id}/student-in-classroom`)
 }
 export function fetchTotalOfClassroom() {
   return http.get(`classrooms/total/get-classroom-total`)

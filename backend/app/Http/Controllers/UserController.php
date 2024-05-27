@@ -6,6 +6,7 @@ use App\Exports\ExportUser;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\GuardianResource;
+use App\Http\Resources\UserResource;
 use App\Models\ClassRoom;
 use App\Models\Comment;
 use App\Models\Guardian;
@@ -58,24 +59,11 @@ class UserController extends Controller
     }
     public function show(string $id)
     {
+        // Find the user by ID
+        $user = User::findOrFail($id);
 
-        $user = User::with([
-            'attendances' => function ($query) {
-                $query->orderBy('created_at', 'desc');
-            },
-            'teacherClassTeaching',
-            'scores',
-            'comments' => function ($query) {
-                $query->join('users', 'comments.teacher_id', '=', 'users.id')
-                    ->select('comments.*', 'users.first_name', 'users.last_name', 'users.profile')
-                    ->orderBy('comments.created_at', 'desc');
-            }
-        ])->find($id);
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $user
-        ]);
+        // Return the user as a resource
+        return new UserResource($user);
     }
 
     /**
@@ -83,10 +71,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = User::findOrFail($id); // Retrieve the user by ID or throw an error if not found
-        $user->update($request->all());
-        // $user = User::store($request, $id);
-        // dd($user);
+        $user = User::store($request, $id);
         return $user;
     }
 

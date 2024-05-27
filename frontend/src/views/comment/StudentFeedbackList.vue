@@ -21,22 +21,19 @@
     </template>
   </custom-title>
   <v-data-table
-    v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items="studentInClassroom"
-    :items-length="studentInClassroom.length"
     :loading="loading"
     item-value="name"
     class="elevation-2"
   >
-    <!-- :search="search" -->
     <template v-slot:item.profile="{ item }">
       <v-avatar size="large">
         <v-img :src="item.profile" alt="Avatar" cover> </v-img>
       </v-avatar>
     </template>
     <template template v-slot:item.actions="{ item }">
-      <v-btn :to="'/feedback/' + item.id + '/student'" icon="mdi-comment"></v-btn>
+      <v-btn :to="'/feedback/' + item.id + '/student'" variant="text" icon="mdi-comment"></v-btn>
     </template>
   </v-data-table>
 </template>
@@ -44,6 +41,7 @@
 <script>
 import { mapActions, mapState } from 'pinia'
 import { useClassroomStore } from '@/stores/classroom'
+import { useStudentStore } from '@/stores/student'
 export default {
   data() {
     return {
@@ -60,15 +58,6 @@ export default {
         { title: 'Gender', key: 'gender' },
         { title: 'Email', key: 'email' },
         { title: '', key: 'actions' }
-      ],
-      statusOptions: [
-        { value: 'Present', label: 'Present' },
-        { value: 'Absent', label: 'Absent' },
-        { value: 'Early', label: 'Early' },
-        { value: 'Excused', label: 'Excused' },
-        { value: 'Unexcused', label: 'Unexcused' },
-        { value: 'On leave', label: 'On leave' },
-        { value: 'No show', label: 'No show' }
       ]
     }
   },
