@@ -13,12 +13,13 @@
     <v-row dense class="py-4">
       <v-col cols="12" md="7">
         <custom-sub-title icon="mdi-account-tie-woman">Class Coordinator</custom-sub-title>
-        <v-card
-          v-if="coordinator !== null"
-          prepend-icon="mdi-chair-school"
-          :title="coordinator.classroom_name"
-          :subtitle="coordinator.student_count"
-        >
+        <v-card v-if="coordinator !== null" prepend-icon="mdi-chair-school">
+          <template v-slot:title>
+            <span class="font-weight-black">Class: {{ coordinator.classroom_name }}</span>
+          </template>
+          <v-card-subtitle class="font-weight-black">
+            Totl student: {{ coordinator.student_count }}
+          </v-card-subtitle>
           <v-card-actions>
             <v-btn
               color="teal-darken-4"
@@ -58,11 +59,13 @@
         md="7"
         v-for="classroom in teacherTeachingClass"
       >
-        <v-card
-          prepend-icon="mdi-chair-school"
-          :title="classroom.classroom_name"
-          :subtitle="classroom.student_count"
-        >
+        <v-card prepend-icon="mdi-chair-school">
+          <template v-slot:title>
+            <span class="font-weight-black">Class: {{ classroom.classroom_name }}</span>
+          </template>
+          <v-card-subtitle class="font-weight-black">
+            Totl student: {{ classroom.student_count }}
+          </v-card-subtitle>
           <v-card-actions>
             <v-btn
               color="teal-darken-4"

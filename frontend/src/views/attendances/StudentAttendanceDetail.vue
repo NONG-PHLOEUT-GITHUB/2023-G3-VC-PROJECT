@@ -18,12 +18,6 @@
         icon="mdi-export-variant"
         @click="exportExcel()"
       ></v-btn>
-      <v-btn
-        variant="tonal"
-        class="me-2 bg-green-darken-1"
-        icon="mdi-send-circle"
-        @click="sendAttendancStudentAsExecl()"
-      ></v-btn>
     </template>
   </custom-title>
   <!-- <custom-sub-title>
@@ -44,7 +38,6 @@
 import { mapActions, mapState } from 'pinia'
 import { useAttendanceStore } from '@/stores/attendance'
 import { useGuardianStore } from '@/stores/guardian'
-import axios from 'axios'
 import http from '@/api/api'
 export default {
   data() {
@@ -77,12 +70,6 @@ export default {
     ...mapActions(useAttendanceStore, ['getAttendanceStudentDetails']),
     ...mapActions(useGuardianStore, ['getChatIdOfGuardian']),
     
-    sendAttendancStudentAsExecl() {
-      axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
-        chat_id: this.chat_id,
-        text: this.attendanceDetails
-      })
-    },
     exportExcel() {
       const studentId = this.$route.params.id
       http
