@@ -1,0 +1,94 @@
+{ 
+    "titleApp": "School Management System",
+    "common":{
+      "titleAbsent":"Student most absent list"
+    },
+    "menus":{
+      "dashboard":"Dashboard"
+    },
+    "lang": {
+      "en": "English",
+      "kh": "Khner"
+    },
+    "btn": {
+      "editProfile": "Edit Profile",
+      "viewProfile":"View profile",
+      "save": "Save",
+      "SaveChange": " Save change",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "details": "Details",
+      "resetPassword": "Reset Password",
+      "chagePassword": "Chage Password",
+      "yes": "Yes",
+      "filter":"Filter",
+      "studentList":"Student List",
+      "attReport":"Attendance report",
+      "scoreReport":"Score report",
+      "checkAtt":"Check attendance",
+      "login":"Login"
+    },
+    "profile":{
+      "pInformation":"Personal Information",
+      "cInformation":"Contact Information"
+    },
+    "dashboard":{
+      "student":"Student",
+      "studentTotal":"Student Total",
+      "teacherTotal":"Teacher Total",
+      "classroomTotal":"Classroom Total"
+    },
+    "login": {
+      "title": "Login",
+      "form": {
+        "email": "Email",
+        "password": "Password",
+        "forgot-pass": "Fogot Password ?"
+      }
+    },
+    "forgot-pass": {
+      "message-forgot-pass": "Remember to check your email for a password reset link.",
+      "back-login": "Back To Login"
+    },
+    "resetPassword": {
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "changePassword": {
+      "current":"Corrent password"
+    },
+    "alert": {
+      "resetPassword": "Reset Password",
+      "cucces": "cucces"
+    },
+    "errors": {},
+    "menu":{
+      "dashboard":"Dashboard",
+      "userMg":"User Management",
+      "classMg":"Class Management",
+      "myGrades":"My Grades",
+      "myAttendance":"My Attendance",
+      "myComment":"My Comment"
+    },
+    "header":{
+      "menuLogout":"Logout",
+      "menuChangePass":"Change password"
+    },
+    "filterFrom":{
+      "filterStatuse":"Search statuse",
+      "filterSubject":"Search subject",
+      "filterTeacher":"Search teacher"
+    },
+    "classroom":{
+      "Classroomteaching":"Classroom teaching",
+      "coordinator":"Coordinator",
+      "cteaching":"Classroom teaching",
+      "message":{
+        "noCoordinator":"No coordinator assign yet!"
+      }
+    },
+    "exam":{
+      "noExam":"No exams yet!"
+    }
+  }

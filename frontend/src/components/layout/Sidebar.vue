@@ -34,11 +34,6 @@ export default {
         icon: 'mdi-home'
       },
       {
-        path: '/telegram-messaging',
-        title: 'Telegram Messaging',
-        icon: 'mdi-send-circle-outline'
-      },
-      {
         path: '/student-exam',
         title: 'Exam Management',
         icon: 'mdi-chart-line-variant'

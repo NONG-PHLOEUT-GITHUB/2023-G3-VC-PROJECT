@@ -12,64 +12,53 @@
   <v-card class="elevation-1 pa-3" v-show="toggleFilter">
     <v-row>
       <v-col>
-        <v-text-field
-          label="Teacher name"
-          hide-details
-          variant="outlined"
-        ></v-text-field>
+        <v-text-field label="Teacher name" hide-details variant="outlined"></v-text-field>
       </v-col>
       <v-col>
-        <v-text-field
-          label="Title"
-          hide-details
-          variant="outlined"
-        ></v-text-field>
+        <v-text-field label="Title" hide-details variant="outlined"></v-text-field>
       </v-col>
     </v-row>
   </v-card>
-  <v-card class="mt-2" v-if="studentComments.length != 0">
-    <v-list :items="items" lines="three" item-props>
-      <v-list-item
-        v-for="file in studentComments"
-        :key="file.title"
-        :title="file.first_name  + ' ' + file.last_name"
-        :subtitle="file.title"
-      >
-        <span>{{ file.body }}</span>
-        <v-divider></v-divider>
-        <template v-slot:prepend>
-          <v-avatar>
-            <v-img color="white" :src="file.profile"></v-img>
-          </v-avatar>
-        </template>
+  <v-col v-for="file in studentComments" v-if="studentComments.length != 0">
+    <v-card>
+      <template v-slot:prepend>
+        <v-avatar>
+          <v-img color="white" :src="file.profile"></v-img>
+        </v-avatar>
+      </template>
+      <template v-slot:title>
+        <v-card-title class="ms-3">{{ file.first_name + ' ' + file.last_name }}</v-card-title>
+      </template>
+      <template v-slot:subtitle> <span class="ms-3">{{ file.title }}</span> </template>
 
-        <template v-slot:append>
-          <v-btn icon="mdi-reply" variant="text"></v-btn>
-        </template>
-      </v-list-item>
-    </v-list>
-  </v-card>
+      <v-card-text class="pa-4">
+        <v-chip>{{ file.body }}</v-chip>
+      </v-card-text>
+      <template v-slot:append>
+        <v-btn icon="mdi-reply" variant="text"></v-btn>
+      </template>
+    </v-card>
+  </v-col>
   <v-alert v-else text="Donn't have comments yet." type="info"></v-alert>
 </template>
 <script>
-import { mapActions,mapState } from 'pinia';
-import { useAuthStore } from '@/stores/auth';
+import { mapActions, mapState } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
 export default {
   name: 'CommentStudentView',
   data() {
     return {
-      toggleFilter:false,
+      toggleFilter: false
     }
   },
-  created(){
+  created() {
     this.fetchUser()
   },
-  computed:{
-    ...mapState(useAuthStore,['studentComments'])
+  computed: {
+    ...mapState(useAuthStore, ['studentComments'])
   },
   methods: {
-    ...mapActions(useAuthStore,['fetchUser'])
-  },
+    ...mapActions(useAuthStore, ['fetchUser'])
+  }
 }
 </script>
-

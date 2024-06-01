@@ -15,6 +15,7 @@ class Score extends Model
         'subject_id',
         'month',
         'user_id',
+        'exam_id'
     ];
 
     public static function store($request, $id = null)
@@ -25,6 +26,7 @@ class Score extends Model
             'subject_id',
             'month',
             'user_id',
+            'exam_id'
         );
         if ($id) {
             $score = self::find($id);

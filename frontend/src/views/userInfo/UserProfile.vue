@@ -7,7 +7,7 @@
         color="primary"
         append-icon="mdi-pencil"
         @click="isEdit = !isEdit"
-        >Edit profile
+        >{{ $t('btn.editProfile') }}
       </v-btn>
     </template>
   </custom-title>
@@ -54,7 +54,7 @@
       </v-col>
       <v-col cols="9" class="pa-1">
         <v-card class="px-2">
-          <custom-sub-title icon="mdi-account-card">Personal Information</custom-sub-title>
+          <custom-sub-title icon="mdi-account-card">{{ $t('profile.pInformation') }}</custom-sub-title>
           <v-row>
             <v-col>
               <v-text-field
@@ -107,7 +107,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <custom-sub-title icon="mdi-contacts">Contact Information</custom-sub-title>
+          <custom-sub-title icon="mdi-contacts">{{$t('profile.cInformation')}}</custom-sub-title>
           <v-row>
             <v-col>
               <v-text-field
@@ -146,9 +146,9 @@
           <v-card-actions class="px-0">
             <v-spacer></v-spacer>
             <v-btn color="red" variant="outlined" :disabled="isEdit" @click="cancel()"
-              >Cancel</v-btn
+              >{{$t('btn.cancel')}}</v-btn
             >
-            <v-btn class="bg-primary" :disabled="isEdit" type="submit">Save change</v-btn>
+            <v-btn class="bg-primary" :disabled="isEdit" type="submit">{{ $t('btn.saveChange') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

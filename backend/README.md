@@ -19,10 +19,14 @@ php artisan jwt:secret
 ### Step 5: Migrate migrateion table to database
 > <code> php artisan migrate </code>
 
-### Step 6: Migrate default admin user to database with seeder
-> <code> php artisan db:seed </code>
+### Step 6: Migrate default admin user to database with seeder 
+### (NOTE: This command neeed to  run step by step) ###
 ## get user for login see in file UserSeeder
-php artisan db:seed --class=UserSeeder
+> <code> php artisan db:seed --class=UserSeeder </code>
+## get user for login see in file ClassrommSeeder
+> <code> php artisan db:seed --class=ClassroomSeeder </code>
+## get user for login see in file AllSeeder
+> <code> php artisan db:seed </code>
 
 ### Step 7: Set up your email in .env file
 #### Example:
@@ -48,7 +52,7 @@ MAIL_FROM_NAME=
 http://127.0.0.1:8000
 ```
 
-###### Aditional command ########
+###### Aditional command ######## NOTE: no need to run these commands manually because they are just for demo purposes 
 ## 1.Installation:
 
 composer install: Install project dependencies.

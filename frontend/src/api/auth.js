@@ -16,7 +16,6 @@ export function userLogin(email, password) {
   return http.post('/v1/auth/login', user)
 }
 export function fetchUserLoged(exam_id) {
-  console.log('in api',exam_id);
   if (!exam_id) {
     return http.get('v1/auth/user')
   }

@@ -7,9 +7,8 @@
         class="text-none me-4"
         color="primary"
         @click="toggleFilter = !toggleFilter"
-        >Filters
+        >{{ $t('btn.filter') }}
       </v-btn>
-      <v-btn variant="tonal" class="me-2 bg-green-darken-1" icon="mdi-file-excel"></v-btn>
       <v-btn
         variant="tonal"
         class="bg-primary"
@@ -68,8 +67,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue-darken-1" variant="outlined"  @click="dialog = false">Cancel</v-btn>
-          <v-btn type="submit" class="bg-blue-darken-1">Save</v-btn>
+          <v-btn color="blue-darken-1" variant="outlined" @click="dialog = false">{{
+            $t('btn.cancel')
+          }}</v-btn>
+          <v-btn type="submit" class="bg-blue-darken-1">{{ $t('btn.save') }}</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -99,9 +100,16 @@
           </v-menu>
         </template>
         <v-card-text>
-          Total student: <strong>{{ classroom.student_count }}</strong
-          ><br />
-          Coordinator : <strong>{{ classroom.class_coordinator }}</strong>
+          <v-chip class="mb-2"
+            >{{ $t('dashboard.studentTotal') }} :
+            <strong>{{ classroom.student_count }}</strong></v-chip
+          >
+          <br />
+          <v-chip v-if="classroom.class_coordinator != null"
+            >{{ $t('classroom.coordinator') }} :
+            <strong>{{ classroom.class_coordinator }}</strong></v-chip
+          >
+          <v-chip color="info" pill v-else>{{ $t('classroom.message.noCoordinator') }}</v-chip>
         </v-card-text>
       </v-card>
     </v-col>
@@ -232,7 +240,7 @@ export default {
     deleteClassroom(id) {
       this.$root.$confirm({
         title: 'Are you sure?',
-        message: "Are you sure you want to delete this classroom?",
+        message: 'Are you sure you want to delete this classroom?',
         options: {
           agreeBtnText: 'Yes',
           type: 'error',

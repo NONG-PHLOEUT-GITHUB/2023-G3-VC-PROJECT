@@ -37,6 +37,9 @@ class UserFactory extends Factory
             'guardian_id' => function (array $attributes) {
                 return $attributes['role'] == 3 ? Guardian::factory()->create()->id : null;
             },
+            'classroom_id' => function (array $attributes) {
+                return $attributes['role'] == 3 ? Classroom::inRandomOrder()->first()->id : null;
+            },
             'email_verified_at' => now(),
             'password' => 'admin1234',
             'remember_token' => Str::random(10),

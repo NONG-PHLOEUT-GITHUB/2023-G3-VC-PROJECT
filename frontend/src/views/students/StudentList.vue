@@ -7,7 +7,7 @@
         class="text-none me-4"
         color="primary"
         @click="toggleFilter = !toggleFilter"
-        >Filters
+        >{{ $t('btn.filter') }}
       </v-btn>
       <div>
         <v-tooltip activator="parent" text="Import Excel" location="top">

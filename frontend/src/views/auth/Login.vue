@@ -1,4 +1,7 @@
 <template>
+  <!-- <v-app-bar collapse :elevation="2">
+    <switcher-language />
+  </v-app-bar> -->
   <v-layout class="d-flex align-center justify-content-center" height="100vh">
     <v-card width="60%" class="py-4">
       <v-row>
@@ -25,7 +28,7 @@
               :error-messages="incorrect"
             ></v-text-field>
             <v-text-field
-              label="Password"
+              :label="Password"
               :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
               :type="visible ? 'text' : 'password'"
               prepend-inner-icon="mdi-lock-outline"
@@ -37,8 +40,8 @@
               class="mt-4 mb-2"
             ></v-text-field>
 
-            <router-link to="/forgot-password">Forgot login password ?</router-link>
-            <v-btn type="submit" color="teal darken-4 mt-7" block class="login-button">Login</v-btn>
+            <router-link to="/forgot-password">{{ $t('login.form.forgot-pass') }}</router-link>
+            <v-btn type="submit" color="teal darken-4 mt-7" block class="login-button">{{ $t('btn.login') }}</v-btn>
           </v-form>
         </v-col>
       </v-row>

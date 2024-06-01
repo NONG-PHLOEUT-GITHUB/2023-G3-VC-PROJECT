@@ -239,7 +239,7 @@ import { useStudentStore } from '@/stores/student'
 import { useClassroomStore } from '@/stores/classroom'
 import { useSubjectStore } from '@/stores/subject'
 import { useGuardianStore } from '@/stores/guardian'
-
+import http from '@/api/api'
 export default {
   data() {
     return {
@@ -361,7 +361,7 @@ export default {
         role: this.studentDetails.role || '',
         classroom_id: this.studentDetails.classroom_id || '',
         subject_id: this.studentDetails.subject_id || null,
-        guardian_id: this.studentDetails.guardian_id || '',
+        guardian_id: this.studentDetails.guardian_id || ''
       }
 
       if (!this.isUpdate) {
@@ -392,17 +392,22 @@ export default {
           })
       } else {
         const id = parseInt(this.$route.params.id)
-        this.updateUserList(formData,id).then(response => {
-          if (response.status == 201 && response.statusText == 'Created') {
-            this.$root.$notif('Update successfully', {
-              type: 'success',
-              color: 'primary'
-            })
-            const role = response.data.data.role
-            const redirectPath = role === 1 || role === 2 ? '/teacher-list' : '/student-list'
-            this.$router.push({ path: redirectPath })
+        http.put(`users/${id}/update`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
           }
         })
+        // this.updateUserList(formData, id).then(response => {
+        //   if (response.status == 201 && response.statusText == 'Created') {
+        //     this.$root.$notif('Update successfully', {
+        //       type: 'success',
+        //       color: 'primary'
+        //     })
+        //     const role = response.data.data.role
+        //     const redirectPath = role === 1 || role === 2 ? '/teacher-list' : '/student-list'
+        //     this.$router.push({ path: redirectPath })
+        //   }
+        // })
       }
     },
     createParents() {

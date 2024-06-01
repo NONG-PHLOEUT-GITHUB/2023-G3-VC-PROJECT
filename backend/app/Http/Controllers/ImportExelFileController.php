@@ -1,14 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ImportUsers;
+use App\Imports\ScoreImport;
 use Illuminate\Support\Facades\Storage;
 
 class ImportExelFileController extends Controller
 {
-  
+
     ///https://larachamp.com/how-to-import-excel-file-to-database-in-laravel/
     public function import(Request $request)
     {
@@ -21,7 +23,7 @@ class ImportExelFileController extends Controller
             ], 400);
         }
         $filePath = Storage::putFile('files', $file);
-        
+
         Excel::import(new ImportUsers, storage_path('app/' . $filePath));
 
         Storage::delete($filePath);
@@ -29,6 +31,20 @@ class ImportExelFileController extends Controller
         return response()->json([
             'message' => 'import successfully',
             'data' => $filePath
+        ]);
+    }
+
+    public function importExamResult(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+
+        Excel::import(new ScoreImport, $request->file('file'));
+
+        return response()->json([
+            'message' => 'import successfully',
+            // 'data' => $filePath
         ]);
     }
 }

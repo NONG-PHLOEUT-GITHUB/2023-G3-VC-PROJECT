@@ -1,6 +1,6 @@
 <template>
   <custom-sub-title class="mt-4" icon="mdi-chart-timeline">
-    Student most absent list
+    {{ $t('common.titleAbsent') }}
   </custom-sub-title>
   <v-data-table
     :headers="headers"

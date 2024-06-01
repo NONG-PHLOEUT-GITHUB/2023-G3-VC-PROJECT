@@ -14,6 +14,7 @@ class Exam extends Model
         'exam_name',
         'exam_code',
         'subject_id',
+        'create_by'
     ];
 
 
@@ -23,7 +24,8 @@ class Exam extends Model
             'id',
             'exam_name',
             'exam_code',
-            'subject_id'
+            'subject_id',
+            'create_by'
         );
         
         if ($id) {

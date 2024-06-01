@@ -156,6 +156,9 @@ export default {
         return // Exit the function early if the date is empty
       }
 
+      // Define an array to store promises
+      const promises = []
+
       this.selectedValues.forEach(selected => {
         const formData = {
           status: selected.status || '', // Default to 'undefined' if status is not provided
@@ -163,39 +166,38 @@ export default {
           date: this.formattedDate,
           user_id: selected.id
         }
+        promises.push(
+          this.checkAttendance(formData)
+            .then(() => {
+              const message = `Student name: ${selected.first_name} ${selected.last_name}\nGender: ${selected.gender}\nStatus: ${selected.status}\nReason: ${selected.reason}\nAbsent date: ${this.formattedDate}`
 
-        this.checkAttendance(formData)
-          .then(res => {
-            console.log(res)
-            const message = `Student name: ${selected.first_name} ${selected.last_name}\nGender: ${selected.gender}\nStatus: ${selected.status}\nReason: ${selected.reason}\nAbsent date: ${this.formattedDate}`
-
-            axios
-              .post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
+              axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
                 chat_id: selected.parent_chat_id, // Use parent_chat_id for the Telegram message
                 text: message
               })
-              .then(telegramRes => {
-                console.log('Message sent to Telegram:', telegramRes.data)
-              })
-              .catch(telegramErr => {
-                console.error('Error sending message to Telegram:', telegramErr)
-              })
-            if (res) {
-              this.$root.$notif('Create successfully', {
-                type: 'success',
-                color: 'primary'
-              })
-              this.selectedValues = []
-              this.switchValue = false
-            }
-          })
-          .catch(err => {
-            this.$root.$notif(err, {
-              type: 'error',
-              color: 'red'
             })
-          })
+            .catch(err => {
+              this.$root.$notif(err, {
+                type: 'error',
+                color: 'red'
+              })
+              throw err
+            })
+        )
       })
+      // Wait for all promises to resolve
+      Promise.all(promises)
+        .then(() => {
+          this.$root.$notif('Create successfully', {
+            type: 'success',
+            color: 'primary'
+          })
+          this.selectedValues = []
+          this.switchValue = false
+        })
+        .catch(err => {
+          console.error('Error creating attendance:', err)
+        })
     }
   }
 }

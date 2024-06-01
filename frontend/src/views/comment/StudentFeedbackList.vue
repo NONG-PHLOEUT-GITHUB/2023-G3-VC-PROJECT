@@ -1,9 +1,9 @@
 <template>
-  <v-breadcrumbs :items="breadcrumbs" class="py-0 px-0">
+  <!-- <v-breadcrumbs :items="breadcrumbs" class="py-0 px-0">
     <template v-slot:prepend>
       <v-icon icon="mdi-chevron-left"></v-icon>
     </template>
-  </v-breadcrumbs>
+  </v-breadcrumbs> -->
   <custom-title icon="mdi-eye-check-outline">
     <template #right>
       <v-btn
@@ -11,12 +11,6 @@
         variant="tonal"
         class="me-2 bg-primary"
         @click="toggleFilter = !toggleFilter"
-      ></v-btn>
-      <v-btn
-        variant="tonal"
-        class="me-2 bg-green-darken-1"
-        icon="mdi-send-circle"
-        @click="submitForm()"
       ></v-btn>
     </template>
   </custom-title>
@@ -32,8 +26,8 @@
         <v-img :src="item.profile" alt="Avatar" cover> </v-img>
       </v-avatar>
     </template>
-    <template template v-slot:item.actions="{ item }">
-      <v-btn :to="'/feedback/' + item.id + '/student'" variant="text" icon="mdi-comment"></v-btn>
+    <template v-slot:item.actions="{ item }">
+      <v-btn :to="'/feedback/' + item.id + '/student'" variant="text" icon="mdi-send"></v-btn>
     </template>
   </v-data-table>
 </template>
@@ -41,7 +35,6 @@
 <script>
 import { mapActions, mapState } from 'pinia'
 import { useClassroomStore } from '@/stores/classroom'
-import { useStudentStore } from '@/stores/student'
 export default {
   data() {
     return {

@@ -1,0 +1,79 @@
+{
+  "titleApp": "ប្រព័ន្ធគ្រប់គ្រងសាលារៀន",
+  "common": {
+    "titleAbsent": "បញ្ជីឈ្មោះសិស្សដែលមានអវត្តមានច្រើន",
+    "emailAddress": "បញ្ជូលអាស័យដ្ឋានអ៊ីមែលរបស់អ្នក",
+    "password": "បញ្ជូលលេខសម្ងាត់",
+    "passReuire": "ទាមទាបញ្ចូលលេខសម្ងាត់"
+  },
+  "menus": {
+    "dashboard": "ផ្ទាំងគ្រប់គ្រង"
+  },
+  "lang": {
+    "en": "អង់គ្លេស",
+    "kh": "ខ្មែរ"
+  },
+  "btn": {
+    "save": "រក្សាទុក",
+    "saveChange": "រក្សាទុកការផ្លាស់ប្តូរ",
+    "viewProfile": "មើលប្រវត្តិរូប",
+    "cancel": "បោះបង់",
+    "delete": "លុប",
+    "edit": "កែប្រែ",
+    "details": "ព័ត៌មានលម្អិត",
+    "editProfile": "កែប្រែប្រវត្តិរូប",
+    "resetPassword": "កំណត់ពាក្យសម្ងាត់ឡើងវិញ",
+    "chagePassword": "ផ្លាស់ប្តូរពាក្យសម្ងាត់",
+    "yes": "យល់ព្រម",
+    "filter": "ស្វែងរក",
+    "studentList":"បញ្ជីឈ្មោះសិស្ស",
+    "attReport":"របាយការណ៍អវត្តមានសិស្ស",
+    "scoreReport":"របាយការណ៍ពិន្ទុសិស្ស",
+    "checkAtt":"ពិនិត្យវត្តមានសិស្ស",
+    "login":"ចូលប្រើ"
+  },
+  "profile": {
+    "pInformation": "ព័ត៌មាន​ផ្ទាល់ខ្លួន",
+    "cInformation": "ព័ត៌មានសម្រាប់ទំនាក់ទំនង"
+  },
+  "dashboard": {
+    "student": "សិស្ស",
+    "studentTotal": "សិស្សសរុប",
+    "teacherTotal": "គ្រូសរុប"
+  },
+  "login": {
+    "title": "ចូលគណនី",
+    "form": {
+      "email": "អ៊ីមែល",
+      "password": "លេខសម្ងាត់",
+      "forgot-pass": "ភ្លេចពាក្យសម្ងាត់ ?"
+    }
+  },
+  "forgot-pass": {
+    "message-forgot-pass": "កុំភ្លេចពិនិត្យមើលអ៊ីមែលរបស់អ្នកសម្រាប់តំណកំណត់ពាក្យសម្ងាត់ឡើងវិញ។",
+    "back-login": "ត្រឡប់ទៅ​ ចូលគណនី"
+  },
+  "errors": {},
+
+  "menu": {
+    "dashboard": "ផ្ទាំងគ្រប់គ្រង",
+    "userMg": "គ្រប់គ្រង់អ្នកប្រើប្រាស់",
+    "classMg": "គ្រប់គ្រង់ថ្នាក់រៀន"
+  },
+  "header": {
+    "menuLogout": "ចាកចេញ",
+    "menuChangePass": "ប្តូរលេខសម្ងាត់"
+  },
+  "validation": {},
+  "classroom": {
+    "Classroomteaching": "Classroom teaching",
+    "coordinator": "គ្រូបន្ទុកថ្នាក់",
+    "cteaching": "ថ្នាក់ដែលត្រូវបង្រៀន",
+    "message": {
+      "noCoordinator": "មិនទាន់មានគ្រូបន្ទុកថ្នាក់នៅឡើយទេ"
+    }
+  },
+  "exam":{
+    "noExam":"មិនទាន់ប្រឡងនៅឡើយទេ"
+  }
+}

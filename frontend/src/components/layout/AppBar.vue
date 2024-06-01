@@ -3,54 +3,83 @@
     <v-app-bar-nav-icon @click="togglerDrawer">
       <v-icon>mdi-menu</v-icon>
     </v-app-bar-nav-icon>
-    <strong>School Management</strong>
-    <v-spacer />
-    <div>
-      <v-list-item class="px-2">
-        <v-menu rounded>
-          <template v-slot:activator="{ props }">
-            <strong class="me-6">{{ authUser.first_name }} {{ authUser.last_name }}</strong>
-            <v-btn icon="" v-bind="props" class="me-5">
-              <v-avatar color="brown" size="large" class="avatar">
-                <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
-              </v-avatar>
-            </v-btn>
-          </template>
-          <v-list >
-            <v-list-item>
-              <v-avatar size="large" class="avatar">
-                <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
-              </v-avatar>
-              <strong class="ms-2">
-                {{ abbreviatedName }}
-              </strong>
-            </v-list-item>
-
-            <v-col cols="auto">
-              <v-btn size="small" block variant="outlined" color="primary" to="/user-profile">
-                user profile
+    <strong class="text-h6 font-weight-bold">{{ $t('titleApp') }}</strong>
+    <!-- switcher language -->
+    <template v-slot:append>
+      <v-menu min-width="200px" rounded>
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" stacked>
+            <v-avatar color="brown" size="small">
+              <v-img :src="currentLanguageImage" :width="30"></v-img>
+            </v-avatar>
+          </v-btn>
+        </template>
+        <v-card class="pa-0">
+          <v-card-text class="pa-2">
+            <div class="mx-auto">
+              <v-btn @click="switchLanguage('en')" variant="text" rounded class="text-none">
+                <img src="/images/en.png" alt="English Flag" :width="30" class="me-3"/>
+                {{$t('lang.en')}}
               </v-btn>
-            </v-col>
-            <v-list-item
-              v-for="(item, i) in menus"
-              :key="i"
-              :value="item"
-              color="primary"
-              @click="onMenuClick(item.action)"
-            >
-              <template v-slot:prepend>
-                <v-icon size="large" class="icon-setting" :icon="item.icon"></v-icon>
-                <v-list-item-title
-                  class="ms-3"
-                  v-text="item.title"
-                  :to="item.path"
-                ></v-list-item-title>
-              </template>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-list-item>
-    </div>
+              <v-btn @click="switchLanguage('kh')" variant="text" rounded class="text-none">
+                <img src="/images/kh.png" alt="Khmer Flag" :width="30" class="me-3"/>
+                {{$t('lang.kh')}}
+              </v-btn>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-menu>
+      <!-- notification -->
+      <v-btn class="text-none" stacked>
+        <!-- v-bind="props" -->
+        <v-badge class="mt-2" content="2" color="error">
+          <v-icon class="cursor-pointer">mdi-bell-outline</v-icon>
+        </v-badge>
+      </v-btn>
+      <!-- menu setting -->
+      <v-menu rounded>
+        <template v-slot:activator="{ props }">
+          <strong class="me-6">{{ authUser.first_name }} {{ authUser.last_name }}</strong>
+          <v-btn icon="" v-bind="props" class="me-2">
+            <v-avatar color="brown" size="large" class="avatar">
+              <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
+            </v-avatar>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <v-avatar size="large" class="avatar">
+              <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
+            </v-avatar>
+            <strong class="ms-2">
+              {{ abbreviatedName }}
+            </strong>
+          </v-list-item>
+
+          <v-col cols="auto">
+            <v-btn size="small" block variant="outlined" color="primary" to="/user-profile">
+              <strong> {{ $t('btn.viewProfile') }}</strong>
+            </v-btn>
+          </v-col>
+          <v-list-item
+            v-for="(item, i) in menus"
+            :key="i"
+            :value="item"
+            color="primary"
+            @click="onMenuClick(item.action)"
+          >
+            <template v-slot:prepend>
+              <v-icon size="large" class="icon-setting" :icon="item.icon"></v-icon>
+              <v-list-item-title
+                class="ms-3"
+                v-text="item.title"
+                :to="item.path"
+              ></v-list-item-title>
+            </template>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </template>
   </v-app-bar>
 
   <v-dialog v-model="dialogVisible" transition="dialog-top-transition" width="auto">
@@ -64,6 +93,9 @@
 <script>
 import ChangePasswordDialog from '@/views/auth/ChangePassword.vue'
 import Sidebar from './Sidebar.vue'
+import Language from '@/components/common/SwitcherLanguage.vue'
+import { setI18nLanguage, SUPPORT_LOCALES } from '@/plugins/i18n'
+
 import { mapActions, mapState } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 export default {
@@ -73,7 +105,8 @@ export default {
 
   components: {
     ChangePasswordDialog,
-    Sidebar
+    Sidebar,
+    Language
   },
   data: () => ({
     users: [],
@@ -82,6 +115,11 @@ export default {
     last_name: '',
     profile_image: '',
     email: '',
+    currentLanguage: localStorage.getItem('lang') || 'en',
+    languageImages: {
+      en: '/images/en.png',
+      kh: '/images/kh.png'
+    },
     menus: [
       {
         title: 'Change Password',
@@ -103,10 +141,13 @@ export default {
     abbreviatedName() {
       const fullName = `${this.authUser.first_name} ${this.authUser.last_name}`
       if (fullName.length > 15) {
-        return fullName.substring(0, 15) + '...';
+        return fullName.substring(0, 15) + '...'
       } else {
-        return fullName;
+        return fullName
       }
+    },
+    currentLanguageImage() {
+      return this.languageImages[this.currentLanguage]
     }
   },
   methods: {
@@ -137,6 +178,12 @@ export default {
           break
         default:
           break
+      }
+    },
+    async switchLanguage(language) {
+      if (SUPPORT_LOCALES.includes(language)) {
+        await setI18nLanguage(language)
+        this.currentLanguage = language
       }
     }
   }

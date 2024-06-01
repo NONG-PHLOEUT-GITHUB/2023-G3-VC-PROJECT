@@ -79,13 +79,6 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/telegram-messaging',
-        name: 'Send File via Telegram Bot',
-        component: () => import('@/views/common/TelegramMessaging.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
-      },
-
-      {
         path: '/student-list',
         name: 'Student management',
         component: () => import('@/views/students/StudentList.vue'),

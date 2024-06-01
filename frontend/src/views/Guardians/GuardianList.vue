@@ -7,7 +7,7 @@
         class="text-none me-4"
         color="primary"
         @click="toggleFilter = !toggleFilter"
-        >Filters
+        >{{ $t('btn.filter') }}
       </v-btn>
       <v-btn variant="tonal" class="bg-green-darken-1" icon="mdi-file-excel"></v-btn>
       <v-btn

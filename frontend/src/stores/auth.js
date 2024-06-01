@@ -26,8 +26,10 @@ export const useAuthStore = defineStore('auth', {
     exams:[]
   }),
   getters: {
-    user: state => state.authUser,
-
+    getUserId(state){
+      console.log(state.teacherID);
+     return state.teacherID
+    },
     getUserRole: state => {
       return state.userRole
     }
@@ -42,7 +44,6 @@ export const useAuthStore = defineStore('auth', {
       return response
     },
     async fetchUser(exam_id) {
-      console.log(exam_id);
       const response = await fetchUserLoged(exam_id)
       this.studentScores = response.data.data.scores
       this.exams = response.data.data.exams

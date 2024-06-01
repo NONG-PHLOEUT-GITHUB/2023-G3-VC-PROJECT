@@ -14,7 +14,7 @@
         class="text-none me-4"
         color="primary"
         @click="toggleFilter = !toggleFilter"
-        >Filters</v-btn
+        >{{ $t('btn.filter') }}</v-btn
       >
       <v-tooltip activator="parent" text="Export Excel" location="top">
         <template v-slot:activator="{ props }">

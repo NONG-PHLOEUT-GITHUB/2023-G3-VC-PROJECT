@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('exam_code')->nullable();
             $table->string('exam_name')->nullable();
+            $table->unsignedBigInteger('create_by');      
+            $table->foreign('create_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('subject_id')->nullable();
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->timestamps();

@@ -3,12 +3,9 @@
 namespace App\Imports;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Validator;
 use Illuminate\Support\Str;
 
 class ImportUsers implements ToModel,WithHeadingRow

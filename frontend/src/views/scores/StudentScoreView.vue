@@ -1,5 +1,8 @@
 <template>
   <custom-title icon="mdi-chart-box-plus-outline"></custom-title>
+  <v-row v-if="uniqueExams.length == 0">
+    <v-alert color="info">{{ $t('exam.noExam') }}</v-alert>
+  </v-row>
   <v-row>
     <v-col v-for="(exam, index) in uniqueExams" :key="index" cols="4">
       <v-card width="450" :to="`/student-score/${exam.id}/details`">
@@ -42,7 +45,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useAuthStore, ['fetchUser']),
+    ...mapActions(useAuthStore, ['fetchUser'])
   }
 }
 </script>
