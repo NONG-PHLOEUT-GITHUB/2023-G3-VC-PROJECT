@@ -1,8 +1,8 @@
 <template>
-  <!-- <v-app-bar collapse :elevation="2">
-    <switcher-language />
-  </v-app-bar> -->
   <v-layout class="d-flex align-center justify-content-center" height="100vh">
+    <v-app-bar collapse :elevation="2">
+      <switcher-language/>
+    </v-app-bar>
     <v-card width="60%" class="py-4">
       <v-row>
         <v-col cols="6">
@@ -52,7 +52,11 @@
 import { mapActions } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import { useLoadingStore } from '@/stores/loading'
+import SwitcherLanguage from '@/components/common/SwitcherLanguage.vue'
 export default {
+  components:{
+    SwitcherLanguage
+  },
   data: () => ({
     visible: false,
     email: 'admin@example.com',

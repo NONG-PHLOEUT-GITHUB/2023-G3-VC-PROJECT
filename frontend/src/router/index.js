@@ -97,12 +97,6 @@ const routes = [
         meta: { requiresAuth: true, requiredRoles: [1, 2] }
       },
       {
-        path: '/new-data',
-        name: 'New data management',
-        component: () => import('@/views/common/NewDataView.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
-      },
-      {
         path: '/student/attendance/:id/details',
         name: 'Student attendance details',
         component: () => import('@/views/attendances/StudentAttendanceDetail.vue'),

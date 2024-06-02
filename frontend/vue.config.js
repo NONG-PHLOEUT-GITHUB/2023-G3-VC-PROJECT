@@ -4,6 +4,14 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   pluginOptions: {
+    i18n: {
+      locale: 'en', // process.env.VUE_APP_I18N_LOCALE
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: false,
+      enableBridge: false,
+    },
+    
     vuetify: {
       // Configure Vuetify plugin options
       // Replace 'MyLoginComponent' with your desired multi-word component name

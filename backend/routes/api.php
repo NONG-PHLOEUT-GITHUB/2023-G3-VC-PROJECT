@@ -79,6 +79,7 @@ Route::prefix('attendances')->group(function () {
     Route::get("/getTeacherAttendance", [AttendanceController::class, "getAttendanceListOfTeachers"]);
     Route::get("/getTeacherMostAbsence", [AttendanceController::class, "getTeacherMostAbsence"]);
     Route::get('/export-excel/{id}', [AttendanceController::class, "exportAttendance"]);
+    Route::delete('/{id}/delete-attendance', [AttendanceController::class, "destroy"]);
 });
 
 // ======================== Classroom Routes ========================

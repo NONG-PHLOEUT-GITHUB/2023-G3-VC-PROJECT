@@ -58,9 +58,9 @@
       </v-row>
       <div class="col-12 d-flex justify-content-end">
         <v-btn type="submit" class="mr-2" :to="{ path: '/guardian-list' }" variant="outlined"
-          >Cancel
+          >{{ $t('btn.cancel') }}
         </v-btn>
-        <v-btn type="submit" class="bg-primary">Add Guardian</v-btn>
+        <v-btn type="submit" class="bg-primary">{{ $t('btn.update') }}</v-btn>
       </div>
     </form>
   </v-card>
@@ -104,7 +104,7 @@ export default {
       }
       this.updateGuardianList(formData)
         .then(() => {
-          this.$root.$notif('Update successfully', {
+          this.$root.$notif(this.$t('alert.update'), {
               type: 'success',
               color: 'primary'
             })

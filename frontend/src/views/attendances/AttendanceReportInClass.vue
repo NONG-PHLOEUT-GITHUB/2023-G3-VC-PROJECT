@@ -19,6 +19,15 @@
             items-key="title"
             :items="item.attendances"
           >
+            <template v-slot:item.actions="{ item }">
+              <v-btn
+                @click="removeStudent(item.id)"
+                variant="text"
+                icon="mdi-delete-forever"
+                color="red"
+              >
+              </v-btn>
+            </template>
           </v-data-table-virtual>
         </td>
       </tr>
@@ -39,13 +48,13 @@ export default {
       headers: [
         { title: 'Profile', key: 'profile' },
         { title: 'First Name', key: 'first_name' },
-        { title: 'Last Name', key: 'last_name' },
-        { title: '', key: 'actions', width: '14%' }
+        { title: 'Last Name', key: 'last_name' }
       ],
       headersAttendance: [
         { title: 'Date', key: 'date' },
         { title: 'Reason', key: 'reason' },
-        { title: 'Status', key: 'status' }
+        { title: 'Status', key: 'status' },
+        { title: '', key: 'actions', width: '14%',sortable: false, }
       ]
     }
   },
@@ -56,6 +65,22 @@ export default {
         .then(response => {
           console.log(response)
           this.attendanceData = response.data.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    removeStudent(id) {
+      http
+        .delete(`attendances/${id}/delete-attendance/`)
+        .then(response => {
+          this.$root.$notif(this.$t('alert.delete'), {
+            type: 'success',
+            color: 'primary'
+          })
+          this.attendanceData = response.data.data
+          const id = this.$route.params.id
+          this.getStudents(id)
         })
         .catch(error => {
           console.log(error)

@@ -195,7 +195,7 @@ export default {
       this.createExam(fromData).then(response => {
         if (response) {
           this.dialog = false
-          this.$root.$notif('Create successfully', {
+          this.$root.$notif(this.$t('alert.create'), {
             type: 'success',
             color: 'primary'
           })
@@ -206,7 +206,7 @@ export default {
     deleteExamList(id) {
       this.deleteExam(id).then(response => {
         if (response) {
-          this.$root.$notif('Delete successfully', {
+          this.$root.$notif(this.$t('alert.delete'), {
             type: 'success',
             color: 'primary'
           })

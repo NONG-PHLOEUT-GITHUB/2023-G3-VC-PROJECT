@@ -1,34 +1,12 @@
 <template>
-  <v-app-bar>
+  <v-app-bar scroll-behavior="inverted" scroll-threshold="0">
     <v-app-bar-nav-icon @click="togglerDrawer">
       <v-icon>mdi-menu</v-icon>
     </v-app-bar-nav-icon>
     <strong class="text-h6 font-weight-bold">{{ $t('titleApp') }}</strong>
-    <!-- switcher language -->
     <template v-slot:append>
-      <v-menu min-width="200px" rounded>
-        <template v-slot:activator="{ props }">
-          <v-btn v-bind="props" stacked>
-            <v-avatar color="brown" size="small">
-              <v-img :src="currentLanguageImage" :width="30"></v-img>
-            </v-avatar>
-          </v-btn>
-        </template>
-        <v-card class="pa-0">
-          <v-card-text class="pa-2">
-            <div class="mx-auto">
-              <v-btn @click="switchLanguage('en')" variant="text" rounded class="text-none">
-                <img src="/images/en.png" alt="English Flag" :width="30" class="me-3"/>
-                {{$t('lang.en')}}
-              </v-btn>
-              <v-btn @click="switchLanguage('kh')" variant="text" rounded class="text-none">
-                <img src="/images/kh.png" alt="Khmer Flag" :width="30" class="me-3"/>
-                {{$t('lang.kh')}}
-              </v-btn>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-menu>
+      <!-- switcher language -->
+      <switch-language />
       <!-- notification -->
       <v-btn class="text-none" stacked>
         <!-- v-bind="props" -->
@@ -93,9 +71,7 @@
 <script>
 import ChangePasswordDialog from '@/views/auth/ChangePassword.vue'
 import Sidebar from './Sidebar.vue'
-import Language from '@/components/common/SwitcherLanguage.vue'
-import { setI18nLanguage, SUPPORT_LOCALES } from '@/plugins/i18n'
-
+import switchLanguage from '@/components/common/SwitcherLanguage.vue'
 import { mapActions, mapState } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 export default {
@@ -106,7 +82,7 @@ export default {
   components: {
     ChangePasswordDialog,
     Sidebar,
-    Language
+    switchLanguage
   },
   data: () => ({
     users: [],
@@ -114,24 +90,7 @@ export default {
     first_name: '',
     last_name: '',
     profile_image: '',
-    email: '',
-    currentLanguage: localStorage.getItem('lang') || 'en',
-    languageImages: {
-      en: '/images/en.png',
-      kh: '/images/kh.png'
-    },
-    menus: [
-      {
-        title: 'Change Password',
-        action: 'changePassword',
-        icon: 'mdi-lock-reset'
-      },
-      {
-        title: 'Logout',
-        icon: 'mdi-logout',
-        action: 'logout'
-      }
-    ]
+    email: ''
   }),
   created() {
     this.fetchUser()
@@ -146,8 +105,19 @@ export default {
         return fullName
       }
     },
-    currentLanguageImage() {
-      return this.languageImages[this.currentLanguage]
+    menus() {
+      return [
+        {
+          action: 'changePassword',
+          title: this.$t('header.changePass'),
+          icon: 'mdi-lock-reset'
+        },
+        {
+          title: this.$t('header.logout'),
+          icon: 'mdi-logout',
+          action: 'logout'
+        }
+      ]
     }
   },
   methods: {
@@ -179,12 +149,6 @@ export default {
         default:
           break
       }
-    },
-    async switchLanguage(language) {
-      if (SUPPORT_LOCALES.includes(language)) {
-        await setI18nLanguage(language)
-        this.currentLanguage = language
-      }
     }
   }
 }
@@ -196,8 +160,4 @@ export default {
 .font-weight-black {
   text-transform: uppercase;
 }
-/* .v-list-item-title{
-  font-weight: bold;
-  text-transform: uppercase;
-} */
 </style>

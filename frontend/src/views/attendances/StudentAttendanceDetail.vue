@@ -1,8 +1,5 @@
 <template>
   <v-breadcrumbs :items="breadcrumbs" class="py-0 px-0">
-    <template v-slot:prepend>
-      <v-icon icon="mdi-chevron-left"></v-icon>
-    </template>
   </v-breadcrumbs>
   <custom-title icon="mdi-account-details-outline">
     <template #right>

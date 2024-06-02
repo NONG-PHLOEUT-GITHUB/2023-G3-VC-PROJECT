@@ -188,7 +188,7 @@ export default {
       // Wait for all promises to resolve
       Promise.all(promises)
         .then(() => {
-          this.$root.$notif('Create successfully', {
+          this.$root.$notif(this.$t('alert.create'), {
             type: 'success',
             color: 'primary'
           })

@@ -29,8 +29,8 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
+                  :label="$t('classroom.form.className')"
                   v-model="className"
-                  label="Class name"
                   required
                   :error-messages="classNameRole"
                   variant="outlined"
@@ -38,7 +38,7 @@
               </v-col>
               <v-col cols="12">
                 <v-select
-                  label="Assigne teacher"
+                  :label="$t('classroom.form.teacherName')"
                   variant="outlined"
                   :items="teachers"
                   :item-title="fullName"
@@ -52,7 +52,7 @@
               </v-col>
               <v-col cols="12">
                 <v-select
-                  label="Assign class coordinator"
+                  :label="$t('classroom.form.coorName')"
                   variant="outlined"
                   :items="coordinators"
                   :item-title="fullName"
@@ -126,17 +126,12 @@ export default {
     return {
       dialog: false,
       className: '',
-      formAction: 'Create new classroom',
+      formAction: this.$t('classroom.createNew'),
       editing: false,
       editId: null,
       selectedTeachers: [],
       coordinatorId: null,
-      classNameRole: '',
-      items: [
-        { action: 'details', title: 'Details', icon: 'mdi-eye' },
-        { action: 'edit', title: 'Edite', icon: 'mdi-pencil' },
-        { action: 'delete', title: 'Delete', icon: 'mdi-delete', color: 'red' }
-      ]
+      classNameRole: ''
     }
   },
   created() {
@@ -151,6 +146,13 @@ export default {
       return function (item) {
         return item.first_name + ' ' + item.last_name
       }
+    },
+    items() {
+      return [
+        { action: 'details', title: this.$t('btn.details'), icon: 'mdi-eye' },
+        { action: 'edit', title: this.$t('btn.edit'), icon: 'mdi-pencil' },
+        { action: 'delete', title: this.$t('btn.delete'), icon: 'mdi-delete', color: 'red' }
+      ]
     }
   },
 
@@ -191,7 +193,7 @@ export default {
           .then(() => {
             this.cancelForm()
             this.getCassrooms()
-            this.$root.$notif('Create successfully', {
+            this.$root.$notif(this.$t('alert.update'), {
               type: 'success',
               color: 'primary'
             })
@@ -204,7 +206,7 @@ export default {
           .then(() => {
             this.cancelForm()
             this.getCassrooms()
-            this.$root.$notif('Update successfully', {
+            this.$root.$notif(this.$t('alert.create'), {
               type: 'success',
               color: 'primary'
             })
@@ -222,13 +224,12 @@ export default {
         this.coordinatorId = response.coordinator
         this.selectedTeachers = response.teachers.map(teacher => teacher.id)
       })
-      this.formAction = 'Edit Classroom'
+      this.formAction = this.$t('classroom.edit')
       this.editing = true
       this.dialog = true
     },
 
     cancelForm() {
-      this.formAction = 'Add Classroom'
       this.editing = false
       this.editId = null
       this.className = ''
@@ -250,7 +251,7 @@ export default {
         agree: () =>
           this.deleteCassroom(id).then(() => {
             this.getCassrooms()
-            this.$root.$notif('Delete successfully', {
+            this.$root.$notif(this.$t('alert.delete'), {
               type: 'success',
               color: 'primary'
             })

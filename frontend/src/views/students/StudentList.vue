@@ -150,7 +150,7 @@ export default {
       console.log(id)
       this.deleteStudent(id).then(response => {
         if (response.status == 200) {
-          this.$root.$notif('Delete successfully', {
+          this.$root.$notif(this.$t('alert.delete'), {
             type: 'success',
             color: 'primary'
           })
@@ -162,7 +162,7 @@ export default {
     deleteMultiple() {
       this.deleteMultipleUsers(this.selectedUser).then(response => {
         if (response.status == 200) {
-          this.$root.$notif('Delete successfully', {
+          this.$root.$notif(this.$t('alert.delete'), {
             type: 'success',
             color: 'primary'
           })

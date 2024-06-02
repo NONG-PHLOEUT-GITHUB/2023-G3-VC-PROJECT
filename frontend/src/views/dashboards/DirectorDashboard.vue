@@ -2,7 +2,7 @@
   <custom-title icon="mdi-view-dashboard-edit"></custom-title>
   <v-row class="mb-4">
     <v-col cols="12" md="4">
-      <v-card class="mx-auto" subtitle="All students in school" title="Students">
+      <v-card class="mx-auto" :subtitle="$t('dashboard.studentTotal')" :title="$t('dashboard.student')">
         <template v-slot:prepend>
           <v-avatar color="blue-darken-2">
             <v-icon icon="mdi-account-tie"></v-icon>
@@ -20,7 +20,7 @@
       </v-card>
     </v-col>
     <v-col cols="12" md="4">
-      <v-card class="mx-auto" subtitle="All teachers in school" title="Teachers">
+      <v-card class="mx-auto" :subtitle="$t('dashboard.teacherTotal')" :title="$t('dashboard.teacher')">
         <template v-slot:prepend>
           <v-avatar color="blue-darken-2">
             <v-icon icon="mdi-human-male-board-poll"></v-icon>
@@ -38,7 +38,7 @@
       </v-card>
     </v-col>
     <v-col cols="12" md="4">
-      <v-card class="mx-auto" subtitle="All classrooms in school" title="Crassroom">
+      <v-card class="mx-auto" :subtitle="$t('dashboard.classTotal')" :title="$t('dashboard.class')">
         <template v-slot:prepend>
           <v-avatar color="blue-darken-2">
             <v-icon icon="mdi-google-classroom"></v-icon>
@@ -54,11 +54,9 @@
     </v-col>
   </v-row>
 
-  <custom-sub-title icon="mdi-chart-bar"
-    >Graph of student attendance and student failed</custom-sub-title
-  >
+  <custom-sub-title icon="mdi-chart-bar">{{ $t('dashboard.subtitle') }}</custom-sub-title>
   <v-row class="mt-2 px-2 d-flex justify-space-between">
-    <v-card  width="48%"  class="elevation-1">
+    <v-card width="48%" class="elevation-1">
       <canvas id="attendanceChart" height="170"></canvas>
     </v-card>
     <v-card width="48%" class="elevation-1">
@@ -119,7 +117,7 @@ export default {
         ],
         datasets: [
           {
-            label: 'Percentage of failed students(%)',
+            label: 'Percentage of failed students',
             data: []
           }
         ]

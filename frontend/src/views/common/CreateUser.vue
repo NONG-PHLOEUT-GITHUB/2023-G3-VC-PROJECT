@@ -221,13 +221,13 @@
           class="mr-2"
           :to="{ path: '/student-list' }"
           variant="outlined"
-          >Cancel
+          >{{$t('btn.cancel')}}
         </v-btn>
         <v-btn v-else type="submit" class="mr-2" :to="{ path: '/teacher-list' }" variant="outlined"
-          >Cancel
+          >{{$t('btn.cancel')}}
         </v-btn>
-        <v-btn v-if="!btn" type="submit" class="bg-primary">Create</v-btn>
-        <v-btn v-else type="submit" class="bg-primary">Update</v-btn>
+        <v-btn v-if="!btn" type="submit" class="bg-primary">{{ $t('btn.save') }}</v-btn>
+        <v-btn v-else type="submit" class="bg-primary">{{$t('btn.update')}}</v-btn>
       </div>
     </v-form>
   </v-card>
@@ -369,7 +369,7 @@ export default {
           .then(response => {
             if (response.status == 201) {
               if (this.studentDetails.role == 2 || this.studentDetails.role == 1) {
-                this.$root.$notif('Create successfully', {
+                this.$root.$notif(this.$t('alert.create'), {
                   type: 'success',
                   color: 'primary'
                 })
@@ -377,7 +377,7 @@ export default {
               } else {
                 // call to create the parent
                 this.createParents()
-                this.$root.$notif('Create successfully', {
+                this.$root.$notif(this.$t('alert.create'), {
                   type: 'success',
                   color: 'primary'
                 })

@@ -218,7 +218,7 @@ export default {
       this.updateUser(data,data.id)
         .then(response => {
           console.log(response)
-          this.$root.$notif('Update profile successfully', {
+          this.$root.$notif(this.$t('alert.update'), {
             type: 'success',
             color: 'primary'
           })

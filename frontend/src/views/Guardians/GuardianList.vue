@@ -109,7 +109,7 @@ export default {
     removeGuardian(id) {
       this.deleteGuardianByID(id).then(response => {
         if (response.status == 200) {
-          this.$root.$notif('Delete successfully', {
+          this.$root.$notif(this.$t('alert.delete'), {
             type: 'success',
             color: 'primary'
           })
@@ -120,7 +120,7 @@ export default {
     deleteMultiple() {
       this.deleteMultipleGuardians(this.selectedItem).then(response => {
         if (response.status == 200) {
-          this.$root.$notif('Delete successfully', {
+          this.$root.$notif(this.$t('alert.delete'), {
             type: 'success',
             color: 'primary'
           })

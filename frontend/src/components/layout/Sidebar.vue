@@ -26,82 +26,82 @@
 
 <script>
 export default {
-  data: () => ({
-    teacherMenu: [
-      {
-        path: '/teacher-dashboard',
-        title: 'Dashboard',
-        icon: 'mdi-home'
-      },
-      {
-        path: '/student-exam',
-        title: 'Exam Management',
-        icon: 'mdi-chart-line-variant'
-      },
-      {
-        path: '/teacher-classroom',
-        title: 'My Class Teaching',
-        icon: 'mdi-domain'
-      }
-    ],
-    studentMenu: [
-      {
-        path: '/student-home',
-        title: 'Dashboard',
-        icon: 'mdi-home'
-      },
-      {
-        path: '/student-attendance',
-        title: 'Attendance',
-        icon: 'mdi-progress-check'
-      },
-      {
-        path: '/student-score/view',
-        title: 'Examination',
-        icon: 'mdi-chart-bar'
-      },
-      {
-        path: '/student-comments',
-        title: 'Comment',
-        icon: ' mdi-comment'
-      }
-    ],
-    adminMenu: [
-      {
-        path: '/admin-dashboard',
-        title: 'Dashboard',
-        icon: 'mdi-home'
-      },
-      {
-        path: '/new-data',
-        title: 'New data',
-        icon: 'mdi-database-plus-outline'
-      },
-      {
-        path: '/guardian-list',
-        title: 'Guardian management',
-        icon: 'mdi-human-male-female-child'
-      },
-      {
-        path: '/teacher-list',
-        title: 'Teacher management',
-        icon: 'mdi-human-male-board-poll'
-      },
-      {
-        path: '/student-list',
-        title: 'Student management',
-        icon: 'mdi-android-studio'
-      },
-      {
-        path: '/class-list',
-        title: 'Class management',
-        icon: 'mdi-clipboard-text'
-      }
-    ],
-  }),
+  data: () => ({}),
   computed: {
     userRole() {
-      return parseInt(localStorage.getItem('user_role')); // set string to integer
+      return parseInt(localStorage.getItem('user_role')) // set string to integer
+    },
+    adminMenu() {
+      return [
+        {
+          path: '/admin-dashboard',
+          title: this.$t('menu.admin.dashboard'),
+          icon: 'mdi-home'
+        },
+        {
+          path: '/guardian-list',
+          title: this.$t('menu.admin.parents'),
+          icon: 'mdi-human-male-female-child'
+        },
+        {
+          path: '/teacher-list',
+          title:this.$t('menu.admin.teacher'),
+          icon: 'mdi-human-male-board-poll'
+        },
+        {
+          path: '/student-list',
+          title:this.$t('menu.admin.student'),
+          icon: 'mdi-android-studio'
+        },
+        {
+          path: '/class-list',
+          title: this.$t('menu.admin.classroom'),
+          icon: 'mdi-clipboard-text'
+        }
+      ]
+    },
+    teacherMenu() {
+      return [
+        {
+          path: '/teacher-dashboard',
+          title: this.$t('menu.admin.dashboard'),
+          icon: 'mdi-home'
+        },
+        {
+          path: '/student-exam',
+          title: this.$t('menu.teacher.exam'),
+          icon: 'mdi-chart-line-variant'
+        },
+        {
+          path: '/teacher-classroom',
+          title: this.$t('menu.teacher.classTeaching'),
+          icon: 'mdi-domain'
+        }
+      ]
+    },
+    studentMenu() {
+      return [
+        {
+          path: '/student-home',
+          title: this.$t('menu.admin.dashboard'),
+          icon: 'mdi-home'
+        },
+        {
+          path: '/student-attendance',
+          title: this.$t('menu.student.attendance'),
+          icon: 'mdi-progress-check'
+        },
+        {
+          path: '/student-score/view',
+          title: this.$t('menu.student.exam'),
+          icon: 'mdi-chart-bar'
+        },
+        {
+          path: '/student-comments',
+          title: this.$t('menu.student.comment'),
+          icon: ' mdi-comment'
+        }
+      ]
     },
     menu() {
       switch (this.userRole) {
