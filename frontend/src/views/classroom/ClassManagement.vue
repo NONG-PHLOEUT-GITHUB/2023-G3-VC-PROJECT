@@ -17,7 +17,7 @@
       ></v-btn>
     </template>
   </custom-title>
-
+  <classroom-filter v-show="toggleFilter"/>
   <v-dialog v-model="dialog" persistent width="40%">
     <v-card>
       <v-form @submit.prevent="saveClassroom">
@@ -118,13 +118,18 @@
 </template>
 
 <script>
+import ClassroomFilter from '@/components/filters/ClassroomFilter.vue'
 import { useClassroomStore } from '@/stores/classroom'
 import { useTeacherStore } from '@/stores/teacher'
 import { mapActions, mapState } from 'pinia'
 export default {
+  components:{
+    ClassroomFilter
+  },
   data() {
     return {
       dialog: false,
+      toggleFilter: false,
       className: '',
       formAction: this.$t('classroom.createNew'),
       editing: false,

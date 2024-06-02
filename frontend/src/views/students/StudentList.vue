@@ -78,6 +78,7 @@
       </v-form>
     </v-card>
   </v-expand-transition>
+  <teacher-filter v-show="toggleFilter" />
   <v-card>
     <v-data-table
       v-model="selectedUser"
@@ -115,14 +116,19 @@
   </v-card>
 </template>
 <script>
+import TeacherFilter from '@/components/filters/TeacherFilter.vue'
 import http from '@/api/api'
 import { mapActions, mapState } from 'pinia'
 import { useStudentStore } from '@/stores/student'
 export default {
+  components: {
+    TeacherFilter
+  },
   data() {
     return {
       selectedUser: [],
       errorMessage: '',
+      toggleFilter: false,
       isEmport: false,
       loading: false,
       headers: [
@@ -147,15 +153,25 @@ export default {
     ...mapActions(useStudentStore, ['getStudents', 'deleteStudent', 'deleteMultipleUsers']),
 
     deleteStudentFromList(id) {
-      console.log(id)
-      this.deleteStudent(id).then(response => {
-        if (response.status == 200) {
-          this.$root.$notif(this.$t('alert.delete'), {
-            type: 'success',
-            color: 'primary'
+      this.$root.$confirm({
+        title: this.$t('alert.confirm'),
+        message: this.$t('alert.areYouSure'),
+        options: {
+          agreeBtnText: 'Yes',
+          type: 'error',
+          color: 'error',
+          width: 400
+        },
+        agree: () =>
+          this.deleteStudent(id).then(response => {
+            if (response.status == 200) {
+              this.$root.$notif(this.$t('alert.delete'), {
+                type: 'success',
+                color: 'primary'
+              })
+            }
+            this.getStudents()
           })
-        }
-        this.getStudents()
       })
     },
 
