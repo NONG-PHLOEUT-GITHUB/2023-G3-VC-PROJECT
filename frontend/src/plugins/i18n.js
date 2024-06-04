@@ -1,50 +1,50 @@
-import { createI18n } from 'vue-i18n';
+import { createI18n } from 'vue-i18n'
 
 const dateTimeFormats = {
-  fr: {
+  kh: {
     date: {
-      year: 'numeric',
+      day: 'numeric',
       month: 'numeric',
-      day: 'numeric'
+      year: 'numeric'
     },
     datetime: {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      hour: 'numeric',
       minute: 'numeric',
-      hour12: false
+      hour: 'numeric',
+      hour12: false,
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
     },
     short: {
-      month: 'numeric',
-      day: 'numeric'
+      day: 'numeric',
+      month: 'numeric'
     },
     long: {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      weekday: 'short',
+      minute: 'numeric',
       hour: 'numeric',
-      minute: 'numeric'
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
     },
     monthYear: {
-      year: 'numeric',
-      month: 'short'
+      month: 'short',
+      year: 'numeric'
     }
   }
-};
+}
 
 function loadLocaleMessages() {
-  const locales = require.context('@/locales', true, /[A-Za-z0-9-_,\s]+\.json$/i);
-  const messages = {};
+  const locales = require.context('@/locales', true, /[A-Za-z0-9-_,\s]+\.json$/i)
+  const messages = {}
   locales.keys().forEach(key => {
-    const matched = key.match(/([A-Za-z0-9-_]+)\./i);
+    const matched = key.match(/([A-Za-z0-9-_]+)\./i)
     if (matched && matched.length > 1) {
-      const locale = matched[1];
-      messages[locale] = locales(key);
+      const locale = matched[1]
+      messages[locale] = locales(key)
     }
-  });
-  return messages;
+  })
+  return messages
 }
 
 const i18n = createI18n({
@@ -53,10 +53,10 @@ const i18n = createI18n({
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   messages: loadLocaleMessages(),
   dateTimeFormats
-});
+})
 
 export function translateRoute(routeName) {
-  return i18n.global.t(routeName);
+  return i18n.global.t(routeName)
 }
 
-export default i18n;
+export default i18n

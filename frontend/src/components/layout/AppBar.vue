@@ -14,6 +14,15 @@
           <v-icon class="cursor-pointer">mdi-bell-outline</v-icon>
         </v-badge>
       </v-btn>
+      <v-btn stacked>
+        <v-switch
+          inset
+          color="info"
+          v-model="darkMode"
+          @change="toggleTheme"
+          hide-details
+        ></v-switch>
+      </v-btn>
       <!-- menu setting -->
       <v-menu>
         <template v-slot:activator="{ props }">
@@ -27,12 +36,6 @@
         </template>
         <v-list>
           <v-list-item :subtitle="abbreviatedEmail" :title="abbreviatedName">
-            <!-- <v-avatar size="large" class="avatar">
-              <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
-            </v-avatar>
-            <strong class="ms-2">
-              {{ abbreviatedName }}
-            </strong> -->
             <template v-slot:prepend>
               <v-avatar size="large" class="avatar" color="grey-lighten-1">
                 <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
@@ -96,7 +99,8 @@ export default {
     first_name: '',
     last_name: '',
     profile_image: '',
-    email: ''
+    email: '',
+    darkMode: false
   }),
   created() {
     this.fetchUser()
@@ -111,7 +115,7 @@ export default {
         return fullName
       }
     },
-    abbreviatedEmail(){
+    abbreviatedEmail() {
       const email = `${this.authUser.email}`
       if (email.length > 15) {
         return email.substring(0, 15) + '...'
@@ -175,3 +179,14 @@ export default {
   text-transform: uppercase;
 }
 </style>
+
+<script setup>
+import { useTheme } from 'vuetify'
+
+const theme = useTheme()
+
+function toggleTheme() {
+  // this.darkMode = true
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
+</script>

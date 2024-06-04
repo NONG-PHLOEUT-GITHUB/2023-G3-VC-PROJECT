@@ -16,8 +16,8 @@ export default {
     Confirm,
     Loading
   },
-  create(){
-    document.addEventListener('keydown', (e) => {
+  create() {
+    document.addEventListener('keydown', e => {
       if (e.shiftKey && e.ctrlKey && e.key === 'L') {
         this.$i18n.locale = this.$i18n.locale === 'en' ? 'kh' : 'en'
       }

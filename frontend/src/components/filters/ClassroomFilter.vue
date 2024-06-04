@@ -18,6 +18,14 @@
             label="Coordinator name"
           ></v-text-field>
         </v-col>
+        <v-col>
+          <v-text-field
+            hide-details
+            density="compact"
+            variant="outlined"
+            label="Sort class name"
+          ></v-text-field>
+        </v-col>
       </v-row>
     </v-card>
   </v-form>

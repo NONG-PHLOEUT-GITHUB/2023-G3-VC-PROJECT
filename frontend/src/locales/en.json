@@ -70,8 +70,8 @@
     "admin": {
       "dashboard": "Dashboard",
       "classroom": "Class Management",
-      "student": "User Management",
-      "teacher": "User Management",
+      "student": "Student Management",
+      "teacher": "Teacher Management",
       "parents": "Guardian management"
     },
     "teacher": {

@@ -115,9 +115,10 @@ class ClassroomController extends Controller
     {
 
         $classroom = Classroom::with(['teachers' => function ($query) {
-            $query->select('users.id', 'users.first_name', 'users.last_name', 'users.profile');
+            $query->select('users.id', 'users.first_name', 'users.last_name', 'users.profile')
+            ->with('subjects');
         }, 'teacherCoordinator' => function ($query) {
-            $query->select('users.id', 'users.first_name', 'users.last_name', 'users.profile');
+            $query->select('users.id', 'users.first_name', 'users.last_name', 'users.profile')->with('subjects');;
         }])->find($classroomId);
 
         // Accessing the data
@@ -134,8 +135,8 @@ class ClassroomController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'classroom_name' => $classroom->classroom_name,
                 'id' => $classroom->id,
+                'classroom_name' => $classroom->classroom_name,
                 'teachers' => $teachers,
                 'subject_teachers' => $teacherSubjects,
                 'coordinator' => $coordinator

@@ -24,7 +24,6 @@ class Classroom extends Model
 
         if ($id) {
             $classroom = self::find($id);
-            // dd($classroom);
             if (!$classroom) {
                 return response()->json(['error' => 'Record not found'], 404);
             }
@@ -34,7 +33,7 @@ class Classroom extends Model
             $existingClassroom = self::where('classroom_name', $classroomsData['classroom_name'])->first();
 
             if ($existingClassroom && $existingClassroom->id !== $id) {
-                return response()->json(['error' => 'Classroom name already exists'], 400);
+                return response()->json(['error' => "classroom" ,'message'=>'Classroom name already exists'], 400);
             }
             $classroom = self::create($classroomsData);
             $id = $classroom->$id;
@@ -43,7 +42,7 @@ class Classroom extends Model
         $teacherIds = $request->input('teacher_id', []);
         // dd($teacherIds);
         if (empty($teacherIds)) {
-            return response()->json(['error' => 'No teachers selected'], 400);
+            return response()->json(['error' => 'Please select teacher'], 400);
         }
 
         if (!$classroom->save()) {

@@ -4,7 +4,6 @@ import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import i18n from "./plugins/i18n"
-// import setupI18n from "./plugins/i18n"
 
 //global components
 
@@ -13,7 +12,6 @@ import CustomSubTitle from './components/global/CustomSubTitle.vue'
 
 const app = createApp(App)
 const pinia = createPinia();
-// const i18n = setupI18n();
 
 app.component('custom-title',CustomTitle)
 app.component('custom-sub-title',CustomSubTitle)

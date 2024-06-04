@@ -34,19 +34,20 @@
                   required
                   :error-messages="classNameRole"
                   variant="outlined"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-select
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-select
+                  v-model="selectedTeachers"
                   :label="$t('classroom.form.teacherName')"
                   variant="outlined"
+                  :error-messages="teacherRole"
                   :items="teachers"
                   :item-title="fullName"
                   item-value="id"
                   clearable
                   multiple
                   chips
-                  v-model="selectedTeachers"
                 >
                 </v-select>
               </v-col>
@@ -58,7 +59,7 @@
                   :item-title="fullName"
                   item-value="id"
                   clearable
-                  v-model="coordinatorId"
+                  v-model="coordinator"
                   chips
                 ></v-select>
               </v-col>
@@ -136,7 +137,9 @@ export default {
       editId: null,
       selectedTeachers: [],
       coordinatorId: null,
-      classNameRole: ''
+      coordinator: null,
+      classNameRole: '',
+      teacherRole: '',
     }
   },
   created() {
@@ -218,15 +221,17 @@ export default {
           })
           .catch(error => {
             this.classNameRole = error.response.data.error
+            this.teacherRole = error.response.data.error
           })
       }
     },
 
-    editClassroom(classroom) {
-      this.getClassroomDetails(classroom).then(response => {
+    editClassroom(id) {
+      this.getClassroomDetails(id).then(response => {
         this.editId = response.id
         this.className = response.classroom_name
-        this.coordinatorId = response.coordinator
+        this.coordinatorId = response.coordinator.id
+        this.coordinator = response.coordinator
         this.selectedTeachers = response.teachers.map(teacher => teacher.id)
       })
       this.formAction = this.$t('classroom.edit')

@@ -14,17 +14,27 @@ const vuetify = createVuetify({
     ...labs
   },
   directives,
-  theme: {
-    options: {
-      customProperties: true
-    },
+  defaultTheme: 'myCustomTheme',
     themes: {
-      light: {
-        primary: '#043485',
-        accent: '#E00D1D'
-      }
-    }
-  },
+      myCustomTheme: {
+        dark: false,
+        colors: {
+          something: 'red',
+        },
+      },
+    },
+  // theme: {
+  //   options: {
+  //     customProperties: true
+  //   },
+  //   defaultTheme: 'light',
+  //   themes: {
+  //     light: {
+  //       primary: '#043485',
+  //       accent: '#E00D1D'
+  //     }
+  //   }
+  // },
   locale: {
     messages: { fr, en },
     locale: 'en'
