@@ -5,7 +5,7 @@
   },
   "lang": {
     "en": "English",
-    "kh": "Khner"
+    "kh": "Khmer"
   },
   "btn": {
     "editProfile": "Edit Profile",
@@ -85,8 +85,8 @@
     }
   },
   "header": {
-    "menuLogout": "Logout",
-    "menuChangePass": "Change password"
+    "logout": "Logout",
+    "changePass": "Change Password"
   },
   "filterFrom": {
     "filterStatuse": "Search statuse",

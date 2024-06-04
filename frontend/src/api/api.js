@@ -1,37 +1,42 @@
-// import { useLoadingStore } from '@/stores/loading'
+import { useLoadingStore } from '@/stores/loading'
 import axios from 'axios'
 
 const api = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL || 'http://127.0.0.1:8000/api/',
   headers: {
     'Access-Control-Allow-Origin': '*',
-    'Content-type': 'application/json',
+    'Content-type': 'application/json'
   }
 })
 
+// Get store instance
+const loadingStore = useLoadingStore()
+
+// Request Interceptor
 api.interceptors.request.use(async config => {
   try {
-    // useLoadingStore.setLoading(true)
     const token = localStorage.getItem('access_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+    loadingStore.setLoading(true)
     return config
   } catch (error) {
-    console.log('error: ',error);
-    // useLoadingStore.setLoading(false)
+    loadingStore.setLoading(false)
     return Promise.reject(error)
   }
 })
 
-api.interceptors.response.use(async response => {
-  try {
-    return response
-  } catch (error) {
-    // return console.log('riii',error.message);
-    // console.log('log eror',error);
-    return Promise.reject(error)
+// Request Interceptor
+api.interceptors.response.use(
+  response => {
+    loadingStore.setLoading(false);
+    return response;
+  },
+  error => {
+    loadingStore.setLoading(false);
+    return Promise.reject(error);
   }
-})
+)
 
 export default api

@@ -15,23 +15,29 @@
         </v-badge>
       </v-btn>
       <!-- menu setting -->
-      <v-menu rounded>
+      <v-menu>
         <template v-slot:activator="{ props }">
           <strong class="me-6">{{ authUser.first_name }} {{ authUser.last_name }}</strong>
-          <v-btn icon="" v-bind="props" class="me-2">
+          <!-- icon="" -->
+          <v-btn v-bind="props" class="me-2" stacked>
             <v-avatar color="brown" size="large" class="avatar">
               <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
             </v-avatar>
           </v-btn>
         </template>
         <v-list>
-          <v-list-item>
-            <v-avatar size="large" class="avatar">
+          <v-list-item :subtitle="abbreviatedEmail" :title="abbreviatedName">
+            <!-- <v-avatar size="large" class="avatar">
               <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
             </v-avatar>
             <strong class="ms-2">
               {{ abbreviatedName }}
-            </strong>
+            </strong> -->
+            <template v-slot:prepend>
+              <v-avatar size="large" class="avatar" color="grey-lighten-1">
+                <v-img :src="authUser.profile" alt="Avatar" cover> </v-img>
+              </v-avatar>
+            </template>
           </v-list-item>
 
           <v-col cols="auto">
@@ -103,6 +109,14 @@ export default {
         return fullName.substring(0, 15) + '...'
       } else {
         return fullName
+      }
+    },
+    abbreviatedEmail(){
+      const email = `${this.authUser.email}`
+      if (email.length > 15) {
+        return email.substring(0, 15) + '...'
+      } else {
+        return email
       }
     },
     menus() {

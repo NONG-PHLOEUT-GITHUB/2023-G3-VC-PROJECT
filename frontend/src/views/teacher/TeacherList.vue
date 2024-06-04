@@ -28,7 +28,10 @@
       </v-tooltip>
     </template>
   </custom-title>
-  <teacher-filter v-show="toggleFilter" />
+  <v-slide-y-reverse-transition mode="in-out">
+
+    <teacher-filter v-show="toggleFilter" />
+  </v-slide-y-reverse-transition>
   <v-card>
     <v-data-table
       show-select
