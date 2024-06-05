@@ -18,7 +18,7 @@
     </template>
   </custom-title>
   <classroom-filter v-show="toggleFilter"/>
-  <v-dialog v-model="dialog" persistent width="40%">
+  <v-dialog v-model="dialog" persistent width="40%" class="dialog">
     <v-card>
       <v-form @submit.prevent="saveClassroom">
         <v-card-title class="bg-primary">
@@ -192,7 +192,7 @@ export default {
     saveClassroom() {
       const newclassroom = {
         classroom_name: this.className.toUpperCase(),
-        coordinator_id: this.coordinatorId,
+        coordinator_id: this.coordinator,
         teacher_id: this.selectedTeachers
       }
 
@@ -230,8 +230,8 @@ export default {
       this.getClassroomDetails(id).then(response => {
         this.editId = response.id
         this.className = response.classroom_name
-        this.coordinatorId = response.coordinator.id
-        this.coordinator = response.coordinator
+        this.coordinatorId = response.coordinator ? response.coordinator.id : null;
+        this.coordinator = response.coordinator ? response.coordinator : null;
         this.selectedTeachers = response.teachers.map(teacher => teacher.id)
       })
       this.formAction = this.$t('classroom.edit')
@@ -243,7 +243,7 @@ export default {
       this.editing = false
       this.editId = null
       this.className = ''
-      this.coordinatorId = null
+      this.coordinator = null
       this.selectedTeachers = null
       this.dialog = false
     },

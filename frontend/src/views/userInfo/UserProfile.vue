@@ -13,7 +13,7 @@
   </custom-title>
   <v-form @submit.prevent="updateProfile()">
     <v-layout class="rounded rounded-md px-0">
-      <v-col cols="3">
+      <v-col cols="3" class="pa-1">
         <v-card>
           <v-card-text class="px-0 text-center">
             <v-col>
@@ -23,11 +23,11 @@
                   color="grey"
                   rounded="100"
                   size="150"
-                  class="elevation-1"
+                  class="avatar elevation-1"
                 >
                   <v-img :src="previewImage" alt="John"></v-img>
                 </v-avatar>
-                <v-avatar v-else color="grey" rounded="100" size="150" class="elevation-1">
+                <v-avatar v-else color="grey" rounded="100" size="150" class="avatar elevation-1">
                   <v-img :src="authUser.profile" cover></v-img>
                 </v-avatar>
               </div>

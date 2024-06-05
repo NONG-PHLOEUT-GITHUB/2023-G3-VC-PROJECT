@@ -40,4 +40,7 @@ html {
   color: #2c3e50;
   font-family: 'Poppins', sans-serif;
 }
+.dialog{
+  z-index: -1;
+}
 </style>

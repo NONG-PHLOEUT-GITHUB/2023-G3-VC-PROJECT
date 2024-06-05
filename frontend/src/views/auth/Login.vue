@@ -3,7 +3,7 @@
     <v-app-bar collapse :elevation="2">
       <switcher-language/>
     </v-app-bar>
-    <v-card width="60%" class="py-4">
+    <v-card width="60%" class="py-0">
       <v-row>
         <v-col cols="6">
           <v-img
