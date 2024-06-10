@@ -1,23 +1,15 @@
 import http from './api'
 
-/**
- * @param {string} 
- * @param {string}
- * @returns
- **/
-
 export function fetchTeachers() {
-  return http.get(`/users/get/teachers`)
+	return http.get(`/users/get/teachers`)
 }
 export function fetchCoordinators() {
-  return http.get(`/users/teacher/coordinator`)
+	return http.get(`/users/teacher/coordinator`)
 }
-// export function createUsers() {
-//   return http.put(`users/create`)
-// }
+
+/**
+ * @param {number} id
+ **/
 export function deleteTeacherById(id) {
-  return http.delete(`users/teacher/${id}/delete-teacher`)
+	return http.delete(`users/teacher/${id}/delete-teacher`)
 }
-// export function updateUsers() {
-//   return http.put(`${id}/update`)
-// }

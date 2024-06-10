@@ -1,8 +1,8 @@
 <template>
-  <Notif ref="notif" dismissible :default-timeout="2000" />
-  <Confirm ref="confirm" />
-  <Loading />
-  <router-view />
+	<Notif ref="notif" dismissible :default-timeout="2000" />
+	<Confirm ref="confirm" />
+	<Loading />
+	<router-view />
 </template>
 
 <script>
@@ -10,37 +10,37 @@ import Notif from '@/components/global/Notification.vue'
 import Confirm from '@/components/global/Confirm.vue'
 import Loading from '@/components/global/Loading.vue'
 export default {
-  name: 'App',
-  components: {
-    Notif,
-    Confirm,
-    Loading
-  },
-  create() {
-    document.addEventListener('keydown', e => {
-      if (e.shiftKey && e.ctrlKey && e.key === 'L') {
-        this.$i18n.locale = this.$i18n.locale === 'en' ? 'kh' : 'en'
-      }
-    })
-  },
-  mounted() {
-    this.$root.$confirm = this.$refs.confirm.open
-    this.$root.$notif = this.$refs.notif.newAlert
-  }
+	name: 'App',
+	components: {
+		Notif,
+		Confirm,
+		Loading
+	},
+	create() {
+		document.addEventListener('keydown', e => {
+			if (e.shiftKey && e.ctrlKey && e.key === 'L') {
+				this.$i18n.locale = this.$i18n.locale === 'en' ? 'kh' : 'en'
+			}
+		})
+	},
+	mounted() {
+		this.$root.$confirm = this.$refs.confirm.open
+		this.$root.$notif = this.$refs.notif.newAlert
+	}
 }
 </script>
 
 <style>
 html {
-  overflow-y: auto;
+	overflow-y: auto;
 }
 #app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  font-family: 'Poppins', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #2c3e50;
+	font-family: 'Poppins', sans-serif;
 }
-.dialog{
-  z-index: -1;
+.dialog {
+	z-index: -1;
 }
 </style>

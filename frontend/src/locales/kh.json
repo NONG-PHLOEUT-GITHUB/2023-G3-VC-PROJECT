@@ -55,6 +55,8 @@
   },
   "login": {
     "title": "ចូលគណនី",
+    "lebelPass":"លេខសម្ងាត់",
+    "lebelEmail":"អ៊ីមែល",
     "form": {
       "email": "អ៊ីមែល",
       "password": "លេខសម្ងាត់",

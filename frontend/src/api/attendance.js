@@ -1,31 +1,20 @@
 import http from './api'
 
-// Authentication
-/**
- * login
- * @param {string} email
- * @param {string} password
- * @returns
- */
-
 export function fetchAttendances() {
-  return http.get('/attendances')
+	return http.get('/attendances')
 }
 export function fetchAttendanceOfStudents() {
-  return http.get('/get-attendance/students')
+	return http.get('/get-attendance/students')
 }
 export function fetchStudentMostAbsence() {
-  return http.get('/get-most-absence/students')
+	return http.get('/get-most-absence/students')
 }
 export function fetchStudentAttendance() {
-  return http.get(`/get-attendance/${id}/student`)
+	return http.get(`/get-attendance/${id}/student`)
 }
 export function fetchStudentAttendanceDetails(studentId) {
-  return http.get(`attendances/student/${studentId}/attendance-details`)
+	return http.get(`attendances/student/${studentId}/attendance-details`)
 }
-// export function fetchStudentMostAbsence() {
-//   return http.get(`/get-student-attendance/${id}/details`)
-// }
 export function createAttendance(data) {
-  return http.post(`attendances/student/check-attendance`,data)
+	return http.post(`attendances/student/check-attendance`, data)
 }

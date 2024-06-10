@@ -1,11 +1,5 @@
 import http from './api'
 
-/**
- * @param {string}
- * @param {string}
- * @returns
- **/
-
 export function fetchStudents() {
   return http.get(`users/get/students`)
 }

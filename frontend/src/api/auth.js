@@ -31,10 +31,6 @@ export function forgotPassword(email) {
 }
 
 export function resetNewPassword(data) {
-  // const data = {
-  //   password,
-  //   password_confirmation
-  // }
   return http.post(`auth/reset-password/${data.token}`, data)
 }
 

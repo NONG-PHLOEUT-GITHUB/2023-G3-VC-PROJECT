@@ -1,15 +1,6 @@
 import http from './api'
 
-// Authentication
-/**
- * comments
- * @param {string} email
- * @param {string} password
- * @returns
- */
-
 export function createComment(data) {
-  // console.log(data);
   return http.post('/comments',data)
 }
 export function commentUser() {

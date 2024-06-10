@@ -15,10 +15,10 @@
           ></v-img>
         </v-col>
         <v-col cols="6" class="px-8">
-          <v-card-title class="px-0"><h3>Login</h3></v-card-title>
+          <v-card-title class="px-0"><h3>{{$t('login.title')}}</h3></v-card-title>
           <v-form ref="form" class="mt-5" @submit.prevent="connection">
             <v-text-field
-              label="Email"
+              :label="$t('login.lebelEmail')"
               ref="emailField"
               prepend-inner-icon="mdi-email-outline"
               v-model="email"
@@ -28,7 +28,7 @@
               :error-messages="incorrect"
             ></v-text-field>
             <v-text-field
-              :label="Password"
+              :label="$t('login.lebelPass')"
               :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
               :type="visible ? 'text' : 'password'"
               prepend-inner-icon="mdi-lock-outline"
@@ -39,10 +39,10 @@
               :error-messages="incorrect"
               class="mt-4 mb-2"
             ></v-text-field>
-
             <router-link to="/forgot-password">{{ $t('login.form.forgot-pass') }}</router-link>
             <v-btn type="submit" color="teal darken-4 mt-7" block class="login-button">{{ $t('btn.login') }}</v-btn>
           </v-form>
+          <!-- <v-alert class="mt-2" color="info">Please insert correct password and email to login your acount.</v-alert> -->
         </v-col>
       </v-row>
     </v-card>

@@ -1,13 +1,5 @@
 import http from './api'
 
-// Authentication
-/**
- * comments
- * @param {string} email
- * @param {string} password
- * @returns
- */
-
 export function createGuardian(data) {
   return http.post('/guardians/create-guardian',data)
 }

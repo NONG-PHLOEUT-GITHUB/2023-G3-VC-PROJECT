@@ -1,11 +1,5 @@
 import http from './api'
 
-/**
- * @param {string} class_name
- * @param {string}
- * @returns
- **/
-
 export function createNewClassroom(data) {
   return http.post(`/classrooms`,data)
 }

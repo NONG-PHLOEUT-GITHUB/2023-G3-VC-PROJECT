@@ -1,114 +1,116 @@
 {
-  "titleApp": "School Management System",
-  "common": {
-    "titleAbsent": "Student most absent list"
-  },
-  "lang": {
-    "en": "English",
-    "kh": "Khmer"
-  },
-  "btn": {
-    "editProfile": "Edit Profile",
-    "viewProfile": "View profile",
-    "save": "Save",
-    "SaveChange": " Save change",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "edit": "Edit",
-    "update": "Update",
-    "details": "Details",
-    "resetPassword": "Reset Password",
-    "chagePassword": "Chage Password",
-    "yes": "Yes",
-    "filter": "Filter",
-    "studentList": "Student List",
-    "attReport": "Attendance report",
-    "scoreReport": "Score report",
-    "checkAtt": "Check attendance",
-    "login": "Login"
-  },
-  "alert": {
-    "create": "Create successfully",
-    "update": "Update successfully",
-    "delete": "Delete successfully"
-  },
-  "profile": {
-    "pInformation": "Personal Information",
-    "cInformation": "Contact Information"
-  },
-  "dashboard": {
-    "student": "Student",
-    "teacher": "Teacher",
-    "class": "Classroom",
-    "studentTotal": "Student Total",
-    "teacherTotal": "Teacher Total",
-    "classTotal": "Classroom Total",
-    "subtitle": "Graph of student attendance and student failed"
-  },
-  "login": {
-    "title": "Login",
-    "form": {
-      "email": "Email",
-      "password": "Password",
-      "forgot-pass": "Fogot Password ?"
-    }
-  },
-  "forgot-pass": {
-    "message-forgot-pass": "Remember to check your email for a password reset link.",
-    "back-login": "Back To Login"
-  },
-  "resetPassword": {
-    "newPassword": "New Password",
-    "confirmPassword": "Confirm Password"
-  },
-  "changePassword": {
-    "current": "Corrent password"
-  },
+	"titleApp": "School Management System",
+	"common": {
+		"titleAbsent": "Student most absent list"
+	},
+	"lang": {
+		"en": "English",
+		"kh": "Khmer"
+	},
+	"btn": {
+		"editProfile": "Edit Profile",
+		"viewProfile": "View profile",
+		"save": "Save",
+		"SaveChange": " Save change",
+		"cancel": "Cancel",
+		"delete": "Delete",
+		"edit": "Edit",
+		"update": "Update",
+		"details": "Details",
+		"resetPassword": "Reset Password",
+		"chagePassword": "Chage Password",
+		"yes": "Yes",
+		"filter": "Filter",
+		"studentList": "Student List",
+		"attReport": "Attendance report",
+		"scoreReport": "Score report",
+		"checkAtt": "Check attendance",
+		"login": "Login"
+	},
+	"alert": {
+		"create": "Create successfully",
+		"update": "Update successfully",
+		"delete": "Delete successfully"
+	},
+	"profile": {
+		"pInformation": "Personal Information",
+		"cInformation": "Contact Information"
+	},
+	"dashboard": {
+		"student": "Student",
+		"teacher": "Teacher",
+		"class": "Classroom",
+		"studentTotal": "Student Total",
+		"teacherTotal": "Teacher Total",
+		"classTotal": "Classroom Total",
+		"subtitle": "Graph of student attendance and student failed"
+	},
+	"login": {
+		"title": "Login",
+		"lebelPass": "Password",
+		"lebelEmail": "Email",
+		"form": {
+			"email": "Email",
+			"password": "Password",
+			"forgot-pass": "Fogot Password ?"
+		}
+	},
+	"forgot-pass": {
+		"message-forgot-pass": "Remember to check your email for a password reset link.",
+		"back-login": "Back To Login"
+	},
+	"resetPassword": {
+		"newPassword": "New Password",
+		"confirmPassword": "Confirm Password"
+	},
+	"changePassword": {
+		"current": "Corrent password"
+	},
 
-  "errors": {},
-  "menu": {
-    "admin": {
-      "dashboard": "Dashboard",
-      "classroom": "Class Management",
-      "student": "Student Management",
-      "teacher": "Teacher Management",
-      "parents": "Guardian management"
-    },
-    "teacher": {
-      "classTeaching": "My class teaching",
-      "exam": "Exam Management"
-    },
-    "student": {
-      "attendance": "Attendance",
-      "exam": "Examination",
-      "comment": "Examination"
-    }
-  },
-  "header": {
-    "logout": "Logout",
-    "changePass": "Change Password"
-  },
-  "filterFrom": {
-    "filterStatuse": "Search statuse",
-    "filterSubject": "Search subject",
-    "filterTeacher": "Search teacher"
-  },
-  "classroom": {
-    "Classroomteaching": "Classroom teaching",
-    "coordinator": "Coordinator",
-    "cteaching": "Classroom teaching",
-    "createNew": "Create new classroom",
-    "edit": "Update existing classroom",
-    "message": {
-      "noCoordinator": "No coordinator assign yet!"
-    },
-    "form": {
-      "className": "Classroom name",
-      "teacherName": "Teacher name",
-      "coorName": "Coordinator name"
-    }
-  },
-  "exam": {
-    "noExam": "No exams yet!"
-  }
+	"errors": {},
+	"menu": {
+		"admin": {
+			"dashboard": "Dashboard",
+			"classroom": "Class Management",
+			"student": "Student Management",
+			"teacher": "Teacher Management",
+			"parents": "Guardian management"
+		},
+		"teacher": {
+			"classTeaching": "My class teaching",
+			"exam": "Exam Management"
+		},
+		"student": {
+			"attendance": "Attendance",
+			"exam": "Examination",
+			"comment": "Examination"
+		}
+	},
+	"header": {
+		"logout": "Logout",
+		"changePass": "Change Password"
+	},
+	"filterFrom": {
+		"filterStatuse": "Search statuse",
+		"filterSubject": "Search subject",
+		"filterTeacher": "Search teacher"
+	},
+	"classroom": {
+		"Classroomteaching": "Classroom teaching",
+		"coordinator": "Coordinator",
+		"cteaching": "Classroom teaching",
+		"createNew": "Create new classroom",
+		"edit": "Update existing classroom",
+		"message": {
+			"noCoordinator": "No coordinator assign yet!"
+		},
+		"form": {
+			"className": "Classroom name",
+			"teacherName": "Teacher name",
+			"coorName": "Coordinator name"
+		}
+	},
+	"exam": {
+		"noExam": "No exams yet!"
+	}
 }

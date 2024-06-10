@@ -17,8 +17,8 @@
       ></v-btn>
     </template>
   </custom-title>
-  <classroom-filter v-show="toggleFilter"/>
-  <v-dialog v-model="dialog" persistent width="40%" class="dialog">
+  <classroom-filter v-show="toggleFilter" />
+  <v-dialog v-model="dialog" persistent width="40%" style="z-index: 999">
     <v-card>
       <v-form @submit.prevent="saveClassroom">
         <v-card-title class="bg-primary">
@@ -34,10 +34,10 @@
                   required
                   :error-messages="classNameRole"
                   variant="outlined"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-select
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-select
                   v-model="selectedTeachers"
                   :label="$t('classroom.form.teacherName')"
                   variant="outlined"
@@ -53,13 +53,13 @@
               </v-col>
               <v-col cols="12">
                 <v-select
+                  v-model="coordinatorId"
+                  :items="coordinators"
                   :label="$t('classroom.form.coorName')"
                   variant="outlined"
-                  :items="coordinators"
                   :item-title="fullName"
                   item-value="id"
                   clearable
-                  v-model="coordinator"
                   chips
                 ></v-select>
               </v-col>
@@ -124,7 +124,7 @@ import { useClassroomStore } from '@/stores/classroom'
 import { useTeacherStore } from '@/stores/teacher'
 import { mapActions, mapState } from 'pinia'
 export default {
-  components:{
+  components: {
     ClassroomFilter
   },
   data() {
@@ -137,9 +137,8 @@ export default {
       editId: null,
       selectedTeachers: [],
       coordinatorId: null,
-      coordinator: null,
       classNameRole: '',
-      teacherRole: '',
+      teacherRole: ''
     }
   },
   created() {
@@ -190,14 +189,14 @@ export default {
     },
 
     saveClassroom() {
-      const newclassroom = {
+      const formData = {
         classroom_name: this.className.toUpperCase(),
-        coordinator_id: this.coordinator,
+        coordinator_id: this.coordinatorId,
         teacher_id: this.selectedTeachers
       }
 
       if (this.editing) {
-        this.updateClassroom(newclassroom, this.editId)
+        this.updateClassroom(formData, this.editId)
           .then(() => {
             this.cancelForm()
             this.getCassrooms()
@@ -210,7 +209,7 @@ export default {
             console.log(error)
           })
       } else {
-        this.createClassroom(newclassroom)
+        this.createClassroom(formData)
           .then(() => {
             this.cancelForm()
             this.getCassrooms()
@@ -230,8 +229,7 @@ export default {
       this.getClassroomDetails(id).then(response => {
         this.editId = response.id
         this.className = response.classroom_name
-        this.coordinatorId = response.coordinator ? response.coordinator.id : null;
-        this.coordinator = response.coordinator ? response.coordinator : null;
+        this.coordinatorId = response.coordinator
         this.selectedTeachers = response.teachers.map(teacher => teacher.id)
       })
       this.formAction = this.$t('classroom.edit')
