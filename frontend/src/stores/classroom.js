@@ -27,8 +27,8 @@ export const useClassroomStore = defineStore('classroom', {
       const response = await fetchTotalOfClassroom()
       this.classroom = response.data.data
     },
-    async getCassrooms() {
-      const response = await fetchClassrooms()
+    async getCassrooms(filterCriteria) {
+      const response = await fetchClassrooms(filterCriteria)
       this.classrooms = response.data.data
     },
     async deleteCassroom(classroomId) {

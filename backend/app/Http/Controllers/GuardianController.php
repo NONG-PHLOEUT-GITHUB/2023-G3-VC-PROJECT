@@ -12,12 +12,31 @@ class GuardianController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $guardian = Guardian::all();
-        // $guardian = UserResource::collection($guardian);
-        return $guardian;
+        $query = Guardian::query();
+
+         // Define the filterable fields
+        $filterableFields = ['first_name', 'last_name', 'email', 'phone_number', 'date_of_birth'];
+
+        // Loop through the filterable fields and apply filters if values are provided
+        foreach ($filterableFields as $field) {
+            if ($request->filled($field)) {
+                // For string fields, perform a partial match using 'like'
+                if ($field !== 'date_of_birth') {
+                    $query->where($field, 'like', '%' . $request->input($field) . '%');
+                } else {
+                    // For 'date_of_birth', apply an exact match
+                    $query->where($field, $request->input($field));
+                }
+            }
+        }
+
+        // Execute the query and return the filtered guardians
+        $guardians = $query->get();
+    
+        // Return the filtered guardians as JSON response
+        return response()->json(['success' => true, 'data' => $guardians], 200);
     }
 
     /**

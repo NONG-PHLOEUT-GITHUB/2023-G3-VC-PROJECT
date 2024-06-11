@@ -9,6 +9,13 @@
         @click="toggleFilter = !toggleFilter"
         >{{ $t('btn.filter') }}
       </v-btn>
+      <v-btn
+        append-icon="mdi-plus"
+        class="text-none me-4"
+        color="primary"
+        :to="{ path: '/create-user' }"
+        >{{ $t('btn.create') }}
+      </v-btn>
       <div>
         <v-tooltip activator="parent" text="Import Excel" location="top">
           <template v-slot:activator="{ props }">
@@ -35,23 +42,10 @@
           </template>
         </v-tooltip>
       </div>
-      <div>
-        <v-tooltip activator="parent" text="Add new" location="top">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              v-bind="props"
-              :to="{ path: '/create-user' }"
-              variant="tonal"
-              class="bg-dark-darken-4"
-              icon="mdi-database-plus"
-            ></v-btn>
-          </template>
-        </v-tooltip>
-      </div>
       <v-btn
         v-if="this.selectedUser.length > 0"
         variant="tonal"
-        class="ms-4 bg-deep-orange-accent-4"
+        class="bg-deep-orange-accent-4"
         icon="mdi-delete-forever"
         @click="deleteMultiple"
       ></v-btn>

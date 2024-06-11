@@ -16,9 +16,9 @@ export const useGuardianStore = defineStore('guardian', {
     chat_id: null
   }),
   actions: {
-    async getAllGuardian() {
-      const response = await fetchGuardian()
-      this.guardians = response.data
+    async getAllGuardian(filterCriteria) {
+      const response = await fetchGuardian(filterCriteria)
+      this.guardians = response.data.data
     },
     async createNewGuardian(data) {
       return await createGuardian(data)

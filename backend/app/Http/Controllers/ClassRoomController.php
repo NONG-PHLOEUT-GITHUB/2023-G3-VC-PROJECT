@@ -12,9 +12,23 @@ class ClassroomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $classrooms = Classroom::all();
+        $query = Classroom::query();
+
+        if ($request->has('className')) {
+            $className = str_replace(' ', '', $request->input('className'));
+            $query->whereRaw("REPLACE(classroom_name, ' ', '') LIKE ?", ['%' . $className . '%']);
+        }
+
+        if ($request->has('coordinatorName')) {
+            $query->whereHas('teacherCoordinator', function($q) use ($request) {
+                $q->where('first_name', 'like', '%' . $request->input('coordinatorName') . '%')
+                  ->orWhere('last_name', 'like', '%' . $request->input('coordinatorName') . '%');
+            });
+        }
+
+        $classrooms = $query->get();
         $transformedClassrooms = ClassroomResource::collection($classrooms);
 
         return response()->json(['success' => true, 'data' => $transformedClassrooms], 200);

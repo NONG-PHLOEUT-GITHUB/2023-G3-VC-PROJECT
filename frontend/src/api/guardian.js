@@ -3,8 +3,8 @@ import http from './api'
 export function createGuardian(data) {
   return http.post('/guardians/create-guardian',data)
 }
-export function fetchGuardian() {
-  return http.get('/guardians')
+export function fetchGuardian(filterCriteria) {
+  return http.get('/guardians',{ params: filterCriteria })
 }
 export function fetchChatIDGuardian() {
   return http.get(`/guardians/${id}/chat-id`)

@@ -4,7 +4,7 @@
 	"singleQuote": true,
 	"trailingComma": "none",
 	"arrowParens": "avoid",
-	"useTabs": true,
+	"useTabs": false,
 	"bracketSpacing": true,
 	"htmlWhitespaceSensitivity": "ignore",
 	"vueIndentScriptAndStyle": true

@@ -9,8 +9,8 @@ export function updateClassroom(data,id) {
 export function deleteClassroom(id) {
   return http.delete(`/classrooms/${id}/delete`)
 }
-export function fetchClassrooms() {
-  return http.get(`/classrooms`)
+export function fetchClassrooms(filterCriteria) {
+  return http.get(`/classrooms`,{ params: filterCriteria })
 }
 export function fetchClassroomById() {
   return http.get(`/classrooms/${id}`)

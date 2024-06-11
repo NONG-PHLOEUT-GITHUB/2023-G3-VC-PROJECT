@@ -2,11 +2,13 @@
   <custom-title icon="mdi-comment-alert-outline">
     <template #right>
       <v-btn
-        icon="mdi-filter-multiple-outline"
-        variant="tonal"
-        class="me-2 bg-primary"
+        variant="outlined"
+        append-icon="mdi-filter-multiple-outline"
+        class="text-none me-4"
+        color="primary"
         @click="toggleFilter = !toggleFilter"
-      ></v-btn>
+        >{{ $t('btn.filter') }}
+      </v-btn>
     </template>
   </custom-title>
   <v-card class="elevation-1 pa-3" v-show="toggleFilter">

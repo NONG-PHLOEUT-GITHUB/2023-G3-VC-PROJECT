@@ -2,13 +2,6 @@
 	<custom-title icon="mdi-human-male-board">
 		<template #right>
 			<v-btn
-				v-if="this.selectedUser.length > 0"
-				variant="tonal"
-				class="me-4 bg-deep-orange-accent-4"
-				icon="mdi-delete-forever"
-				@click="deleteMultiple"
-			></v-btn>
-			<v-btn
 				variant="outlined"
 				append-icon="mdi-filter-multiple-outline"
 				class="text-none me-4"
@@ -26,6 +19,13 @@
 					></v-btn>
 				</template>
 			</v-tooltip>
+			<v-btn
+				v-if="this.selectedUser.length > 0"
+				variant="tonal"
+				class="ms-4 bg-deep-orange-accent-4"
+				icon="mdi-delete-forever"
+				@click="deleteMultiple"
+			></v-btn>
 		</template>
 	</custom-title>
 	<v-slide-y-reverse-transition mode="in-out">

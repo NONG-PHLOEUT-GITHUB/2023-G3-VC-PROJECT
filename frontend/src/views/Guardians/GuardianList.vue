@@ -19,7 +19,7 @@
       ></v-btn>
     </template>
   </custom-title>
-  <filter-guardian v-show="toggleFilter" />
+  <filter-guardian v-show="toggleFilter" @filter-guardian="onFilterGuardian"/>
   <v-data-table
     v-model="selectedItem"
     :headers="headers"
@@ -57,13 +57,14 @@ export default {
     FilterGuardian
   },
   created() {
-    this.getAllGuardian()
+    this.getAllGuardian(this.filterCriteria)
   },
   data() {
     return {
       selectedItem: [],
       loading: false,
       toggleFilter: false,
+      filterCriteria:{},
       headers: [
         {
           title: 'First name',
@@ -114,7 +115,7 @@ export default {
             color: 'primary'
           })
         }
-        this.getAllGuardian()
+        this.getAllGuardian(this.filterCriteria)
       })
     },
     deleteMultiple() {
@@ -124,10 +125,14 @@ export default {
             type: 'success',
             color: 'primary'
           })
-          this.getAllGuardian()
+          this.getAllGuardian(this.filterCriteria)
         }
         this.selectedItem = []
       })
+    },
+    onFilterGuardian(filterText) {
+      this.filterCriteria = filterText
+      this.getAllGuardian(this.filterCriteria)
     }
   }
 }

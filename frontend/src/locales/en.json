@@ -12,6 +12,7 @@
 		"viewProfile": "View profile",
 		"save": "Save",
 		"SaveChange": " Save change",
+		"create":"Create",
 		"cancel": "Cancel",
 		"delete": "Delete",
 		"edit": "Edit",
@@ -83,7 +84,7 @@
 		"student": {
 			"attendance": "Attendance",
 			"exam": "Examination",
-			"comment": "Examination"
+			"comment": "Comments"
 		}
 	},
 	"header": {
@@ -111,6 +112,7 @@
 		}
 	},
 	"exam": {
-		"noExam": "No exams yet!"
+		"noExam": "No exams yet!",
+		"title": "Create new exampination"
 	}
 }
