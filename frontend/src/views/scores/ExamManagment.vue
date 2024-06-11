@@ -108,7 +108,7 @@
 
         <v-card-text>
           <div class="text-medium-emphasis mb-4">
-            Invite collaborators to your network and grow your connections.
+            Please upload scores following the name of the exam.
           </div>
           <v-file-input
             label="Upload score "
@@ -130,19 +130,16 @@
         <v-card-actions class="my-2 d-flex justify-end">
           <v-btn
             class="text-none"
-            rounded="xl"
-            text="Cancel"
+            :text="$t('btn.cancel')"
             @click="dialogImport= false"
           ></v-btn>
 
           <v-btn
             class="text-none"
             color="primary"
-            rounded="xl"
-            text="Send"
             variant="flat"
             type="submit"
-            ></v-btn>
+            >{{ $t('btn.save') }}</v-btn>
             <!-- @click="dialogImport= false" -->
         </v-card-actions>
       </v-card>

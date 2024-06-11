@@ -15,18 +15,21 @@ class ClassroomController extends Controller
     public function index(Request $request)
     {
         $query = Classroom::query();
+   
+        $className = $request->input('className');
+        $coordinatorName = $request->input('coordinatorName');
 
-        if ($request->has('className')) {
-            $className = str_replace(' ', '', $request->input('className'));
-            $query->whereRaw("REPLACE(classroom_name, ' ', '') LIKE ?", ['%' . $className . '%']);
-        }
+        $query->when($className, function ($q, $className) {
+            $className = str_replace(' ', '', $className);
+            return $q->whereRaw("REPLACE(classroom_name, ' ', '') LIKE ?", ['%' . $className . '%']);
+        });
 
-        if ($request->has('coordinatorName')) {
-            $query->whereHas('teacherCoordinator', function($q) use ($request) {
-                $q->where('first_name', 'like', '%' . $request->input('coordinatorName') . '%')
-                  ->orWhere('last_name', 'like', '%' . $request->input('coordinatorName') . '%');
+        $query->when($coordinatorName, function ($q, $coordinatorName) {
+            return $q->whereHas('teacherCoordinator', function ($q) use ($coordinatorName) {
+                $q->where('first_name', 'like', '%' . $coordinatorName . '%')
+                ->orWhere('last_name', 'like', '%' . $coordinatorName . '%');
             });
-        }
+        });
 
         $classrooms = $query->get();
         $transformedClassrooms = ClassroomResource::collection($classrooms);

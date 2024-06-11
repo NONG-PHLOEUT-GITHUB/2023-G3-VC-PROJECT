@@ -69,7 +69,6 @@
 export default {
   data() {
     return {
-      profilePreview: null,
       first_name: '',
       last_name: '',
       email: '',
@@ -79,17 +78,6 @@ export default {
       age: '',
       gender: '',
       profile: '',
-      role: '',
-      class_room_id: null,
-      guardian_id: null,
-      listUser: [],
-      classrooms: [],
-      guardians: [],
-      roleOption: [
-        { value: '1', title: 'Administrator' },
-        { value: '2', title: 'Teacher' },
-        { value: '3', title: 'Student' }
-      ]
     }
   }
 }

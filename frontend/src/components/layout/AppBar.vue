@@ -21,6 +21,8 @@
           v-model="darkMode"
           @change="toggleTheme"
           hide-details
+          false-icon="mdi-theme-light-dark"
+          true-icon="mdi-theme-light-dark"
         ></v-switch>
       </v-btn>
       <!-- menu setting -->

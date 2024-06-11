@@ -13,15 +13,14 @@
     </template>
   </custom-title>
   <div class="main">
-    <v-row dense class="py-4">
+    <custom-sub-title icon="mdi-account-tie-woman">
+      {{ $t('classroom.coordinator') }}
+    </custom-sub-title>
+    <v-row dense>
       <v-col cols="12" md="3">
-        <custom-sub-title icon="mdi-account-tie-woman">
-          {{ $t('classroom.coordinator') }}
-        </custom-sub-title>
         <v-card
           v-if="coordinator !== null"
           prepend-icon="mdi-chair-school"
-          class="mx-auto my-8"
           variant="outlined"
         >
           <template v-slot:title>
@@ -65,10 +64,10 @@
         ></v-alert>
       </v-col>
     </v-row>
-    <custom-sub-title icon="mdi-account-tie">
+    <custom-sub-title icon="mdi-account-tie" class="mt-2">
       {{ $t('classroom.cteaching') }}
     </custom-sub-title>
-    <v-row dense>
+    <v-row dense >
       <v-col
         v-if="teacherTeachingClass.length !== 0"
         cols="12"

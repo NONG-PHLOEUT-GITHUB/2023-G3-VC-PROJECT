@@ -1,8 +1,5 @@
 <template>
   <v-breadcrumbs :items="breadcrumbs" class="py-0 px-0">
-    <template v-slot:prepend>
-      <v-icon icon="mdi-chevron-left"></v-icon>
-    </template>
   </v-breadcrumbs>
   <custom-title icon="mdi-eye-check-outline">
     <template #right>
@@ -49,6 +46,8 @@
             color="red"
             :false-value="switchValue"
             :true-value="switchValue"
+            false-icon="mdi-plus"
+            true-icon="mdi-check"
           ></v-switch>
         </td>
         <td>
