@@ -21,7 +21,7 @@
     </template>
   </custom-title>
   <classroom-filter v-show="toggleFilter" @filter-applied="onFilterApplied" />
-  <v-dialog v-model="dialog" persistent width="40%" style="z-index: 100">
+  <v-dialog v-model="dialog" persistent width="40%">
     <v-card>
       <v-form @submit.prevent="saveClassroom">
         <v-card-title class="bg-primary">

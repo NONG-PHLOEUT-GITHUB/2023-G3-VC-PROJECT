@@ -24,7 +24,7 @@
   <v-slide-y-reverse-transition mode="in-out">
     <filter-exam v-show="toggleFilter" @filter-exam="onFilterApplied" />
   </v-slide-y-reverse-transition>
-  <v-dialog v-model="dialog" persistent width="40%" style="z-index: 100">
+  <v-dialog v-model="dialog" persistent width="40%">
     <v-card>
       <v-form @submit.prevent="addNewExam">
         <v-card-title class="bg-primary">
@@ -111,7 +111,7 @@
     </template>
   </v-data-table>
 
-  <v-dialog v-model="dialogImport" max-width="500" style="z-index: 100">
+  <v-dialog v-model="dialogImport" max-width="500">
     <v-form @submit.prevent="importScoresExcelFile">
       <v-card rounded="lg">
         <v-card-title class="d-flex justify-space-between align-center">

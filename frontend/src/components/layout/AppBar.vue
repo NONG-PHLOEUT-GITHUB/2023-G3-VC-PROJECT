@@ -87,7 +87,6 @@
     v-model="dialogVisible"
     transition="dialog-top-transition"
     width="auto"
-    style="z-index: 100"
   >
     <change-password-dialog
       @cancel="dialogVisible = false"
