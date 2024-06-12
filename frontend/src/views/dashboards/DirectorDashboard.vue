@@ -9,6 +9,19 @@
         :subtitle="$t('dashboard.studentTotal')"
         :title="$t('dashboard.student')"
       >
+        <v-card-text class="py-0">
+          <v-col>
+            <h3>
+              <strong>{{ results.total }}</strong>
+            </h3>
+            <h5>
+              <v-icon>mdi-gender-male</v-icon>
+              {{ results.male }}
+              <v-icon>mdi-gender-female</v-icon>
+              {{ results.female }}
+            </h5>
+          </v-col>
+        </v-card-text>
         <template v-slot:prepend>
           <v-avatar color="blue-darken-2">
             <v-icon icon="mdi-account-tie"></v-icon>
@@ -24,18 +37,6 @@
             <v-icon icon="mdi-arrow-up"></v-icon>
           </v-chip>
         </template>
-
-        <v-col>
-          <h3>
-            <strong>{{ results.total }}</strong>
-          </h3>
-          <h5>
-            <v-icon>mdi-gender-male</v-icon>
-            {{ results.male }}
-            <v-icon>mdi-gender-female</v-icon>
-            {{ results.female }}
-          </h5>
-        </v-col>
       </v-card>
     </v-col>
     <v-col cols="12" md="4">
@@ -61,17 +62,19 @@
             <v-icon icon="mdi-arrow-up"></v-icon>
           </v-chip>
         </template>
-        <v-col>
-          <h3>
-            <strong>{{ student.total }}</strong>
-          </h3>
-          <h5>
-            <v-icon>mdi-gender-male</v-icon>
-            {{ student.male }}
-            <v-icon>mdi-gender-female</v-icon>
-            {{ student.female }}
-          </h5>
-        </v-col>
+        <v-card-text class="py-0">
+          <v-col>
+            <h3>
+              <strong>{{ student.total }}</strong>
+            </h3>
+            <h5>
+              <v-icon>mdi-gender-male</v-icon>
+              {{ student.male }}
+              <v-icon>mdi-gender-female</v-icon>
+              {{ student.female }}
+            </h5>
+          </v-col>
+        </v-card-text>
       </v-card>
     </v-col>
     <v-col cols="12" md="4">
@@ -97,15 +100,17 @@
             <v-icon icon="mdi-arrow-up"></v-icon>
           </v-chip>
         </template>
-        <v-col>
-          <h3>
-            <strong>{{ classroom }}</strong>
-          </h3>
-          <h5>
-            <v-icon>mdi-chair-rolling</v-icon>
-            40
-          </h5>
-        </v-col>
+        <v-card-text class="py-0">
+          <v-col>
+            <h3>
+              <strong>{{ classroom }}</strong>
+            </h3>
+            <h5>
+              <v-icon>mdi-chair-rolling</v-icon>
+              40
+            </h5>
+          </v-col>
+        </v-card-text>
       </v-card>
     </v-col>
   </v-row>

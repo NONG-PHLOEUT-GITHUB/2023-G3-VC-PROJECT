@@ -1,14 +1,11 @@
 <template>
   <v-row
-    v-if="isLoading && !forceStopLoading"
+    v-if="isLoading"
     class="overlay text-center"
     align="center"
     no-gutters
   >
     <v-col>
-      <div class="text-subtitle-2 font-weight-medium text-uppercase">
-        {{ message }}
-      </div>
       <v-progress-circular color="primary" size="90" width="6" class="my-4" :indeterminate="true" />
     </v-col>
   </v-row>
@@ -20,7 +17,7 @@ import { useLoadingStore } from '@/stores/loading'
 export default {
   name: 'CommonOverlay',
   computed: {
-    ...mapState(useLoadingStore, ['isLoading', 'forceStopLoading', 'message'])
+    ...mapState(useLoadingStore, ['isLoading'])
   }
 }
 </script>

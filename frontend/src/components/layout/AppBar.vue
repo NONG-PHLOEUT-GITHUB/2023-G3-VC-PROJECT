@@ -1,9 +1,9 @@
 <template>
-  <v-app-bar scroll-behavior="inverted" scroll-threshold="0">
+  <v-app-bar scroll-behavior="inverted">
     <v-app-bar-nav-icon @click="togglerDrawer">
       <v-icon>mdi-menu</v-icon>
     </v-app-bar-nav-icon>
-    <strong class="text-h6 font-weight-bold">{{ $t('titleApp') }}</strong>
+    <strong class="font-weight-bold d-none d-lg-block d-print-block">{{ $t('titleApp') }}</strong>
     <template v-slot:append>
       <!-- switcher language -->
       <switch-language />
@@ -28,7 +28,7 @@
       <!-- menu setting -->
       <v-menu>
         <template v-slot:activator="{ props }">
-          <strong class="me-6">
+          <strong class="me-6 d-none d-lg-block d-print-block">
             {{ authUser.first_name }} {{ authUser.last_name }}
           </strong>
           <!-- icon="" -->
@@ -87,6 +87,7 @@
     v-model="dialogVisible"
     transition="dialog-top-transition"
     width="auto"
+    style="z-index: 100"
   >
     <change-password-dialog
       @cancel="dialogVisible = false"
@@ -193,8 +194,8 @@
   .avatar {
     border: solid rgb(105, 208, 208);
   }
-  .font-weight-black {
-    text-transform: uppercase;
+  .font-weight-bold {
+    font-size: 1.25rem;
   }
 </style>
 
