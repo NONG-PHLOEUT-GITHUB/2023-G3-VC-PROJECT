@@ -10,15 +10,15 @@ export const useTeacherStore = defineStore('teacher', {
     coordinators: [],
   }),
   actions: {
-    async getTeachers() {
-      const response = await fetchTeachers()
+    async getTeachers(filterCriteria) {
+      const response = await fetchTeachers(filterCriteria)
       this.teachers = response.data.data
     },
     async deleteTeacher(id) {
       return await deleteTeacherById(id)
     },
-    async getTeacherClassTeaching() {
-      const response = await fetchUserLoged()
+    async getTeacherClassTeaching(filterCriteria) {
+      const response = await fetchUserLoged(filterCriteria)
       this.teacherTeachingClass = response.data.data.teacher_class_teaching
       this.coordinator = response.data.data.coordinator
     },

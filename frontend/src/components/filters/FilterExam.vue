@@ -1,46 +1,59 @@
 <template>
-  <v-form class="mb-4">
+  <v-form @submit.prevent="applyFilter" class="mb-4">
     <v-card class="py-4 px-3">
       <v-row>
         <v-col>
           <v-text-field
-            v-model="className"
             hide-details
             density="compact"
             variant="outlined"
-            label="Classroom name"
+            label="Exam Name"
+            v-model="exam_name"
             @keyup="applyFilter"
           ></v-text-field>
         </v-col>
         <v-col>
           <v-text-field
-            @keyup="applyFilter"
-            v-model="coordinatorName"
             hide-details
             density="compact"
             variant="outlined"
-            label="Coordinator name"
+            label="Exam Code"
+            v-model="exam_code"
+            @keyup="applyFilter"
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field
+            hide-details
+            density="compact"
+            variant="outlined"
+            label="Subject Name"
+            v-model="subject_name"
+            @keyup="applyFilter"
           ></v-text-field>
         </v-col>
       </v-row>
     </v-card>
   </v-form>
 </template>
+
 <script>
   export default {
     data() {
       return {
-        className: '',
-        coordinatorName: '',
+        exam_name: '',
+        exam_code: '',
+        subject_name: ''
       }
     },
     methods: {
       applyFilter() {
         const filterData = {
-          className: this.className,
-          coordinatorName: this.coordinatorName,
+          exam_name: this.exam_name,
+          exam_code: this.exam_code,
+          subject_name: this.subject_name
         }
-        this.$emit('filter-applied', filterData)
+        this.$emit('filter-exam', filterData)
       }
     }
   }

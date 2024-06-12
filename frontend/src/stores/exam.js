@@ -9,8 +9,8 @@ export const useExamStore = defineStore('exams', {
     async createExam(data) {
       return await createExam(data)
     },
-    async getExams() {
-      const respone = await fetchExams()
+    async getExams(filterCriteria) {
+      const respone = await fetchExams(filterCriteria)
       this.exams = respone.data.data
     },
     async deleteExam(id) {

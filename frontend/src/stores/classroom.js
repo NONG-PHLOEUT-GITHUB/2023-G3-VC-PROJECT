@@ -19,8 +19,8 @@ export const useClassroomStore = defineStore('classroom', {
     classroomDetails:""
   }),
   actions: {
-    async getStudentsInClassroom(id) {
-      const response = await fetchStudentsInClassroomById(id)
+    async getStudentsInClassroom({ classroomId, ...filters }) {
+      const response = await fetchStudentsInClassroomById({ classroomId, ...filters })
       this.studentInClassroom = response.data.data
     },
     async getCassroomTotal() {

@@ -42,15 +42,31 @@ class AuthController extends Controller
     {
 
         $authenticatedAt = Carbon::createFromTimestamp(auth()->user()->authenticated_at)->toDateTimeString();
-        $exam_id = $request->input('exam_id');
         // dd($exam_id);
         $user = User::with([
             'attendances' => function ($query) {
                 $query->orderBy('created_at', 'desc');
             },
-            'teacherClassTeaching',
+            'teacherClassTeaching' => function ($query) use ($request) {
+                $className = $request->input('className');
+                $coordinatorName = $request->input('coordinatorName');
+    
+                // Apply className filter
+                $query->when($className, function ($q) use ($className) {
+                    $q->whereRaw("REPLACE(classroom_name, ' ', '') LIKE ?", ['%' . str_replace(' ', '', $className) . '%']);
+                });
+    
+                // Apply coordinatorName filter
+                $query->when($coordinatorName, function ($q) use ($coordinatorName) {
+                    $q->whereHas('teacherCoordinator', function ($q) use ($coordinatorName) {
+                        $q->where('first_name', 'like', '%' . $coordinatorName . '%')
+                          ->orWhere('last_name', 'like', '%' . $coordinatorName . '%');
+                    });
+                });
+            },
             'subjects',
-            'scores' => function ($query) use ($exam_id) {
+            'scores' => function ($query) use ($request) {
+                $exam_id = $request->input('exam_id');
                 $query->join('subjects', 'scores.subject_id', '=', 'subjects.id')
                       ->select('scores.*', 'subjects.subject_code', 'subjects.subject_name as subject_name')
                       ->orderBy('scores.created_at', 'desc');

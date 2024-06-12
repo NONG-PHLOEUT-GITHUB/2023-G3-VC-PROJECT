@@ -149,21 +149,54 @@ class UserController extends Controller
     }
 
 
-    public function getStudent()
+    public function getStudent(Request $request)
     {
-        $students = User::where('role', 3)
-            ->select('*')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = User::where('role', 3);
+
+        // Define the filterable fields
+        $filterableFields = ['first_name', 'last_name', 'email', 'phone_number', 'date_of_birth', 'address'];
+
+        // Loop through the filterable fields and apply filters if values are provided
+        foreach ($filterableFields as $field) {
+            $query->when($request->filled($field), function ($q) use ($request, $field) {
+                if ($field !== 'date_of_birth') {
+                    // For string fields, perform a partial match using 'like'
+                    $q->where($field, 'like', '%' . $request->input($field) . '%');
+                } else {
+                    // For 'date_of_birth', apply an exact match
+                    $q->where($field, $request->input($field));
+                }
+            });
+        }
+
+        // Execute the query and return the filtered students
+        $students = $query->orderBy('created_at', 'desc')->get();
+
         return response()->json(["message" => true, "data" => $students], 200);
     }
 
-    public function getTeachers()
+
+    public function getTeachers(Request $request)
     {
-        $teachers = User::whereIn('role', [1, 2])
-            ->select('*')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = User::whereIn('role', [1, 2]);
+        
+        $filterableFields = ['first_name', 'last_name', 'email', 'phone_number', 'date_of_birth', 'address'];
+
+        // Loop through the filterable fields and apply filters if values are provided
+        foreach ($filterableFields as $field) {
+            $query->when($request->filled($field), function ($q) use ($request, $field) {
+                if ($field !== 'date_of_birth') {
+                    // For string fields, perform a partial match using 'like'
+                    $q->where($field, 'like', '%' . $request->input($field) . '%');
+                } else {
+                    // For 'date_of_birth', apply an exact match
+                    $q->where($field, $request->input($field));
+                }
+            });
+        }
+
+        // Execute the query and return the filtered students
+        $teachers = $query->orderBy('created_at', 'desc')->get();
         return response()->json(["message" => true, "data" => $teachers], 200);
     }
 

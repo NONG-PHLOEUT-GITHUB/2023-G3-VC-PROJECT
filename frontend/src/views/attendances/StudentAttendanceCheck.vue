@@ -1,14 +1,15 @@
 <template>
-  <v-breadcrumbs :items="breadcrumbs" class="py-0 px-0">
-  </v-breadcrumbs>
   <custom-title icon="mdi-eye-check-outline">
     <template #right>
       <v-btn
-        icon="mdi-filter-multiple-outline"
-        variant="tonal"
-        class="me-2 bg-primary"
+        variant="outlined"
+        append-icon="mdi-filter-multiple-outline"
+        class="text-none me-4"
+        color="primary"
         @click="toggleFilter = !toggleFilter"
-      ></v-btn>
+      >
+        {{ $t('btn.filter') }}
+      </v-btn>
       <v-btn
         variant="tonal"
         class="me-2 bg-green-darken-1"
@@ -17,6 +18,12 @@
       ></v-btn>
     </template>
   </custom-title>
+  <v-slide-y-reverse-transition mode="in-out">
+    <filter-student-each-class
+      v-show="toggleFilter"
+      @filter-student="onFilterApplied"
+    />
+  </v-slide-y-reverse-transition>
   <v-col cols="4" class="pa-0">
     <v-date-input
       :allowed-dates="allowedDates"
@@ -52,7 +59,7 @@
         </td>
         <td>
           <v-avatar size="large">
-            <v-img :src="item.profile" alt="Avatar" cover> </v-img>
+            <v-img :src="item.profile" alt="Avatar" cover></v-img>
           </v-avatar>
         </td>
         <td>{{ item.first_name }}</td>
@@ -68,136 +75,146 @@
             v-model="item.status"
           ></v-select>
         </td>
-        <td><v-textarea rows="1" variant="outlined" v-model="item.reason"></v-textarea></td>
+        <td>
+          <v-textarea
+            rows="1"
+            variant="outlined"
+            v-model="item.reason"
+          ></v-textarea>
+        </td>
       </tr>
     </template>
   </v-data-table>
 </template>
 
 <script>
-import { mapActions, mapState } from 'pinia'
-import { useClassroomStore } from '@/stores/classroom'
-import { useAttendanceStore } from '@/stores/attendance'
-import axios from 'axios'
-import { format } from 'date-fns'
-export default {
-  data() {
-    return {
-      selectedValues: [],
-      chat_id: '',
-      loading: false,
-      checkDate: null,
-      reason: '',
-      status: '',
-      headers: [
-        { title: 'Select', key: 'select' },
-        { title: 'Profile', key: 'profile' },
-        { title: 'First Name', key: 'first_name' },
-        { title: 'Last Name', key: 'last_name' },
-        { title: 'Gender', key: 'gender' },
-        { title: 'Email', key: 'email' },
-        { title: 'Status', key: 'status', width: '200' },
-        { title: 'Reason', key: 'reason' }
-      ],
-      statusOptions: [
-        { value: 'Present', label: 'Present' },
-        { value: 'Absent', label: 'Absent' },
-        { value: 'Early', label: 'Early' },
-        { value: 'Excused', label: 'Excused' },
-        { value: 'Unexcused', label: 'Unexcused' },
-        { value: 'On leave', label: 'On leave' },
-        { value: 'No show', label: 'No show' }
-      ],
-      breadcrumbs: [
-        {
-          title: 'Classroom',
-          disabled: false,
-          href: '/teacher-classroom'
-        }
-      ]
-    }
-  },
-  created() {
-    const id = this.$route.params.classroomId
-    this.getStudentsInClassroom(id)
-  },
-  computed: {
-    ...mapState(useClassroomStore, ['studentInClassroom']),
-    formattedDate() {
-      // Use the format function to format the date
-      // return format(this.checkDate, 'yyyy-MM-dd')
-      if (!(this.checkDate instanceof Date) || isNaN(this.checkDate.getTime())) {
-        return '' // Return an empty string or another default value if this.checkDate is not valid
+  import { mapActions, mapState } from 'pinia'
+  import { useClassroomStore } from '@/stores/classroom'
+  import { useAttendanceStore } from '@/stores/attendance'
+  import FilterStudentEachClass from '@/components/filters/FilterStudentEachClass.vue'
+  import axios from 'axios'
+  import { format } from 'date-fns'
+  export default {
+    components: { FilterStudentEachClass },
+    data() {
+      return {
+        selectedValues: [],
+        chat_id: '',
+        toggleFilter: false,
+        checkDate: null,
+        filterCriteria: {},
+        reason: '',
+        status: '',
+        headers: [
+          { title: 'Select', key: 'select' },
+          { title: 'Profile', key: 'profile' },
+          { title: 'First Name', key: 'first_name' },
+          { title: 'Last Name', key: 'last_name' },
+          { title: 'Gender', key: 'gender' },
+          { title: 'Email', key: 'email' },
+          { title: 'Status', key: 'status', width: '200' },
+          { title: 'Reason', key: 'reason' }
+        ],
+        statusOptions: [
+          { value: 'Present', label: 'Present' },
+          { value: 'Absent', label: 'Absent' },
+          { value: 'Early', label: 'Early' },
+          { value: 'Excused', label: 'Excused' },
+          { value: 'Unexcused', label: 'Unexcused' },
+          { value: 'On leave', label: 'On leave' },
+          { value: 'No show', label: 'No show' }
+        ],
       }
-      // Use the format function to format the date
-      return format(this.checkDate, 'yyyy-MM-dd')
-    }
-  },
-  methods: {
-    ...mapActions(useClassroomStore, ['getStudentsInClassroom']),
-    ...mapActions(useAttendanceStore, ['checkAttendance']),
-    allowedDates(date) {
-      const today = new Date()
-      today.setHours(0, 0, 0, 0) // Ensure comparison is only by date, not time
-      const selectedDate = new Date(date)
-      selectedDate.setHours(0, 0, 0, 0) // Ensure comparison is only by date, not time
-      return selectedDate <= today
     },
-    getSelected(item) {
-      this.selectedValues.push(item)
+    created() {
+      const id = this.$route.params.classroomId
+      this.getStudentsInClassroom({ classroomId: id, ...this.filterCriteria })
     },
-    createAttendance() {
-      if (!this.formattedDate || isNaN(new Date(this.formattedDate))) {
-        this.$root.$notif('Please select a date', {
-          type: 'warning',
-          color: 'yellow'
-        })
-        return // Exit the function early if the date is empty
-      }
-
-      // Define an array to store promises
-      const promises = []
-
-      this.selectedValues.forEach(selected => {
-        const formData = {
-          status: selected.status || '', // Default to 'undefined' if status is not provided
-          reason: selected.reason || '', // Default to 'undefined' if reason is not provided
-          date: this.formattedDate,
-          user_id: selected.id
+    computed: {
+      ...mapState(useClassroomStore, ['studentInClassroom']),
+      formattedDate() {
+        // Use the format function to format the date
+        // return format(this.checkDate, 'yyyy-MM-dd')
+        if (
+          !(this.checkDate instanceof Date) ||
+          isNaN(this.checkDate.getTime())
+        ) {
+          return '' // Return an empty string or another default value if this.checkDate is not valid
         }
-        promises.push(
-          this.checkAttendance(formData)
-            .then(() => {
-              const message = `Student name: ${selected.first_name} ${selected.last_name}\nGender: ${selected.gender}\nStatus: ${selected.status}\nReason: ${selected.reason}\nAbsent date: ${this.formattedDate}`
-
-              axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
-                chat_id: selected.parent_chat_id, // Use parent_chat_id for the Telegram message
-                text: message
-              })
-            })
-            .catch(err => {
-              this.$root.$notif(err, {
-                type: 'error',
-                color: 'red'
-              })
-              throw err
-            })
-        )
-      })
-      // Wait for all promises to resolve
-      Promise.all(promises)
-        .then(() => {
-          this.$root.$notif(this.$t('alert.create'), {
-            type: 'success',
-            color: 'primary'
+        // Use the format function to format the date
+        return format(this.checkDate, 'yyyy-MM-dd')
+      }
+    },
+    methods: {
+      ...mapActions(useClassroomStore, ['getStudentsInClassroom']),
+      ...mapActions(useAttendanceStore, ['checkAttendance']),
+      allowedDates(date) {
+        const today = new Date()
+        today.setHours(0, 0, 0, 0) // Ensure comparison is only by date, not time
+        const selectedDate = new Date(date)
+        selectedDate.setHours(0, 0, 0, 0) // Ensure comparison is only by date, not time
+        return selectedDate <= today
+      },
+      getSelected(item) {
+        this.selectedValues.push(item)
+      },
+      createAttendance() {
+        if (!this.formattedDate || isNaN(new Date(this.formattedDate))) {
+          this.$root.$notif('Please select a date', {
+            type: 'warning',
+            color: 'yellow'
           })
-          this.selectedValues = []
-          this.switchValue = false
+          return // Exit the function early if the date is empty
+        }
+
+        // Define an array to store promises
+        const promises = []
+
+        this.selectedValues.forEach(selected => {
+          const formData = {
+            status: selected.status || '', // Default to 'undefined' if status is not provided
+            reason: selected.reason || '', // Default to 'undefined' if reason is not provided
+            date: this.formattedDate,
+            user_id: selected.id
+          }
+          promises.push(
+            this.checkAttendance(formData)
+              .then(() => {
+                const message = `Student name: ${selected.first_name} ${selected.last_name}\nGender: ${selected.gender}\nStatus: ${selected.status}\nReason: ${selected.reason}\nAbsent date: ${this.formattedDate}`
+
+                axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
+                  chat_id: selected.parent_chat_id, // Use parent_chat_id for the Telegram message
+                  text: message
+                })
+              })
+              .catch(err => {
+                this.$root.$notif(err, {
+                  type: 'error',
+                  color: 'red'
+                })
+                throw err
+              })
+          )
         })
-        .catch(err => {
-          console.error('Error creating attendance:', err)
-        })
+        // Wait for all promises to resolve
+        Promise.all(promises)
+          .then(() => {
+            this.$root.$notif(this.$t('alert.create'), {
+              type: 'success',
+              color: 'primary'
+            })
+            this.selectedValues = []
+            this.switchValue = false
+          })
+          .catch(err => {
+            console.error('Error creating attendance:', err)
+          })
+      },
+      onFilterApplied(filterData) {
+        this.filterCriteria = filterData
+        const id = this.$route.params.classroomId
+        this.getStudentsInClassroom({ classroomId: id, ...filterData })
+      }
     }
   }
-}
 </script>

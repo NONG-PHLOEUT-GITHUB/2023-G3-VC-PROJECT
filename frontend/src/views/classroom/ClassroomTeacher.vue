@@ -4,7 +4,7 @@
       <v-btn
         variant="outlined"
         append-icon="mdi-filter-multiple-outline"
-        class="text-none me-4"
+        class="text-none"
         color="primary"
         @click="toggleFilter = !toggleFilter"
       >
@@ -12,6 +12,9 @@
       </v-btn>
     </template>
   </custom-title>
+  <v-slide-y-reverse-transition mode="in-out">
+    <classroom-filter v-show="toggleFilter" @filter-applied="onFilterApplied" />
+  </v-slide-y-reverse-transition>
   <div class="main">
     <custom-sub-title icon="mdi-account-tie-woman">
       {{ $t('classroom.coordinator') }}
@@ -67,7 +70,7 @@
     <custom-sub-title icon="mdi-account-tie" class="mt-2">
       {{ $t('classroom.cteaching') }}
     </custom-sub-title>
-    <v-row dense >
+    <v-row dense>
       <v-col
         v-if="teacherTeachingClass.length !== 0"
         cols="12"
@@ -121,12 +124,16 @@
 <script>
   import { mapActions, mapState } from 'pinia'
   import { useTeacherStore } from '@/stores/teacher'
+  import ClassroomFilter from '@/components/filters/ClassroomFilter.vue'
   export default {
+    components: {
+      ClassroomFilter
+    },
     data() {
-      return {}
+      return { filterCriteria: {}, toggleFilter: false }
     },
     created() {
-      this.getTeacherClassTeaching()
+      this.getTeacherClassTeaching(this.filterCriteria)
     },
     computed: {
       ...mapState(useTeacherStore, ['teacherTeachingClass', 'coordinator']),
@@ -183,6 +190,10 @@
           default:
             break
         }
+      },
+      onFilterApplied(filterText) {
+        this.filterCriteria = filterText
+        this.getTeacherClassTeaching(this.filterCriteria)
       }
     }
   }

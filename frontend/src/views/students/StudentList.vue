@@ -7,14 +7,16 @@
         class="text-none me-4"
         color="primary"
         @click="toggleFilter = !toggleFilter"
-        >{{ $t('btn.filter') }}
+      >
+        {{ $t('btn.filter') }}
       </v-btn>
       <v-btn
         append-icon="mdi-plus"
         class="text-none me-4"
         color="primary"
         :to="{ path: '/create-user' }"
-        >{{ $t('btn.create') }}
+      >
+        {{ $t('btn.create') }}
       </v-btn>
       <div>
         <v-tooltip activator="parent" text="Import Excel" location="top">
@@ -72,7 +74,9 @@
       </v-form>
     </v-card>
   </v-expand-transition>
-  <teacher-filter v-show="toggleFilter" />
+  <v-slide-y-reverse-transition mode="in-out">
+    <filter-user v-show="toggleFilter" @filter-user="onFilterApplied" />
+  </v-slide-y-reverse-transition>
   <v-card>
     <v-data-table
       v-model="selectedUser"
@@ -86,7 +90,7 @@
     >
       <template v-slot:item.profile="{ item }">
         <v-avatar size="large" v-if="item.profile">
-          <v-img :src="item.profile" alt="Avatar" cover> </v-img>
+          <v-img :src="item.profile" alt="Avatar" cover></v-img>
         </v-avatar>
       </template>
       <template v-slot:item.actions="{ item }">
@@ -101,139 +105,150 @@
           variant="text"
           icon="mdi-delete-forever"
           color="red"
-        >
-        </v-btn>
-        <v-btn :to="{ path: '/student/' + item.id + '/details' }" icon="mdi-eye" variant="text">
-        </v-btn>
+        ></v-btn>
+        <v-btn
+          :to="{ path: '/student/' + item.id + '/details' }"
+          icon="mdi-eye"
+          variant="text"
+        ></v-btn>
       </template>
     </v-data-table>
   </v-card>
 </template>
 <script>
-import TeacherFilter from '@/components/filters/TeacherFilter.vue'
-import http from '@/api/api'
-import { mapActions, mapState } from 'pinia'
-import { useStudentStore } from '@/stores/student'
-export default {
-  components: {
-    TeacherFilter
-  },
-  data() {
-    return {
-      selectedUser: [],
-      errorMessage: '',
-      toggleFilter: false,
-      isEmport: false,
-      loading: false,
-      headers: [
-        { title: '#ID', key: 'id', width: '2px' },
-        { title: 'Profile', key: 'profile' },
-        { title: 'First Name', key: 'first_name' },
-        { title: 'Last Name', key: 'last_name' },
-        { title: 'Gender', key: 'gender' },
-        { title: 'Phone Number', key: 'phone_number' },
-        { title: 'Email', key: 'email' },
-        { title: '', key: 'actions', width: '16%' }
-      ]
-    }
-  },
-  created() {
-    this.getStudents()
-  },
-  computed: {
-    ...mapState(useStudentStore, ['students'])
-  },
-  methods: {
-    ...mapActions(useStudentStore, ['getStudents', 'deleteStudent', 'deleteMultipleUsers']),
-
-    deleteStudentFromList(id) {
-      this.$root.$confirm({
-        title: this.$t('alert.confirm'),
-        message: this.$t('alert.areYouSure'),
-        options: {
-          agreeBtnText: 'Yes',
-          type: 'error',
-          color: 'error',
-          width: 400
-        },
-        agree: () =>
-          this.deleteStudent(id).then(response => {
-            if (response.status == 200) {
-              this.$root.$notif(this.$t('alert.delete'), {
-                type: 'success',
-                color: 'primary'
-              })
-            }
-            this.getStudents()
-          })
-      })
+  import FilterUser from '@/components/filters/FilterUser.vue'
+  import http from '@/api/api'
+  import { mapActions, mapState } from 'pinia'
+  import { useStudentStore } from '@/stores/student'
+  export default {
+    components: {
+      FilterUser
     },
-
-    deleteMultiple() {
-      this.deleteMultipleUsers(this.selectedUser).then(response => {
-        if (response.status == 200) {
-          this.$root.$notif(this.$t('alert.delete'), {
-            type: 'success',
-            color: 'primary'
-          })
-          this.selectedUser = []
-        }
-        this.getStudents()
-      })
+    data() {
+      return {
+        selectedUser: [],
+        errorMessage: '',
+        toggleFilter: false,
+        isEmport: false,
+        loading: false,
+        filterCriteria:{},
+        headers: [
+          { title: '#ID', key: 'id', width: '2px' },
+          { title: 'Profile', key: 'profile' },
+          { title: 'First Name', key: 'first_name' },
+          { title: 'Last Name', key: 'last_name' },
+          { title: 'Gender', key: 'gender' },
+          { title: 'Phone Number', key: 'phone_number' },
+          { title: 'Email', key: 'email' },
+          { title: '', key: 'actions', width: '16%' }
+        ]
+      }
     },
-
-    exportExcel() {
-      http
-        .get(`users/students/export-excel`, {
-          responseType: 'blob'
-        })
-        .then(response => {
-          // Create a Blob from the response data
-          const blob = new Blob([response.data], {
-            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-          })
-          const url = window.URL.createObjectURL(blob)
-
-          // Create a link element to trigger the download
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', 'student.xlsx') // Adjust filename as needed
-
-          // Append the link to the document body and trigger the click event
-          document.body.appendChild(link)
-          link.click()
-
-          // Clean up by revoking the Object URL
-          window.URL.revokeObjectURL(url)
-        })
-        .catch(error => {
-          console.error('Error downloading Excel file:', error)
-          // Handle error if needed
-        })
+    created() {
+      this.getStudents(this.filterCriteria)
     },
+    computed: {
+      ...mapState(useStudentStore, ['students'])
+    },
+    methods: {
+      ...mapActions(useStudentStore, [
+        'getStudents',
+        'deleteStudent',
+        'deleteMultipleUsers'
+      ]),
 
-    importUserExcelFile() {
-      const file = this.$refs.fileInput.files[0]
-      const formData = new FormData()
-      formData.append('file', file)
-      http
-        .post('/users-import', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Cache-Control': 'no-cache'
+      deleteStudentFromList(id) {
+        this.$root.$confirm({
+          title: this.$t('alert.confirm'),
+          message: this.$t('alert.areYouSure'),
+          options: {
+            agreeBtnText: 'Yes',
+            type: 'error',
+            color: 'error',
+            width: 400
+          },
+          agree: () =>
+            this.deleteStudent(id).then(response => {
+              if (response.status == 200) {
+                this.$root.$notif(this.$t('alert.delete'), {
+                  type: 'success',
+                  color: 'primary'
+                })
+              }
+              this.getStudents()
+            })
+        })
+      },
+
+      deleteMultiple() {
+        this.deleteMultipleUsers(this.selectedUser).then(response => {
+          if (response.status == 200) {
+            this.$root.$notif(this.$t('alert.delete'), {
+              type: 'success',
+              color: 'primary'
+            })
+            this.selectedUser = []
           }
-        })
-        .then(response => {
-          console.log(response.data)
-          // Reset the file input field
-          this.$refs.fileInput.value = ''
-          // call mounted
           this.getStudents()
         })
-        .catch(error => {
-          console.error(error.response.data)
-        })
+      },
+
+      exportExcel() {
+        http
+          .get(`users/students/export-excel`, {
+            responseType: 'blob'
+          })
+          .then(response => {
+            // Create a Blob from the response data
+            const blob = new Blob([response.data], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+            const url = window.URL.createObjectURL(blob)
+
+            // Create a link element to trigger the download
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'student.xlsx') // Adjust filename as needed
+
+            // Append the link to the document body and trigger the click event
+            document.body.appendChild(link)
+            link.click()
+
+            // Clean up by revoking the Object URL
+            window.URL.revokeObjectURL(url)
+          })
+          .catch(error => {
+            console.error('Error downloading Excel file:', error)
+            // Handle error if needed
+          })
+      },
+
+      importUserExcelFile() {
+        const file = this.$refs.fileInput.files[0]
+        const formData = new FormData()
+        formData.append('file', file)
+        http
+          .post('/users-import', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Cache-Control': 'no-cache'
+            }
+          })
+          .then(response => {
+            console.log(response.data)
+            // Reset the file input field
+            this.$refs.fileInput.value = ''
+            // call mounted
+            this.getStudents(this.filterCriteria)
+          })
+          .catch(error => {
+            console.error(error.response.data)
+          })
+      },
+      onFilterApplied(filterText) {
+        this.filterCriteria = filterText
+        this.getStudents(this.filterCriteria)
+      }
     }
   }
-}
 </script>

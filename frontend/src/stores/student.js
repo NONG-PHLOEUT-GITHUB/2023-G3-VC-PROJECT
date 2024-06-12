@@ -15,8 +15,8 @@ export const useStudentStore = defineStore('student', {
     studentDetails: []
   }),
   actions: {
-    async getStudents() {
-      const response = await fetchStudents()
+    async getStudents(filterCriteria) {
+      const response = await fetchStudents(filterCriteria)
       this.students = response.data.data
     },
     async createNewStudents(data) {
