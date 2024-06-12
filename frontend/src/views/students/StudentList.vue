@@ -24,7 +24,7 @@
             <v-btn
               v-bind="props"
               variant="tonal"
-              class="me-4 bg-deep-orange-accent-4"
+              class="me-4 bg-secondary"
               icon="mdi-database-import"
               @click="isEmport = !isEmport"
             ></v-btn>
@@ -38,7 +38,7 @@
               v-bind="props"
               variant="tonal"
               @click="exportExcel()"
-              class="me-4 bg-green-darken-1"
+              class="bg-green-darken-1"
               icon="mdi-database-export"
             ></v-btn>
           </template>
@@ -47,7 +47,7 @@
       <v-btn
         v-if="this.selectedUser.length > 0"
         variant="tonal"
-        class="bg-deep-orange-accent-4"
+        class="ms-4 bg-deep-orange-accent-4"
         icon="mdi-delete-forever"
         @click="deleteMultiple"
       ></v-btn>
@@ -65,10 +65,11 @@
               prepend-inner-icon="mdi-paperclip"
               hide-details
               density="compact"
+              v-model="chosenFile"
             ></v-file-input>
           </v-col>
           <v-col>
-            <v-btn type="submit">Send</v-btn>
+            <v-btn type="submit">Upload</v-btn>
           </v-col>
         </v-row>
       </v-form>
@@ -128,6 +129,7 @@
       return {
         selectedUser: [],
         errorMessage: '',
+        chosenFile: null,
         toggleFilter: false,
         isEmport: false,
         loading: false,
@@ -215,11 +217,16 @@
               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             })
             const url = window.URL.createObjectURL(blob)
-
+            // Get the current date and format it
+            const date = new Date()
+            const day = String(date.getDate()).padStart(2, '0')
+            const month = String(date.getMonth() + 1).padStart(2, '0') // Months are zero-based
+            const year = date.getFullYear()
+            const formattedDate = `${day}_${month}_${year}`
             // Create a link element to trigger the download
             const link = document.createElement('a')
             link.href = url
-            link.setAttribute('download', 'student.xlsx') // Adjust filename as needed
+            link.setAttribute('download', `${formattedDate}_student_list.xlsx`) // Adjust filename as needed
 
             // Append the link to the document body and trigger the click event
             document.body.appendChild(link)
@@ -235,20 +242,18 @@
       },
 
       importUserExcelFile() {
-        const file = this.$refs.fileInput.files[0]
         const formData = new FormData()
-        formData.append('file', file)
+        formData.append('file', this.chosenFile)
         http
-          .post('/users-import', formData, {
+          .post('/users/import', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
               'Cache-Control': 'no-cache'
             }
           })
-          .then(response => {
-            console.log(response.data)
+          .then(() => {
             // Reset the file input field
-            this.$refs.fileInput.value = ''
+            this.chosenFile = null
             // call mounted
             this.getStudents(this.filterCriteria)
           })

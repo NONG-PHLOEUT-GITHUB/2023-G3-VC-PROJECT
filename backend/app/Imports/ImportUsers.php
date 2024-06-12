@@ -19,7 +19,15 @@ class ImportUsers implements ToModel,WithHeadingRow
     */
     public function model(array $row)
     {
-        $user = User::where('email', '=', $row['email'] ?? $row['Email'] ?? $row['email'])->first();
+        // dd($row);
+         // Check if the 'email' key exists
+        if (!isset($row['email']) && !isset($row['Email'])) {
+            return null; // Skip rows without an email
+        }
+        
+        $email = $row['email'] ?? $row['Email'];
+        $user = User::where('email', '=', $email)->first();
+        // $user = User::where('email', '=', $row['email'] ?? $row['Email'] ?? $row['email'])->first();
         if ($user) {
             // If a user with the email already exists, delete the email and return null
             unset($row['email'], $row['Email']);
@@ -29,7 +37,8 @@ class ImportUsers implements ToModel,WithHeadingRow
             $user = new User([
                 'first_name'=> $row['first_name'] ?? $row['First name'] ?? $row['first name'],
                 'last_name'=> $row['last_name'] ?? $row['Last name'] ?? $row['last name'],
-                'email'=> $row['email'] ?? $row['Email'] ?? $row['email'],
+                // 'email'=> $row['email'] ?? $row['Email'] ?? $row['email'],
+                'email'=> $email,
                 'gender'=> $row['gender'] ?? $row['Gender'] ?? $row['gender'],
                 'age'=> $row['age'] ?? $row['Age'] ?? $row['age'],
                 'date_of_birth'=> date('Y-m-d H:i:s', strtotime($row['date_of_birth'] ?? $row['Date of birth'] ?? $row['date of birth'])),
