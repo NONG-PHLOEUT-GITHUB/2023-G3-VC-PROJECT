@@ -1,6 +1,6 @@
 <template>
     <v-dialog v-model="dialog" :max-width="options.width" @keydown.esc="cancel">
-      <v-card>
+      <v-card width="450">
         <v-card-title class="bg-red">
           <!-- <v-toolbar :color="bgColor" dense elevation="0">
             <v-toolbar-title :class="'text-capitalize title ' + textColor"> -->

@@ -31,7 +31,8 @@
 	"alert": {
 		"create": "Create successfully",
 		"update": "Update successfully",
-		"delete": "Delete successfully"
+		"delete": "Delete successfully",
+		"change": "Change password successfully"
 	},
 	"profile": {
 		"pInformation": "Personal Information",

@@ -225,14 +225,25 @@
         })
       },
       deleteExamList(id) {
-        this.deleteExam(id).then(response => {
-          if (response) {
-            this.$root.$notif(this.$t('alert.delete'), {
-              type: 'success',
-              color: 'primary'
+        this.$root.$confirm({
+          title: 'Are you sure?',
+          message: 'Are you sure you want to delete this exam?',
+          options: {
+            agreeBtnText: 'Yes',
+            type: 'error',
+            color: 'error',
+            width: 400
+          },
+          agree: () =>
+            this.deleteExam(id).then(response => {
+              if (response) {
+                this.$root.$notif(this.$t('alert.delete'), {
+                  type: 'success',
+                  color: 'primary'
+                })
+                this.getExams(this.filterCriteria)
+              }
             })
-            this.getExams(this.filterCriteria)
-          }
         })
       },
       importScoresExcelFile() {

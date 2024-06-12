@@ -127,6 +127,10 @@ export default {
             this.currentPassword = ''
             this.newPassword = ''
             this.confirmPassword = ''
+            this.$root.$notif(this.$t('alert.change'), {
+              type: 'success',
+              color: 'primary'
+            })
             this.$emit('password-changed')
           })
           .catch(error => {

@@ -30,7 +30,7 @@
     </template>
   </custom-title>
   <v-slide-y-reverse-transition mode="in-out">
-    <filter-user v-show="toggleFilter" @filter-user="onFilterApplied"/>
+    <filter-user v-show="toggleFilter" @filter-user="onFilterApplied" />
   </v-slide-y-reverse-transition>
   <v-card>
     <v-data-table
@@ -80,7 +80,7 @@
       return {
         toggleFilter: false,
         selectedUser: [],
-		filterCriteria:{},
+        filterCriteria: {},
         headers: [
           { title: 'Profile', key: 'profile' },
           { title: 'First Name', key: 'first_name' },
@@ -100,29 +100,51 @@
       ...mapActions(useTeacherStore, ['getTeachers', 'deleteTeacher']),
       ...mapActions(useStudentStore, ['deleteMultipleUsers']),
       removeTeacher(id) {
-        this.deleteTeacher(id).then(response => {
-          if (response.status == 200) {
-            this.$root.$notif(this.$t('alert.delete'), {
-              type: 'success',
-              color: 'primary'
+        this.$root.$confirm({
+          title: 'Are you sure?',
+          message: 'Are you sure you want to delete this teacher?',
+          options: {
+            agreeBtnText: 'Yes',
+            type: 'error',
+            color: 'error',
+            width: 400
+          },
+          agree: () =>
+            this.deleteTeacher(id).then(response => {
+              if (response.status == 200) {
+                this.$root.$notif(this.$t('alert.delete'), {
+                  type: 'success',
+                  color: 'primary'
+                })
+              }
+              this.getTeachers(this.filterCriteria)
             })
-          }
-          this.getTeachers(this.filterCriteria)
         })
       },
       deleteMultiple() {
-        this.deleteMultipleUsers(this.selectedUser).then(response => {
-          if (response.status == 200) {
-            this.$root.$notif(this.$t('alert.delete'), {
-              type: 'success',
-              color: 'primary'
+        this.$root.$confirm({
+          title: 'Are you sure?',
+          message: 'Are you sure you want to delete these teacher?',
+          options: {
+            agreeBtnText: 'Yes',
+            type: 'error',
+            color: 'error',
+            width: 400
+          },
+          agree: () =>
+            this.deleteMultipleUsers(this.selectedUser).then(response => {
+              if (response.status == 200) {
+                this.$root.$notif(this.$t('alert.delete'), {
+                  type: 'success',
+                  color: 'primary'
+                })
+                this.selectedUser = []
+              }
+              this.getTeachers(this.filterCriteria)
             })
-            this.selectedUser = []
-          }
-          this.getTeachers(this.filterCriteria)
         })
       },
-	  onFilterApplied(filterText) {
+      onFilterApplied(filterText) {
         this.filterCriteria = filterText
         this.getTeachers(this.filterCriteria)
       }

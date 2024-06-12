@@ -131,7 +131,7 @@
         toggleFilter: false,
         isEmport: false,
         loading: false,
-        filterCriteria:{},
+        filterCriteria: {},
         headers: [
           { title: '#ID', key: 'id', width: '2px' },
           { title: 'Profile', key: 'profile' },
@@ -181,15 +181,26 @@
       },
 
       deleteMultiple() {
-        this.deleteMultipleUsers(this.selectedUser).then(response => {
-          if (response.status == 200) {
-            this.$root.$notif(this.$t('alert.delete'), {
-              type: 'success',
-              color: 'primary'
+        this.$root.$confirm({
+          title: 'Are you sure?',
+          message: 'Are you sure you want to delete these students?',
+          options: {
+            agreeBtnText: 'Yes',
+            type: 'error',
+            color: 'error',
+            width: 400
+          },
+          agree: () =>
+            this.deleteMultipleUsers(this.selectedUser).then(response => {
+              if (response.status == 200) {
+                this.$root.$notif(this.$t('alert.delete'), {
+                  type: 'success',
+                  color: 'primary'
+                })
+                this.selectedUser = []
+              }
+              this.getStudents()
             })
-            this.selectedUser = []
-          }
-          this.getStudents()
         })
       },
 
