@@ -11,11 +11,37 @@ class ExamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $exams = Exam::all();
+        $query = Exam::query();
+
+        // Define the filterable fields
+        $filterableFields = ['exam_name', 'exam_code', 'subject_name'];
+
+        // Loop through the filterable fields and apply filters if values are provided
+        foreach ($filterableFields as $field) {
+            $query->when($request->filled($field), function ($q) use ($request, $field) {
+                if ($field === 'subject_name') {
+                    // If the field is 'subject_name', we need to join the subjects table
+                    $q->whereHas('subject', function ($subjectQuery) use ($request, $field) {
+                        $subjectQuery->where('subject_name', 'like', '%' . $request->input($field) . '%');
+                    });
+                } else {
+                    $q->where($field, 'like', '%' . $request->input($field) . '%');
+                }
+            });
+        }
+
+        // Execute the query and get the filtered exams
+        $exams = $query->get();
+
+        // Transform the collection using ExamResource
         $exams = ExamResource::collection($exams);
-        return response()->json(['success' => true, 'data' => $exams], 200);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $exams
+        ]);
     }
 
     /**

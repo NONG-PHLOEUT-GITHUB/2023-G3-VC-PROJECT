@@ -91,13 +91,25 @@ class ClassroomController extends Controller
         return response()->json(['success' => true, 'data' => $totalClassroom], 200);
     }
 
-    public function getStudentsInClass(string $classroomId)
+    public function getStudentsInClass(Request $request,string $classroomId)
     {
         // Retrieve the classroom by its ID
         $classroom = Classroom::findOrFail($classroomId);
 
-        // Retrieve the students belonging to this classroom with role 3
-        $students = $classroom->students;
+        $query = $classroom->students()->where('role', 3);
+
+        // Define the filterable fields
+        $filterableFields = ['first_name', 'last_name', 'gender', 'email','address'];
+
+        // Loop through the filterable fields and apply filters if values are provided
+        foreach ($filterableFields as $field) {
+            $query->when($request->filled($field), function ($q) use ($request, $field) {
+                $q->where($field, 'like', '%' . $request->input($field) . '%');
+            });
+        }
+
+        // Execute the query to get the filtered students
+        $students = $query->get();
 
         // Map through the students to include parent chat_id
         $studentsWithParentChatId = $students->map(function ($student) {

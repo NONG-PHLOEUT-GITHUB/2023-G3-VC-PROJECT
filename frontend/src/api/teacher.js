@@ -1,7 +1,7 @@
 import http from './api'
 
-export function fetchTeachers() {
-	return http.get(`/users/get/teachers`)
+export function fetchTeachers(filterCriteria) {
+	return http.get(`/users/get/teachers`,{ params: filterCriteria })
 }
 export function fetchCoordinators() {
 	return http.get(`/users/teacher/coordinator`)

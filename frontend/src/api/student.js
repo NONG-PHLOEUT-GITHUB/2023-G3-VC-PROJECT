@@ -1,7 +1,7 @@
 import http from './api'
 
-export function fetchStudents() {
-  return http.get(`users/get/students`)
+export function fetchStudents(filterCriteria) {
+  return http.get(`users/get/students`,{ params: filterCriteria })
 }
 export function fetchStudentDetails(id) {
   return http.get(`users/${id}/details`)
