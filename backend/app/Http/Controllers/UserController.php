@@ -71,10 +71,10 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = User::store($request, $id);
-        return response()->json(['success' => true, 'message' => 'Update successfully','data'=>$user], 200);
+        $user = User::store($request, $id); 
+        // return response()->json(['success' => true, 'message' => 'Update successfully','data'=>$user], 200);
 
-        // return $user;
+        return $user;
     }
 
     /**

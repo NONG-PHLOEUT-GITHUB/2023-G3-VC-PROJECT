@@ -11,15 +11,15 @@
       >
         <v-card-text class="py-0">
           <v-col>
-            <h3>
+            <h1>
               <strong>{{ results.total }}</strong>
-            </h3>
-            <h5>
+            </h1>
+            <h2>
               <v-icon>mdi-gender-male</v-icon>
               {{ results.male }}
               <v-icon>mdi-gender-female</v-icon>
               {{ results.female }}
-            </h5>
+            </h2>
           </v-col>
         </v-card-text>
         <template v-slot:prepend>
@@ -64,15 +64,15 @@
         </template>
         <v-card-text class="py-0">
           <v-col>
-            <h3>
+            <h1>
               <strong>{{ student.total }}</strong>
-            </h3>
-            <h5>
+            </h1>
+            <h2>
               <v-icon>mdi-gender-male</v-icon>
               {{ student.male }}
               <v-icon>mdi-gender-female</v-icon>
               {{ student.female }}
-            </h5>
+            </h2>
           </v-col>
         </v-card-text>
       </v-card>
@@ -102,13 +102,13 @@
         </template>
         <v-card-text class="py-0">
           <v-col>
-            <h3>
+            <h1>
               <strong>{{ classroom }}</strong>
-            </h3>
-            <h5>
+            </h1>
+            <h2>
               <v-icon>mdi-chair-rolling</v-icon>
-              40
-            </h5>
+              4000
+            </h2>
           </v-col>
         </v-card-text>
       </v-card>

@@ -80,7 +80,7 @@
           {
             path: '/teacher-classroom',
             title: this.$t('menu.teacher.classTeaching'),
-            icon: 'mdi-domain'
+            icon: 'mdi-domain',
           }
         ]
       },

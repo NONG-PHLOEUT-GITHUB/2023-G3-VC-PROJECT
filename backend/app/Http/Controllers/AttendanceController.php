@@ -123,10 +123,24 @@ class AttendanceController extends Controller
      */
     public function showAttendanceDetail($id)
     {
-        $attendance = Attendance::where('user_id', $id)
-            ->select('date', 'reason', 'status')
-            ->get();
-        return response()->json($attendance);
+         // Fetch the user with their attendance records
+        $user = User::with('attendances')->findOrFail($id);
+
+        // Prepare the data to include attendance records and user's first and last name
+        $response = [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'chat_id' => $user->guardian->chat_id,
+            'attendance' => $user->attendances->map(function ($attendance) {
+                return [
+                    'date' => $attendance->date,
+                    'reason' => $attendance->reason,
+                    'status' => $attendance->status,
+                ];
+            }),
+        ];
+
+        return response()->json($response);
 
     }
     /**

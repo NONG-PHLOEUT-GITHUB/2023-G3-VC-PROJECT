@@ -119,7 +119,7 @@
       removeGuardian(id) {
         this.$root.$confirm({
           title: 'Are you sure?',
-          message: 'Are you sure you want to delete these guardians?',
+          message: 'Are you sure you want to delete this guardian?',
           options: {
             agreeBtnText: 'Yes',
             type: 'error',
@@ -141,7 +141,7 @@
       deleteMultiple() {
         this.$root.$confirm({
           title: 'Are you sure?',
-          message: 'Are you sure you want to delete this guardian?',
+          message: 'Are you sure you want to delete these guardians?',
           options: {
             agreeBtnText: 'Yes',
             type: 'error',

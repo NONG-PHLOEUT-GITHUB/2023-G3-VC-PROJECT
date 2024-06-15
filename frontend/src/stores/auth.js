@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+// import { encryptData } from '@/utils/crypto';
 
 import {
   userLogin,
@@ -39,6 +40,7 @@ export const useAuthStore = defineStore('auth', {
       const response = await userLogin(email, password)
       this.userRole = response.data.user.role
       localStorage.setItem('user_role', response.data.user.role)
+      // localStorage.setItem('user_role', encryptData(response.data.user.role)); // Assuming role is also returned
       this.token = response.data.access_token
       localStorage.setItem('access_token', response.data.access_token)
       return response

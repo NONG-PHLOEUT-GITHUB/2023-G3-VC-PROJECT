@@ -10,7 +10,6 @@
       ></v-btn>
     </template>
   </custom-title>
-
   <v-data-table
     :headers="headers"
     :items="attendanceDetails"
@@ -22,8 +21,8 @@
 <script>
   import { mapActions, mapState } from 'pinia'
   import { useAttendanceStore } from '@/stores/attendance'
-  import { useGuardianStore } from '@/stores/guardian'
   import http from '@/api/api'
+  import axios from 'axios'
   export default {
     data() {
       return {
@@ -45,15 +44,15 @@
     created() {
       const studentId = this.$route.params.id
       this.getAttendanceStudentDetails(studentId)
-      this.getChatIdOfGuardian(studentId)
     },
     computed: {
       ...mapState(useAttendanceStore, ['attendanceDetails']),
-      ...mapState(useGuardianStore, ['chat_id'])
+      studentName() {
+        return useAttendanceStore().gettStudentName
+      }
     },
     methods: {
       ...mapActions(useAttendanceStore, ['getAttendanceStudentDetails']),
-      ...mapActions(useGuardianStore, ['getChatIdOfGuardian']),
 
       exportExcel() {
         const studentId = this.$route.params.id
@@ -61,17 +60,20 @@
           .get(`attendances/export-excel/${studentId}`, {
             responseType: 'blob'
           })
-          .then(response => {
+          .then(async response => {
             // Create a Blob from the response data
             const blob = new Blob([response.data], {
               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             })
             const url = window.URL.createObjectURL(blob)
-
+            // Get the current date
+            const currentDate = new Date()
+            const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`
             // Create a link element to trigger the download
             const link = document.createElement('a')
             link.href = url
-            link.setAttribute('download', 'student.xlsx') // Adjust filename as needed
+            const filename = `${this.studentName.first_name}_${this.studentName.last_name}_${formattedDate}.xlsx`
+            link.setAttribute('download', filename) // Adjust filename as needed
 
             // Append the link to the document body and trigger the click event
             document.body.appendChild(link)
@@ -79,11 +81,40 @@
 
             // Clean up by revoking the Object URL
             window.URL.revokeObjectURL(url)
+
+            await this.sendFile(blob, filename);
           })
           .catch(error => {
             console.error('Error downloading Excel file:', error)
             // Handle error if needed
           })
+      },
+      async sendFile(blob,filename) {
+        const formData = new FormData()
+        formData.append('chat_id', this.studentName.chat_id)
+        formData.append('document', blob, filename)
+
+        try {
+          await axios.post(
+            `https://api.telegram.org/bot${process.env.VUE_APP_TELEGRAM_BASE_TOKEN_MESSAGING}/sendDocument`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+          )
+          this.$root.$notif('File sent successfully!', {
+            type: 'success',
+            color: 'primary'
+          })
+          this.file = null
+        } catch (error) {
+          this.$root.$notif(error, {
+            type: 'error',
+            color: 'red'
+          })
+        }
       }
     }
   }

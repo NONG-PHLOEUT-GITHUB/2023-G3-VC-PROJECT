@@ -208,7 +208,7 @@
     },
     methods: {
       ...mapActions(useAuthStore, ['fetchUser']),
-      ...mapActions(useStudentStore, ['updateUser']),
+      ...mapActions(useStudentStore, ['updateUserList']),
 
       handleFileChange(event) {
         const file = event.target.files[0]
@@ -237,13 +237,14 @@
           profile: this.profile_picture
         }
 
-        this.updateUser(data, data.id)
+        this.updateUserList(data, data.id)
           .then(() => {
             this.$root.$notif(this.$t('alert.update'), {
               type: 'success',
               color: 'primary'
             })
             this.fetchUser()
+            this.profile_picture = ''
           })
           .catch(e => {
             this.$root.$notif('Update profile failed', {

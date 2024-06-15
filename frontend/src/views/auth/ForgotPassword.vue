@@ -1,7 +1,7 @@
 <template>
   <v-layout class="d-flex justify-center align-center" height="100vh">
-    <v-col class="d-flex justify-end">
-      <v-img src="../../../public/images/forget_password.jpeg" max-width="500"> </v-img>
+    <v-col class="d-flex justify-end d-none d-print-block">
+      <v-img src="images/forget_password.jpeg" max-width="500"> </v-img>
     </v-col>
     <v-col>
       <h4>Forgot password</h4>

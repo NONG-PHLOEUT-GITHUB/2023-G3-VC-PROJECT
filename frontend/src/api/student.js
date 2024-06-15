@@ -33,12 +33,12 @@ export function deleteMultipleUsers(ids) {
 
 export function updateUser(data,id) {  
   const formData = new FormData()
-  // Append each key-value pair to the FormData object
+  // Append _method to spoof the HTTP method to PUT
+  formData.append('_method', 'PUT');
   Object.entries(data).forEach(([key, value]) => {
     formData.append(key, value)
-    
   })
-  return http.put(`users/${id}/update`, formData, {
+  return http.post(`users/${id}/update`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data' 
     }

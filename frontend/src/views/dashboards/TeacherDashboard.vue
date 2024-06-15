@@ -14,9 +14,9 @@
         </template>
         <v-card-text class="py-0">
           <v-col>
-            <h3>
+            <h1>
               <strong>{{ classroom['12'] }}</strong>
-            </h3>
+            </h1>
           </v-col>
         </v-card-text>
       </v-card>
@@ -34,9 +34,9 @@
         </template>
         <v-card-text class="py-0">
           <v-col>
-            <h3>
+            <h1>
               <strong>{{ classroom['11'] }}</strong>
-            </h3>
+            </h1>
           </v-col>
         </v-card-text>
       </v-card>
@@ -54,26 +54,26 @@
         </template>
         <v-card-text class="py-0">
           <v-col>
-            <h3>
+            <h1>
               <strong>{{ classroom['10'] }}</strong>
-            </h3>
+            </h1>
           </v-col>
         </v-card-text>
       </v-card>
     </v-col>
   </v-row>
 
-  <StudentMostAbsenceVue></StudentMostAbsenceVue>
+  <StudentMostAbsence></StudentMostAbsence>
 </template>
 
 <script>
   import { mapActions, mapState } from 'pinia'
   import { useClassroomStore } from '@/stores/classroom'
-  import StudentMostAbsenceVue from '@/components/dashboard/StudentMostAbsence.vue'
+  import StudentMostAbsence from '@/components/dashboard/StudentMostAbsence.vue'
 
   export default {
     components: {
-      StudentMostAbsenceVue
+      StudentMostAbsence
     },
     data() {
       return {}

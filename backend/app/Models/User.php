@@ -84,8 +84,6 @@ class User extends Authenticatable implements JWTSubject
     public static function store($request, $id = null)
     {
 
-        // Check if the email already exists
-
         $requestData = $request->only(
             'id',
             'role',
@@ -96,32 +94,32 @@ class User extends Authenticatable implements JWTSubject
             'date_of_birth',
             'phone_number',
             'address',
+            'profile',
             'email',
             'password',
             'classroom_id',
             'guardian_id',
         );
 
-        // $requestData['profile'] = $path;
-
         if ($id) {
-            // dd($id);
             $user = self::find($id);
             if (!$user) {
                 return response()->json(['error' => 'Record not found'], 404);
             }
-            // dd($user->update($requestData));
-            // dd($user);
-            // Validate the request for the profile image
+    
             $request->validate([
-                'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+                'profile' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
             ]);
-
-            $image = $request->file('profile');
-            $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $new_name);
-            $path = asset('images/' . $new_name);
-            $requestData['profile'] = $path;
+            if ($request->hasFile('profile')) {
+                $image = $request->file('profile');
+                $new_name = rand() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images'), $new_name);
+                $path = asset('images/' . $new_name);
+                $requestData['profile'] = $path;
+            } else {
+                // Retain the existing profile if no new file is uploaded
+                unset($requestData['profile']);
+            }
 
             $user->update($requestData);
         } else {
@@ -129,7 +127,7 @@ class User extends Authenticatable implements JWTSubject
             if ($request->has('email') && self::where('email', $request->input('email'))->exists()) {
                 return response()->json(['error' => 'Email is already taken'], 422);
             }
-
+// dd($request->file('profile'));
             $request->validate([
                 'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
             ]);
@@ -138,17 +136,18 @@ class User extends Authenticatable implements JWTSubject
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $new_name);
             $path = asset('images/' . $new_name);
-            $password = Str::random(8);
+            $requestData['profile'] = $path;
 
+            $password = Str::random(8);
             $requestData['password'] = bcrypt($password);
 
             $user = self::create($requestData);
             $id = $user->$id;
 
             // Send an email notification to the user
-            Mail::send('email.new_user', ['user' => $user, 'password' => $password], function ($message) use ($user) {
-                $message->to($user->email, $user->first_name)->subject('Welcome to our system!');
-            });
+            // Mail::send('email.new_user', ['user' => $user, 'password' => $password], function ($message) use ($user) {
+            //     $message->to($user->email, $user->first_name)->subject('Welcome to our system!');
+            // });
         }
 
         // Retrieve the subject_id string from the request

@@ -1,7 +1,9 @@
 <template>
   <custom-title icon="mdi-account-multiple-plus"></custom-title>
   <v-card class="pa-4">
-    <custom-sub-title icon="mdi-information">Student Information</custom-sub-title>
+    <custom-sub-title icon="mdi-information">
+      Student Information
+    </custom-sub-title>
     <v-form @submit.prevent="addOrUpdateUser()">
       <v-row>
         <v-col>
@@ -23,7 +25,9 @@
             variant="outlined"
             v-model="studentDetails.first_name"
             label="First name"
-            :rules="[() => !!studentDetails.first_name || 'This field is required']"
+            :rules="[
+              () => !!studentDetails.first_name || 'This field is required'
+            ]"
           ></v-text-field>
         </v-col>
         <v-col>
@@ -31,7 +35,9 @@
             variant="outlined"
             v-model="studentDetails.last_name"
             label="Last name"
-            :rules="[() => !!studentDetails.last_name || 'This field is required']"
+            :rules="[
+              () => !!studentDetails.last_name || 'This field is required'
+            ]"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -42,8 +48,8 @@
             v-model="studentDetails.gender"
             inline
           >
-            <v-radio label="Male" value="male"></v-radio>
-            <v-radio label="Female" value="female"></v-radio>
+            <v-radio label="Male" value="Male"></v-radio>
+            <v-radio label="Female" value="Female"></v-radio>
           </v-radio-group>
         </v-col>
         <v-col>
@@ -51,7 +57,9 @@
             variant="outlined"
             v-model="studentDetails.address"
             label="Address"
-            :rules="[() => !!studentDetails.address || 'This field is required']"
+            :rules="[
+              () => !!studentDetails.address || 'This field is required'
+            ]"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -61,7 +69,9 @@
             variant="outlined"
             v-model="studentDetails.phone_number"
             label="Phone Number"
-            :rules="[() => !!studentDetails.phone_number || 'This field is required']"
+            :rules="[
+              () => !!studentDetails.phone_number || 'This field is required'
+            ]"
           ></v-text-field>
         </v-col>
         <v-col>
@@ -87,7 +97,10 @@
                 if (!value) return true
                 const selectedDate = new Date(value)
                 const today = new Date()
-                return selectedDate <= today || 'Date of Birth cannot be in the future'
+                return (
+                  selectedDate <= today ||
+                  'Date of Birth cannot be in the future'
+                )
               }
             ]"
           ></v-text-field>
@@ -98,13 +111,13 @@
             :rules="[() => !!studentDetails.age || 'This field is required']"
             label="Age"
             v-model="studentDetails.age"
-          >
-          </v-text-field>
+          ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="6">
           <v-file-input
+            ref="profile"
             :rules="profileRules"
             accept="image/png, image/jpeg, image/bmp"
             label="Apload user profile"
@@ -118,6 +131,7 @@
             @change="handleFileChange"
           ></v-file-input>
         </v-col>
+        <!-- v-model="studentDetails.profile" -->
         <v-col>
           <v-avatar size="62">
             <v-img v-if="previewImage" :src="previewImage" alt="John"></v-img>
@@ -136,7 +150,7 @@
             multiple
             chips
             clearable
-            v-model="studentDetails.subject_id"
+            v-model="subjectSelected"
           ></v-select>
         </v-col>
       </v-row>
@@ -155,7 +169,9 @@
         </v-col>
       </v-row>
       <v-card-text v-show="showRow" class="pa-0">
-        <custom-sub-title icon="mdi-information">Parent Information</custom-sub-title>
+        <custom-sub-title icon="mdi-information">
+          Parent Information
+        </custom-sub-title>
         <v-row>
           <v-col>
             <v-text-field
@@ -214,221 +230,245 @@
           </v-col>
         </v-row>
       </v-card-text>
-      <div class="col-12 d-flex justify-content-end">
+      <v-card-actions>
+        <v-spacer></v-spacer>
         <v-btn
           v-if="studentDetails.role == 3"
           type="submit"
           class="mr-2"
           :to="{ path: '/student-list' }"
           variant="outlined"
-          >{{$t('btn.cancel')}}
+        >
+          {{ $t('btn.cancel') }}
         </v-btn>
-        <v-btn v-else type="submit" class="mr-2" :to="{ path: '/teacher-list' }" variant="outlined"
-          >{{$t('btn.cancel')}}
+        <v-btn
+          v-else
+          type="submit"
+          class="mr-2"
+          :to="{ path: '/teacher-list' }"
+          variant="outlined"
+        >
+          {{ $t('btn.cancel') }}
         </v-btn>
-        <v-btn v-if="!btn" type="submit" class="bg-primary">{{ $t('btn.save') }}</v-btn>
-        <v-btn v-else type="submit" class="bg-primary">{{$t('btn.update')}}</v-btn>
-      </div>
+        <v-btn v-if="!btn" type="submit" class="bg-primary">
+          {{ $t('btn.create') }}
+        </v-btn>
+        <v-btn v-else type="submit" class="bg-primary">
+          {{ $t('btn.update') }}
+        </v-btn>
+      </v-card-actions>
     </v-form>
   </v-card>
 </template>
 
 <script>
-import { mapActions, mapState } from 'pinia'
-import { useStudentStore } from '@/stores/student'
-import { useClassroomStore } from '@/stores/classroom'
-import { useSubjectStore } from '@/stores/subject'
-import { useGuardianStore } from '@/stores/guardian'
-import http from '@/api/api'
-export default {
-  data() {
-    return {
-      btn: false,
-      emailErrorMessage: '',
-      profile_picture: '',
-      previewImage: '',
-      showRow: false,
-      showSubject: false,
-
-      roleOption: [
-        { value: 1, title: 'Administrator' },
-        { value: 2, title: 'Teacher' },
-        { value: 3, title: 'Student' }
-      ],
-      profileRules: [
-        value => {
-          if (!value || value.length === 0) {
-            return 'Avatar is required!'
+  import { mapActions, mapState } from 'pinia'
+  import { useStudentStore } from '@/stores/student'
+  import { useClassroomStore } from '@/stores/classroom'
+  import { useSubjectStore } from '@/stores/subject'
+  import { useGuardianStore } from '@/stores/guardian'
+  export default {
+    data() {
+      return {
+        btn: false,
+        emailErrorMessage: '',
+        profile_picture: '',
+        previewImage: '',
+        showRow: false,
+        showSubject: false,
+        subjectSelected: [],
+        roleOption: [
+          { value: 1, title: 'Administrator' },
+          { value: 2, title: 'Teacher' },
+          { value: 3, title: 'Student' }
+        ],
+        profileRules: [
+          value => {
+            if (!value || value.length === 0) {
+              return 'Avatar is required!'
+            }
+            return true
+          },
+          value => {
+            return (
+              !value ||
+              !value.length ||
+              value[0].size < 2000000 ||
+              'Avatar size should be less than 2 MB!'
+            )
           }
-          return true
+        ],
+        rulesEmail: {
+          required: value => !!value || 'Email is required.',
+          counter: value => value.length <= 20 || 'Max 20 characters',
+          email: value => {
+            const pattern =
+              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return pattern.test(value) || 'Invalid e-mail.'
+          }
         },
-        value => {
-          return (
-            !value ||
-            !value.length ||
-            value[0].size < 2000000 ||
-            'Avatar size should be less than 2 MB!'
-          )
+        parents: {
+          first_name: '',
+          last_name: '',
+          phone_number: '',
+          address: '',
+          chat_id: '',
+          gender: '',
+          date_of_birth: ''
         }
-      ],
-      rulesEmail: {
-        required: value => !!value || 'Email is required.',
-        counter: value => value.length <= 20 || 'Max 20 characters',
-        email: value => {
-          const pattern =
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          return pattern.test(value) || 'Invalid e-mail.'
+      }
+    },
+    created() {
+      const userId = this.$route.params.id
+      if (userId) {
+        this.isUpdate = true
+        this.getStudentDetails(userId), (this.btn = true)
+      }
+      this.getSubjects()
+      this.getCassrooms()
+      this.handleRoleChange()
+    },
+    watch: {
+      // Watch for changes in the selected role
+      'studentDetails.role': 'handleRoleChange',
+      'studentDetails.date_of_birth': function (newDate) {
+        this.studentDetails.age = this.calculateAge(newDate)
+      }
+    },
+    computed: {
+      ...mapState(useStudentStore, ['students', 'studentDetails']),
+      ...mapState(useClassroomStore, ['classrooms']),
+      ...mapState(useSubjectStore, ['subjects']),
+      // subjectSelected() {
+      //   return this.studentDetails.subjects // Or however you want to compute subjectSelected
+      // }
+    },
+    methods: {
+      ...mapActions(useStudentStore, [
+        'createNewStudents',
+        'updateUserList',
+        'getStudentDetails'
+      ]),
+      ...mapActions(useClassroomStore, ['getCassrooms']),
+      ...mapActions(useSubjectStore, ['getSubjects']),
+      ...mapActions(useGuardianStore, ['createNewGuardian']),
+
+      calculateAge(dateOfBirth) {
+        if (!dateOfBirth) return ''
+        const birthDate = new Date(dateOfBirth)
+        const today = new Date()
+        let age = today.getFullYear() - birthDate.getFullYear()
+        const monthDifference = today.getMonth() - birthDate.getMonth()
+        if (
+          monthDifference < 0 ||
+          (monthDifference === 0 && today.getDate() < birthDate.getDate())
+        ) {
+          age--
+        }
+        return age
+      },
+      handleFileChange(event) {
+        this.profile_picture = event.target.files[0]
+        const reader = new FileReader()
+        reader.readAsDataURL(this.profile_picture)
+        reader.onload = e => {
+          this.previewImage = e.target.result
         }
       },
-      parents: {
-        first_name: '',
-        last_name: '',
-        phone_number: '',
-        address: '',
-        chat_id: '',
-        gender: '',
-        date_of_birth: ''
-      }
-    }
-  },
-  created() {
-    const userId = this.$route.params.id
-    if (userId) {
-      this.isUpdate = true
-      this.getStudentDetails(userId), (this.btn = true)
-    }
-    this.getSubjects()
-    this.getCassrooms()
-    this.handleRoleChange()
-  },
-  watch: {
-    // Watch for changes in the selected role
-    'studentDetails.role': 'handleRoleChange',
-    'studentDetails.date_of_birth': function (newDate) {
-      this.studentDetails.age = this.calculateAge(newDate)
-    }
-  },
-  computed: {
-    ...mapState(useStudentStore, ['students', 'studentDetails']),
-    ...mapState(useClassroomStore, ['classrooms']),
-    ...mapState(useSubjectStore, ['subjects'])
-  },
-  methods: {
-    ...mapActions(useStudentStore, ['createNewStudents', 'updateUserList', 'getStudentDetails']),
-    ...mapActions(useClassroomStore, ['getCassrooms']),
-    ...mapActions(useSubjectStore, ['getSubjects']),
-    ...mapActions(useGuardianStore, ['createNewGuardian']),
 
-    calculateAge(dateOfBirth) {
-      if (!dateOfBirth) return ''
-      const birthDate = new Date(dateOfBirth)
-      const today = new Date()
-      let age = today.getFullYear() - birthDate.getFullYear()
-      const monthDifference = today.getMonth() - birthDate.getMonth()
-      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-        age--
-      }
-      return age
-    },
-    handleFileChange(event) {
-      this.profile_picture = event.target.files[0]
-      const reader = new FileReader()
-      reader.readAsDataURL(this.profile_picture)
-      reader.onload = e => {
-        this.previewImage = e.target.result
-      }
-    },
+      handleRoleChange() {
+        const role = this.studentDetails.role
+        this.showRow = role === 3
+        this.showSubject = role === 2
+        //If the role is 3, this.showRow is set to true,
+        //If the role is 2, this.showSubject is set to true
+      },
 
-    handleRoleChange() {
-      const role = this.studentDetails.role
-      this.showRow = role === 3
-      this.showSubject = role === 2
-      //If the role is 3, this.showRow is set to true,
-      //If the role is 2, this.showSubject is set to true
-    },
+      addOrUpdateUser() {
+        const formData = {
+          first_name: this.studentDetails.first_name,
+          last_name: this.studentDetails.last_name,
+          email: this.studentDetails.email,
+          phone_number: this.studentDetails.phone_number || '',
+          address: this.studentDetails.address || '',
+          date_of_birth: this.date_of_birth || '',
+          age: this.studentDetails.age || '',
+          gender: this.studentDetails.gender || '',
+          profile: this.profile_picture || '',
+          role: this.studentDetails.role || '',
+          classroom_id: this.studentDetails.classroom_id || '',
+          subject_id: this.studentDetails.subjectSelected || null,
+          guardian_id: this.studentDetails.guardian_id || ''
+        }
 
-    addOrUpdateUser() {
-      const formData = {
-        first_name: this.studentDetails.first_name,
-        last_name: this.studentDetails.last_name,
-        email: this.studentDetails.email,
-        phone_number: this.studentDetails.phone_number || '',
-        address: this.studentDetails.address || '',
-        date_of_birth: this.date_of_birth || '',
-        age: this.studentDetails.age || '',
-        gender: this.studentDetails.gender || '',
-        profile: this.profile_picture || '',
-        role: this.studentDetails.role || '',
-        classroom_id: this.studentDetails.classroom_id || '',
-        subject_id: this.studentDetails.subject_id || null,
-        guardian_id: this.studentDetails.guardian_id || ''
-      }
-
-      if (!this.isUpdate) {
-        this.createNewStudents(formData)
-          .then(response => {
-            if (response.status == 201) {
-              if (this.studentDetails.role == 2 || this.studentDetails.role == 1) {
-                this.$root.$notif(this.$t('alert.create'), {
-                  type: 'success',
-                  color: 'primary'
-                })
-                this.$router.push({ path: '/teacher-list' })
-              } else {
-                // call to create the parent
-                this.createParents()
-                this.$root.$notif(this.$t('alert.create'), {
-                  type: 'success',
-                  color: 'primary'
-                })
-                this.$router.push({ path: '/student-list' })
+        if (!this.isUpdate) {
+          this.createNewStudents(formData)
+            .then(response => {
+              if (response.status == 201) {
+                if (
+                  this.studentDetails.role == 2 ||
+                  this.studentDetails.role == 1
+                ) {
+                  this.$root.$notif(this.$t('alert.create'), {
+                    type: 'success',
+                    color: 'primary'
+                  })
+                  this.$router.push({ path: '/teacher-list' })
+                } else {
+                  // call to create the parent
+                  this.createParents()
+                  this.$root.$notif(this.$t('alert.create'), {
+                    type: 'success',
+                    color: 'primary'
+                  })
+                  this.$router.push({ path: '/student-list' })
+                }
               }
-            }
+            })
+            .catch(error => {
+              if (error.response.status === 422) {
+                this.emailErrorMessage = 'Email already exists.'
+              }
+            })
+        } else {
+          const id = parseInt(this.$route.params.id)
+          this.updateUserList(formData, id)
+            .then(response => {
+              if (response.status == 201 && response.statusText == 'Created') {
+                this.$root.$notif('Update successfully', {
+                  type: 'success',
+                  color: 'primary'
+                })
+                const role = response.data.data.role
+                const redirectPath =
+                  role === 1 || role === 2 ? '/teacher-list' : '/student-list'
+                this.$router.push({ path: redirectPath })
+              }
+            })
+            .catch(e => {
+              console.log(e)
+            })
+        }
+      },
+      createParents() {
+        ///create new parent
+        const parentsData = {
+          first_name: this.parents.first_name,
+          last_name: this.parents.last_name,
+          phone_number: this.parents.phone_number,
+          address: this.parents.address,
+          chat_id: this.parents.chat_id,
+          gender: this.parents.gender,
+          date_of_birth: this.parents.date_of_birth
+        }
+        this.createNewGuardian(parentsData)
+          .then(response => {
+            console.log(response)
           })
           .catch(error => {
-            if (error.response.status === 422) {
-              this.emailErrorMessage = 'Email already exists.'
-            }
+            console.log(error)
           })
-      } else {
-        const id = parseInt(this.$route.params.id)
-        http.put(`users/${id}/update`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        // this.updateUserList(formData, id).then(response => {
-        //   if (response.status == 201 && response.statusText == 'Created') {
-        //     this.$root.$notif('Update successfully', {
-        //       type: 'success',
-        //       color: 'primary'
-        //     })
-        //     const role = response.data.data.role
-        //     const redirectPath = role === 1 || role === 2 ? '/teacher-list' : '/student-list'
-        //     this.$router.push({ path: redirectPath })
-        //   }
-        // })
       }
-    },
-    createParents() {
-      ///create new parent
-      const parentsData = {
-        first_name: this.parents.first_name,
-        last_name: this.parents.last_name,
-        phone_number: this.parents.phone_number,
-        address: this.parents.address,
-        chat_id: this.parents.chat_id,
-        gender: this.parents.gender,
-        date_of_birth: this.parents.date_of_birth
-      }
-      this.createNewGuardian(parentsData)
-        .then(response => {
-          console.log(response)
-        })
-        .catch(error => {
-          console.log(error)
-        })
     }
   }
-}
 </script>

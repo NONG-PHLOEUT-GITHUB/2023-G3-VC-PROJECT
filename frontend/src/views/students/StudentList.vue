@@ -162,7 +162,7 @@
       deleteStudentFromList(id) {
         this.$root.$confirm({
           title: this.$t('alert.confirm'),
-          message: this.$t('alert.areYouSure'),
+          message: this.$t('alert.message'),
           options: {
             agreeBtnText: 'Yes',
             type: 'error',

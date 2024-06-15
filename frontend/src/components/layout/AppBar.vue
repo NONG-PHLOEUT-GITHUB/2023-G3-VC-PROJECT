@@ -3,7 +3,9 @@
     <v-app-bar-nav-icon @click="togglerDrawer">
       <v-icon>mdi-menu</v-icon>
     </v-app-bar-nav-icon>
-    <strong class="font-weight-bold d-none d-lg-block d-print-block">{{ $t('titleApp') }}</strong>
+    <strong class="font-weight-bold d-none d-lg-block d-print-block">
+      {{ $t('titleApp') }}
+    </strong>
     <template v-slot:append>
       <!-- switcher language -->
       <switch-language />
@@ -17,7 +19,7 @@
       <v-btn stacked>
         <v-switch
           inset
-          color="info"
+          color="primary"
           v-model="darkMode"
           @change="toggleTheme"
           hide-details
@@ -39,7 +41,12 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item :subtitle="abbreviatedEmail" :title="abbreviatedName">
+          <!-- density="compact" nav -->
+          <v-list-item>
+            <v-list-item-title>
+              <strong>{{ abbreviatedName }}</strong>
+            </v-list-item-title>
+            <v-list-item-subtitle>{{ abbreviatedEmail }}</v-list-item-subtitle>
             <template v-slot:prepend>
               <v-avatar size="large" class="avatar" color="grey-lighten-1">
                 <v-img :src="authUser.profile" alt="Avatar" cover></v-img>
@@ -65,18 +72,15 @@
             color="primary"
             @click="onMenuClick(item.action)"
           >
-            <template v-slot:prepend>
+            <template v-slot:append>
               <v-icon
                 size="large"
                 class="icon-setting"
                 :icon="item.icon"
               ></v-icon>
-              <v-list-item-title
-                class="ms-3"
-                v-text="item.title"
-                :to="item.path"
-              ></v-list-item-title>
             </template>
+            <!-- :to="item.path" -->
+            <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -101,6 +105,8 @@
   import switchLanguage from '@/components/common/SwitcherLanguage.vue'
   import { mapActions, mapState } from 'pinia'
   import { useAuthStore } from '@/stores/auth'
+  import { useTheme } from 'vuetify'
+
   export default {
     props: ['menubar'],
     name: 'LayoutDashboard',
@@ -120,8 +126,22 @@
       email: '',
       darkMode: false
     }),
+    setup() {
+      const theme = useTheme()
+      return { theme }
+    },
     created() {
       this.fetchUser()
+      // Retrieve theme preference from localStorage
+      const savedTheme = localStorage.getItem('theme')
+      if (savedTheme !== null) {
+        this.darkMode = JSON.parse(savedTheme)
+      } else {
+        this.darkMode = false // Default to light theme if no preference is saved
+      }
+
+      // Set the initial theme
+      this.toggleTheme()
     },
     computed: {
       ...mapState(useAuthStore, ['authUser']),
@@ -159,20 +179,35 @@
     methods: {
       ...mapActions(useAuthStore, ['logout', 'fetchUser']),
       logoutUser() {
-        this.logout().then(response => {
-          if (response.status === 200) {
-            this.$router.push('/login')
-            localStorage.removeItem('access_token')
-            localStorage.removeItem('user_role')
-            this.$root.$notif('Logout successfully', {
-              type: 'success',
-              color: 'primary'
+        this.$root.$confirm({
+          title: 'Are you sure?',
+          message: 'Are you sure you want to logout?',
+          options: {
+            agreeBtnText: 'Yes',
+            type: 'error',
+            color: 'error',
+            width: 400
+          },
+          agree: () =>
+            this.logout().then(response => {
+              if (response.status === 200) {
+                this.$router.push('/login')
+                localStorage.removeItem('access_token')
+                localStorage.removeItem('user_role')
+                this.$root.$notif('Logout successfully', {
+                  type: 'success',
+                  color: 'primary'
+                })
+              }
             })
-          }
         })
       },
       togglerDrawer() {
         this.$emit('toggle')
+      },
+      toggleTheme() {
+        this.theme.global.name.value = this.darkMode ? 'dark' : 'light'
+        localStorage.setItem('theme', JSON.stringify(this.darkMode));
       },
       onMenuClick(action) {
         switch (action) {
@@ -197,13 +232,3 @@
     font-size: 1.25rem;
   }
 </style>
-
-<script setup>
-  import { useTheme } from 'vuetify'
-
-  const theme = useTheme()
-
-  function toggleTheme() {
-    theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
-  }
-</script>

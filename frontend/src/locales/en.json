@@ -32,7 +32,9 @@
 		"create": "Create successfully",
 		"update": "Update successfully",
 		"delete": "Delete successfully",
-		"change": "Change password successfully"
+		"change": "Change password successfully",
+		"confirm": "Are you sure?",
+		"message": "Are you sure you want to delete this student."
 	},
 	"profile": {
 		"pInformation": "Personal Information",

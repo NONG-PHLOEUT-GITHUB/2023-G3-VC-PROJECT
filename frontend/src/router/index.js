@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import jwtDecode from 'jwt-decode';
+
 const routes = [
   {
     path: '/',
@@ -44,169 +46,175 @@ const routes = [
         path: '/student-home',
         name: 'Dashboard',
         component: () => import('@/views/dashboards/StudentDashboard.vue'),
-        meta: { requiresAuth: true, requiredRoles: [3] }
+        meta: { requiresAuth: true, requiredRole: [3] }
       },
       {
         path: '/student-comments',
         name: 'My Comments',
         component: () => import('@/views/comment/CommentStudentView.vue'),
-        meta: { requiresAuth: true, requiredRoles: [3] }
+        meta: { requiresAuth: true, requiredRole: [3] }
       },
       {
         path: '/student-attendance',
         name: 'My attendance',
-        component: () => import('@/views/attendances/StudentAttendanceView.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        component: () =>
+          import('@/views/attendances/StudentAttendanceView.vue'),
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/student-score/view',
         name: 'My score',
         component: () => import('@/views/scores/StudentScoreView.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
 
       {
         path: '/admin-dashboard',
         name: 'Admin Dashboard',
         component: () => import('@/views/dashboards/DirectorDashboard.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1] }
+        meta: { requiresAuth: true, requiredRole: [1] }
       },
 
       {
         path: '/teacher-dashboard',
         name: 'Teacher Dashboard',
         component: () => import('@/views/dashboards/TeacherDashboard.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/student-list',
         name: 'Student management',
         component: () => import('@/views/students/StudentList.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/class-list',
         name: 'Class management',
         component: () => import('@/views/classroom/ClassManagement.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/create-user',
         name: 'Create new user',
         component: () => import('@/views/common/CreateUser.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/student/attendance/:id/details',
         name: 'Student attendance details',
-        component: () => import('@/views/attendances/StudentAttendanceDetail.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        component: () =>
+          import('@/views/attendances/StudentAttendanceDetail.vue'),
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/teacher-attendance/:id/details',
         name: 'Teacher attendance detail',
-        component: () => import('@/views/attendances/TeacherAttendanceDetail.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        component: () =>
+          import('@/views/attendances/TeacherAttendanceDetail.vue'),
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/attendance/:classroomId/student',
         name: 'Check attendance',
-        component: () => import('@/views/attendances/StudentAttendanceCheck.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        component: () =>
+          import('@/views/attendances/StudentAttendanceCheck.vue'),
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/teacher-attendance-list',
         name: 'Teacher attendance list',
-        component: () => import('@/views/attendances/TeacherAttendanceList.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        component: () =>
+          import('@/views/attendances/TeacherAttendanceList.vue'),
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/student/:id/details',
         name: 'Student details',
         component: () => import('@/views/students/StudentDetial.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/attendance-report/:id/by-class',
         name: 'Attendance details',
-        component: () => import('@/views/attendances/AttendanceReportInClass.vue'),
+        component: () =>
+          import('@/views/attendances/AttendanceReportInClass.vue'),
         props: true,
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/user/:id/edit',
         name: 'Edit user',
         component: () => import('@/views/common/CreateUser.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/feedback/:studentId/student',
         name: 'Student feedback',
         component: () => import('@/views/comment/SendComment.vue'),
         props: true,
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/student/:classroomId/feedback',
         name: 'Student Feedback List',
         component: () => import('@/views/comment/StudentFeedbackList.vue'),
         props: true,
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/student-score-report/:id',
         name: 'Student score report',
         component: () => import('@/views/scores/StudentScoreReport.vue'),
         props: true,
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/teacher-classroom',
-        name: 'My Class Teaching And Coordinator',
+        name: 'My Class Teaching and Coordinator',
         component: () => import('@/views/classroom/ClassroomTeacher.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/classroom/:class_id/details',
         name: 'Classroom Details',
         component: () => import('@/views/classroom/ClassroomDetails.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/student-exam',
         name: 'Student exam management',
         component: () => import('@/views/scores/ExamManagment.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/student-score/:id/details',
         name: 'Student score details',
         component: () => import('@/views/scores/StudentScoreViewDetails.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/teacher-list',
         name: 'Teacher management',
         component: () => import('@/views/teacher/TeacherList.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1] }
+        meta: { requiresAuth: true, requiredRole: [1] }
       },
       {
         path: '/guardian-list',
         name: 'Guardian management',
         component: () => import('@/views/guardians/GuardianList.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1] }
+        meta: { requiresAuth: true, requiredRole: [1] }
       },
       {
         path: '/add-guadian',
         name: 'Create new guadian',
         component: () => import('@/views/guardians/CreateGuardian.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1] }
+        meta: { requiresAuth: true, requiredRole: [1] }
       },
       {
         path: '/guardian/:id/edit',
         name: 'Update new guadian',
         component: () => import('@/views/guardians/CreateGuardian.vue'),
-        meta: { requiresAuth: true, requiredRoles: [1] }
+        meta: { requiresAuth: true, requiredRole: [1] }
       },
       {
         path: '/:pathMatch(.*)*', // matches any unknown path
@@ -222,33 +230,44 @@ const router = createRouter({
   routes
 })
 
-
-// https://beginnersoftwaredeveloper.com/how-do-i-protect-my-vue-router/?expand_article=1
-
-// router.beforeEach((to, from, next) => {
-
-//   const { isAuthenticated, role } = checkAuth();
-//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-//   const requiredRole = to.meta.requiredRole;
-
-//   if (requiresAuth && !isAuthenticated) {
-//     next('/login');
-//   }
-//   else if (to.name === '') {
-//     next('/student-home');
-//   }
-//   else if (requiredRole && !requiredRole.includes(role)) {
-//     next('/login');
-//   }
-//    else {
-//     next();
-//   }
-// })
-
 // function checkAuth() {
-//   const token = Cookies.get('access_token');
-//   const role = Cookies.get('user_role');
-//   return { isAuthenticated: !!token, role: parseInt(role) };
+//   const token = localStorage.getItem('access_token');
+//   if (!token) return { isAuthenticated: false, role: null };
+
+//   try {
+//     const decoded = jwtDecode(token);
+//     const isExpired = decoded.exp * 1000 < Date.now();
+//     if (isExpired) {
+//       localStorage.removeItem('access_token');
+//       return { isAuthenticated: false, role: null };
+//     }
+//     return { isAuthenticated: true, role: decoded.role };
+//   } catch (error) {
+//     localStorage.removeItem('access_token');
+//     return { isAuthenticated: false, role: null };
+//   }
 // }
+
+router.beforeEach((to, from, next) => {
+  const { isAuthenticated, role } = checkAuth()
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  const requiredRole = to.meta.requiredRole
+
+  if (requiresAuth && !isAuthenticated) {
+    next('/login')
+    localStorage.removeItem('access_token')
+  } else if (requiredRole && !requiredRole.includes(role)) {
+    next('/login')
+    localStorage.removeItem('access_token')
+  } else {
+    next()
+  }
+})
+
+function checkAuth() {
+  const token = localStorage.getItem('access_token')
+  const role = localStorage.getItem('user_role')
+  return { isAuthenticated: !!token, role: parseInt(role) }
+}
 
 export default router

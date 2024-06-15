@@ -1,7 +1,7 @@
 <template>
-  <v-layout class="d-flex align-center justify-content-center" height="100vh">
+  <v-layout class="login">
     <v-app-bar collapse :elevation="2">
-      <switcher-language/>
+      <switcher-language />
     </v-app-bar>
     <v-card width="60%" class="py-0">
       <v-row>
@@ -15,7 +15,9 @@
           ></v-img>
         </v-col>
         <v-col cols="6" class="px-8">
-          <v-card-title class="px-0"><h3>{{$t('login.title')}}</h3></v-card-title>
+          <v-card-title class="px-0">
+            <h3>{{ $t('login.title') }}</h3>
+          </v-card-title>
           <v-form ref="form" class="mt-5" @submit.prevent="connection">
             <v-text-field
               :label="$t('login.lebelEmail')"
@@ -39,73 +41,84 @@
               :error-messages="incorrect"
               class="mt-4 mb-2"
             ></v-text-field>
-            <router-link to="/forgot-password">{{ $t('login.form.forgot-pass') }}</router-link>
-            <v-btn type="submit" color="teal darken-4 mt-7" block class="login-button">{{ $t('btn.login') }}</v-btn>
+            <router-link to="/forgot-password">
+              {{ $t('login.form.forgot-pass') }}
+            </router-link>
+            <v-btn
+              type="submit"
+              color="teal darken-4 mt-7"
+              block
+              class="login-button"
+            >
+              {{ $t('btn.login') }}
+            </v-btn>
           </v-form>
-          <!-- <v-alert class="mt-2" color="info">Please insert correct password and email to login your acount.</v-alert> -->
         </v-col>
       </v-row>
     </v-card>
   </v-layout>
 </template>
 <script>
-import { mapActions } from 'pinia'
-import { useAuthStore } from '@/stores/auth'
-import { useLoadingStore } from '@/stores/loading'
-import SwitcherLanguage from '@/components/common/SwitcherLanguage.vue'
-export default {
-  components:{
-    SwitcherLanguage
-  },
-  data: () => ({
-    visible: false,
-    email: 'admin@example.com',
-    password: 'admin1234',
-    emailRules: [
-      v => !!v || 'E-mail is required',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
-    ],
-    passwordRules: [
-      v => !!v || 'Password is required',
-      v => (v && v.length >= 8) || 'Password must be 8  characters or more!'
-    ],
-    incorrect: ''
-  }),
+  import { mapActions } from 'pinia'
+  import { useAuthStore } from '@/stores/auth'
+  import SwitcherLanguage from '@/components/common/SwitcherLanguage.vue'
+  export default {
+    components: {
+      SwitcherLanguage
+    },
+    data: () => ({
+      visible: false,
+      email: 'admin@example.com',
+      password: 'admin1234',
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+      ],
+      passwordRules: [
+        v => !!v || 'Password is required',
+        v => (v && v.length >= 8) || 'Password must be 8  characters or more!'
+      ],
+      incorrect: ''
+    }),
 
-  methods: {
-    ...mapActions(useAuthStore, ['login']),
-    ...mapActions(useLoadingStore, ['setLoading']),
-    connection() {
-      if (this.$refs.form.validate()) {
-        this.login({ email: this.email, password: this.password })
-          .then(response => {
-            this.$root.$notif('Login successfully', {
-              type: 'success',
-              color: 'primary'
-            })
-            const userRole = response.data.user.role
-            this.setLoading(true)
-            if (userRole === 1) {
-              this.$router.push('/admin-dashboard')
-            } else if (userRole === 2) {
-              this.$router.push('/teacher-dashboard')
-            } else {
-              this.$router.push('/student-home')
-            }
-            this.setLoading(false)
-          })
-          .catch(error => {
-            if (error.response.status === 401) {
-              this.incorrect = 'Email or password is incorrect'
-            } else if (error.response.status === 500) {
-              this.$root.$notif(error.response.data.message, {
-                type: 'info',
-                color: 'info'
+    methods: {
+      ...mapActions(useAuthStore, ['login']),
+      connection() {
+        if (this.$refs.form.validate()) {
+          this.login({ email: this.email, password: this.password })
+            .then(response => {
+              this.$root.$notif('Login successfully', {
+                type: 'success',
+                color: 'primary'
               })
-            }
-          })
+              const userRole = response.data.user.role
+              if (userRole === 1) {
+                this.$router.push('/admin-dashboard')
+              } else if (userRole === 2) {
+                this.$router.push('/teacher-dashboard')
+              } else {
+                this.$router.push('/student-home')
+              }
+            })
+            .catch(error => {
+              if (error.response.status === 401) {
+                this.incorrect = 'Email or password is incorrect'
+              } else if (error.response.status === 500) {
+                this.$root.$notif(error.response.data.message, {
+                  type: 'info',
+                  color: 'info'
+                })
+              }
+            })
+        }
       }
     }
   }
-}
 </script>
+<style scoped>
+  .login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

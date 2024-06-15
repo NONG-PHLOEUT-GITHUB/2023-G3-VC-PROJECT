@@ -44,14 +44,14 @@
                 ></v-btn>
               </template>
 
-              <v-list density="compact">
+              <v-list density="compact" nav>
                 <v-list-item
                   v-for="(item, i) in items"
                   :key="i"
                   :value="item"
                   @click="onMenuClick(item.action, coordinator.id)"
                 >
-                  <template v-slot:prepend>
+                  <template v-slot:append>
                     <v-icon :icon="item.icon" :color="item.color"></v-icon>
                   </template>
                   <v-list-item-title v-text="item.title"></v-list-item-title>
@@ -95,14 +95,14 @@
                 ></v-btn>
               </template>
 
-              <v-list density="compact">
+              <v-list density="compact" nav>
                 <v-list-item
                   v-for="(item, i) in items"
                   :key="i"
                   :value="item"
                   @click="onMenuClick(item.action, classroom.id)"
                 >
-                  <template v-slot:prepend>
+                  <template v-slot:append>
                     <v-icon :icon="item.icon" :color="item.color"></v-icon>
                   </template>
                   <v-list-item-title v-text="item.title"></v-list-item-title>

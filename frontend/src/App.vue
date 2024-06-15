@@ -18,16 +18,28 @@
       Confirm,
       Loading
     },
-    create() {
-      document.addEventListener('keydown', e => {
+    methods: {
+      handleKeyDown(e) {
         if (e.shiftKey && e.ctrlKey && e.key === 'L') {
+          e.preventDefault() // Prevent any default behavior
           this.$i18n.locale = this.$i18n.locale === 'en' ? 'kh' : 'en'
+          localStorage.setItem('lang', this.$i18n.locale)
         }
-      })
+      }
     },
     mounted() {
       this.$root.$confirm = this.$refs.confirm.open
       this.$root.$notif = this.$refs.notif.newAlert
+      
+      const savedLang = localStorage.getItem('lang')
+      if (savedLang) {
+        this.$i18n.locale = savedLang
+      }
+      document.addEventListener('keydown', this.handleKeyDown)
+    },
+    beforeDestroy() {
+      // Clean up the event listener when the component is destroyed
+      document.removeEventListener('keydown', this.handleKeyDown)
     }
   }
 </script>
