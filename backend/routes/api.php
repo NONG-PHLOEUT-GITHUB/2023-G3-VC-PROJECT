@@ -122,6 +122,7 @@ Route::prefix('scores')->group(function () {
     Route::get('/student/{user_id}/monthly-score', [ScoreController::class, 'getStudentScoreEveryMonth']);
     Route::get('/student/{id}/{month}', [ScoreController::class, 'getStudentScore']);
     Route::post('/import-score', [ImportExelFileController::class, 'importExamResult']);
+    Route::get('class/{id}', [ScoreController::class, 'getStudentScoreByClass']);
 });
 
 // ======================== Exam Routes ========================

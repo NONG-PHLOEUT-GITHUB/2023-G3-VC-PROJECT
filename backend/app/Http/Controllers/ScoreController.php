@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Classroom;
 use App\Models\Score;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ScoreController extends Controller
@@ -101,5 +104,53 @@ class ScoreController extends Controller
         return response()->json([
             'average_scores' => $averageScore,
         ], 200);
+    }
+
+
+    public function getStudentScoreByClass(string $classroomId)
+    {
+        // Find the classroom based on the classroom ID
+        $classroom = Classroom::find($classroomId);
+
+        if (!$classroom) {
+            return response()->json(['error' => 'Classroom not found'], 404);
+        }
+
+           // Retrieve students (users) belonging to the classroom
+        $students = $classroom->students;
+
+        // Prepare an array to store formatted data
+        $studentsWithScores = [];
+
+        foreach ($students as $student) {
+            // dd($student->scores);
+        // Retrieve scores for each student
+        // $scores = $student->scores;
+        // / Retrieve scores for each student along with subject names
+        $scores = Score::where('user_id', $student->id)
+                       ->with('subject') // Eager load the 'subject' relationship
+                       ->get();
+
+        // Format the scores data for the student
+        $formattedScores = $scores->map(function ($score) {
+            return [
+                'score_id' => $score->id,
+                'subject' => $score->subject->name, // Access the subject name via the 'subject' relationship
+                'score' => $score->score,
+                // Add other attributes you want to include
+            ];
+        });
+
+        // Add student data along with scores to the result array
+        $studentsWithScores[] = [
+            'student_id' => $student->id,
+            'first_name' => $student->first_name, // Assuming 'name' is an attribute of the User model
+            'last_name' => $student->last_name, // Assuming 'name' is an attribute of the User model
+            'scores' => $formattedScores,
+        ];
+    }
+
+    return response()->json(['success' => true, 'data' => $studentsWithScores], 200);
+
     }
 }

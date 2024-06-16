@@ -8,7 +8,7 @@
             icon="mdi-dots-vertical"
             class="elevation-0"
             v-bind="props"
-            color="info"
+            color="primary"
           ></v-btn>
         </template>
 
@@ -120,12 +120,14 @@
           {
             action: 'studentList',
             title: this.$t('btn.studentList'),
-            icon: 'mdi-list-box-outline'
+            icon: 'mdi-list-box-outline',
+            color: 'primary',
           },
           {
             action: 'checkAttendance',
             title: this.$t('btn.checkAtt'),
-            icon: 'mdi-check-decagram-outline'
+            icon: 'mdi-check-decagram-outline',
+            color: 'primary',
           },
           {
             action: 'scoreReport',

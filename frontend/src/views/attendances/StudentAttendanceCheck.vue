@@ -51,8 +51,6 @@
             inset
             v-model="item.selected"
             color="red"
-            :false-value="switchValue"
-            :true-value="switchValue"
             false-icon="mdi-plus"
             true-icon="mdi-check"
           ></v-switch>
@@ -99,7 +97,6 @@
     data() {
       return {
         selectedValues: [],
-        chat_id: '',
         toggleFilter: false,
         checkDate: null,
         filterCriteria: {},
@@ -204,7 +201,6 @@
               color: 'primary'
             })
             this.selectedValues = []
-            this.switchValue = false
           })
           .catch(err => {
             console.error('Error creating attendance:', err)

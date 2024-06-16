@@ -47,6 +47,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async fetchUser(exam_id) {
       const response = await fetchUserLoged(exam_id)
+      console.log(response.data.data.scores);
       this.studentScores = response.data.data.scores
       this.exams = response.data.data.exams
       this.studentComments = response.data.data.comments

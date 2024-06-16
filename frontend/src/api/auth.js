@@ -16,10 +16,7 @@ export function userLogin(email, password) {
   return http.post('/v1/auth/login', user)
 }
 export function fetchUserLoged(filterCriteria) {
-  // if (!exam_id) {
     return http.get('v1/auth/user',{ params: filterCriteria })
-  // }
-  // return http.get('v1/auth/user', { params: filterCriteria });
 }
 
 export function forgotPassword(email) {

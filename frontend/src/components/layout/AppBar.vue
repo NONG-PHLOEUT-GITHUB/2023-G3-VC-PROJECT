@@ -19,7 +19,7 @@
       <v-btn stacked>
         <v-switch
           inset
-          color="primary"
+          color="secondary"
           v-model="darkMode"
           @change="toggleTheme"
           hide-details
@@ -30,11 +30,10 @@
       <!-- menu setting -->
       <v-menu>
         <template v-slot:activator="{ props }">
-          <strong class="me-6 d-none d-lg-block d-print-block">
+          <span class="me-1 d-none d-lg-block d-print-block">
             {{ authUser.first_name }} {{ authUser.last_name }}
-          </strong>
-          <!-- icon="" -->
-          <v-btn v-bind="props" class="me-2" stacked>
+          </span>
+          <v-btn v-bind="props" size="small" class="me-2" stacked>
             <v-avatar color="brown" size="large" class="avatar">
               <v-img :src="authUser.profile" alt="Avatar" cover></v-img>
             </v-avatar>
@@ -75,11 +74,10 @@
             <template v-slot:append>
               <v-icon
                 size="large"
-                class="icon-setting"
                 :icon="item.icon"
+                color="primary"
               ></v-icon>
             </template>
-            <!-- :to="item.path" -->
             <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item>
         </v-list>
@@ -207,7 +205,7 @@
       },
       toggleTheme() {
         this.theme.global.name.value = this.darkMode ? 'dark' : 'light'
-        localStorage.setItem('theme', JSON.stringify(this.darkMode));
+        localStorage.setItem('theme', JSON.stringify(this.darkMode))
       },
       onMenuClick(action) {
         switch (action) {
@@ -226,7 +224,7 @@
 </script>
 <style scoped>
   .avatar {
-    border: solid rgb(105, 208, 208);
+    border: solid #89474b;
   }
   .font-weight-bold {
     font-size: 1.25rem;

@@ -42,10 +42,10 @@
 
       <v-row no-gutters>
         <v-spacer></v-spacer>
-        <v-btn @Click="cancel" class="mt-4 w-25" color="teal-darken-4" variant="outlined"
+        <v-btn @Click="cancel" class="mt-4 w-25" color="primary" variant="outlined"
           >{{$t('btn.cancel')}}</v-btn
         >
-        <v-btn type="submit" color="teal-darken-4" class="mt-4 ms-1">{{ $t('btn.saveChange') }}</v-btn>
+        <v-btn type="submit" color="primary" class="mt-4 ms-1">{{ $t('btn.saveChange') }}</v-btn>
       </v-row>
     </v-form>
   </v-card>

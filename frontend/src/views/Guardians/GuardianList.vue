@@ -16,7 +16,7 @@
         icon="mdi-file-excel"
       ></v-btn>
       <v-btn
-        v-if="this.selectedItem.length > 0"
+        :disabled="this.selectedItem.length <= 0"
         variant="tonal"
         class="ms-4 bg-deep-orange-accent-4"
         icon="mdi-delete-forever"
@@ -45,6 +45,7 @@
         :to="{ path: '/guardian/' + item.id + '/edit' }"
         variant="text"
         icon="mdi-pencil"
+        color="btnEdit"
       ></v-btn>
 
       <v-btn

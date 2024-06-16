@@ -91,7 +91,12 @@
       md="3"
       v-for="classroom in classrooms"
     >
-      <v-card prepend-icon="mdi-chair-school" :title="classroom.classroom_name">
+      <v-card
+        prepend-icon="mdi-chair-school"
+        :title="classroom.classroom_name"
+        border
+        flat
+      >
         <template v-slot:append>
           <v-menu>
             <template v-slot:activator="{ props }">
@@ -108,6 +113,7 @@
                 :key="i"
                 :value="item"
                 @click="onMenuClick(item.action, classroom.id)"
+                color="primary"
               >
                 <template v-slot:append>
                   <v-icon :icon="item.icon" :color="item.color"></v-icon>
@@ -123,7 +129,7 @@
             <strong>{{ classroom.student_count }}</strong>
           </v-chip>
           <br />
-          <v-chip v-if="classroom.class_coordinator != null">
+          <v-chip v-if="classroom.class_coordinator != null" color="primary">
             {{ $t('classroom.coordinator') }} :
             <strong>{{ classroom.class_coordinator }}</strong>
           </v-chip>
@@ -133,11 +139,7 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-alert
-      v-else
-      text="No class created."
-      type="info"
-    ></v-alert>
+    <v-alert v-else text="No class created." type="info"></v-alert>
   </v-row>
 </template>
 

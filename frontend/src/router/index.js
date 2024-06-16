@@ -59,13 +59,13 @@ const routes = [
         name: 'My attendance',
         component: () =>
           import('@/views/attendances/StudentAttendanceView.vue'),
-        meta: { requiresAuth: true, requiredRole: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2, 3] }
       },
       {
         path: '/student-score/view',
         name: 'My score',
-        component: () => import('@/views/scores/StudentScoreView.vue'),
-        meta: { requiresAuth: true, requiredRole: [1, 2] }
+        component: () => import('@/views/scores/StudentExamView.vue'),
+        meta: { requiresAuth: true, requiredRole: [1, 2, 3] }
       },
 
       {
@@ -190,7 +190,7 @@ const routes = [
         path: '/student-score/:id/details',
         name: 'Student score details',
         component: () => import('@/views/scores/StudentScoreViewDetails.vue'),
-        meta: { requiresAuth: true, requiredRole: [1, 2] }
+        meta: { requiresAuth: true, requiredRole: [1, 2,3] }
       },
       {
         path: '/teacher-list',

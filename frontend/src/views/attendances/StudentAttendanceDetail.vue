@@ -72,7 +72,7 @@
             // Create a link element to trigger the download
             const link = document.createElement('a')
             link.href = url
-            const filename = `${this.studentName.first_name}_${this.studentName.last_name}_${formattedDate}.xlsx`
+            const filename = `Attendance_${this.studentName.first_name}_${this.studentName.last_name}_${formattedDate}.xlsx`
             link.setAttribute('download', filename) // Adjust filename as needed
 
             // Append the link to the document body and trigger the click event
@@ -96,7 +96,7 @@
 
         try {
           await axios.post(
-            `https://api.telegram.org/bot${process.env.VUE_APP_TELEGRAM_BASE_TOKEN_MESSAGING}/sendDocument`,
+            process.env.VUE_APP_TELEGRAM_BASE_TOKEN_SEND_DOC,
             formData,
             {
               headers: {

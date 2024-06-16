@@ -3,13 +3,9 @@
   <v-data-table
     :headers="headers"
     :items="items"
-    :total-items="totalItems"
-    :loading="loading"
-    :options.sync="options"
-    :server-items-length="serverItemsLength"
-    @update:options="getData"
     class="elevation-1"
   ></v-data-table>
+  {{ allStudents }}
     <div class="table-responsive">
       <table class="table table-hover table-nowrap">
         <thead class="thead">
@@ -112,12 +108,6 @@ export default {
       items: [],
       totalItems: 0,
       loading: false,
-      options: {
-        itemsPerPage: 10,
-        page: 1,
-        sortBy: [],
-        sortDesc: []
-      }
     };
   },
   computed: {
@@ -141,7 +131,7 @@ export default {
   methods: {
     getStudents(id) {
       http
-        .get(`/getAllStudents/${id}`)
+        .get(`scores/class/${id}`)
         .then((response) => {
           this.allStudents = response.data.data;
           this.allStudents.forEach((element) => {

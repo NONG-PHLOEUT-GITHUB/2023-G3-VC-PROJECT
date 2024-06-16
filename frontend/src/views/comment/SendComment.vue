@@ -150,11 +150,17 @@ export default {
     async sendToTelegram() {
       try {
         const message = `Title: ${this.title} \nSubtitle: ${this.subtitle} \nBody: ${this.body} \nBy teacher: ${this.authUser.first_name} ${this.authUser.last_name}`
-
-        await axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
-          chat_id: this.studentDetails.chat_id, // Use parent_chat_id for the Telegram message
-          text: message
-        })
+        if(this.studentDetails.chat_id != null){
+          await axios.post(process.env.VUE_APP_TELEGRAM_BASE_TOKEN, {
+            chat_id: this.studentDetails.chat_id, // Use parent_chat_id for the Telegram message
+            text: message
+          })
+        }else {
+          this.$root.$notif('Do not have parents information.', {
+            type: 'info',
+            color: 'info',
+          })
+        }
         this.$root.$notif('Comments sent successfully!', {
           type: 'success',
           color: 'primary'
@@ -173,7 +179,7 @@ export default {
 
       try {
         await axios.post(
-          `https://api.telegram.org/bot${process.env.VUE_APP_TELEGRAM_BASE_TOKEN_MESSAGING}/sendDocument`,
+          process.env.VUE_APP_TELEGRAM_BASE_TOKEN_SEND_DOC,
           formData,
           {
             headers: {

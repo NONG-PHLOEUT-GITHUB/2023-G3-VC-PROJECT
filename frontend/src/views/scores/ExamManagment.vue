@@ -69,13 +69,13 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="blue-darken-1"
+            color="primary"
             variant="outlined"
             @click="dialog = false"
           >
             {{ $t('btn.cancel') }}
           </v-btn>
-          <v-btn type="submit" class="bg-blue-darken-1">
+          <v-btn type="submit" class="bg-primary">
             {{ $t('btn.save') }}
           </v-btn>
         </v-card-actions>

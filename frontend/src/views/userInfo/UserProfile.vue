@@ -15,7 +15,7 @@
   <v-form @submit.prevent="updateProfile()">
     <v-layout class="rounded rounded-md px-0">
       <v-col cols="3" class="pa-1">
-        <v-card>
+        <v-card class="card">
           <v-card-text class="px-0 text-center">
             <v-col>
               <div>
@@ -23,7 +23,7 @@
                   v-if="previewImage"
                   color="grey"
                   rounded="100"
-                  size="150"
+                  size="175"
                   class="avatar elevation-1"
                 >
                   <v-img :src="previewImage" alt="John"></v-img>
@@ -32,17 +32,17 @@
                   v-else
                   color="grey"
                   rounded="100"
-                  size="150"
+                  size="175"
                   class="avatar elevation-1"
                 >
                   <v-img :src="authUser.profile" cover></v-img>
                 </v-avatar>
               </div>
-              <v-chip class="mt-2">
+              <v-chip class="mt-2 bg-primary">
                 {{ authUser.first_name }} {{ authUser.last_name }}
               </v-chip>
               <v-file-input
-                accept="image/png, image/jpeg, image/bmp"
+                accept="image/png, image/jpeg, image/bmp, image/webp"
                 label="Edit new profile"
                 placeholder="Pick an avatar"
                 prepend-icon=""
@@ -61,9 +61,31 @@
             </v-col>
           </v-card-text>
         </v-card>
+        <v-card class="mt-4 bg-secondary card">
+          <v-list class="pa-0">
+            <v-list-subheader>
+              <v-list-item-title>
+                Social media
+              </v-list-item-title>
+            </v-list-subheader>
+
+            <v-list-item
+              v-for="(item, i) in items"
+              :key="i"
+              :value="item"
+              color="primary"
+            >
+              <template v-slot:append>
+                <v-icon :icon="item.icon" color="primary"></v-icon>
+              </template>
+
+              <v-list-item-title v-text="item.text"></v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-card>
       </v-col>
       <v-col cols="9" class="pa-1">
-        <v-card class="px-2">
+        <v-card class="card px-2">
           <custom-sub-title icon="mdi-account-card">
             {{ $t('profile.pInformation') }}
           </custom-sub-title>
@@ -76,6 +98,7 @@
                 variant="outlined"
                 prepend-inner-icon="mdi-card-account-details-outline"
                 readonly
+                color="textField"
               ></v-text-field>
             </v-col>
             <v-col>
@@ -119,7 +142,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <custom-sub-title icon="mdi-contacts">
+          <custom-sub-title icon="mdi-contacts" >
             {{ $t('profile.cInformation') }}
           </custom-sub-title>
           <v-row>
@@ -197,6 +220,11 @@
               'Avatar size should be less than 2 MB!'
             )
           }
+        ],
+        items: [
+          { text: 'Facebook', icon: 'mdi-facebook' },
+          { text: 'Twitter', icon: 'mdi-twitter' },
+          { text: 'Instagram', icon: 'mdi-instagram' }
         ]
       }
     },
@@ -256,3 +284,8 @@
     }
   }
 </script>
+<style scoped>
+.card{
+  border-left: solid 3px #89474b;
+}
+</style>

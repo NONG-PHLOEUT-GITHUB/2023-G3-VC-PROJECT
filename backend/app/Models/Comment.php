@@ -10,6 +10,7 @@ class Comment extends Model
     use HasFactory;
     protected $fillable = [
         'id',
+        'title',
         'body',
         'user_id',
         'teacher_id',
@@ -20,6 +21,7 @@ class Comment extends Model
     {
         $comments = $request->only(
             'id',
+            'title',
             'body',
             'user_id',
             'teacher_id'

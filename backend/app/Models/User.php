@@ -108,7 +108,7 @@ class User extends Authenticatable implements JWTSubject
             }
     
             $request->validate([
-                'profile' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+                'profile' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
             ]);
             if ($request->hasFile('profile')) {
                 $image = $request->file('profile');
@@ -127,9 +127,9 @@ class User extends Authenticatable implements JWTSubject
             if ($request->has('email') && self::where('email', $request->input('email'))->exists()) {
                 return response()->json(['error' => 'Email is already taken'], 422);
             }
-// dd($request->file('profile'));
             $request->validate([
-                'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+                // 'profile' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+                'profile' => 'nullable|image|mimetypes:image/jpeg,image/png,image/webp|max:2048'
             ]);
     
             $image = $request->file('profile');
@@ -145,9 +145,9 @@ class User extends Authenticatable implements JWTSubject
             $id = $user->$id;
 
             // Send an email notification to the user
-            // Mail::send('email.new_user', ['user' => $user, 'password' => $password], function ($message) use ($user) {
-            //     $message->to($user->email, $user->first_name)->subject('Welcome to our system!');
-            // });
+            Mail::send('email.new_user', ['user' => $user, 'password' => $password], function ($message) use ($user) {
+                $message->to($user->email, $user->first_name)->subject('Welcome to our system!');
+            });
         }
 
         // Retrieve the subject_id string from the request

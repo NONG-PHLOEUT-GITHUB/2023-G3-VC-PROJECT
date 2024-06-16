@@ -1,5 +1,8 @@
 <template>
-  <v-navigation-drawer elevation="4" v-model="drawer">
+  <v-navigation-drawer elevation="4" v-model="drawer" 
+  >
+  <!-- expand-on-hover
+  rail -->
     <v-list>
       <v-list-item>
         <div class="image">
@@ -19,6 +22,7 @@
         link
         :to="item.path"
         exact
+        color="primary"
       >
         <template v-slot:prepend>
           <v-icon :icon="item.icon"></v-icon>

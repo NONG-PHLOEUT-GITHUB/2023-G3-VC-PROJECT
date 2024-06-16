@@ -12,6 +12,8 @@
         v-for="list in orderedLanguage"
         :key="list.lang"
         @click="switchLanguage(list.lang)"
+        color="primary"
+        value="list"
       >
         <template v-slot:append>
           <v-avatar size="small">

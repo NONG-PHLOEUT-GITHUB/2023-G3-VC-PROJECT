@@ -8,7 +8,7 @@
         title="Class 12"
       >
         <template v-slot:prepend>
-          <v-avatar color="blue-darken-2">
+          <v-avatar color="primary">
             <v-icon icon="mdi-math-compass"></v-icon>
           </v-avatar>
         </template>
@@ -28,7 +28,7 @@
         title="Class 11"
       >
         <template v-slot:prepend>
-          <v-avatar color="blue-darken-2">
+          <v-avatar color="primary">
             <v-icon icon="mdi-human-male-board-poll"></v-icon>
           </v-avatar>
         </template>
@@ -48,7 +48,7 @@
         title="Class 10"
       >
         <template v-slot:prepend>
-          <v-avatar color="blue-darken-2">
+          <v-avatar color="primary">
             <v-icon icon="mdi-google-classroom"></v-icon>
           </v-avatar>
         </template>

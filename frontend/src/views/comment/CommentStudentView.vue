@@ -4,63 +4,100 @@
       <v-btn
         variant="outlined"
         append-icon="mdi-filter-multiple-outline"
-        class="text-none me-4"
+        class="text-none"
         color="primary"
         @click="toggleFilter = !toggleFilter"
-        >{{ $t('btn.filter') }}
+      >
+        {{ $t('btn.filter') }}
       </v-btn>
     </template>
   </custom-title>
-  <v-card class="elevation-1 pa-3" v-show="toggleFilter">
+  <v-card class="elevation-1 pa-3 mb-1" v-show="toggleFilter">
     <v-row>
       <v-col>
-        <v-text-field label="Teacher name" hide-details variant="outlined"></v-text-field>
+        <v-text-field
+          label="Teacher name"
+          hide-details
+          variant="outlined"
+          density="compact"
+        ></v-text-field>
       </v-col>
       <v-col>
-        <v-text-field label="Title" hide-details variant="outlined"></v-text-field>
+        <v-text-field
+          density="compact"
+          label="Title"
+          hide-details
+          variant="outlined"
+        ></v-text-field>
       </v-col>
     </v-row>
   </v-card>
-  <v-col v-for="file in studentComments" v-if="studentComments.length != 0">
-    <v-card>
+  <v-list :lines="false" elevation="0" v-if="studentComments.length != 0">
+    <v-list-item
+      v-for="(comment, i) in studentComments"
+      :key="i"
+      :value="comment"
+      class="item mt-1"
+      rounded="lg"
+      elevation="0"
+    >
+      <!-- <v-list-subheader v-text="comment.title"></v-list-subheader> -->
       <template v-slot:prepend>
         <v-avatar>
-          <v-img color="white" :src="file.profile"></v-img>
+          <v-img color="white" :src="comment.profile"></v-img>
         </v-avatar>
       </template>
-      <template v-slot:title>
-        <v-card-title class="ms-3">{{ file.first_name + ' ' + file.last_name }}</v-card-title>
-      </template>
-      <template v-slot:subtitle> <span class="ms-3">{{ file.title }}</span> </template>
-
-      <v-card-text class="pa-4">
-        <v-chip>{{ file.body }}</v-chip>
-      </v-card-text>
+      <v-list-item-title>
+        {{ comment.first_name + ' ' + comment.last_name }}
+      </v-list-item-title>
+      <v-list-item-subtitle>
+        {{ formatDate(comment.created_at) }}
+      </v-list-item-subtitle>
+      <v-list-item class="pa-0">
+        {{ comment.body }}
+      </v-list-item>
       <template v-slot:append>
         <v-btn icon="mdi-reply" variant="text"></v-btn>
       </template>
-    </v-card>
-  </v-col>
+    </v-list-item>
+  </v-list>
   <v-alert v-else text="Donn't have comments yet." type="info"></v-alert>
 </template>
 <script>
-import { mapActions, mapState } from 'pinia'
-import { useAuthStore } from '@/stores/auth'
-export default {
-  name: 'CommentStudentView',
-  data() {
-    return {
-      toggleFilter: false
+  import { mapActions, mapState } from 'pinia'
+  import { useAuthStore } from '@/stores/auth'
+  import { format, parseISO } from 'date-fns'
+
+  export default {
+    name: 'CommentStudentView',
+    data() {
+      return {
+        toggleFilter: false
+      }
+    },
+    created() {
+      this.fetchUser()
+    },
+    computed: {
+      ...mapState(useAuthStore, ['studentComments'])
+    },
+    methods: {
+      ...mapActions(useAuthStore, ['fetchUser']),
+      formatDate(dateString) {
+        try {
+          const date = parseISO(dateString)
+          return format(date, 'dd-MMM-yyyy')
+        } catch (error) {
+          console.error('Error parsing date:', error)
+          return dateString // Fallback to the original string if parsing fails
+        }
+      }
     }
-  },
-  created() {
-    this.fetchUser()
-  },
-  computed: {
-    ...mapState(useAuthStore, ['studentComments'])
-  },
-  methods: {
-    ...mapActions(useAuthStore, ['fetchUser'])
   }
-}
 </script>
+
+<style scoped>
+.item{
+  border: solid 1px #89474b;
+}
+</style>

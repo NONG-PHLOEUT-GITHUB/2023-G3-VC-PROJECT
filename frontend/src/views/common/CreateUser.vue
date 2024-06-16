@@ -150,7 +150,7 @@
             multiple
             chips
             clearable
-            v-model="subjectSelected"
+            v-model="studentDetails.subject_id"
           ></v-select>
         </v-col>
       </v-row>
@@ -259,6 +259,7 @@
       </v-card-actions>
     </v-form>
   </v-card>
+  {{this.subjectSelected}}
 </template>
 
 <script>
@@ -276,7 +277,7 @@
         previewImage: '',
         showRow: false,
         showSubject: false,
-        subjectSelected: [],
+        subjectSelect: [],
         roleOption: [
           { value: 1, title: 'Administrator' },
           { value: 2, title: 'Teacher' },
@@ -339,9 +340,9 @@
       ...mapState(useStudentStore, ['students', 'studentDetails']),
       ...mapState(useClassroomStore, ['classrooms']),
       ...mapState(useSubjectStore, ['subjects']),
-      // subjectSelected() {
-      //   return this.studentDetails.subjects // Or however you want to compute subjectSelected
-      // }
+      subjectSelected() {
+        return this.subjectSelect = this.studentDetails.subject_id
+      }
     },
     methods: {
       ...mapActions(useStudentStore, [
@@ -397,7 +398,7 @@
           profile: this.profile_picture || '',
           role: this.studentDetails.role || '',
           classroom_id: this.studentDetails.classroom_id || '',
-          subject_id: this.studentDetails.subjectSelected || null,
+          subject_id: this.studentDetails.subject_id || null,
           guardian_id: this.studentDetails.guardian_id || ''
         }
 
@@ -439,10 +440,14 @@
                   type: 'success',
                   color: 'primary'
                 })
-                const role = response.data.data.role
-                const redirectPath =
-                  role === 1 || role === 2 ? '/teacher-list' : '/student-list'
-                this.$router.push({ path: redirectPath })
+                if (
+                  this.studentDetails.role == 2 ||
+                  this.studentDetails.role == 1
+                ){
+                  this.$router.push({ path: '/teacher-list' })
+                }else {
+                  this.$router.push({ path: '/student-list' })
+                }
               }
             })
             .catch(e => {

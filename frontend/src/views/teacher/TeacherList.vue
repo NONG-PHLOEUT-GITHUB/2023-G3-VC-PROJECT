@@ -21,7 +21,7 @@
         </template>
       </v-tooltip>
       <v-btn
-        v-if="this.selectedUser.length > 0"
+        :disabled="this.selectedUser.length <= 0"
         variant="tonal"
         class="ms-4 bg-deep-orange-accent-4"
         icon="mdi-delete-forever"
@@ -51,6 +51,7 @@
           :to="{ path: '/user/' + item.id + '/edit' }"
           variant="text"
           icon="mdi-pencil"
+          color="btnEdit"
         ></v-btn>
 
         <v-btn

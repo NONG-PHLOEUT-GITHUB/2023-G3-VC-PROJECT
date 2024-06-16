@@ -23,7 +23,7 @@
           </v-col>
         </v-card-text>
         <template v-slot:prepend>
-          <v-avatar color="blue-darken-2">
+          <v-avatar color="primary">
             <v-icon icon="mdi-account-tie"></v-icon>
           </v-avatar>
         </template>
@@ -48,7 +48,7 @@
         :title="$t('dashboard.teacher')"
       >
         <template v-slot:prepend>
-          <v-avatar color="blue-darken-2">
+          <v-avatar color="primary">
             <v-icon icon="mdi-human-male-board-poll"></v-icon>
           </v-avatar>
         </template>
@@ -86,7 +86,7 @@
         :title="$t('dashboard.class')"
       >
         <template v-slot:prepend>
-          <v-avatar color="blue-darken-2">
+          <v-avatar color="primary">
             <v-icon icon="mdi-google-classroom"></v-icon>
           </v-avatar>
         </template>
@@ -186,7 +186,7 @@
           ]
         },
         chartOptions: {
-          backgroundColor: 'teal',
+          backgroundColor: '#be4054',
           responsive: true
         }
       }

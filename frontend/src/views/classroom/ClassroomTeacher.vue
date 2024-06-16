@@ -182,7 +182,7 @@
             this.$router.push(`/attendance/${id}/student`)
             break
           case 'scoreReport':
-            this.$router.push(`/attendance/${id}/student`)
+            this.$router.push(`/student-score-report/${id}`)
             break
           case 'aReport':
             this.$router.push(`/attendance-report/${id}/by-class`)
