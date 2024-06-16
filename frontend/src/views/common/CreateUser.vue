@@ -131,7 +131,6 @@
             @change="handleFileChange"
           ></v-file-input>
         </v-col>
-        <!-- v-model="studentDetails.profile" -->
         <v-col>
           <v-avatar size="62">
             <v-img v-if="previewImage" :src="previewImage" alt="John"></v-img>
@@ -139,9 +138,11 @@
           </v-avatar>
         </v-col>
       </v-row>
-      <v-row v-show="showSubject">
+      <v-row v-if="studentDetails.role === 2">
         <v-col cols="6">
+          {{ studentDetails }}
           <v-select
+            v-model="studentDetails"
             :items="subjects"
             variant="outlined"
             label="Assign subject"
@@ -150,11 +151,10 @@
             multiple
             chips
             clearable
-            v-model="studentDetails.subject_id"
           ></v-select>
         </v-col>
       </v-row>
-      <v-row v-show="showRow">
+      <v-row v-if="studentDetails.role === 3">
         <v-col cols="6">
           <v-select
             :items="classrooms"
@@ -168,98 +168,29 @@
           ></v-select>
         </v-col>
       </v-row>
-      <v-card-text v-show="showRow" class="pa-0">
-        <custom-sub-title icon="mdi-information">
-          Parent Information
-        </custom-sub-title>
-        <v-row>
-          <v-col>
-            <v-text-field
-              variant="outlined"
-              v-model="parents.first_name"
-              label="First name"
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              variant="outlined"
-              v-model="parents.last_name"
-              label="Last name"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-radio-group inline v-model="parents.gender">
-              <v-radio label="Male" value="Male"></v-radio>
-              <v-radio label="Female" value="Female"></v-radio>
-            </v-radio-group>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-text-field
-              variant="outlined"
-              v-model="parents.address"
-              label="Address"
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              label="Date of birth"
-              variant="outlined"
-              v-model="parents.date_of_birth"
-              type="date"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-text-field
-              variant="outlined"
-              v-model="parents.chat_id"
-              label="Chat id of guadian"
-            ></v-text-field>
-          </v-col>
-          <v-col>
-            <v-text-field
-              variant="outlined"
-              v-model="parents.phone_number"
-              label="Phone Number"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-      </v-card-text>
+
+      <form-guardian
+        v-if="studentDetails.role === 3"
+        ref="formGuardian"
+        :guardian-details="guardianDetails"
+        @submit="handleGuardianSubmit"
+      />
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          v-if="studentDetails.role == 3"
-          type="submit"
+          type="button"
           class="mr-2"
-          :to="{ path: '/student-list' }"
+          :to="studentDetails.role === 3 ? '/student-list' : '/teacher-list'"
           variant="outlined"
         >
           {{ $t('btn.cancel') }}
         </v-btn>
-        <v-btn
-          v-else
-          type="submit"
-          class="mr-2"
-          :to="{ path: '/teacher-list' }"
-          variant="outlined"
-        >
-          {{ $t('btn.cancel') }}
-        </v-btn>
-        <v-btn v-if="!btn" type="submit" class="bg-primary">
-          {{ $t('btn.create') }}
-        </v-btn>
-        <v-btn v-else type="submit" class="bg-primary">
-          {{ $t('btn.update') }}
+        <v-btn type="submit" class="bg-primary" @click="submitForm">
+          {{ btn ? $t('btn.update') : $t('btn.create') }}
         </v-btn>
       </v-card-actions>
     </v-form>
   </v-card>
-  {{this.subjectSelected}}
 </template>
 
 <script>
@@ -268,15 +199,15 @@
   import { useClassroomStore } from '@/stores/classroom'
   import { useSubjectStore } from '@/stores/subject'
   import { useGuardianStore } from '@/stores/guardian'
+  import FormGuardian from '@/components/common/FormGuardian.vue'
   export default {
+    components: { FormGuardian },
     data() {
       return {
         btn: false,
         emailErrorMessage: '',
         profile_picture: '',
         previewImage: '',
-        showRow: false,
-        showSubject: false,
         subjectSelect: [],
         roleOption: [
           { value: 1, title: 'Administrator' },
@@ -307,15 +238,6 @@
               /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             return pattern.test(value) || 'Invalid e-mail.'
           }
-        },
-        parents: {
-          first_name: '',
-          last_name: '',
-          phone_number: '',
-          address: '',
-          chat_id: '',
-          gender: '',
-          date_of_birth: ''
         }
       }
     },
@@ -330,19 +252,22 @@
       this.handleRoleChange()
     },
     watch: {
-      // Watch for changes in the selected role
-      'studentDetails.role': 'handleRoleChange',
       'studentDetails.date_of_birth': function (newDate) {
         this.studentDetails.age = this.calculateAge(newDate)
-      }
+      },
+      'studentDetails.parent_id': function (newParentId) {
+        if (!newParentId) {
+          this.guardianDetails = {}
+        } else {
+          this.getGuardianDetails(newParentId)
+        }
+      },
     },
     computed: {
       ...mapState(useStudentStore, ['students', 'studentDetails']),
       ...mapState(useClassroomStore, ['classrooms']),
       ...mapState(useSubjectStore, ['subjects']),
-      subjectSelected() {
-        return this.subjectSelect = this.studentDetails.subject_id
-      }
+      ...mapState(useGuardianStore, ['guardianDetails'])
     },
     methods: {
       ...mapActions(useStudentStore, [
@@ -352,7 +277,10 @@
       ]),
       ...mapActions(useClassroomStore, ['getCassrooms']),
       ...mapActions(useSubjectStore, ['getSubjects']),
-      ...mapActions(useGuardianStore, ['createNewGuardian']),
+      ...mapActions(useGuardianStore, [
+        'createNewGuardian',
+        'getGuardianDetails'
+      ]),
 
       calculateAge(dateOfBirth) {
         if (!dateOfBirth) return ''
@@ -381,98 +309,50 @@
         const role = this.studentDetails.role
         this.showRow = role === 3
         this.showSubject = role === 2
-        //If the role is 3, this.showRow is set to true,
-        //If the role is 2, this.showSubject is set to true
       },
 
-      addOrUpdateUser() {
+      async addOrUpdateUser() {
         const formData = {
-          first_name: this.studentDetails.first_name,
-          last_name: this.studentDetails.last_name,
-          email: this.studentDetails.email,
-          phone_number: this.studentDetails.phone_number || '',
-          address: this.studentDetails.address || '',
-          date_of_birth: this.date_of_birth || '',
-          age: this.studentDetails.age || '',
-          gender: this.studentDetails.gender || '',
-          profile: this.profile_picture || '',
-          role: this.studentDetails.role || '',
-          classroom_id: this.studentDetails.classroom_id || '',
-          subject_id: this.studentDetails.subject_id || null,
-          guardian_id: this.studentDetails.guardian_id || ''
+          ...this.studentDetails, // get access to object data
+          profile: this.profile_picture || ''
         }
 
-        if (!this.isUpdate) {
-          this.createNewStudents(formData)
-            .then(response => {
-              if (response.status == 201) {
-                if (
-                  this.studentDetails.role == 2 ||
-                  this.studentDetails.role == 1
-                ) {
-                  this.$root.$notif(this.$t('alert.create'), {
-                    type: 'success',
-                    color: 'primary'
-                  })
-                  this.$router.push({ path: '/teacher-list' })
-                } else {
-                  // call to create the parent
-                  this.createParents()
-                  this.$root.$notif(this.$t('alert.create'), {
-                    type: 'success',
-                    color: 'primary'
-                  })
-                  this.$router.push({ path: '/student-list' })
-                }
-              }
+        try {
+          if (this.isUpdate) {
+            const id = parseInt(this.$route.params.id)
+            await this.updateUserList(formData, id)
+            this.$root.$notif('Update successfully', {
+              type: 'success',
+              color: 'primary'
             })
-            .catch(error => {
-              if (error.response.status === 422) {
-                this.emailErrorMessage = 'Email already exists.'
-              }
+          } else {
+            await this.createNewStudents(formData)
+            if (this.studentDetails.role === 3)
+              this.$refs.formGuardian.emitSubmit()
+            this.$root.$notif(this.$t('alert.create'), {
+              type: 'success',
+              color: 'primary'
             })
-        } else {
-          const id = parseInt(this.$route.params.id)
-          this.updateUserList(formData, id)
-            .then(response => {
-              if (response.status == 201 && response.statusText == 'Created') {
-                this.$root.$notif('Update successfully', {
-                  type: 'success',
-                  color: 'primary'
-                })
-                if (
-                  this.studentDetails.role == 2 ||
-                  this.studentDetails.role == 1
-                ){
-                  this.$router.push({ path: '/teacher-list' })
-                }else {
-                  this.$router.push({ path: '/student-list' })
-                }
-              }
-            })
-            .catch(e => {
-              console.log(e)
-            })
+          }
+          this.$router.push({
+            path:
+              this.studentDetails.role === 3 ? '/student-list' : '/teacher-list'
+          })
+        } catch (error) {
+          if (error.response.status === 422) {
+            this.emailErrorMessage = 'Email already exists.'
+          }
         }
       },
-      createParents() {
-        ///create new parent
-        const parentsData = {
-          first_name: this.parents.first_name,
-          last_name: this.parents.last_name,
-          phone_number: this.parents.phone_number,
-          address: this.parents.address,
-          chat_id: this.parents.chat_id,
-          gender: this.parents.gender,
-          date_of_birth: this.parents.date_of_birth
+      async handleGuardianSubmit(formData) {
+        try {
+          await this.createNewGuardian(formData)
+        } catch (error) {
+          console.log(error)
         }
-        this.createNewGuardian(parentsData)
-          .then(response => {
-            console.log(response)
-          })
-          .catch(error => {
-            console.log(error)
-          })
+      },
+      submitForm() {
+        this.addOrUpdateUser()
       }
     }
   }

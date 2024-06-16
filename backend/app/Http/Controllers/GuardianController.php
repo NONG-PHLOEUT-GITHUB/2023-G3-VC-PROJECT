@@ -33,7 +33,7 @@ class GuardianController extends Controller
         }
 
         // Execute the query and return the filtered guardians
-        $guardians = $query->get();
+        $guardians = $query->orderBy('created_at', 'desc')->get();
     
         // Return the filtered guardians as JSON response
         return response()->json(['success' => true, 'data' => $guardians], 200);

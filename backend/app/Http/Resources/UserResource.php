@@ -26,6 +26,7 @@ class UserResource extends JsonResource
             'phone_number'=>$this->phone_number,
             'chat_id' => $this->guardian ? $this->guardian->chat_id : null,
             'address'=>$this->address,
+            'parent_id'=>$this->guardian_id,
             'attendacnes' => AttendanceResource::collection($this->attendances),
             'comments' => CommentResource::collection($this->comments),
             'scores' => CommentResource::collection($this->scores),

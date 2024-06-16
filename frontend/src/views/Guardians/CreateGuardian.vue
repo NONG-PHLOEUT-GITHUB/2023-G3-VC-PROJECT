@@ -1,119 +1,65 @@
 <template>
   <custom-title icon="mdi-human-female-boy"></custom-title>
-
-  <v-card class="pa-2 py-4">
-    <form class="row g-3 card-body pt-4" @submit.prevent="addGuadian()">
-      <v-row>
-        <v-col>
-          <v-text-field
-            variant="outlined"
-            v-model="guardianDetails.first_name"
-            label="First name"
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            variant="outlined"
-            v-model="guardianDetails.last_name"
-            label="Last name"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field
-            label="Date of birth"
-            variant="outlined"
-            v-model="guardianDetails.date_of_birth"
-            type="date"
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            variant="outlined"
-            v-model="guardianDetails.address"
-            label="Address"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-radio-group inline v-model="guardianDetails.gender">
-        <v-radio value="Male" label="Male"></v-radio>
-        <v-radio value="Female" label="Female"></v-radio>
-      </v-radio-group>
-      <v-row>
-        <v-col>
-          <v-text-field
-            variant="outlined"
-            v-model="guardianDetails.chat_id"
-            label="Chat id of guadian"
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            variant="outlined"
-            v-model="guardianDetails.phone_number"
-            label="Phone Number"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <div class="col-12 d-flex justify-content-end">
-        <v-btn type="submit" class="mr-2" :to="{ path: '/guardian-list' }" variant="outlined"
-          >{{ $t('btn.cancel') }}
-        </v-btn>
-        <v-btn type="submit" class="bg-primary">{{ $t('btn.update') }}</v-btn>
-      </div>
-    </form>
+  <v-card class="pa-2">
+    <form-guardian
+      ref="formGuardian"
+      :guardian-details="guardianDetails"
+      @submit="addGuardian"
+    />
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn class="mr-2" :to="{ path: '/guardian-list' }" variant="outlined">
+        {{ $t('btn.cancel') }}
+      </v-btn>
+      <v-btn @click="submitForm" class="bg-primary">
+        {{ $t('btn.update') }}
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { mapActions, mapState } from 'pinia'
-import { useGuardianStore } from '@/stores/guardian'
-
-export default {
-  created() {
-    const id = this.$route.params.id
-    this.getGuardianDetails(id)
-  },
-  data() {
-    return {
-      first_name: '',
-      last_name: '',
-      gender: '',
-      chat_id: '',
-      phone_number: '',
-      address: '',
-      date_of_birth:''
-    }
-  },
-  computed: {
-    ...mapState(useGuardianStore, ['guardianDetails']),
-  },
-  methods: {
-    ...mapActions(useGuardianStore, ['getGuardianDetails', 'updateGuardianList']),
-    addGuadian() {
-      const formData = {
-        id: this.$route.params.id,
-        first_name: this.guardianDetails.first_name,
-        last_name: this.guardianDetails.last_name,
-        gender: this.guardianDetails.gender,
-        chat_id: this.guardianDetails.chat_id,
-        phone_number: this.guardianDetails.phone_number,
-        address: this.guardianDetails.address,
-        date_of_birth: this.guardianDetails.date_of_birth
-      }
-      this.updateGuardianList(formData)
-        .then(() => {
-          this.$root.$notif(this.$t('alert.update'), {
+  import { mapActions, mapState } from 'pinia'
+  import { useGuardianStore } from '@/stores/guardian'
+  import FormGuardian from '@/components/common/FormGuardian.vue'
+  export default {
+    components: {
+      FormGuardian
+    },
+    created() {
+      const id = this.$route.params.id
+      this.getGuardianDetails(id)
+    },
+    data() {
+      return {}
+    },
+    computed: {
+      ...mapState(useGuardianStore, ['guardianDetails'])
+    },
+    methods: {
+      ...mapActions(useGuardianStore, [
+        'getGuardianDetails',
+        'updateGuardianList'
+      ]),
+      addGuardian(formData) {
+        this.updateGuardianList(formData)
+          .then(() => {
+            this.$root.$notif(this.$t('alert.update'), {
               type: 'success',
               color: 'primary'
             })
-          this.$router.push('/guardian-list')
-        })
-        .catch(err => {
-          console.log(err)
-        })
+            this.$router.push('/guardian-list')
+          })
+          .catch(err => {
+            this.$root.$notif(err, {
+              type: 'info',
+              color: 'info'
+            })
+          })
+      },
+      submitForm() {
+        this.$refs.formGuardian.emitSubmit()
+      }
     }
   }
-}
 </script>

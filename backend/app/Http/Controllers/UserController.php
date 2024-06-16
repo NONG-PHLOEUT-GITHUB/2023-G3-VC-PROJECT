@@ -36,27 +36,6 @@ class UserController extends Controller
         return $user;
     }
 
-
-    public function getImage(StoreUserRequest $request)
-    {
-        $request->validate([
-            'profile' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $image = $request->file('profile');
-        // dd($image);
-        $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images'), $new_name);
-        $path = asset('images/' . $new_name);
-        return $path;
-    }
-    /**
-     * Display the specified resource.
-     */
-    public function getEmails($id)
-    {
-        return User::select('email')->where('id', '!=', $id)->where('role', '!=', 'admin')->get();
-    }
     public function show(string $id)
     {
         // Find the user by ID
@@ -213,12 +192,6 @@ class UserController extends Controller
         return response()->json(["message" => true, "data" => $teachersWithoutCoordinatorRole], 200);
     }
 
-
-    public function getStudentId($id)
-    {
-        $user = User::find($id);
-        return response()->json($user);
-    }
     public function getTeacherBySubject($subject)
     {
         $users = User::where('role', 2)
