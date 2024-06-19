@@ -144,10 +144,10 @@ class User extends Authenticatable implements JWTSubject
             $user = self::create($requestData);
             $id = $user->$id;
 
-            // Send an email notification to the user
-            Mail::send('email.new_user', ['user' => $user, 'password' => $password], function ($message) use ($user) {
-                $message->to($user->email, $user->first_name)->subject('Welcome to our system!');
-            });
+            // // Send an email notification to the user
+            // Mail::send('email.new_user', ['user' => $user, 'password' => $password], function ($message) use ($user) {
+            //     $message->to($user->email, $user->first_name)->subject('Welcome to our system!');
+            // });
         }
 
         // Retrieve the subject_id string from the request

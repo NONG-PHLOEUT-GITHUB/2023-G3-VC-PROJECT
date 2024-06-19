@@ -1,17 +1,13 @@
 <template>
   <custom-title icon="mdi-eye"></custom-title>
-  <v-breadcrumbs :items="items">
-      <template v-slot:divider>
-        <v-icon icon="mdi-chevron-right"></v-icon>
-      </template>
-    </v-breadcrumbs>
+  <!-- {{ studentDetails }} -->
   <v-card>
-    <v-tabs v-model="tab" align-tabs="start" color="deep-purple-accent-4">
-      <v-tab value="1" direction="true">Account</v-tab>
-      <v-tab value="2">Info</v-tab>
-      <v-tab value="3">Comment</v-tab>
-      <v-tab value="4">Score</v-tab>
-      <v-tab value="5">Attendance</v-tab>
+    <v-tabs v-model="tab" align-tabs="start" color="deep-purple-accent-4" >
+      <v-tab value="1" direction="true" class="text-none">Account</v-tab>
+      <v-tab value="2" class="text-none">Parent Info</v-tab>
+      <v-tab value="3" class="text-none">Comment</v-tab>
+      <v-tab value="4" class="text-none">Score</v-tab>
+      <v-tab value="5" class="text-none">Attendance</v-tab>
     </v-tabs>
     <v-window v-model="tab">
       <v-window-item value="1">
@@ -22,11 +18,18 @@
                 <v-card-text class="px-0 text-center">
                   <v-col>
                     <div>
-                      <v-avatar color="grey" rounded="100" size="150" class="elevation-1">
-                        <v-img :src="profile_image" cover></v-img>
+                      <v-avatar
+                        color="grey"
+                        rounded="100"
+                        size="150"
+                        class="elevation-1"
+                      >
+                        <v-img :src="studentDetails.profile" cover></v-img>
                       </v-avatar>
                     </div>
-                    <v-btn class="mt-2" :disabled="isEdit">upload new profile</v-btn>
+                    <v-btn class="mt-2" :disabled="isEdit">
+                      upload new profile
+                    </v-btn>
                   </v-col>
                 </v-card-text>
               </v-card>
@@ -45,11 +48,13 @@
                     </template>
                   </v-tooltip>
                 </template>
-                <custom-sub-title icon="mdi-account-card">Personal Information</custom-sub-title>
+                <custom-sub-title icon="mdi-account-card">
+                  Personal Information
+                </custom-sub-title>
                 <v-row>
                   <v-col>
                     <v-text-field
-                      v-model="first_name"
+                      v-model="studentDetails.first_name"
                       density="compact"
                       label="First name"
                       variant="outlined"
@@ -59,7 +64,7 @@
                   </v-col>
                   <v-col>
                     <v-text-field
-                      v-model="last_name"
+                      v-model="studentDetails.last_name"
                       density="compact"
                       label="Last name"
                       variant="outlined"
@@ -71,7 +76,7 @@
                 <v-row>
                   <v-col>
                     <v-text-field
-                      v-model="gender"
+                      v-model="studentDetails.gender"
                       density="compact"
                       label="Gender"
                       variant="outlined"
@@ -81,7 +86,7 @@
                   </v-col>
                   <v-col>
                     <v-text-field
-                      v-model="date_of_birth"
+                      v-model="studentDetails.date_of_birth"
                       density="compact"
                       label="Date of birth"
                       variant="outlined"
@@ -89,7 +94,7 @@
                       prepend-inner-icon=" mdi-calendar-range"
                     ></v-text-field>
                     <v-text-field
-                      v-model="age"
+                      v-model="studentDetails.age"
                       density="compact"
                       label="Age"
                       variant="outlined"
@@ -98,11 +103,13 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
-                <custom-sub-title icon="mdi-contacts">Contact Information</custom-sub-title>
+                <custom-sub-title icon="mdi-contacts">
+                  Contact Information
+                </custom-sub-title>
                 <v-row>
                   <v-col>
                     <v-text-field
-                      v-model="email"
+                      v-model="studentDetails.email"
                       density="compact"
                       label="Email"
                       variant="outlined"
@@ -112,7 +119,7 @@
                   </v-col>
                   <v-col>
                     <v-text-field
-                      v-model="phone_number"
+                      v-model="studentDetails.phone_number"
                       density="compact"
                       label="Phone number"
                       variant="outlined"
@@ -124,7 +131,7 @@
                 <v-row>
                   <v-col>
                     <v-text-field
-                      v-model="address"
+                      v-model="studentDetails.address"
                       density="compact"
                       label="Address"
                       variant="outlined"
@@ -136,7 +143,9 @@
 
                 <v-card-actions class="px-0">
                   <v-btn color="red" variant="outlined">Cancel</v-btn>
-                  <v-btn class="bg-primary" :disabled="isEdit">Save change</v-btn>
+                  <v-btn class="bg-primary" :disabled="isEdit">
+                    Save change
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -151,20 +160,34 @@
               <v-card-text class="px-0 text-center">
                 <v-col>
                   <div>
-                    <v-avatar color="grey" rounded="100" size="150" class="elevation-1">
+                    <v-avatar
+                      color="grey"
+                      rounded="100"
+                      size="150"
+                      class="elevation-1"
+                    >
                       <v-img :src="profile_image" cover></v-img>
                     </v-avatar>
                   </div>
-                  <v-btn class="mt-2" :disabled="isEdit">upload new profile</v-btn>
+                  <v-btn class="mt-2" :disabled="isEdit">
+                    upload new profile
+                  </v-btn>
                 </v-col>
                 <v-divider></v-divider>
                 <v-col>
                   <div>
-                    <v-avatar color="grey" rounded="100" size="150" class="elevation-1">
-                      <v-img :src="profile_image" cover></v-img>
+                    <v-avatar
+                      color="grey"
+                      rounded="100"
+                      size="150"
+                      class="elevation-1"
+                    >
+                      <v-img :src="studentDetails.profile" cover></v-img>
                     </v-avatar>
                   </div>
-                  <v-btn class="mt-2" :disabled="isEdit">upload new profile</v-btn>
+                  <v-btn class="mt-2" :disabled="isEdit">
+                    upload new profile
+                  </v-btn>
                 </v-col>
               </v-card-text>
             </v-card>
@@ -183,7 +206,9 @@
                   </template>
                 </v-tooltip>
               </template>
-              <custom-sub-title icon="mdi-account-card">Personal Information</custom-sub-title>
+              <custom-sub-title icon="mdi-account-card">
+                Personal Information
+              </custom-sub-title>
               <v-row>
                 <v-col>
                   <v-text-field
@@ -236,7 +261,9 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
-              <custom-sub-title icon="mdi-contacts">Contact Information</custom-sub-title>
+              <custom-sub-title icon="mdi-contacts">
+                Contact Information
+              </custom-sub-title>
               <v-row>
                 <v-col>
                   <v-text-field
@@ -302,115 +329,95 @@
           </v-row>
         </v-card>
         <v-card class="mt-2">
-          <v-list :items="commentStudent" lines="three" item-props>
+          <v-list
+            :lines="false"
+            elevation="0"
+            v-if="studentDetails.comments.length != 0"
+          >
             <v-list-item
-              v-for="comment in commentStudent"
-              :key="comment.title"
-              :subtitle="comment.title"
-              :title="comment.first_name + ' ' + comment.last_name"
+              v-for="(comment, i) in studentDetails.comments"
+              :key="i"
+              :value="comment"
+              class="item mt-1"
+              rounded="lg"
+              elevation="0"
             >
-              <span>{{ comment.body }}</span>
-              <v-divider></v-divider>
-              <template v-slot:subtitle="{ subtitle }">
-                <div v-html="subtitle"></div>
-              </template>
               <template v-slot:prepend>
                 <v-avatar>
-                  <v-img color="white" :src="comment.profile"></v-img>
+                  <v-img color="white" :src="comment.teacher_profile"></v-img>
                 </v-avatar>
+              </template>
+              <v-list-item-title>
+                {{ comment.teacher_fullname }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                {{ formatDate(comment.created_at) }}
+              </v-list-item-subtitle>
+              <v-list-item class="pa-0">
+                {{ comment.body }}
+              </v-list-item>
+              <template v-slot:append>
+                <v-btn icon="mdi-reply" variant="text"></v-btn>
               </template>
             </v-list-item>
           </v-list>
         </v-card>
       </v-window-item>
-      <v-window-item value="4"> score {{ scores }} </v-window-item>
+      <v-window-item value="4">score {{ scores }}</v-window-item>
       <v-window-item value="5">
         <v-data-table
           :headers="headers"
-          :items="attendances"
-          item-value="name"
+          :items="studentDetails.attendacnes"
+          item-value="id"
           class="elevation-2"
-        >
-        </v-data-table>
+        ></v-data-table>
       </v-window-item>
     </v-window>
   </v-card>
 </template>
 
 <script>
-import { mapActions, mapState } from 'pinia'
-import { useStudentStore } from '@/stores/student'
-export default {
-  name: 'UserDetails',
-  created() {
-    const id = this.$route.params.id
-    this.getStudentDetails(id)
-  },
-  data() {
-    return {
-      users: [],
-      reveal: false,
-      comments: [],
-      parents: [],
-      teacherID: [],
-      listUser: [],
-      tab: 4,
-      isEdit: true,
-      itemsPerPage: 10,
-      headers: [
-        { title: 'Date', key: 'date' },
-        { title: 'Reason', key: 'reason' },
-        { title: 'Status', key: 'status' }
-      ],
-      items: [
-        {
-          title: 'Dashboard',
-          disabled: false,
-          href: 'breadcrumbs_dashboard',
-        },
-        {
-          title: 'Link 1',
-          disabled: false,
-          href: 'breadcrumbs_link_1',
-        },
-        {
-          title: 'Link 2',
-          disabled: true,
-          href: 'breadcrumbs_link_2',
-        },
-      ],
-    }
-  },
-  computed: {
-    ...mapState(useStudentStore, [
-      'studentDetails',
-      'classTeahcer',
-      'commentStudent',
-      'scores',
-      'attendances',
-      'first_name',
-      'last_name',
-      'gender',
-      'date_of_birth',
-      'profile_image',
-      'age',
-      'email',
-      'address',
-      'phone_number'
-    ])
-  },
-  methods: {
-    ...mapActions(useStudentStore, ['getStudentDetails'])
-    //     getParentsByStudentID(id) {
-    //       // http.get(`/getParents/${id}`).then((response) => {
-    //       //   this.parents = response.data.guardian;
-    //       //   console.log(this.parents);
-    //       // });
-    //     },
-  }
+  import { mapActions, mapState } from 'pinia'
+  import { useStudentStore } from '@/stores/student'
+  import { format, parseISO } from 'date-fns'
 
-  //   mounted() {
-  //     this.getParents(id);
-  //   },
-}
+  export default {
+    name: 'UserDetails',
+    created() {
+      const id = this.$route.params.id
+      this.getStudentDetails(id)
+    },
+    data() {
+      return {
+        users: [],
+        reveal: false,
+        comments: [],
+        parents: [],
+        teacherID: [],
+        listUser: [],
+        tab: 4,
+        isEdit: true,
+        headers: [
+          { title: 'Date', key: 'date' },
+          { title: 'Reason', key: 'reason' },
+          { title: 'Status', key: 'status' }
+        ]
+      }
+    },
+    computed: {
+      ...mapState(useStudentStore, ['studentDetails'])
+    },
+    methods: {
+      ...mapActions(useStudentStore, ['getStudentDetails']),
+      formatDate(dateString) {
+        try {
+          const date = parseISO(dateString)
+          return format(date, 'dd-MMM-yyyy')
+        } catch (error) {
+          console.error('Error parsing date:', error)
+          return dateString // Fallback to the original string if parsing fails
+        }
+      }
+    }
+  }
 </script>

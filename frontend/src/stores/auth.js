@@ -28,7 +28,6 @@ export const useAuthStore = defineStore('auth', {
   }),
   getters: {
     getUserId(state){
-      console.log(state.teacherID);
      return state.teacherID
     },
     getUserRole: state => {

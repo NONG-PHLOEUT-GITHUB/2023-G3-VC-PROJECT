@@ -142,7 +142,7 @@
         <v-col cols="6">
           {{ studentDetails }}
           <v-select
-            v-model="studentDetails"
+            v-model="studentDetails.subjects_id"
             :items="subjects"
             variant="outlined"
             label="Assign subject"
@@ -338,6 +338,7 @@
             path:
               this.studentDetails.role === 3 ? '/student-list' : '/teacher-list'
           })
+          this.studentDetails = ""
         } catch (error) {
           if (error.response.status === 422) {
             this.emailErrorMessage = 'Email already exists.'

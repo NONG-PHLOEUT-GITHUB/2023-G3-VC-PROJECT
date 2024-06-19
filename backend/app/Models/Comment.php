@@ -52,6 +52,6 @@ class Comment extends Model
     }
 
     public function getTeacherFullnameAttribute(){
-        return $this->teacher->first_name.' '.$this->teacher->last_name.' '.$this->teacher->profile;
+        return $this->teacher->first_name.' '.$this->teacher->last_name;
     }
 }

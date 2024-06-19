@@ -18,8 +18,9 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
-            'student_id' => $this->student_id,
+            'student_id' => $this->user_id,
             'teacher_id' => $this->teacher_id,
+            'teacher_profile'=>$this->teacher->profile,
             'teacher_fullname'=>$this->teacherFullname,
             'student_name'=>$this->student
         ];

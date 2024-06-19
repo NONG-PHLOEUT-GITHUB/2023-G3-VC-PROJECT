@@ -79,7 +79,6 @@ export default {
       }
       this.userResetNewPassword(data)
         .then(response => {
-          console.log(response)
           this.newPassword = ''
           this.confirmPassword = ''
           const userRole = response.data.data.role

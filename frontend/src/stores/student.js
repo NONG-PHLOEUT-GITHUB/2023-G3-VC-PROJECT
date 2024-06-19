@@ -23,7 +23,6 @@ export const useStudentStore = defineStore('student', {
       return await createUsers(data)
     },
     async updateUserList(formData,id) {
-      // console.log(formData);
       return await updateUser(formData,id)
     },
     async deleteStudent(id) {

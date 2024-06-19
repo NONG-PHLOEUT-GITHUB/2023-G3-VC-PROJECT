@@ -20,7 +20,6 @@ export function fetchUserLoged(filterCriteria) {
 }
 
 export function forgotPassword(email) {
-  console.log(email);
   const data = {
     email
   }
@@ -39,7 +38,6 @@ export function logout() {
   return http.post(`v1/auth/logout`)
 }
 export function updateProfile(data) {
-  console.log(data);
   const formData = new FormData()
   // Append each key-value pair to the FormData object
   Object.entries(data).forEach(([key, value]) => {

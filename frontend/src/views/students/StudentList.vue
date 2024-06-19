@@ -85,7 +85,6 @@
       :items="students"
       :loading="loading"
       item-value="id"
-      id="my-table"
       show-select
       hover
     >

@@ -135,10 +135,8 @@ export default {
         .then((response) => {
           this.allStudents = response.data.data;
           this.allStudents.forEach((element) => {
-            console.log(element.students);
             this.allStudents = element.students;
           });
-          console.log(this.allStudents);
         })
         .catch((error) => {
           console.log(error);

@@ -258,10 +258,7 @@
             }
           })
           .then(response => {
-            console.log(response.data)
-            // Reset the file input field
             this.$refs.fileInput.value = ''
-            // call mounted
             this.$root.$notif('Upload successfully', {
               type: 'success',
               color: 'primary'

@@ -31,6 +31,7 @@ class UserResource extends JsonResource
             'comments' => CommentResource::collection($this->comments),
             'scores' => CommentResource::collection($this->scores),
             'subjects' => SubjectResurce::collection($this->subjects),
+            'guardian' => new GuardianResource($this->guardian),
         ];
     }
 }

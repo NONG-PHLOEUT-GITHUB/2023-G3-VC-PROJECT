@@ -71,13 +71,13 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="blue-darken-1"
+            color="primary"
             variant="outlined"
             @click="dialog = false"
           >
             {{ $t('btn.cancel') }}
           </v-btn>
-          <v-btn type="submit" class="bg-blue-darken-1">
+          <v-btn type="submit" class="bg-primary">
             {{ $t('btn.save') }}
           </v-btn>
         </v-card-actions>
@@ -161,7 +161,7 @@
         editing: false,
         editId: null,
         selectedTeachers: [],
-        coordinatorId: null,
+        coordinatorId:[],
         classNameRole: '',
         teacherRole: '',
         filterCriteria: {}
@@ -182,8 +182,8 @@
       },
       items() {
         return [
-          { action: 'details', title: this.$t('btn.details'), icon: 'mdi-eye' },
-          { action: 'edit', title: this.$t('btn.edit'), icon: 'mdi-pencil' },
+          { action: 'details', title: this.$t('btn.details'), icon: 'mdi-eye', color: 'secondary' },
+          { action: 'edit', title: this.$t('btn.edit'), icon: 'mdi-pencil', color: 'primary' },
           {
             action: 'delete',
             title: this.$t('btn.delete'),

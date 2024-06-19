@@ -63,7 +63,6 @@ export default {
       http
         .get(`classrooms/student/${id}/attendance/`)
         .then(response => {
-          console.log(response)
           this.attendanceData = response.data.data
         })
         .catch(error => {

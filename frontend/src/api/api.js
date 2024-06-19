@@ -27,7 +27,7 @@ api.interceptors.request.use(async config => {
   }
 })
 
-// Request Interceptor
+// Response Interceptor
 api.interceptors.response.use(
   response => {
     loadingStore.setLoading(false)

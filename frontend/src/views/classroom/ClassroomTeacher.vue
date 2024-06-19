@@ -77,7 +77,7 @@
         md="3"
         v-for="classroom in teacherTeachingClass"
       >
-        <v-card prepend-icon="mdi-chair-school" color="primary">
+        <v-card prepend-icon="mdi-chair-school" border flat class="card">
           <template v-slot:title>
             <span class="font-weight-black">
               Class: {{ classroom.classroom_name }}
@@ -91,7 +91,6 @@
                   icon="mdi-dots-vertical"
                   class="elevation-0"
                   v-bind="props"
-                  color="primary"
                 ></v-btn>
               </template>
 
@@ -198,3 +197,8 @@
     }
   }
 </script>
+<style scoped>
+.card {
+  border-left: solid 3px #89474b;
+}
+</style>

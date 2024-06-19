@@ -17,7 +17,6 @@ export function fetchClassroomById() {
 }
 //get the classroom to check attendance in class
 export function fetchStudentsInClassroomById({ classroomId, ...filters }) {
-  console.log({...filters});
   return http.get(`classrooms/students/${classroomId}/student-in-classroom`, {
     params: { ...filters }
   })

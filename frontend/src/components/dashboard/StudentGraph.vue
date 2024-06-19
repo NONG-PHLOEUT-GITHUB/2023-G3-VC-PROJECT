@@ -1,16 +1,18 @@
 <template>
-  <v-card class="mx-auto mb-5" variant="outlined" elevation="1"  color="primary">
+  <v-card
+    class="mx-auto mb-5 pa-2"
+    variant="outlined"
+    elevation="1"
+    color="primary"
+  >
     <v-row>
       <v-col>
-        <v-card elevation="0" max-height="250">
-          <v-avatar size="250">
-
-            <v-img class="align-end text-white" :src="user.profile" cover></v-img>
-          </v-avatar>
-        </v-card>
+        <v-avatar size="220">
+          <v-img class="align-end text-white" :src="user.profile" cover></v-img>
+        </v-avatar>
       </v-col>
       <v-col cols="6">
-        <v-card elevation="0" class="py-8">
+        <div class="mt-8">
           <span>{{ greeting }},</span>
           <v-card-title class="pa-0">
             {{ user.first_name }} {{ user.last_name }}
@@ -26,7 +28,7 @@
               append-icon="mdi-arrow-right"
             ></v-btn>
           </v-card-actions>
-        </v-card>
+        </div>
       </v-col>
     </v-row>
   </v-card>

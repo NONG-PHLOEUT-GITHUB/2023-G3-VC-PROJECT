@@ -1,17 +1,11 @@
 import { defineStore } from 'pinia'
-import { createComment } from '@/api/comment';
-import { da } from 'vuetify/lib/locale/index.mjs';
+import { createComment } from '@/api/comment'
 
 export const useCommentStore = defineStore('comment', {
-  state: () => ({
-    // teachers: [],
-    // teacherTeachingClass:[],
-  }),
+  state: () => ({}),
   actions: {
-    async createNewComment(data){
-      return await createComment(data);
-      // console.log(response.data);
-      // this.teachers = response.data
-    } ,
+    async createNewComment(data) {
+      return await createComment(data)
+    }
   }
 })
