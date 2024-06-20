@@ -12,6 +12,7 @@
         :rules="[() => !!title || 'This field is required']"
         v-model="title"
         variant="outlined"
+        color="textField"
       ></v-text-field>
 
       <v-text-field
@@ -19,6 +20,7 @@
         v-model="subtitle"
         :rules="[() => !!subtitle || 'This field is required']"
         variant="outlined"
+        color="textField"
       ></v-text-field>
 
       <v-textarea
@@ -26,6 +28,7 @@
         v-model="body"
         :rules="[() => !!body || 'This field is required']"
         variant="outlined"
+        color="textField"
       ></v-textarea>
       <v-file-input
         :rules="profileRules"
@@ -38,6 +41,7 @@
         show-size
         chips
         @change="onFileChange"
+        color="textField"
       ></v-file-input>
       <v-card-actions>
         <v-spacer />

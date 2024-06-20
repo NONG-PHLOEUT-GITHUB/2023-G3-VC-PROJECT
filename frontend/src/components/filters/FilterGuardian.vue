@@ -10,6 +10,7 @@
             density="compact"
             variant="outlined"
             label="First name"
+            color="textField"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4" lg="4">
@@ -20,6 +21,7 @@
             density="compact"
             variant="outlined"
             label="Last name"
+            color="textField"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4" lg="4">
@@ -30,6 +32,7 @@
             density="compact"
             variant="outlined"
             label="Phone Number"
+            color="textField"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -42,6 +45,7 @@
             density="compact"
             variant="outlined"
             label="Date of birth"
+            color="textField"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="6" lg="6">
@@ -52,6 +56,7 @@
             density="compact"
             variant="outlined"
             label="Email"
+            color="textField"
           ></v-text-field>
         </v-col>
       </v-row>

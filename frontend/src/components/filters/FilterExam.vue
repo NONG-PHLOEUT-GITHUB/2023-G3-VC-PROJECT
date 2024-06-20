@@ -10,6 +10,7 @@
             label="Exam Name"
             v-model="exam_name"
             @keyup="applyFilter"
+            color="textField"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4" lg="4">
@@ -20,6 +21,7 @@
             label="Exam Code"
             v-model="exam_code"
             @keyup="applyFilter"
+            color="textField"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4" lg="4">
@@ -30,6 +32,7 @@
             label="Subject Name"
             v-model="subject_name"
             @keyup="applyFilter"
+            color="textField"
           ></v-text-field>
         </v-col>
       </v-row>

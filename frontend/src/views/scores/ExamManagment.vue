@@ -35,6 +35,7 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
+                  color="textField"
                   v-model="examName"
                   label="Exam name"
                   required
@@ -44,6 +45,7 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
+                  color="textField"
                   label="Exam code"
                   variant="outlined"
                   clearable
@@ -61,6 +63,7 @@
                   clearable
                   chips
                   v-model="selectedSubject"
+                  color="textField"
                 ></v-select>
               </v-col>
             </v-row>
@@ -68,11 +71,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            variant="outlined"
-            @click="dialog = false"
-          >
+          <v-btn color="primary" variant="outlined" @click="dialog = false">
             {{ $t('btn.cancel') }}
           </v-btn>
           <v-btn type="submit" class="bg-primary">

@@ -251,13 +251,18 @@
             }
           })
           .then(() => {
-            // Reset the file input field
+            this.$root.$notif(this.$t('Upload successfully'), {
+              type: 'success',
+              color: 'primary'
+            })
             this.chosenFile = null
-            // call mounted
             this.getStudents(this.filterCriteria)
           })
           .catch(error => {
-            console.error(error.response.data)
+            this.$root.$notif(this.$t(error), {
+              type: 'success',
+              color: 'primary'
+            })
           })
       },
       onFilterApplied(filterText) {

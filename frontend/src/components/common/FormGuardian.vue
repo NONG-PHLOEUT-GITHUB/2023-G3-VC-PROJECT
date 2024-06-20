@@ -7,6 +7,7 @@
           variant="outlined"
           v-model="formData.first_name"
           label="First name"
+          color="textField"
         ></v-text-field>
       </v-col>
       <v-col>
@@ -14,6 +15,7 @@
           variant="outlined"
           v-model="formData.last_name"
           label="Last name"
+          color="textField"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -24,6 +26,7 @@
           variant="outlined"
           v-model="formData.date_of_birth"
           type="date"
+          color="textField"
         ></v-text-field>
       </v-col>
       <v-col>
@@ -31,6 +34,7 @@
           variant="outlined"
           v-model="formData.address"
           label="Address"
+          color="textField"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -44,6 +48,7 @@
           variant="outlined"
           v-model="formData.chat_id"
           label="Chat id of guadian"
+          color="textField"
         ></v-text-field>
       </v-col>
       <v-col>
@@ -51,6 +56,7 @@
           variant="outlined"
           v-model="formData.phone_number"
           label="Phone Number"
+          color="textField"
         ></v-text-field>
       </v-col>
     </v-row>

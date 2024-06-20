@@ -28,6 +28,7 @@
               variant="outlined"
               no-validation
               :error-messages="incorrect"
+              color="textField"
             ></v-text-field>
             <v-text-field
               :label="$t('login.lebelPass')"
@@ -40,6 +41,7 @@
               @click:append-inner="visible = !visible"
               :error-messages="incorrect"
               class="mt-4 mb-2"
+              color="textField"
             ></v-text-field>
             <router-link to="/forgot-password">
               {{ $t('login.form.forgot-pass') }}

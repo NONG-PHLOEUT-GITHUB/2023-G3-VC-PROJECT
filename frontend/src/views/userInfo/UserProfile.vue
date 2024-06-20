@@ -61,12 +61,10 @@
             </v-col>
           </v-card-text>
         </v-card>
-        <v-card class="mt-4 bg-background card ">
+        <v-card class="mt-4 bg-background card">
           <v-list class="pa-0">
             <v-list-subheader>
-              <v-list-item-title>
-                Social media
-              </v-list-item-title>
+              <v-list-item-title>Social media</v-list-item-title>
             </v-list-subheader>
 
             <v-list-item
@@ -103,6 +101,7 @@
             </v-col>
             <v-col>
               <v-text-field
+                color="textField"
                 v-model="authUser.last_name"
                 density="compact"
                 label="Last name"
@@ -115,6 +114,7 @@
           <v-row>
             <v-col>
               <v-text-field
+                color="textField"
                 v-model="authUser.gender"
                 density="compact"
                 label="Gender"
@@ -125,6 +125,7 @@
             </v-col>
             <v-col>
               <v-text-field
+                color="textField"
                 v-model="authUser.date_of_birth"
                 density="compact"
                 label="Date of birth"
@@ -133,6 +134,7 @@
                 prepend-inner-icon=" mdi-calendar-range"
               ></v-text-field>
               <v-text-field
+                color="textField"
                 v-model="authUser.age"
                 density="compact"
                 label="Age"
@@ -142,12 +144,13 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <custom-sub-title icon="mdi-contacts" >
+          <custom-sub-title icon="mdi-contacts">
             {{ $t('profile.cInformation') }}
           </custom-sub-title>
           <v-row>
             <v-col>
               <v-text-field
+                color="textField"
                 v-model="authUser.email"
                 density="compact"
                 label="Email"
@@ -158,6 +161,7 @@
             </v-col>
             <v-col>
               <v-text-field
+                color="textField"
                 v-model="authUser.phone_number"
                 density="compact"
                 label="Phone number"
@@ -170,6 +174,7 @@
           <v-row>
             <v-col>
               <v-text-field
+                color="textField"
                 v-model="authUser.address"
                 density="compact"
                 label="Address"
@@ -285,7 +290,7 @@
   }
 </script>
 <style scoped>
-.card{
-  border-left: solid 3px #89474b;
-}
+  .card {
+    border-left: solid 3px #89474b;
+  }
 </style>

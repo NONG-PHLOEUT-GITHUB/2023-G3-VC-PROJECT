@@ -2,7 +2,7 @@
   <custom-title icon="mdi-eye"></custom-title>
   <!-- {{ studentDetails }} -->
   <v-card>
-    <v-tabs v-model="tab" align-tabs="start" color="deep-purple-accent-4" >
+    <v-tabs v-model="tab" align-tabs="start" color="deep-purple-accent-4">
       <v-tab value="1" direction="true" class="text-none">Account</v-tab>
       <v-tab value="2" class="text-none">Parent Info</v-tab>
       <v-tab value="3" class="text-none">Comment</v-tab>
@@ -54,6 +54,7 @@
                 <v-row>
                   <v-col>
                     <v-text-field
+                      color="textField"
                       v-model="studentDetails.first_name"
                       density="compact"
                       label="First name"
@@ -64,6 +65,7 @@
                   </v-col>
                   <v-col>
                     <v-text-field
+                      color="textField"
                       v-model="studentDetails.last_name"
                       density="compact"
                       label="Last name"
@@ -76,6 +78,7 @@
                 <v-row>
                   <v-col>
                     <v-text-field
+                      color="textField"
                       v-model="studentDetails.gender"
                       density="compact"
                       label="Gender"
@@ -86,6 +89,7 @@
                   </v-col>
                   <v-col>
                     <v-text-field
+                      color="textField"
                       v-model="studentDetails.date_of_birth"
                       density="compact"
                       label="Date of birth"
@@ -94,6 +98,7 @@
                       prepend-inner-icon=" mdi-calendar-range"
                     ></v-text-field>
                     <v-text-field
+                      color="textField"
                       v-model="studentDetails.age"
                       density="compact"
                       label="Age"
@@ -109,6 +114,7 @@
                 <v-row>
                   <v-col>
                     <v-text-field
+                      color="textField"
                       v-model="studentDetails.email"
                       density="compact"
                       label="Email"
@@ -119,6 +125,7 @@
                   </v-col>
                   <v-col>
                     <v-text-field
+                      color="textField"
                       v-model="studentDetails.phone_number"
                       density="compact"
                       label="Phone number"
@@ -131,6 +138,7 @@
                 <v-row>
                   <v-col>
                     <v-text-field
+                      color="textField"
                       v-model="studentDetails.address"
                       density="compact"
                       label="Address"
@@ -212,6 +220,7 @@
               <v-row>
                 <v-col>
                   <v-text-field
+                    color="textField"
                     v-model="first_name"
                     density="compact"
                     label="First name"
@@ -222,6 +231,7 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    color="textField"
                     v-model="last_name"
                     density="compact"
                     label="Last name"
@@ -234,6 +244,7 @@
               <v-row>
                 <v-col>
                   <v-text-field
+                    color="textField"
                     v-model="gender"
                     density="compact"
                     label="Gender"
@@ -244,6 +255,7 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    color="textField"
                     v-model="date_of_birth"
                     density="compact"
                     label="Date of birth"
@@ -252,6 +264,7 @@
                     prepend-inner-icon=" mdi-calendar-range"
                   ></v-text-field>
                   <v-text-field
+                    color="textField"
                     v-model="age"
                     density="compact"
                     label="Age"
@@ -267,6 +280,7 @@
               <v-row>
                 <v-col>
                   <v-text-field
+                    color="textField"
                     v-model="email"
                     density="compact"
                     label="Email"
@@ -277,6 +291,7 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    color="textField"
                     v-model="phone_number"
                     density="compact"
                     label="Phone number"
@@ -289,6 +304,7 @@
               <v-row>
                 <v-col>
                   <v-text-field
+                    color="textField"
                     v-model="address"
                     density="compact"
                     label="Address"
@@ -312,6 +328,7 @@
           <v-row>
             <v-col>
               <v-text-field
+                color="textField"
                 label="Teacher name"
                 hide-details
                 density="compact"
@@ -320,6 +337,7 @@
             </v-col>
             <v-col>
               <v-text-field
+                color="textField"
                 label="Title"
                 hide-details
                 density="compact"

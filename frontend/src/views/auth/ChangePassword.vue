@@ -12,6 +12,7 @@
         :error-messages="currentPasswordError"
         variant="outlined"
         @click:append-inner="visibleCurrent = !visibleCurrent"
+        color="textField"
       >
       </v-text-field>
       <v-text-field
@@ -24,6 +25,7 @@
         variant="outlined"
         class="mt-4"
         @click:append-inner="visibleNew = !visibleNew"
+        color="textField"
       >
       </v-text-field>
       <v-text-field
@@ -37,6 +39,7 @@
         variant="outlined"
         class="mt-4"
         @click:append-inner="visibleConfirm = !visibleConfirm"
+        color="textField"
       >
       </v-text-field>
 

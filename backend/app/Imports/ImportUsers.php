@@ -9,7 +9,8 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Str;
 
 class ImportUsers implements ToModel,WithHeadingRow
-{
+{ 
+    
     // protected $imported = 0;
     protected $skipped = 0;
     /**
@@ -31,6 +32,19 @@ class ImportUsers implements ToModel,WithHeadingRow
             unset($row['email'], $row['Email']);
             return null;
         } else {
+            // Process profile image
+            // dd($row['profile']);
+            // $profilePath = null;
+            // if (isset($row['profile'])) {
+            //     $image = $row['profile'];
+            //     // dd(is_string($image)); 
+                
+            //     $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            //     $image->move(public_path('images'), $new_name);
+            //     $path = asset('images/' . $new_name);
+            //     $requestData['profile'] = $path;
+            // }
+
             // Otherwise, create a new user
             $user = new User([
                 'first_name'=> $row['first_name'] ?? $row['First name'] ?? $row['first name'],
@@ -41,7 +55,7 @@ class ImportUsers implements ToModel,WithHeadingRow
                 'date_of_birth'=> date('Y-m-d H:i:s', strtotime($row['date_of_birth'] ?? $row['Date of birth'] ?? $row['date of birth'])),
                 'phone_number'=> $row['phone_number'] ?? $row['Phone number'] ?? $row['phone number'] ?? $row['Phone Number'], 
                 'address'=> $row['address'] ?? $row['Address'] ?? $row['address'],
-                'profile'=>$row['profile'] ?? $row['Profile'],
+                // 'profile'=> $profilePath,
                 'role'=> 3,
             ]);
             $password = Str::random(8);

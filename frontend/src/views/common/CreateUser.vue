@@ -22,6 +22,7 @@
         </v-col>
         <v-col>
           <v-text-field
+            color="textField"
             variant="outlined"
             v-model="studentDetails.first_name"
             label="First name"
@@ -32,6 +33,7 @@
         </v-col>
         <v-col>
           <v-text-field
+            color="textField"
             variant="outlined"
             v-model="studentDetails.last_name"
             label="Last name"
@@ -54,6 +56,7 @@
         </v-col>
         <v-col>
           <v-text-field
+            color="textField"
             variant="outlined"
             v-model="studentDetails.address"
             label="Address"
@@ -66,6 +69,7 @@
       <v-row>
         <v-col>
           <v-text-field
+            color="textField"
             variant="outlined"
             v-model="studentDetails.phone_number"
             label="Phone Number"
@@ -76,6 +80,7 @@
         </v-col>
         <v-col>
           <v-text-field
+            color="textField"
             variant="outlined"
             label="Email"
             v-model="studentDetails.email"
@@ -87,6 +92,7 @@
       <v-row>
         <v-col>
           <v-text-field
+            color="textField"
             label="Date of Birth"
             variant="outlined"
             v-model="studentDetails.date_of_birth"
@@ -107,6 +113,7 @@
         </v-col>
         <v-col>
           <v-text-field
+            color="textField"
             variant="outlined"
             :rules="[() => !!studentDetails.age || 'This field is required']"
             label="Age"
@@ -261,7 +268,7 @@
         } else {
           this.getGuardianDetails(newParentId)
         }
-      },
+      }
     },
     computed: {
       ...mapState(useStudentStore, ['students', 'studentDetails']),
@@ -338,7 +345,7 @@
             path:
               this.studentDetails.role === 3 ? '/student-list' : '/teacher-list'
           })
-          this.studentDetails = ""
+          this.studentDetails = ''
         } catch (error) {
           if (error.response.status === 422) {
             this.emailErrorMessage = 'Email already exists.'

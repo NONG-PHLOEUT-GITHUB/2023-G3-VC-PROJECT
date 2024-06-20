@@ -8,9 +8,10 @@
         title="Class 12"
       >
         <template v-slot:prepend>
-          <v-avatar color="primary">
+          <!-- <v-avatar color="primary">
             <v-icon icon="mdi-math-compass"></v-icon>
-          </v-avatar>
+          </v-avatar> -->
+          <v-img src="images/school.png"  width="50px"></v-img>
         </template>
         <v-card-text class="py-0">
           <v-col>
@@ -28,9 +29,10 @@
         title="Class 11"
       >
         <template v-slot:prepend>
-          <v-avatar color="primary">
+          <!-- <v-avatar color="primary">
             <v-icon icon="mdi-human-male-board-poll"></v-icon>
-          </v-avatar>
+          </v-avatar> -->
+          <v-img src="images/school.png"  width="50px"></v-img>
         </template>
         <v-card-text class="py-0">
           <v-col>
@@ -48,9 +50,10 @@
         title="Class 10"
       >
         <template v-slot:prepend>
-          <v-avatar color="primary">
-            <v-icon icon="mdi-google-classroom"></v-icon>
-          </v-avatar>
+          <!-- <v-avatar size="60"> -->
+            <v-img src="images/school.png" width="50"></v-img>
+            <!-- <v-icon icon="mdi-google-classroom"></v-icon> -->
+          <!-- </v-avatar> -->
         </template>
         <v-card-text class="py-0">
           <v-col>

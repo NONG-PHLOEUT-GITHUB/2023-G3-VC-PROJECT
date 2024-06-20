@@ -10,6 +10,7 @@
             variant="outlined"
             label="Classroom name"
             @keyup="applyFilter"
+            color="textField"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="6" lg="6">
@@ -20,6 +21,7 @@
             density="compact"
             variant="outlined"
             label="Coordinator name"
+            color="textField"
           ></v-text-field>
         </v-col>
       </v-row>

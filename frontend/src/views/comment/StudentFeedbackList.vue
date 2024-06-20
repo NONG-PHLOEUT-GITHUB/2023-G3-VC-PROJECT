@@ -31,7 +31,7 @@
       <v-btn
         :to="'/feedback/' + item.id + '/student'"
         variant="text"
-        icon="mdi-send"
+        icon="mdi-message-processing-outline"
       ></v-btn>
     </template>
   </v-data-table>

@@ -10,6 +10,7 @@
             label="First name"
             v-model="first_name"
             @keyup="applyFilter"
+            color="textField"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4" lg="4">
@@ -20,6 +21,7 @@
             label="Last name"
             v-model="last_name"
             @keyup="applyFilter"
+            color="textField"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4" lg="4">
@@ -30,6 +32,7 @@
             label="Phone Number"
             v-model="phone_number"
             @keyup="applyFilter"
+            color="textField"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -42,6 +45,7 @@
             v-model="date_of_birth"
             label="Date of birth"
             @keyup="applyFilter"
+            color="textField"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4" lg="4">
@@ -52,6 +56,7 @@
             label="Email"
             v-model="email"
             @keyup="applyFilter"
+            color="textField"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4" lg="4">
@@ -62,6 +67,7 @@
             label="address"
             v-model="address"
             @keyup="applyFilter"
+            color="textField"
           ></v-text-field>
         </v-col>
       </v-row>

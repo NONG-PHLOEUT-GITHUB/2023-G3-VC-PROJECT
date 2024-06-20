@@ -82,14 +82,14 @@
             // Clean up by revoking the Object URL
             window.URL.revokeObjectURL(url)
 
-            await this.sendFile(blob, filename);
+            await this.sendFile(blob, filename)
           })
           .catch(error => {
             console.error('Error downloading Excel file:', error)
             // Handle error if needed
           })
       },
-      async sendFile(blob,filename) {
+      async sendFile(blob, filename) {
         const formData = new FormData()
         formData.append('chat_id', this.studentName.chat_id)
         formData.append('document', blob, filename)

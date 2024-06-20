@@ -125,7 +125,6 @@ class AttendanceController extends Controller
     {
          // Fetch the user with their attendance records
         $user = User::with('attendances')->findOrFail($id);
-
         // Prepare the data to include attendance records and user's first and last name
         $response = [
             'first_name' => $user->first_name,

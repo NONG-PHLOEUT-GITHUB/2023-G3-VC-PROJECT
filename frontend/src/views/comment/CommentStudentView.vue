@@ -20,6 +20,7 @@
           hide-details
           variant="outlined"
           density="compact"
+          color="textField"
         ></v-text-field>
       </v-col>
       <v-col>
@@ -28,6 +29,7 @@
           label="Title"
           hide-details
           variant="outlined"
+          color="textField"
         ></v-text-field>
       </v-col>
     </v-row>

@@ -39,6 +39,7 @@
                   required
                   :error-messages="classNameRole"
                   variant="outlined"
+                  color="textField"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
