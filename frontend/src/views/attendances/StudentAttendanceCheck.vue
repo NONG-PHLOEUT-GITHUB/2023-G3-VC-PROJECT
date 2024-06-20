@@ -41,7 +41,7 @@
     :headers="headers"
     :items="studentInClassroom"
     item-value="id"
-    class="elevation-2"
+    class="elevation-0"
   >
     <template v-slot:body="{ items }">
       <tr v-for="item in items" :key="item.id">
@@ -53,6 +53,7 @@
             color="red"
             false-icon="mdi-plus"
             true-icon="mdi-check"
+            hide-details
           ></v-switch>
         </td>
         <td>
@@ -71,13 +72,17 @@
             item-title="label"
             item-value="value"
             v-model="item.status"
+            density="compact"
+            hide-details
           ></v-select>
         </td>
         <td>
           <v-textarea
+            density="compact"
             rows="1"
             variant="outlined"
             v-model="item.reason"
+            hide-details
           ></v-textarea>
         </td>
       </tr>
@@ -120,7 +125,7 @@
           { value: 'Unexcused', label: 'Unexcused' },
           { value: 'On leave', label: 'On leave' },
           { value: 'No show', label: 'No show' }
-        ],
+        ]
       }
     },
     created() {
@@ -214,3 +219,9 @@
     }
   }
 </script>
+
+<style scoped>
+  ::v-deep .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+    padding-top: 25px;
+  }
+</style>

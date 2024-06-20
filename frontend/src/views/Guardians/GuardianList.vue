@@ -18,13 +18,15 @@
       <v-btn
         :disabled="this.selectedItem.length <= 0"
         variant="tonal"
-        class="ms-4 bg-deep-orange-accent-4"
+        class="ms-4 bg-error"
         icon="mdi-delete-forever"
         @click="deleteMultiple"
       ></v-btn>
     </template>
   </custom-title>
-  <filter-guardian v-show="toggleFilter" @filter-guardian="onFilterGuardian" />
+  <v-slide-y-reverse-transition mode="in-out">
+    <filter-guardian v-show="toggleFilter" @filter-guardian="onFilterGuardian" />
+  </v-slide-y-reverse-transition>
   <v-data-table
     v-model="selectedItem"
     :headers="headers"
@@ -32,7 +34,7 @@
     :loading="loading"
     item-value="id"
     show-select
-    class="elevation-1"
+    class="elevation-0"
     hover
   >
     <template v-slot:item.profile="{ item }">

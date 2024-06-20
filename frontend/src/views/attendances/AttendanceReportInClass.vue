@@ -7,7 +7,7 @@
     :search="search"
     item-value="id"
     items-key="title"
-    class="elevation-1"
+    class="elevation-0"
     show-expand
   >
     <template v-slot:expanded-row="{ columns, item }">
@@ -24,7 +24,7 @@
                 @click="removeStudent(item.id)"
                 variant="text"
                 icon="mdi-delete-forever"
-                color="red"
+                color="error"
               >
               </v-btn>
             </template>

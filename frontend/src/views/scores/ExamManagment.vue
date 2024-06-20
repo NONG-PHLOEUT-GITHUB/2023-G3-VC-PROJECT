@@ -88,14 +88,14 @@
     :items="exams"
     item-title="exam_name"
     item-value="id"
-    class="elevation-1"
+    class="elevation-0"
   >
     <template v-slot:item.actions="{ item }">
       <v-btn
         @click="deleteExamList(item.id)"
         variant="text"
         icon="mdi-delete-forever"
-        color="red"
+        color="error"
       ></v-btn>
       <v-tooltip text="Upload score of exam">
         <template v-slot:activator="{ props }">

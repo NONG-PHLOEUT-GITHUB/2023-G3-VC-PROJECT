@@ -38,7 +38,7 @@ const routes = [
     children: [
       {
         path: '/user-profile',
-        name: 'My Profile',
+        name: 'Personal Profile',
         component: () => import('@/views/userInfo/UserProfile.vue'),
         meta: { requiresAuth: true }
       },
@@ -56,14 +56,14 @@ const routes = [
       },
       {
         path: '/student-attendance',
-        name: 'My attendance',
+        name: 'My Attendance',
         component: () =>
           import('@/views/attendances/StudentAttendanceView.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2, 3] }
       },
       {
         path: '/student-score/view',
-        name: 'My score',
+        name: 'My Score',
         component: () => import('@/views/scores/StudentExamView.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2, 3] }
       },
@@ -83,13 +83,13 @@ const routes = [
       },
       {
         path: '/student-list',
-        name: 'Student management',
+        name: 'Student Management',
         component: () => import('@/views/students/StudentList.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/class-list',
-        name: 'Class management',
+        name: 'Class Management',
         component: () => import('@/views/classroom/ClassManagement.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
@@ -101,7 +101,7 @@ const routes = [
       },
       {
         path: '/student/attendance/:id/details',
-        name: 'Student attendance details',
+        name: 'Student Attendance Details',
         component: () =>
           import('@/views/attendances/StudentAttendanceDetail.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2] }
@@ -115,27 +115,27 @@ const routes = [
       },
       {
         path: '/attendance/:classroomId/student',
-        name: 'Check attendance',
+        name: 'Check Attendance',
         component: () =>
           import('@/views/attendances/StudentAttendanceCheck.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/teacher-attendance-list',
-        name: 'Teacher attendance list',
+        name: 'Teacher Attendance List',
         component: () =>
           import('@/views/attendances/TeacherAttendanceList.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/student/:id/details',
-        name: 'Student details',
+        name: 'Student Details',
         component: () => import('@/views/students/StudentDetial.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/attendance-report/:id/by-class',
-        name: 'Attendance details',
+        name: 'Attendance Details',
         component: () =>
           import('@/views/attendances/AttendanceReportInClass.vue'),
         props: true,
@@ -143,13 +143,13 @@ const routes = [
       },
       {
         path: '/user/:id/edit',
-        name: 'Edit user',
+        name: 'Edit User Information',
         component: () => import('@/views/common/CreateUser.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/feedback/:studentId/student',
-        name: 'Student feedback',
+        name: 'Student Feedback',
         component: () => import('@/views/comment/SendComment.vue'),
         props: true,
         meta: { requiresAuth: true, requiredRole: [1, 2] }
@@ -163,7 +163,7 @@ const routes = [
       },
       {
         path: '/student-score-report/:id',
-        name: 'Student score report',
+        name: 'Student Score Report',
         component: () => import('@/views/scores/StudentScoreReport.vue'),
         props: true,
         meta: { requiresAuth: true, requiredRole: [1, 2] }
@@ -182,37 +182,37 @@ const routes = [
       },
       {
         path: '/student-exam',
-        name: 'Student exam management',
+        name: 'Student Exam Management',
         component: () => import('@/views/scores/ExamManagment.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2] }
       },
       {
         path: '/student-score/:id/details',
-        name: 'Student score details',
+        name: 'Student Score Details',
         component: () => import('@/views/scores/StudentScoreViewDetails.vue'),
         meta: { requiresAuth: true, requiredRole: [1, 2,3] }
       },
       {
         path: '/teacher-list',
-        name: 'Teacher management',
+        name: 'Teacher Management',
         component: () => import('@/views/teacher/TeacherList.vue'),
         meta: { requiresAuth: true, requiredRole: [1] }
       },
       {
         path: '/guardian-list',
-        name: 'Guardian management',
+        name: 'Guardian Management',
         component: () => import('@/views/guardians/GuardianList.vue'),
         meta: { requiresAuth: true, requiredRole: [1] }
       },
       {
         path: '/add-guadian',
-        name: 'Create new guadian',
+        name: 'Create New Guardian',
         component: () => import('@/views/guardians/CreateGuardian.vue'),
         meta: { requiresAuth: true, requiredRole: [1] }
       },
       {
         path: '/guardian/:id/edit',
-        name: 'Update new guadian',
+        name: 'Edit Guardian Information',
         component: () => import('@/views/guardians/CreateGuardian.vue'),
         meta: { requiresAuth: true, requiredRole: [1] }
       },

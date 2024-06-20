@@ -5,7 +5,7 @@
     :items="studentScores"
     :loading="loading"
     item-value="subject_name"
-    class="elevation-1"
+    class="elevation-0"
     hide-default-footer
     height="500"
     fixed-header

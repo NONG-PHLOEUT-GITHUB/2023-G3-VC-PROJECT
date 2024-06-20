@@ -1,8 +1,8 @@
 <template>
   <v-form class="mb-4">
-    <v-card class="py-4 px-3">
+    <v-card class="py-4 px-3 elevation-0">
       <v-row>
-        <v-col>
+        <v-col cols="12" md="4" lg="4">
           <v-text-field
             v-model="first_name"
             @keyup="applyFilter"
@@ -12,7 +12,7 @@
             label="First name"
           ></v-text-field>
         </v-col>
-        <v-col>
+        <v-col cols="12" md="4" lg="4">
           <v-text-field
             v-model="last_name"
             @keyup="applyFilter"
@@ -22,7 +22,7 @@
             label="Last name"
           ></v-text-field>
         </v-col>
-        <v-col>
+        <v-col cols="12" md="4" lg="4">
           <v-text-field
             v-model="phone_number"
             @keyup="applyFilter"
@@ -34,7 +34,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
+        <v-col cols="12" md="6" lg="6">
           <v-text-field
             v-model="date_of_birth"
             @keyup="applyFilter"
@@ -44,7 +44,7 @@
             label="Date of birth"
           ></v-text-field>
         </v-col>
-        <v-col>
+        <v-col cols="12" md="6" lg="6">
           <v-text-field
             v-model="email"
             @keyup="applyFilter"

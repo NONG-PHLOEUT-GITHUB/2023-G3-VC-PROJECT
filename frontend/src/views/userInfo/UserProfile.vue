@@ -15,7 +15,7 @@
   <v-form @submit.prevent="updateProfile()">
     <v-layout class="rounded rounded-md px-0">
       <v-col cols="3" class="pa-1">
-        <v-card class="card">
+        <v-card class="card bg-background">
           <v-card-text class="px-0 text-center">
             <v-col>
               <div>
@@ -61,7 +61,7 @@
             </v-col>
           </v-card-text>
         </v-card>
-        <v-card class="mt-4 bg-secondary card">
+        <v-card class="mt-4 bg-background card ">
           <v-list class="pa-0">
             <v-list-subheader>
               <v-list-item-title>
@@ -85,7 +85,7 @@
         </v-card>
       </v-col>
       <v-col cols="9" class="pa-1">
-        <v-card class="card px-2">
+        <v-card class="card px-2 bg-background">
           <custom-sub-title icon="mdi-account-card">
             {{ $t('profile.pInformation') }}
           </custom-sub-title>

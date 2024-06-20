@@ -1,9 +1,9 @@
 <template>
   <v-layout class="login">
-    <v-app-bar collapse :elevation="2">
+    <v-app-bar collapse elevation="0">
       <switcher-language />
     </v-app-bar>
-    <v-card width="60%" class="py-0">
+    <v-card width="60%" class="py-0" elevation="0">
       <v-row>
         <v-col cols="6">
           <v-img
@@ -46,7 +46,7 @@
             </router-link>
             <v-btn
               type="submit"
-              color="teal darken-4 mt-7"
+              color="primary darken-4 mt-7"
               block
               class="login-button"
             >

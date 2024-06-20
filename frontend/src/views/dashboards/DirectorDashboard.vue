@@ -4,7 +4,7 @@
     <v-col cols="12" md="4">
       <v-card
         border="opacity-50 sm"
-        class="mx-auto"
+        class="mx-auto elevation-0"
         rounded="xl"
         :subtitle="$t('dashboard.studentTotal')"
         :title="$t('dashboard.student')"
@@ -43,7 +43,7 @@
       <v-card
         rounded="xl"
         border="opacity-50 sm"
-        class="mx-auto"
+        class="mx-auto elevation-0"
         :subtitle="$t('dashboard.teacherTotal')"
         :title="$t('dashboard.teacher')"
       >
@@ -80,7 +80,7 @@
     <v-col cols="12" md="4">
       <v-card
         border="opacity-50 sm"
-        class="mx-auto"
+        class="mx-auto elevation-0"
         rounded="xl"
         :subtitle="$t('dashboard.classTotal')"
         :title="$t('dashboard.class')"
@@ -119,10 +119,10 @@
     {{ $t('dashboard.subtitle') }}
   </custom-sub-title>
   <v-row class="mt-2 px-2 d-flex justify-space-between">
-    <v-card width="48%" class="elevation-1">
+    <v-card width="48%" class="elevation-0">
       <canvas id="attendanceChart" height="170"></canvas>
     </v-card>
-    <v-card width="48%" class="elevation-1">
+    <v-card width="48%" class="elevation-0">
       <canvas id="FailedChart" height="170"></canvas>
     </v-card>
   </v-row>

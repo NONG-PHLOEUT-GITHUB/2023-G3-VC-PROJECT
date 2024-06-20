@@ -23,7 +23,7 @@
       <v-btn
         :disabled="this.selectedUser.length <= 0"
         variant="tonal"
-        class="ms-4 bg-deep-orange-accent-4"
+        class="ms-4 bg-error"
         icon="mdi-delete-forever"
         @click="deleteMultiple"
       ></v-btn>
@@ -32,37 +32,36 @@
   <v-slide-y-reverse-transition mode="in-out">
     <filter-user v-show="toggleFilter" @filter-user="onFilterApplied" />
   </v-slide-y-reverse-transition>
-  <v-card>
-    <v-data-table
-      show-select
-      :headers="headers"
-      :items="teachers"
-      v-model="selectedUser"
-      item-value="id"
-      hover
-    >
-      <template v-slot:item.profile="{ item }">
-        <v-avatar size="large">
-          <v-img :src="item.profile" alt="Avatar" cover></v-img>
-        </v-avatar>
-      </template>
-      <template v-slot:item.actions="{ item }">
-        <v-btn
-          :to="{ path: '/user/' + item.id + '/edit' }"
-          variant="text"
-          icon="mdi-pencil"
-          color="btnEdit"
-        ></v-btn>
+  <v-data-table
+    show-select
+    :headers="headers"
+    :items="teachers"
+    v-model="selectedUser"
+    item-value="id"
+    hover
+    class="elevation-0"
+  >
+    <template v-slot:item.profile="{ item }">
+      <v-avatar size="large">
+        <v-img :src="item.profile" alt="Avatar" cover></v-img>
+      </v-avatar>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <v-btn
+        :to="{ path: '/user/' + item.id + '/edit' }"
+        variant="text"
+        icon="mdi-pencil"
+        color="btnEdit"
+      ></v-btn>
 
-        <v-btn
-          @click="removeTeacher(item.id)"
-          variant="text"
-          icon="mdi-delete-forever"
-          color="red"
-        ></v-btn>
-      </template>
-    </v-data-table>
-  </v-card>
+      <v-btn
+        @click="removeTeacher(item.id)"
+        variant="text"
+        icon="mdi-delete-forever"
+        color="red"
+      ></v-btn>
+    </template>
+  </v-data-table>
 </template>
 
 <script>

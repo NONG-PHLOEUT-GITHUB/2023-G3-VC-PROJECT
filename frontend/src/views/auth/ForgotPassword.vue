@@ -1,10 +1,10 @@
 <template>
-  <v-layout class="d-flex justify-center align-center" height="100vh">
+  <v-layout class="d-flex justify-center align-center bg-" height="100vh">
     <v-col class="d-flex justify-end d-none d-print-block">
       <v-img src="images/forget_password.jpeg" max-width="500"> </v-img>
     </v-col>
     <v-col>
-      <h4>Forgot password</h4>
+      <h2>Forgot password</h2>
       <span>Enter your email to reset your password.</span>
       <v-card elevation="0" width="400" class="mt-5">
         <v-form ref="form" @submit.prevent="getLinkResetPass">

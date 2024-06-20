@@ -1,5 +1,5 @@
 <template>
-  <v-card class="d-flex justify-space-between py-2 px-0 elevation-0 mb-3">
+  <v-card class="d-flex justify-space-between py-2 px-0 elevation-0 mb-3 bg-background">
     <div class="header-title-wrapper d-flex align-center">
       <h3 class="d-flex align-center">
         <v-icon class="mr-2" v-if="icon" color="primary">

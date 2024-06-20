@@ -6,7 +6,7 @@
     :loading="loading"
     :search="search"
     item-value="name"
-    class="elevation-1"
+    class="elevation-0"
   >
   </v-data-table>
 </template>

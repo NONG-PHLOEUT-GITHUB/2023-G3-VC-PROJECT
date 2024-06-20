@@ -59,14 +59,21 @@ const vuetify = createVuetify({
       light: {
         dark: false,
         colors: {
-          primary: '#89474b', // #E53935
-          secondary: "#c17290", // #FFCDD2
-          textField: "#ab5777", // #FFCDD2
-          icon: "#653748", // #FFCDD2
-          btnEdit: "#a0627f", // #FFCDD2
-          // card: "#be4054", // #FFCDD2
+          primary: '#89474b',
+          secondary: "#c17290", 
+          textField: "#ab5777", 
+          icon: "#653748", 
+          btnEdit: "#a0627f", 
+          background: "#f8f7f8", 
+          warning: '#FB8C00',
+          error: '#B00020',
         }
       },
+      // dark: {
+      //   colors: {
+      //     background: "#2a3737", 
+      //   }
+      // },
     },
   },
   locale: {

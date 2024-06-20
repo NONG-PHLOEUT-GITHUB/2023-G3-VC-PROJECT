@@ -4,7 +4,7 @@
     :headers="headers"
     :items="attendanceDetails"
     item-value="name"
-    class="elevation-2"
+    class="elevation-0"
   >
   </v-data-table>
 </template>

@@ -20,7 +20,9 @@
       </v-btn>
     </template>
   </custom-title>
-  <classroom-filter v-show="toggleFilter" @filter-applied="onFilterApplied" />
+  <v-slide-y-reverse-transition mode="in-out">
+    <classroom-filter v-show="toggleFilter" @filter-applied="onFilterApplied" />
+  </v-slide-y-reverse-transition>
   <v-dialog v-model="dialog" persistent width="40%">
     <v-card>
       <v-form @submit.prevent="saveClassroom">
@@ -260,7 +262,7 @@
         this.getClassroomDetails(id).then(response => {
           this.editId = response.id
           this.className = response.classroom_name
-          this.coordinatorId = response.coordinator
+          this.coordinatorId = response.coordinator 
           this.selectedTeachers = response.teachers.map(teacher => teacher.id)
         })
         this.formAction = this.$t('classroom.edit')

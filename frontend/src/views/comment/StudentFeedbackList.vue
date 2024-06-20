@@ -20,7 +20,7 @@
     :items="studentInClassroom"
     :loading="loading"
     item-value="name"
-    class="elevation-2"
+    class="elevation-0"
   >
     <template v-slot:item.profile="{ item }">
       <v-avatar size="large">

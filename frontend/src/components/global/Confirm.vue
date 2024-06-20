@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" :max-width="options.width" @keydown.esc="cancel">
     <v-card width="450">
-      <v-card-title class="bg-red">
+      <v-card-title class="bg-error">
         <strong>{{ title }}</strong>
       </v-card-title>
       <v-card-text
@@ -19,7 +19,7 @@
         >
           {{ $t('btn.cancel') }}
         </v-btn>
-        <v-btn elevation="0" class="bg-red" @click.native="agree">
+        <v-btn elevation="0" class="bg-error" @click.native="agree">
           {{ $t('btn.yes') }}
         </v-btn>
       </v-card-actions>

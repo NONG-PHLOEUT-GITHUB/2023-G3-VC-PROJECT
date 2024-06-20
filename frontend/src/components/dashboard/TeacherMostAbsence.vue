@@ -7,7 +7,7 @@
     :loading="loading"
     :search="search"
     item-value="name"
-    class="elevation-1"
+    class="elevation-0"
   >
     <template v-slot:item.profile="{ item }">
       <v-avatar size="large">

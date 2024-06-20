@@ -3,7 +3,7 @@
     <sidebar v-model="drawer" />
     <app-bar @toggle="toggleNav" />
     <v-main class="main">
-      <v-container class="px-4" fluid>
+      <v-container class="px-4 bg-background" fluid>
         <router-view />
       </v-container>
     </v-main>
