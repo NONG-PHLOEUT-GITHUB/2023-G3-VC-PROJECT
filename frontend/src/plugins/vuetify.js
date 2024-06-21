@@ -61,7 +61,7 @@ const vuetify = createVuetify({
         colors: {
           primary: '#89474b',
           secondary: "#c17290", 
-          textField: "#ab5777", 
+          textField: "#2f9dab", 
           icon: "#653748", 
           btnEdit: "#a0627f", 
           background: "#f8f7f8", 

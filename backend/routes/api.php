@@ -145,6 +145,7 @@ Route::prefix('guardians')->group(function () {
     Route::put("/{id}/update", [GuardianController::class, "update"]);
     Route::delete("/{id}/delete", [GuardianController::class, "destroy"]);
     Route::delete('/delete-multiple', [GuardianController::class, 'deleteMultiple']);
+    Route::get('/export-excel', [GuardianController::class, 'exportParentInformation']);
 });
 
 // ======================== API Authentication Routes ========================

@@ -11,10 +11,11 @@
             label="Classroom name"
             @keyup="applyFilter"
             color="textField"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" md="6" lg="6">
-          <v-text-field
+            placeholder="Enter classroom name."
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" md="6" lg="6">
+            <v-text-field
             @keyup="applyFilter"
             v-model="coordinatorName"
             hide-details
@@ -22,6 +23,7 @@
             variant="outlined"
             label="Coordinator name"
             color="textField"
+            placeholder="Enter Coordinator name."
           ></v-text-field>
         </v-col>
       </v-row>

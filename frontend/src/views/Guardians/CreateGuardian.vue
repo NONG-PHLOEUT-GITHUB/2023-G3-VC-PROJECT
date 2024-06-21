@@ -1,6 +1,6 @@
 <template>
   <custom-title icon="mdi-human-female-boy"></custom-title>
-  <v-card class="pa-2">
+  <v-card class="pa-2  elevation-0">
     <form-guardian
       ref="formGuardian"
       :guardian-details="guardianDetails"

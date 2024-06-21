@@ -14,6 +14,7 @@
         variant="tonal"
         class="bg-green-darken-1"
         icon="mdi-file-excel"
+        @click="exportExcel()"
       ></v-btn>
       <v-btn
         :disabled="this.selectedItem.length <= 0"
@@ -64,6 +65,7 @@
   import FilterGuardian from '@/components/filters/FilterGuardian.vue'
   import { mapActions, mapState } from 'pinia'
   import { useGuardianStore } from '@/stores/guardian'
+  import http from '@/api/api'
   export default {
     components: {
       FilterGuardian
@@ -167,7 +169,41 @@
       onFilterGuardian(filterText) {
         this.filterCriteria = filterText
         this.getAllGuardian(this.filterCriteria)
-      }
+      },
+      exportExcel() {
+        http
+          .get(`guardians/export-excel`, {
+            responseType: 'blob'
+          })
+          .then(response => {
+            // Create a Blob from the response data
+            const blob = new Blob([response.data], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            })
+            const url = window.URL.createObjectURL(blob)
+            // Get the current date and format it
+            const date = new Date()
+            const day = String(date.getDate()).padStart(2, '0')
+            const month = String(date.getMonth() + 1).padStart(2, '0') // Months are zero-based
+            const year = date.getFullYear()
+            const formattedDate = `${day}_${month}_${year}`
+            // Create a link element to trigger the download
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', `${formattedDate}_parent.xlsx`) // Adjust filename as needed
+
+            // Append the link to the document body and trigger the click event
+            document.body.appendChild(link)
+            link.click()
+
+            // Clean up by revoking the Object URL
+            window.URL.revokeObjectURL(url)
+          })
+          .catch(error => {
+            console.error('Error downloading Excel file:', error)
+            // Handle error if needed
+          })
+      },
     }
   }
 </script>

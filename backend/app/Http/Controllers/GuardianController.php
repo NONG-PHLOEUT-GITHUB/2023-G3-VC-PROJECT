@@ -6,6 +6,8 @@ use App\Http\Resources\UserResource;
 use App\Models\Guardian;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Exports\ExportParent;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GuardianController extends Controller
 {
@@ -17,7 +19,7 @@ class GuardianController extends Controller
         $query = Guardian::query();
 
          // Define the filterable fields
-        $filterableFields = ['first_name', 'last_name', 'email', 'phone_number', 'date_of_birth'];
+        $filterableFields = ['first_name', 'last_name', 'chat_id', 'phone_number', 'date_of_birth'];
 
         // Loop through the filterable fields and apply filters if values are provided
         foreach ($filterableFields as $field) {
@@ -119,5 +121,11 @@ class GuardianController extends Controller
             "id" => $guardian->id,
             'chat_id' => $guardian->chatId
         ]);
+    }
+
+    public function exportParentInformation()
+    {
+        $export = new ExportParent();
+        return Excel::download($export, 'users.xlsx');
     }
 }

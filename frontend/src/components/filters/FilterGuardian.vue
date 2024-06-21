@@ -50,12 +50,12 @@
         </v-col>
         <v-col cols="12" md="6" lg="6">
           <v-text-field
-            v-model="email"
+            v-model="chat_id"
             @keyup="applyFilter"
             hide-details
             density="compact"
             variant="outlined"
-            label="Email"
+            label="Chat id"
             color="textField"
           ></v-text-field>
         </v-col>
@@ -70,7 +70,7 @@ export default {
     return {
       first_name: '',
       last_name: '',
-      email: '',
+      chat_id: '',
       phone_number: '',
       date_of_birth: '',
     }
@@ -80,7 +80,7 @@ export default {
       const filterData = {
         first_name: this.first_name,
         last_name: this.last_name,
-        email: this.email,
+        chat_id: this.chat_id,
         phone_number: this.phone_number,
         date_of_birth: this.date_of_birth,
       }
