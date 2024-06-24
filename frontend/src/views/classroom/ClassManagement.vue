@@ -40,6 +40,9 @@
                   :error-messages="classNameRole"
                   variant="outlined"
                   color="textField"
+                  :rules="[
+                    () => !!className || 'This field is required'
+                  ]"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -54,6 +57,9 @@
                   clearable
                   multiple
                   chips
+                  :rules="[
+                    () => !!selectedTeachers || 'This field is required'
+                  ]"
                 ></v-select>
               </v-col>
               <v-col cols="12">
@@ -66,6 +72,9 @@
                   item-value="id"
                   clearable
                   chips
+                  :rules="[
+                    () => !!coordinatorId || 'This field is required'
+                  ]"
                 ></v-select>
               </v-col>
             </v-row>
@@ -73,11 +82,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            variant="outlined"
-            @click="dialog = false"
-          >
+          <v-btn color="primary" variant="outlined" @click="dialog = false">
             {{ $t('btn.cancel') }}
           </v-btn>
           <v-btn type="submit" class="bg-primary">
@@ -164,7 +169,7 @@
         editing: false,
         editId: null,
         selectedTeachers: [],
-        coordinatorId:[],
+        coordinatorId: [],
         classNameRole: '',
         teacherRole: '',
         filterCriteria: {}
@@ -185,8 +190,18 @@
       },
       items() {
         return [
-          { action: 'details', title: this.$t('btn.details'), icon: 'mdi-eye', color: 'secondary' },
-          { action: 'edit', title: this.$t('btn.edit'), icon: 'mdi-pencil', color: 'primary' },
+          {
+            action: 'details',
+            title: this.$t('btn.details'),
+            icon: 'mdi-eye',
+            color: 'secondary'
+          },
+          {
+            action: 'edit',
+            title: this.$t('btn.edit'),
+            icon: 'mdi-pencil',
+            color: 'primary'
+          },
           {
             action: 'delete',
             title: this.$t('btn.delete'),
@@ -225,7 +240,7 @@
       saveClassroom() {
         const formData = {
           classroom_name: this.className.toUpperCase(),
-          coordinator_id: this.coordinatorId,
+          coordinator_id: this.coordinatorId.id || this.coordinatorId,
           teacher_id: this.selectedTeachers
         }
 
@@ -253,6 +268,7 @@
               })
             })
             .catch(error => {
+              console.log(error)
               this.classNameRole = error.response.data.error
               this.teacherRole = error.response.data.error
             })
@@ -263,7 +279,7 @@
         this.getClassroomDetails(id).then(response => {
           this.editId = response.id
           this.className = response.classroom_name
-          this.coordinatorId = response.coordinator 
+          this.coordinatorId = response.coordinator
           this.selectedTeachers = response.teachers.map(teacher => teacher.id)
         })
         this.formAction = this.$t('classroom.edit')

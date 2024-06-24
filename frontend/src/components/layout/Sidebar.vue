@@ -1,20 +1,14 @@
 <template>
-  <v-navigation-drawer elevation="4" v-model="drawer" 
-  >
-  <!-- expand-on-hover
+  <v-navigation-drawer elevation="4" v-model="drawer">
+    <!-- expand-on-hover
   rail -->
-    <v-list>
-      <v-list-item>
-        <div class="image">
-          <v-img
-            class="image"
-            src="https://www.ayushmatrimony.com/Services/assets/images/SMSLogo.png"
-            rounded
-            rounded-sm
-          ></v-img>
-        </div>
-      </v-list-item>
-    </v-list>
+    <template v-slot:prepend>
+      <v-list>
+        <v-list-item>
+          <v-img class="image" rounded src="/SMSLogo.ico" rounded-sm></v-img>
+        </v-list-item>
+      </v-list>
+    </template>
     <v-list dense>
       <v-list-item
         v-for="(item, index) in menu"
@@ -30,6 +24,19 @@
         <v-list-item-title>{{ item.title }}</v-list-item-title>
       </v-list-item>
     </v-list>
+    <template v-slot:append>
+      <div class="pa-2 text-center">
+        <!-- <v-chip block>Version 0.2</v-chip> -->
+        <v-btn
+          block
+          class="text-none bg-primary"
+          variant="tonal"
+          prepend-icon="mdi-application-outline"
+        >
+          Version 0.2.9
+        </v-btn>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -84,7 +91,7 @@
           {
             path: '/teacher-classroom',
             title: this.$t('menu.teacher.classTeaching'),
-            icon: 'mdi-domain',
+            icon: 'mdi-domain'
           }
         ]
       },

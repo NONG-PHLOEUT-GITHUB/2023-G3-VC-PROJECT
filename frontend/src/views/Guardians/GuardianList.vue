@@ -83,7 +83,6 @@
           {
             title: 'First name',
             align: 'start',
-            sortable: false,
             key: 'first_name'
           },
           {
@@ -100,6 +99,7 @@
           {
             title: 'Phone number',
             key: 'phone_number',
+            sortable: false,
             align: 'end'
           },
           {
@@ -207,3 +207,10 @@
     }
   }
 </script>
+
+
+<style scoped>
+tbody {
+  background: red;
+}
+</style>
