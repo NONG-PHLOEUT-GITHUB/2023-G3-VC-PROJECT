@@ -33,7 +33,10 @@ api.interceptors.response.use(
     loadingStore.setLoading(false)
     return response
   },
+  
   error => {
+    // console.log(error.response.data.message === "Unauthenticated.")
+    console.log(error.response.status == 401)
     loadingStore.setLoading(false)
     return Promise.reject(error)
   }

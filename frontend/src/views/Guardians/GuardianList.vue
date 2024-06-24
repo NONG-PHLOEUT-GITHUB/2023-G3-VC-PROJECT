@@ -2,15 +2,7 @@
   <custom-title icon="mdi-human-male-girl">
     <template #right>
       <v-btn
-        variant="outlined"
-        append-icon="mdi-filter-multiple-outline"
-        class="text-none me-4"
-        color="primary"
-        @click="toggleFilter = !toggleFilter"
-      >
-        {{ $t('btn.filter') }}
-      </v-btn>
-      <v-btn
+        size="small"
         variant="tonal"
         class="bg-green-darken-1"
         icon="mdi-file-excel"
@@ -22,7 +14,17 @@
         class="ms-4 bg-error"
         icon="mdi-delete-forever"
         @click="deleteMultiple"
+        size="small"
       ></v-btn>
+      <v-btn
+        variant="outlined"
+        append-icon="mdi-filter-multiple-outline"
+        class="text-none ms-4"
+        color="primary"
+        @click="toggleFilter = !toggleFilter"
+      >
+        {{ $t('btn.filter') }}
+      </v-btn>
     </template>
   </custom-title>
   <v-slide-y-reverse-transition mode="in-out">

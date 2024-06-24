@@ -1,23 +1,6 @@
 <template>
   <custom-title icon="mdi-account-school-outline">
     <template #right>
-      <v-btn
-        variant="outlined"
-        append-icon="mdi-filter-multiple-outline"
-        class="text-none me-4"
-        color="primary"
-        @click="toggleFilter = !toggleFilter"
-      >
-        {{ $t('btn.filter') }}
-      </v-btn>
-      <v-btn
-        append-icon="mdi-plus"
-        class="text-none me-4"
-        color="primary"
-        :to="{ path: '/create-user' }"
-      >
-        {{ $t('btn.create') }}
-      </v-btn>
       <div>
         <v-tooltip activator="parent" text="Import Excel" location="top">
           <template v-slot:activator="{ props }">
@@ -25,6 +8,7 @@
               v-bind="props"
               variant="tonal"
               class="me-4 bg-secondary"
+              size="small"
               icon="mdi-database-import"
               @click="isEmport = !isEmport"
             ></v-btn>
@@ -40,6 +24,7 @@
               @click="exportExcel()"
               class="bg-green-darken-1"
               icon="mdi-database-export"
+              size="small"
             ></v-btn>
           </template>
         </v-tooltip>
@@ -50,11 +35,29 @@
         class="ms-4 bg-error"
         icon="mdi-delete-forever"
         @click="deleteMultiple"
+        size="small"
       ></v-btn>
+      <v-btn
+        variant="outlined"
+        append-icon="mdi-filter-multiple-outline"
+        class="text-none ms-4"
+        color="primary"
+        @click="toggleFilter = !toggleFilter"
+      >
+        {{ $t('btn.filter') }}
+      </v-btn>
+      <v-btn
+        append-icon="mdi-plus"
+        class="text-none ms-4"
+        color="primary"
+        :to="{ path: '/create-user' }"
+      >
+        {{ $t('btn.create') }}
+      </v-btn>
     </template>
   </custom-title>
   <v-expand-transition>
-    <v-card class="mb-3 pa-0" v-show="isEmport">
+    <v-card class="pa-0" v-show="isEmport">
       <v-form @submit.prevent="importUserExcelFile">
         <v-row cols="4" class="pa-2">
           <v-col>
@@ -69,7 +72,7 @@
             ></v-file-input>
           </v-col>
           <v-col>
-            <v-btn type="submit">Upload</v-btn>
+            <v-btn type="submit" class="text-none bg-primary">Upload</v-btn>
           </v-col>
         </v-row>
       </v-form>

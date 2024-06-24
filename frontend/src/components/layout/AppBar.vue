@@ -33,7 +33,7 @@
           <span class="me-1 d-none d-lg-block d-print-block">
             {{ authUser.first_name }} {{ authUser.last_name }}
           </span>
-          <v-btn v-bind="props" size="small" class="me-2" stacked>
+          <v-btn v-bind="props" class="me-1" stacked>
             <v-avatar color="brown" size="large" class="avatar">
               <v-img :src="authUser.profile" alt="Avatar" cover></v-img>
             </v-avatar>
