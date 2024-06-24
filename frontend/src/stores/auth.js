@@ -67,6 +67,9 @@ export const useAuthStore = defineStore('auth', {
     },
     async userUpdateProfile(data) {
      return await updateProfile(data)
+    },
+    async expriedToken(data) {
+     console.log(data);
     }
   }
 })

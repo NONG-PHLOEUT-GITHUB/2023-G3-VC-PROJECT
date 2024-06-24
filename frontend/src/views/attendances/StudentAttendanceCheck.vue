@@ -44,7 +44,7 @@
     class="elevation-0"
   >
     <template v-slot:body="{ items }">
-      <tr v-for="item in items" :key="item.id">
+      <tr v-for="item in items" :key="item.id" :class="{'bg-selected':!item.selected, 'bg-primary': item.selected}">
         <td>
           <v-switch
             @update:modelValue="getSelected(item)"
@@ -108,14 +108,14 @@
         reason: '',
         status: '',
         headers: [
-          { title: 'Select', key: 'select' },
-          { title: 'Profile', key: 'profile' },
-          { title: 'First Name', key: 'first_name' },
-          { title: 'Last Name', key: 'last_name' },
-          { title: 'Gender', key: 'gender' },
+          { title: 'Select', key: 'select', sortable: false ,width: '0%'},
+          { title: 'Profile', key: 'profile', sortable: false },
+          { title: 'First Name', key: 'first_name',width: '12%' },
+          { title: 'Last Name', key: 'last_name',width: '12%' },
+          { title: 'Gender', key: 'gender', sortable: false},
           { title: 'Email', key: 'email' },
-          { title: 'Status', key: 'status', width: '200' },
-          { title: 'Reason', key: 'reason' }
+          { title: 'Status', key: 'status', width: '15%',sortable: false },
+          { title: 'Reason', key: 'reason',width: '15%',sortable: false }
         ],
         statusOptions: [
           { value: 'Present', label: 'Present' },
