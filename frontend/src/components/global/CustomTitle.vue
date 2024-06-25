@@ -1,38 +1,48 @@
 <template>
-  <v-card class="d-flex justify-space-between py-0 px-0 elevation-0 mb-3 bg-background">
+  <v-card
+    class="d-flex justify-space-between main-card py-1 px-1 elevation-0 md-1 rounded-0"
+    border="primary b-sm opacity-100"
+  >
     <div class="header-title-wrapper d-flex align-center">
-      <h2 class="d-flex align-center">
-        <v-icon class="mr-2" v-if="icon" color="primary">
+      <h3 class="d-flex align-center">
+        <v-icon class="ml-6" color="amber-accent-3" v-if="icon" size="45">
           {{ icon }}
         </v-icon>
-        {{ $route.name }}
+        <v-card-title class="title pr-1">{{ title !== '' ? title : currentRouteName }}</v-card-title>
         <slot />
-      </h2>
+      </h3>
     </div>
     <div class="d-flex align-center">
-      <slot name="right">
-        <v-btn v-if="rightIcon">
-          <v-icon>
-            {{ rightIcon }}
-          </v-icon>
-        </v-btn>
-      </slot>
+      <slot name="right"> </slot>
     </div>
   </v-card>
 </template>
 
 <script>
-  export default {
-    name: 'CustomTitle',
-    props: {
-      icon: { type: String, required: false },
-      rightIcon: { type: String }
+export default {
+  name: "CustomTitle",
+  props: {
+    icon: { type: String, required: false },
+    title: { type: String, required: false, default: ''}
+  },
+  computed:{
+    currentRouteName() {
+      return this.$route.name;
     }
-  }
+  },
+};
 </script>
 
 <style scoped>
-  .header-title-wrapper {
-    width: 100%;
-  }
+.header-title-wrapper {
+  width: 100%;
+}
+.main-card {
+  background-color: var(--v-bg-light-blue);
+}
+.title {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--t-color-blue);
+}
 </style>

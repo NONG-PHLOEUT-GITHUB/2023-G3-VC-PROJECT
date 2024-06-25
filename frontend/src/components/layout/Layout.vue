@@ -1,34 +1,21 @@
 <template>
-  <!-- <v-layout class="rounded rounded-md"> -->
-    <sidebar v-model="drawer" />
-    <app-bar @toggle="toggleNav" />
-    <v-main class="main">
-      <v-container class="px-4 bg-background" fluid>
+  <v-layout>
+    <app-bar />
+    <v-main>
+      <v-container class="px-0" fluid>
         <router-view />
       </v-container>
     </v-main>
-  <!-- </v-layout> -->
+  </v-layout>
 </template>
 <script>
-  import Sidebar from './Sidebar.vue'
-  import AppBar from './AppBar.vue'
+import AppBar from "../nav/NavBar.vue";
 
-  export default {
-    props: ['menubar'],
-    name: 'LayoutDashboard',
-
-    components: {
-      Sidebar,
-      AppBar
-    },
-    data: () => ({
-      drawer: true
-    }),
-
-    methods: {
-      toggleNav() {
-        this.drawer = !this.drawer
-      }
-    }
-  }
+export default {
+  name: "Layout",
+  components: {
+    AppBar,
+  },
+  methods: {},
+};
 </script>

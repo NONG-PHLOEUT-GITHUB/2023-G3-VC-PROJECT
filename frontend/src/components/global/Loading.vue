@@ -1,6 +1,9 @@
 <template>
-  <v-overlay :model-value="isLoading" class="align-center justify-center">
-    {{ isLoading }}
+  <v-overlay
+    :model-value="isLoading"
+    class="align-center justify-center"
+    contained
+  >
     <v-progress-circular
       color="primary"
       size="90"
@@ -15,7 +18,7 @@
   import { mapState } from 'pinia'
   import { useLoadingStore } from '@/stores/loading'
   export default {
-    name: 'CommonOverlay',
+    name: 'Loading',
     computed: {
       ...mapState(useLoadingStore, ['isLoading'])
     }

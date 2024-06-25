@@ -1,23 +1,25 @@
-import { createApp } from 'vue'
+import { createApp } from "vue"
 import { createPinia } from 'pinia'
-import App from './App.vue'
-import router from './router'
-import vuetify from './plugins/vuetify'
+import App from "./App.vue"
+import router from "./router"
+import vuetify from "./plugins/vuetify"
 import i18n from "./plugins/i18n"
+import "./style.css"
 
-//global components
+import { formatCurrency } from './utils/currencyFormat'
+import CustomTitle from "./components/global/CustomTitle.vue";
 
-import CustomTitle from './components/global/CustomTitle.vue'
-import CustomSubTitle from './components/global/CustomSubTitle.vue'
 
 const app = createApp(App)
-const pinia = createPinia();
+const pinia = createPinia()
 
-app.component('custom-title',CustomTitle)
-app.component('custom-sub-title',CustomSubTitle)
+app.config.globalProperties.$formatCurrency = formatCurrency
 
 app.use(pinia)
-app.use(router)
 app.use(vuetify)
+app.use(router)
 app.use(i18n)
-app.mount('#app')
+app.component("CustomTitle", CustomTitle);
+
+app.mount("#app")
+

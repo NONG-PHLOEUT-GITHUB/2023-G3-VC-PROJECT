@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+:root {
+  font-family: "Montserrat", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --v-bg-violet: #BF02B7;
+  --v-color-white: #FFFFFF;
+  --v-bg-blue: #5D87FF;
+  --v-bg-error: #9a0303;
+  --v-bg-light-blue: #ECF2FF;
+  --t-color-blue: #5D87FF;
+}

@@ -1,42 +1,44 @@
 import { useLoadingStore } from '@/stores/loading'
 import axios from 'axios'
+// import { createPinia, getActivePinia, setActivePinia } from 'pinia'
 
 const api = axios.create({
-  baseURL: import.meta.env.VUE_APP_API_BASE_URL || 'http://127.0.0.1:8000/api/',
+  baseURL: import.meta.env.VITE_APP_API_BASE_URL,
   headers: {
-    'Access-Control-Allow-Origin': '*',
     'Content-type': 'application/json'
   }
 })
 
+// // // Check if Pinia is active and set it if not
+// if (!getActivePinia()) {
+//   setActivePinia(createPinia())
+// }
 // Get store instance
 const loadingStore = useLoadingStore()
 
-// Request Interceptor
-api.interceptors.request.use(async config => {
-  try {
+// Request interceptor to show loading spinner
+api.interceptors.request.use(
+  config => {
+    loadingStore.setLoading(true)
     const token = localStorage.getItem('access_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
-    loadingStore.setLoading(true)
     return config
-  } catch (error) {
+  },
+  error => {
     loadingStore.setLoading(false)
     return Promise.reject(error)
   }
-})
+)
 
 // Response Interceptor
 api.interceptors.response.use(
   response => {
     loadingStore.setLoading(false)
-    return response
+    return response.data
   },
-  
   error => {
-    // console.log(error.response.data.message === "Unauthenticated.")
-    console.log(error.response.status == 401)
     loadingStore.setLoading(false)
     return Promise.reject(error)
   }
