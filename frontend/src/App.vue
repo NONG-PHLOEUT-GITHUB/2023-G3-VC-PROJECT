@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <token-expired />
     <Notif ref="notif" dismissible :default-timeout="2000" />
     <Confirm ref="confirm" />
     <router-view />
@@ -11,12 +12,14 @@
   import Notif from '@/components/global/Notification.vue'
   import Confirm from '@/components/global/Confirm.vue'
   import Loading from '@/components/global/Loading.vue'
+  import TokenExpired from '@/components/common/TokenExpired.vue';
   export default {
     name: 'App',
     components: {
       Notif,
       Confirm,
-      Loading
+      Loading,
+      TokenExpired
     },
     methods: {
       handleKeyDown(e) {

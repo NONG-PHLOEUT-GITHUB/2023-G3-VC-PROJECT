@@ -7,6 +7,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthController extends Controller
 {
@@ -110,5 +112,28 @@ class AuthController extends Controller
     private function guard()
     {
         return Auth::guard();
+    }
+
+    public function getTokenExpiry(Request $request)
+    {
+        // $token = $request->bearerToken();
+    
+        // if (!$token) {
+        //     return response()->json(['error' => 'Token not provided'], 401);
+        // }
+
+        // try {
+        //     $headers = []; // Define headers as an empty array
+        //     $decoded = JWT::decode($token, env('JWT_SECRET'), $headers);
+
+        //     // Handle the decoded token as needed
+        //     return response()->json(['decoded_token' => $decoded]);
+        // } catch (\Firebase\JWT\ExpiredException $e) {
+        //     return response()->json(['error' => 'Token expired'], 401);
+        // } catch (\Firebase\JWT\BeforeValidException $e) {
+        //     return response()->json(['error' => 'Token not yet valid'], 401);
+        // } catch (\Exception $e) {
+        //     return response()->json(['error' => 'Invalid token'], 401);
+        // }
     }
 }

@@ -45,12 +45,16 @@ export const useAuthStore = defineStore('auth', {
       return response
     },
     async fetchUser(exam_id) {
-      const response = await fetchUserLoged(exam_id)
-      this.studentScores = response.data.data.scores
-      this.exams = response.data.data.exams
-      this.studentComments = response.data.data.comments
-      this.authUser = response.data.data
-      this.teacherID = response.data.data.id
+      try {
+        const response = await fetchUserLoged(exam_id)
+        this.studentScores = response.data.data.scores
+        this.exams = response.data.data.exams
+        this.studentComments = response.data.data.comments
+        this.authUser = response.data.data
+        this.teacherID = response.data.data.id
+      } catch (error) {
+        console.error(error.message);
+      }
     },
     async logout() {
      return await logout()
@@ -67,9 +71,6 @@ export const useAuthStore = defineStore('auth', {
     },
     async userUpdateProfile(data) {
      return await updateProfile(data)
-    },
-    async expriedToken(data) {
-     console.log(data);
     }
   }
 })

@@ -149,6 +149,7 @@ Route::prefix('guardians')->group(function () {
 });
 
 // ======================== API Authentication Routes ========================
+Route::get('/token-expiry', [AuthController::class, 'getTokenExpiry']);
 
 Route::prefix('v1/auth')->group(function () {
     // Login User

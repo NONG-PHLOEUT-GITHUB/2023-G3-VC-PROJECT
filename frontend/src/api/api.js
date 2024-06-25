@@ -1,8 +1,9 @@
 import { useLoadingStore } from '@/stores/loading'
+import { useCommonStore } from '@/stores/common'
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: process.env.VUE_APP_API_BASE_URL || 'http://127.0.0.1:8000/api/',
+  baseURL: process.env.VUE_APP_API_BASE_URL,
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Content-type': 'application/json'
@@ -11,6 +12,7 @@ const api = axios.create({
 
 // Get store instance
 const loadingStore = useLoadingStore()
+const tokenExpiredStore = useCommonStore()
 
 // Request Interceptor
 api.interceptors.request.use(async config => {
@@ -33,10 +35,14 @@ api.interceptors.response.use(
     loadingStore.setLoading(false)
     return response
   },
-  
+
   error => {
-    // console.log(error.response.data.message === "Unauthenticated.")
-    console.log(error.response.status == 401)
+    if (
+      error.response.data.message === 'Unauthenticated' &&
+      error.response.status == 401
+    ) {
+      tokenExpiredStore.setTokenExpired(true)
+    }
     loadingStore.setLoading(false)
     return Promise.reject(error)
   }
