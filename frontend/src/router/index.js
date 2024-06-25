@@ -2,9 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Cookies from 'js-cookie';
 //admind dashboard router =================================================================
 import DashboardHomeView from '@/views/Director/DirectorDashboard.vue';
-import AddGuardian from '../views/Guardians/CreateGuardian.vue';
-// import EditGuardian from '../views/Guardians/EditGuardian.vue';
-import EditGuardian from '@/views/Guardians/EditGuardian.vue';
+import AddGuardian from '../views/guardians/CreateGuardian.vue';
+// import EditGuardian from '../views/guardians/EditGuardian.vue';
+import EditGuardian from '@/views/guardians/EditGuardian.vue';
 //admind dashboard router =================================================================
 import TeacherListView from '../views/Teacher/SaveListTeacher.vue';
 import StudentList from '../views/Student/StudentList.vue';
@@ -46,7 +46,7 @@ import StudentCommentView from '@/views/UserInfo/CommentView';
 import ClassroomView from '@/views/Teacher/ClassroomView.vue';
 
 //guadian  router =============================================================
-import GuardianListView from '../views/Guardians/GuardianList.vue';
+import GuardianListView from '../views/guardians/GuardianList.vue';
 
 
 
