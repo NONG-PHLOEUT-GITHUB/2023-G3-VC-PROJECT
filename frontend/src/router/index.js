@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import jwtDecode from 'jwt-decode';
+// import jwtDecode from 'jwt-decode';
 
 const routes = [
   {
@@ -226,7 +226,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.VUE_APP_API_URL),
+  history: createWebHistory(),
   routes
 })
 

@@ -35,22 +35,23 @@ const dateTimeFormats = {
 }
 
 function loadLocaleMessages() {
-  const locales = require.context('@/locales', true, /[A-Za-z0-9-_,\s]+\.json$/i)
-  const messages = {}
-  locales.keys().forEach(key => {
-    const matched = key.match(/([A-Za-z0-9-_]+)\./i)
+  const locales = import.meta.glob("../locales/*.json", { eager: true });
+  const localesKey = Object.keys(locales);
+  const messages = {};
+  localesKey.forEach((key) => {
+    const matched = key.match(/([A-Za-z0-9-_]+)\./i);
     if (matched && matched.length > 1) {
-      const locale = matched[1]
-      messages[locale] = locales(key)
+      const locale = matched[1].split("_")[0];
+      messages[locale] = locales[key];
     }
-  })
-  return messages
+  });
+  return messages;
 }
 
 const i18n = createI18n({
   legacy: false, // for Vue 3, set to false
-  locale: process.env.VUE_APP_I18N_LOCALE || 'en',
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  locale: import.meta.env.VUE_APP_I18N_LOCALE || 'en',
+  fallbackLocale: import.meta.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   messages: loadLocaleMessages(),
   dateTimeFormats
 })

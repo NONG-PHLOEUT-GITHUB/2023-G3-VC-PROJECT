@@ -33,7 +33,7 @@
           variant="tonal"
           prepend-icon="mdi-application-outline"
         >
-          Version 0.2.9
+          Version 1.0.0
         </v-btn>
       </div>
     </template>
