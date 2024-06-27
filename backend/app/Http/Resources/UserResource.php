@@ -27,11 +27,13 @@ class UserResource extends JsonResource
             'chat_id' => $this->guardian ? $this->guardian->chat_id : null,
             'address'=>$this->address,
             'parent_id'=>$this->guardian_id,
+            'classroom_id'=>$this->classroom_id,
             'attendacnes' => AttendanceResource::collection($this->attendances),
             'comments' => CommentResource::collection($this->comments),
             'scores' => CommentResource::collection($this->scores),
             'subjects' => SubjectResurce::collection($this->subjects),
             'guardian' => new GuardianResource($this->guardian),
+            'classroom' => ClassroomResource::collection($this->classrooms),
         ];
     }
 }

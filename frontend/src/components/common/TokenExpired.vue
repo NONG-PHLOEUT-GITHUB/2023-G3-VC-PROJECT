@@ -1,5 +1,4 @@
 <template>
-  <div class="text-center pa-4">
     <v-dialog v-model="isDialogVisible" width="auto" persistent>
       <v-card max-width="400">
         <v-toolbar class="bg-info">
@@ -26,7 +25,6 @@
         </template>
       </v-card>
     </v-dialog>
-  </div>
 </template>
 
 <script>

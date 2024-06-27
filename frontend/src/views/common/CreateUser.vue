@@ -323,7 +323,6 @@
           ...this.studentDetails, // get access to object data
           profile: this.profile_picture || ''
         }
-
         try {
           if (this.isUpdate) {
             const id = parseInt(this.$route.params.id)

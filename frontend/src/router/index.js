@@ -52,7 +52,7 @@ const routes = [
         path: '/student-comments',
         name: 'My Comments',
         component: () => import('@/views/comment/CommentStudentView.vue'),
-        meta: { requiresAuth: true, requiredRole: [3] }
+        meta: { requiresAuth: true, requiredRole: [1,2,3] }
       },
       {
         path: '/student-attendance',
@@ -220,6 +220,11 @@ const routes = [
         path: '/:pathMatch(.*)*', // matches any unknown path
         name: 'not-found',
         component: () => import('@/views/auth/Notfound.vue')
+      },
+      {
+        path: '/test', // matches any unknown path
+        name: 'teacher-apsent',
+        component: () => import('@/views/attendances/TeacherAttendanceList.vue')
       }
     ]
   }

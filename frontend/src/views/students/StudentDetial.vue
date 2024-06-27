@@ -1,7 +1,7 @@
 <template>
   <custom-title icon="mdi-eye"></custom-title>
   <!-- {{ studentDetails }} -->
-  <v-card>
+  <v-card class="elevation-0">
     <v-tabs v-model="tab" align-tabs="start" color="deep-purple-accent-4">
       <v-tab value="1" direction="true" class="text-none">Account</v-tab>
       <v-tab value="2" class="text-none">Parent Info</v-tab>
@@ -10,7 +10,7 @@
       <v-tab value="5" class="text-none">Attendance</v-tab>
     </v-tabs>
     <v-window v-model="tab">
-      <v-window-item value="1">
+      <v-window-item value="1" class="pa-0">
         <v-container fluid>
           <v-layout class="rounded rounded-md px-0">
             <v-col cols="3">
