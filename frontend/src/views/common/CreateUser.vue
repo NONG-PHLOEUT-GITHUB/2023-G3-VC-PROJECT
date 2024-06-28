@@ -4,7 +4,7 @@
     <custom-sub-title icon="mdi-information">
       Student Information
     </custom-sub-title>
-    <v-form @submit.prevent="addOrUpdateUser()">
+    <v-form>
       <v-row>
         <v-col>
           <v-select
@@ -13,21 +13,21 @@
             :items="roleOption"
             item-title="title"
             item-value="value"
-            v-model="studentDetails.role"
+            v-model="studentShow.role"
             chips
             @change="handleRoleChange()"
             clearable
-            :rules="[() => !!studentDetails.role || 'This field is required']"
+            :rules="[() => !!studentShow.role || 'This field is required']"
           ></v-select>
         </v-col>
         <v-col>
           <v-text-field
             color="textField"
             variant="outlined"
-            v-model="studentDetails.first_name"
+            v-model="studentShow.first_name"
             label="First name"
             :rules="[
-              () => !!studentDetails.first_name || 'This field is required'
+              () => !!studentShow.first_name || 'This field is required'
             ]"
           ></v-text-field>
         </v-col>
@@ -35,19 +35,17 @@
           <v-text-field
             color="textField"
             variant="outlined"
-            v-model="studentDetails.last_name"
+            v-model="studentShow.last_name"
             label="Last name"
-            :rules="[
-              () => !!studentDetails.last_name || 'This field is required'
-            ]"
+            :rules="[() => !!studentShow.last_name || 'This field is required']"
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
           <v-radio-group
-            :rules="[() => !!studentDetails.gender || 'This field is required']"
-            v-model="studentDetails.gender"
+            :rules="[() => !!studentShow.gender || 'This field is required']"
+            v-model="studentShow.gender"
             inline
           >
             <v-radio label="Male" value="Male"></v-radio>
@@ -58,11 +56,9 @@
           <v-text-field
             color="textField"
             variant="outlined"
-            v-model="studentDetails.address"
+            v-model="studentShow.address"
             label="Address"
-            :rules="[
-              () => !!studentDetails.address || 'This field is required'
-            ]"
+            :rules="[() => !!studentShow.address || 'This field is required']"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -71,10 +67,10 @@
           <v-text-field
             color="textField"
             variant="outlined"
-            v-model="studentDetails.phone_number"
+            v-model="studentShow.phone_number"
             label="Phone Number"
             :rules="[
-              () => !!studentDetails.phone_number || 'This field is required'
+              () => !!studentShow.phone_number || 'This field is required'
             ]"
           ></v-text-field>
         </v-col>
@@ -83,7 +79,7 @@
             color="textField"
             variant="outlined"
             label="Email"
-            v-model="studentDetails.email"
+            v-model="studentShow.email"
             :error-messages="emailErrorMessage"
             :rules="[rulesEmail.required, rulesEmail.email]"
           ></v-text-field>
@@ -95,10 +91,10 @@
             color="textField"
             label="Date of Birth"
             variant="outlined"
-            v-model="studentDetails.date_of_birth"
+            v-model="studentShow.date_of_birth"
             type="date"
             :rules="[
-              () => !!studentDetails.date_of_birth || 'This field is required',
+              () => !!studentShow.date_of_birth || 'This field is required',
               value => {
                 if (!value) return true
                 const selectedDate = new Date(value)
@@ -115,9 +111,9 @@
           <v-text-field
             color="textField"
             variant="outlined"
-            :rules="[() => !!studentDetails.age || 'This field is required']"
+            :rules="[() => !!studentShow.age || 'This field is required']"
             label="Age"
-            v-model="studentDetails.age"
+            v-model="studentShow.age"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -141,15 +137,14 @@
         <v-col>
           <v-avatar size="62">
             <v-img v-if="previewImage" :src="previewImage" alt="John"></v-img>
-            <v-img v-else :src="studentDetails.profile"></v-img>
+            <v-img v-else :src="studentShow.profile"></v-img>
           </v-avatar>
         </v-col>
       </v-row>
-      <v-row v-if="studentDetails.role === 2">
+      <v-row v-if="studentShow.role === 2">
         <v-col cols="6">
-          {{ studentDetails }}
           <v-select
-            v-model="studentDetails.subjects_id"
+            v-model="studentShow.subjects"
             :items="subjects"
             variant="outlined"
             label="Assign subject"
@@ -161,7 +156,7 @@
           ></v-select>
         </v-col>
       </v-row>
-      <v-row v-if="studentDetails.role === 3">
+      <v-row v-if="studentShow.role === 3">
         <v-col cols="6">
           <v-select
             :items="classrooms"
@@ -169,7 +164,7 @@
             label="Assign student into class"
             item-title="classroom_name"
             item-value="id"
-            v-model="studentDetails.classroom_id"
+            v-model="studentShow.classroom_id"
             chips
             clearable
           ></v-select>
@@ -177,7 +172,7 @@
       </v-row>
 
       <form-guardian
-        v-if="studentDetails.role === 3"
+        v-if="studentShow.role === 3"
         ref="formGuardian"
         :guardian-details="guardianDetails"
         @submit="handleGuardianSubmit"
@@ -187,12 +182,12 @@
         <v-btn
           type="button"
           class="mr-2"
-          :to="studentDetails.role === 3 ? '/student-list' : '/teacher-list'"
+          :to="studentShow.role === 3 ? '/student-list' : '/teacher-list'"
           variant="outlined"
         >
           {{ $t('btn.cancel') }}
         </v-btn>
-        <v-btn type="submit" class="bg-primary" @click="submitForm">
+        <v-btn type="submit" class="bg-primary" @click="addOrUpdateUser">
           {{ btn ? $t('btn.update') : $t('btn.create') }}
         </v-btn>
       </v-card-actions>
@@ -252,17 +247,17 @@
       const userId = this.$route.params.id
       if (userId) {
         this.isUpdate = true
-        this.getStudentDetails(userId), (this.btn = true)
+        this.showStudent(userId), (this.btn = true)
       }
       this.getSubjects()
       this.getCassrooms()
       this.handleRoleChange()
     },
     watch: {
-      'studentDetails.date_of_birth': function (newDate) {
-        this.studentDetails.age = this.calculateAge(newDate)
+      'studentShow.date_of_birth': function (newDate) {
+        this.studentShow.age = this.calculateAge(newDate)
       },
-      'studentDetails.parent_id': function (newParentId) {
+      'studentShow.parent_id': function (newParentId) {
         if (!newParentId) {
           this.guardianDetails = {}
         } else {
@@ -271,7 +266,7 @@
       }
     },
     computed: {
-      ...mapState(useStudentStore, ['students', 'studentDetails']),
+      ...mapState(useStudentStore, ['students', 'studentShow']),
       ...mapState(useClassroomStore, ['classrooms']),
       ...mapState(useSubjectStore, ['subjects']),
       ...mapState(useGuardianStore, ['guardianDetails'])
@@ -280,15 +275,15 @@
       ...mapActions(useStudentStore, [
         'createNewStudents',
         'updateUserList',
-        'getStudentDetails'
+        'showStudent'
       ]),
       ...mapActions(useClassroomStore, ['getCassrooms']),
       ...mapActions(useSubjectStore, ['getSubjects']),
       ...mapActions(useGuardianStore, [
         'createNewGuardian',
-        'getGuardianDetails'
+        'getGuardianDetails',
+        'updateGuardianList'
       ]),
-
       calculateAge(dateOfBirth) {
         if (!dateOfBirth) return ''
         const birthDate = new Date(dateOfBirth)
@@ -313,14 +308,15 @@
       },
 
       handleRoleChange() {
-        const role = this.studentDetails.role
+        const role = this.studentShow.role
         this.showRow = role === 3
         this.showSubject = role === 2
       },
 
       async addOrUpdateUser() {
         const formData = {
-          ...this.studentDetails, // get access to object data
+          ...this.studentShow, // get access to object data
+          // guardian_id:this.guardian_id,
           profile: this.profile_picture || ''
         }
         try {
@@ -332,19 +328,20 @@
               color: 'primary'
             })
           } else {
-            await this.createNewStudents(formData)
-            if (this.studentDetails.role === 3)
+            if (this.studentShow.role === 3) {
               this.$refs.formGuardian.emitSubmit()
+              this.$router.push('/student-list')
+            }
+            else {
+              this.$router.push('/teacher-list')
+            }
+            await this.createNewStudents(formData)
             this.$root.$notif(this.$t('alert.create'), {
               type: 'success',
               color: 'primary'
             })
           }
-          this.$router.push({
-            path:
-              this.studentDetails.role === 3 ? '/student-list' : '/teacher-list'
-          })
-          this.studentDetails = ''
+          this.formData = ''
         } catch (error) {
           if (error.response.status === 422) {
             this.emailErrorMessage = 'Email already exists.'
@@ -354,13 +351,11 @@
       async handleGuardianSubmit(formData) {
         try {
           await this.createNewGuardian(formData)
+          // await this.updateGuardianList(formData)
         } catch (error) {
           console.log(error)
         }
       },
-      submitForm() {
-        this.addOrUpdateUser()
-      }
     }
   }
 </script>

@@ -19,6 +19,7 @@ class ClassroomResource extends JsonResource
             'classroom_name'=>$this->classroom_name,
             'student_count' => $this->student_count,
             'class_coordinator' => $this->teacherCoordinator ? $this->teacherCoordinator->first_name . ' ' . $this->teacherCoordinator->last_name : null,
+            'coordinator_profile' => $this->teacherCoordinator ? $this->teacherCoordinator->profile : null
         ];
     }
 }

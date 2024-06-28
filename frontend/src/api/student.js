@@ -6,11 +6,21 @@ export function fetchStudents(filterCriteria) {
 export function fetchStudentDetails(id) {
   return http.get(`users/${id}/details`)
 }
+
+export function showStudent(id) {
+  return http.get(`users/${id}/show`)
+}
+
 export function createUsers(data) {
   const formData = new FormData()
   // Append each key-value pair to the FormData object
   Object.entries(data).forEach(([key, value]) => {
-    formData.append(key, value)
+    if (value !== null) {
+      formData.append(key, value);
+    } else {
+      // Handle null values as needed
+      formData.append(key, ''); // Or some other placeholder value
+    }
     
   })
 
@@ -20,6 +30,7 @@ export function createUsers(data) {
     }
   })
 }
+
 export function deleteStudent(id) {
   return http.delete(`users/student/${id}/delete`)
 }
@@ -36,7 +47,12 @@ export function updateUser(data,id) {
   // Append _method to spoof the HTTP method to PUT
   formData.append('_method', 'PUT');
   Object.entries(data).forEach(([key, value]) => {
-    formData.append(key, value)
+    if (value !== null) {
+      formData.append(key, value);
+    } else {
+      // Handle null values as needed
+      formData.append(key, ''); // Or some other placeholder value
+    }
   })
   return http.post(`users/${id}/update`, formData, {
     headers: {

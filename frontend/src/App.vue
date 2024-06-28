@@ -57,4 +57,9 @@
     color: #2c3e50;
     font-family: 'Poppins', sans-serif;
   }
+  thead tr th {
+    font-size: 15px;
+    font-weight: bold;
+    /* background: red; */
+  }
 </style>

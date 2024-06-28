@@ -83,6 +83,11 @@
         filterCriteria: {},
         headers: [
           {
+            title: '#ID',
+            align: 'start',
+            key: 'id'
+          },
+          {
             title: 'First name',
             align: 'start',
             key: 'first_name'

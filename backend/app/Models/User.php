@@ -101,6 +101,7 @@ class User extends Authenticatable implements JWTSubject
             'guardian_id',
         );
 
+        
         if ($id) {
             $user = self::find($id);
             if (!$user) {
@@ -120,7 +121,6 @@ class User extends Authenticatable implements JWTSubject
                 // Retain the existing profile if no new file is uploaded
                 unset($requestData['profile']);
             }
-
             $user->update($requestData);
         } else {
 
@@ -151,7 +151,7 @@ class User extends Authenticatable implements JWTSubject
         }
 
         // Retrieve the subject_id string from the request
-        $subjectIdsString = $request->input('subject_id', '');
+        $subjectIdsString = $request->input('subjects', '');
         // dd($subjectIdsString);
         if (!is_null($subjectIdsString) && $subjectIdsString !== '') {
             // Split the string into an array of strings

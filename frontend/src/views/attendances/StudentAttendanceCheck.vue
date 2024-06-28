@@ -1,10 +1,22 @@
 <template>
-  <custom-title icon="mdi-eye-check-outline">
+  <custom-title icon="mdi-book-check-outline">
     <template #right>
+      <v-date-input
+        :allowed-dates="allowedDates"
+        prepend-icon=""
+        prepend-inner-icon="$calendar"
+        variant="outlined"
+        v-model="checkDate"
+        :rules="[() => !!checkDate || 'This field is required']"
+        hide-actions
+        density="compact"
+        hide-details
+        width="250px"
+      ></v-date-input>
       <v-btn
         variant="outlined"
         append-icon="mdi-filter-multiple-outline"
-        class="text-none me-4"
+        class="text-none me-4 ms-4"
         color="primary"
         @click="toggleFilter = !toggleFilter"
       >
@@ -12,10 +24,10 @@
       </v-btn>
       <v-btn
         variant="tonal"
-        class="me-2 bg-green-darken-1"
-        icon="mdi-send-circle"
+        class="me-2 bg-green-darken-1 text-none"
         @click="createAttendance()"
-      ></v-btn>
+        append-icon="mdi-send-circle"
+      >{{ $t('btn.save') }}</v-btn>
     </template>
   </custom-title>
   <v-slide-y-reverse-transition mode="in-out">
@@ -24,18 +36,6 @@
       @filter-student="onFilterApplied"
     />
   </v-slide-y-reverse-transition>
-  <v-col cols="4" class="pa-0">
-    <v-date-input
-      :allowed-dates="allowedDates"
-      label="Select a date"
-      prepend-icon=""
-      prepend-inner-icon="$calendar"
-      variant="outlined"
-      v-model="checkDate"
-      :rules="[() => !!checkDate || 'This field is required']"
-    ></v-date-input>
-  </v-col>
-
   <v-data-table
     v-model="selectedValues"
     :headers="headers"
@@ -44,7 +44,11 @@
     class="elevation-0"
   >
     <template v-slot:body="{ items }">
-      <tr v-for="item in items" :key="item.id" :class="{'bg-selected':!item.selected, 'bg-primary': item.selected}">
+      <tr
+        v-for="item in items"
+        :key="item.id"
+        :class="{ 'bg-selected': !item.selected, 'bg-primary': item.selected }"
+      >
         <td>
           <v-switch
             @update:modelValue="getSelected(item)"
@@ -103,19 +107,19 @@
       return {
         selectedValues: [],
         toggleFilter: false,
-        checkDate: null,
+        checkDate: new Date(),
         filterCriteria: {},
         reason: '',
         status: '',
         headers: [
-          { title: 'Select', key: 'select', sortable: false ,width: '0%'},
+          { title: 'Select', key: 'select', sortable: false, width: '0%' },
           { title: 'Profile', key: 'profile', sortable: false },
-          { title: 'First Name', key: 'first_name',width: '12%' },
-          { title: 'Last Name', key: 'last_name',width: '12%' },
-          { title: 'Gender', key: 'gender', sortable: false},
+          { title: 'First Name', key: 'first_name', width: '12%' },
+          { title: 'Last Name', key: 'last_name', width: '12%' },
+          { title: 'Gender', key: 'gender', sortable: false },
           { title: 'Email', key: 'email' },
-          { title: 'Status', key: 'status', width: '15%',sortable: false },
-          { title: 'Reason', key: 'reason',width: '15%',sortable: false }
+          { title: 'Status', key: 'status', width: '15%', sortable: false },
+          { title: 'Reason', key: 'reason', width: '15%', sortable: false }
         ],
         statusOptions: [
           { value: 'Present', label: 'Present' },

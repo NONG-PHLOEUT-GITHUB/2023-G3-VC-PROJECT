@@ -15,7 +15,13 @@
     :items="attendanceDetails"
     item-value="name"
     class="elevation-0"
-  ></v-data-table>
+  >
+    <template v-slot:item.status="{ value }">
+      <v-chip>
+        {{ value }}
+      </v-chip>
+    </template>
+  </v-data-table>
 </template>
 
 <script>

@@ -43,7 +43,8 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('users')->group(function () {
     Route::post('/import', [ImportExelFileController::class, 'import']);
-    Route::get('/{id}/details', [UserController::class, 'show']);
+    Route::get('/{id}/details', [UserController::class, 'details']);
+    Route::get('/{id}/show', [UserController::class, 'show']);
     Route::put('/{id}/update', [UserController::class, 'update']);
     Route::post('/create-user', [UserController::class, 'store']);
     Route::get("/graph-student/fail", [UserController::class, "getPercentageOfFaildedStudentByMonth"]);

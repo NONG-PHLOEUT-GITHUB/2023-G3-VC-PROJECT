@@ -84,11 +84,16 @@
         selectedUser: [],
         filterCriteria: {},
         headers: [
+          {
+            title: '#ID',
+            align: 'start',
+            key: 'id',
+            width: '0px'
+          },
           { title: 'Profile', key: 'profile', width: '0px' },
           { title: 'First Name', key: 'first_name', width: '13%' },
           { title: 'Last Name', key: 'last_name', width: '13%' },
           { title: 'Gender', key: 'gender', width: '0px' },
-          { title: 'Age', key: 'age', width: '0px' },
           { title: 'Phone Number', key: 'phone_number', width: '15%' },
           { title: 'Email', key: 'email', width: '15%' },
           { title: '', key: 'actions', width: '15%' }

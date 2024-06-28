@@ -40,42 +40,79 @@
                   :error-messages="classNameRole"
                   variant="outlined"
                   color="textField"
-                  :rules="[
-                    () => !!className || 'This field is required'
-                  ]"
+                  :rules="[() => !!className || 'This field is required']"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-select
+                <v-autocomplete
                   v-model="selectedTeachers"
-                  :label="$t('classroom.form.teacherName')"
-                  variant="outlined"
-                  :error-messages="teacherRole"
+                  :disabled="isUpdating"
                   :items="teachers"
+                  :error-messages="teacherRole"
+                  color="blue-grey-lighten-2"
                   :item-title="fullName"
                   item-value="id"
-                  clearable
-                  multiple
+                  :label="$t('classroom.form.teacherName')"
                   chips
+                  closable-chips
+                  multiple
+                  variant="outlined"
                   :rules="[
                     () => !!selectedTeachers || 'This field is required'
                   ]"
-                ></v-select>
+                >
+                  <template v-slot:chip="{ props, item }">
+                    <v-chip
+                      v-bind="props"
+                      :prepend-avatar="item.raw.profile"
+                      :text="item.raw.first_name + ' ' + item.raw.last_name"
+                    ></v-chip>
+                  </template>
+
+                  <template v-slot:item="{ props, item }">
+                    <v-list density="compact">
+                      <v-list-item
+                        v-bind="props"
+                        :prepend-avatar="item.raw.profile"
+                        :title="item.raw.first_name + ' ' + item.raw.last_name"
+                      ></v-list-item>
+                    </v-list>
+                  </template>
+                </v-autocomplete>
               </v-col>
               <v-col cols="12">
-                <v-select
+                <v-autocomplete
                   v-model="coordinatorId"
+                  :disabled="isUpdating"
                   :items="coordinators"
-                  :label="$t('classroom.form.coorName')"
-                  variant="outlined"
+                  color="blue-grey-lighten-2"
+                  clearable
                   :item-title="fullName"
                   item-value="id"
-                  clearable
+                  :label="$t('classroom.form.coorName')"
                   chips
-                  :rules="[
-                    () => !!coordinatorId || 'This field is required'
-                  ]"
-                ></v-select>
+                  closable-chips
+                  variant="outlined"
+                  :rules="[() => !!coordinatorId || 'This field is required']"
+                >
+                  <template v-slot:chip="{ props, item }">
+                    <v-chip
+                      v-bind="props"
+                      :prepend-avatar="item.raw.profile"
+                      :text="item.raw.first_name + ' ' + item.raw.last_name"
+                    ></v-chip>
+                  </template>
+
+                  <template v-slot:item="{ props, item }">
+                    <v-list density="compact">
+                      <v-list-item
+                        v-bind="props"
+                        :prepend-avatar="item.raw.profile"
+                        :title="item.raw.first_name + ' ' + item.raw.last_name"
+                      ></v-list-item>
+                    </v-list>
+                  </template>
+                </v-autocomplete>
               </v-col>
             </v-row>
           </v-container>
@@ -137,6 +174,10 @@
             <strong>{{ classroom.student_count }}</strong>
           </v-chip>
           <br />
+          <v-avatar>
+            <v-img alt="John" :src="classroom.coordinator_profile"></v-img>
+          </v-avatar>
+
           <v-chip v-if="classroom.class_coordinator != null" color="primary">
             {{ $t('classroom.coordinator') }} :
             <strong>{{ classroom.class_coordinator }}</strong>
@@ -240,14 +281,14 @@
       saveClassroom() {
         const formData = {
           classroom_name: this.className.toUpperCase(),
-          coordinator_id: this.coordinatorId.id || this.coordinatorId,
+          coordinator_id: this.coordinatorId?.id || this.coordinatorId,
           teacher_id: this.selectedTeachers
         }
 
         if (this.editing) {
           this.updateClassroom(formData, this.editId)
             .then(() => {
-              this.cancelForm()
+              this.clearForm()
               this.getCassrooms(this.filterCriteria)
               this.$root.$notif(this.$t('alert.update'), {
                 type: 'success',
@@ -255,12 +296,12 @@
               })
             })
             .catch(error => {
-              console.log(error)
+              this.teacherRole = error.response.data.error
             })
         } else {
           this.createClassroom(formData)
             .then(() => {
-              this.cancelForm()
+              this.clearForm()
               this.getCassrooms(this.filterCriteria)
               this.$root.$notif(this.$t('alert.create'), {
                 type: 'success',
@@ -287,7 +328,7 @@
         this.dialog = true
       },
 
-      cancelForm() {
+      clearForm() {
         this.editing = false
         this.editId = null
         this.className = ''

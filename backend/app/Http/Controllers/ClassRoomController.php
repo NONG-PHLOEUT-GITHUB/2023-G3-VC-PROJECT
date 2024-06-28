@@ -168,7 +168,7 @@ class ClassroomController extends Controller
                 'classroom_name' => $classroom->classroom_name,
                 'teachers' => $teachers,
                 'subject_teachers' => $teacherSubjects,
-                'coordinator_id' => $coordinator->id
+                'coordinator' => $coordinator
             ],
             'message' => 'Classroom data retrieved successfully'
         ], 200);

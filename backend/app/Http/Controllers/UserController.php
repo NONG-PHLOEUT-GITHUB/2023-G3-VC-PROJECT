@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\GuardianResource;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\ShowUserResource;
 use App\Models\ClassRoom;
 use App\Models\Comment;
 use App\Models\Guardian;
@@ -37,6 +38,15 @@ class UserController extends Controller
     }
 
     public function show(string $id)
+    {
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+        // Return the user as a resource
+        return new ShowUserResource($user);
+    }
+
+    public function details(string $id)
     {
         // Find the user by ID
         $user = User::findOrFail($id);

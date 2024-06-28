@@ -6,13 +6,15 @@ import {
   createUsers,
   updateUser,
   deleteStudent,
-  deleteMultipleUsers
+  deleteMultipleUsers,
+  showStudent
 } from '@/api/student'
 
 export const useStudentStore = defineStore('student', {
   state: () => ({
     students: [],
-    studentDetails: []
+    studentDetails: [],
+    studentShow:[]
   }),
   actions: {
     async getStudents(filterCriteria) {
@@ -34,6 +36,10 @@ export const useStudentStore = defineStore('student', {
     async getStudentDetails(id) {
       const response = await fetchStudentDetails(id)
       this.studentDetails = response.data.data
+    },
+    async showStudent(id) {
+      const response = await showStudent(id)
+      this.studentShow = response.data.data
     }
   }
 })
