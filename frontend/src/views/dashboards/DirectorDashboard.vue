@@ -28,14 +28,14 @@
           </v-avatar>
         </template>
         <template v-slot:append>
-          <v-chip
+          <v-btn
             border="success sm opacity-100"
             color="green"
             size="small"
             variant="text"
+            icon="mdi-arrow-up"
           >
-            <v-icon icon="mdi-arrow-up"></v-icon>
-          </v-chip>
+          </v-btn>
         </template>
       </v-card>
     </v-col>
@@ -53,14 +53,14 @@
           </v-avatar>
         </template>
         <template v-slot:append>
-          <v-chip
+          <v-btn
             border="success sm opacity-100"
             color="green"
             size="small"
             variant="text"
+            icon="mdi-arrow-up"
           >
-            <v-icon icon="mdi-arrow-up"></v-icon>
-          </v-chip>
+          </v-btn>
         </template>
         <v-card-text class="py-0">
           <v-col>
@@ -91,14 +91,14 @@
           </v-avatar>
         </template>
         <template v-slot:append>
-          <v-chip
+          <v-btn
             border="success sm opacity-100"
             color="green"
             size="small"
             variant="text"
+            icon="mdi-arrow-up"
           >
-            <v-icon icon="mdi-arrow-up"></v-icon>
-          </v-chip>
+          </v-btn>
         </template>
         <v-card-text class="py-0">
           <v-col>

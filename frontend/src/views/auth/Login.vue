@@ -19,8 +19,8 @@
             <h3>{{ $t('login.title') }}</h3>
           </v-card-title>
           <v-form ref="form" class="mt-5" @submit.prevent="connection">
+            <v-label >{{ $t('login.lebelEmail') }}</v-label>
             <v-text-field
-              :label="$t('login.lebelEmail')"
               ref="emailField"
               prepend-inner-icon="mdi-email-outline"
               v-model="email"
@@ -30,8 +30,8 @@
               :error-messages="incorrect"
               color="textField"
             ></v-text-field>
+            <v-label class="pa-0 mb-0">{{ $t('login.lebelPass') }}</v-label>
             <v-text-field
-              :label="$t('login.lebelPass')"
               :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
               :type="visible ? 'text' : 'password'"
               prepend-inner-icon="mdi-lock-outline"
@@ -40,9 +40,10 @@
               variant="outlined"
               @click:append-inner="visible = !visible"
               :error-messages="incorrect"
-              class="mt-4 mb-2"
+              class="mb-2"
               color="textField"
-            ></v-text-field>
+            >
+          </v-text-field>
             <router-link to="/forgot-password">
               {{ $t('login.form.forgot-pass') }}
             </router-link>

@@ -26,9 +26,16 @@
   <v-dialog v-model="dialog" persistent width="40%">
     <v-card>
       <v-form @submit.prevent="saveClassroom">
-        <v-card-title class="bg-primary">
+        <v-toolbar class="bg-primary px-2">
           <span class="text-h5">{{ formAction }}</span>
-        </v-card-title>
+          <v-spacer></v-spacer>
+          <v-btn
+            icon="mdi-close"
+            class="text-none"
+            @click="dialog = !dialog"
+          >
+          </v-btn>
+        </v-toolbar>
         <v-card-text>
           <v-container>
             <v-row>
