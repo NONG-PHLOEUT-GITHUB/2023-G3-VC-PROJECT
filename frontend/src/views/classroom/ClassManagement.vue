@@ -179,7 +179,6 @@
           </v-avatar>
 
           <v-chip v-if="classroom.class_coordinator != null" color="primary">
-            {{ $t('classroom.coordinator') }} :
             <strong>{{ classroom.class_coordinator }}</strong>
           </v-chip>
           <v-chip color="info" pill v-else>
