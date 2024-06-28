@@ -82,7 +82,7 @@
               </v-col>
               <v-col cols="12">
                 <v-autocomplete
-                  v-model="coordinatorId"
+                  v-model="coordinator"
                   :disabled="isUpdating"
                   :items="coordinators"
                   color="blue-grey-lighten-2"
@@ -93,7 +93,7 @@
                   chips
                   closable-chips
                   variant="outlined"
-                  :rules="[() => !!coordinatorId || 'This field is required']"
+                  :rules="[() => !!coordinator || 'This field is required']"
                 >
                   <template v-slot:chip="{ props, item }">
                     <v-chip
@@ -179,7 +179,6 @@
           </v-avatar>
 
           <v-chip v-if="classroom.class_coordinator != null" color="primary">
-            {{ $t('classroom.coordinator') }} :
             <strong>{{ classroom.class_coordinator }}</strong>
           </v-chip>
           <v-chip color="info" pill v-else>
@@ -210,7 +209,7 @@
         editing: false,
         editId: null,
         selectedTeachers: [],
-        coordinatorId: [],
+        coordinator: [],
         classNameRole: '',
         teacherRole: '',
         filterCriteria: {}
@@ -320,7 +319,7 @@
         this.getClassroomDetails(id).then(response => {
           this.editId = response.id
           this.className = response.classroom_name
-          this.coordinatorId = response.coordinator
+          this.coordinator = response.coordinator
           this.selectedTeachers = response.teachers.map(teacher => teacher.id)
         })
         this.formAction = this.$t('classroom.edit')

@@ -58,7 +58,7 @@ Route::prefix('users')->group(function () {
     Route::get("/user/{id}", [UserController::class, "getUserIdFromGuardianId"]);
     Route::get("/parents/{id}", [UserController::class, "getParentsByuser"]);
     Route::get("/chat_id/{user_id}", [UserController::class, "getGuardianChatIdOfStudent"]);
-    Route::get("/teacher/coordinator", [UserController::class, "getTeachersWithoutCoordinatorRole"]);
+    Route::get("/teacher/coordinator", [UserController::class, "getCoordinators"]);
     Route::get("/students/export-excel", [UserController::class, "exportUsers"]);
     Route::delete('/delete-multiple', [UserController::class, 'deleteMultiple']);
 });
