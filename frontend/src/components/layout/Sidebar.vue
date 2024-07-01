@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer elevation="4" v-model="drawer" :width="300">
+  <v-navigation-drawer elevation="4" v-model="drawer" :width="282">
     <!-- expand-on-hover
   rail -->
     <template v-slot:prepend>
@@ -163,6 +163,11 @@
           {
             path: '/class-list',
             title: this.$t('menu.admin.classroom'),
+            icon: 'mdi-clipboard-text'
+          },
+          {
+            path: '/subject-list',
+            title: 'Subject Management',
             icon: 'mdi-clipboard-text'
           }
         ]

@@ -1,6 +1,11 @@
 <template>
   <v-card width="500">
-    <v-card-title class="bg-primary">Change Password</v-card-title>
+    <v-toolbar class="bg-primary" title="Change Password">
+      <v-spacer></v-spacer>
+      <v-btn icon @Click="cancel">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-toolbar>
     <v-form ref="form" @submit.prevent="changePassword" class="pa-5">
       <v-text-field
         :append-inner-icon="visibleCurrent ? 'mdi-eye-off' : 'mdi-eye'"

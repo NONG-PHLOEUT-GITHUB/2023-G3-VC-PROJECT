@@ -1,10 +1,23 @@
 <template>
+    <v-btn
+    size="x-small"
+    icon="mdi-arrow-left"
+    class="white mr-2"
+    @click="goBack"
+    variant="tonal"
+  ></v-btn>
+  <strong v-if="studentShow.role === 2" class="d-inline-block text-capitalize">
+    Teacher List
+  </strong>
+  <strong v-else class="d-inline-block text-capitalize">
+    student list
+  </strong>
   <custom-title icon="mdi-account-multiple-plus"></custom-title>
   <v-card class="pa-4">
     <custom-sub-title icon="mdi-information">
-      Student Information
+      User Information
     </custom-sub-title>
-    <v-form>
+    <v-form ref="form" @submit.prevent="addOrUpdateUser">
       <v-row>
         <v-col>
           <v-select
@@ -187,7 +200,7 @@
         >
           {{ $t('btn.cancel') }}
         </v-btn>
-        <v-btn type="submit" class="bg-primary" @click="addOrUpdateUser">
+        <v-btn type="submit" class="bg-primary">
           {{ btn ? $t('btn.update') : $t('btn.create') }}
         </v-btn>
       </v-card-actions>
@@ -284,6 +297,9 @@
         'getGuardianDetails',
         'updateGuardianList'
       ]),
+      goBack() {
+        this.$router.back()
+      },
       calculateAge(dateOfBirth) {
         if (!dateOfBirth) return ''
         const birthDate = new Date(dateOfBirth)
@@ -327,12 +343,16 @@
               type: 'success',
               color: 'primary'
             })
+            if (this.studentShow.role === 3) {
+              this.$router.push('/student-list')
+            } else {
+              this.$router.push('/teacher-list')
+            }
           } else {
             if (this.studentShow.role === 3) {
               this.$refs.formGuardian.emitSubmit()
               this.$router.push('/student-list')
-            }
-            else {
+            } else {
               this.$router.push('/teacher-list')
             }
             await this.createNewStudents(formData)
@@ -355,7 +375,7 @@
         } catch (error) {
           console.log(error)
         }
-      },
+      }
     }
   }
 </script>

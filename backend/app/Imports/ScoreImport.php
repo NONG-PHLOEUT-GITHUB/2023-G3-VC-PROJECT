@@ -33,41 +33,49 @@ class ScoreImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         // dd($row);
-        $userId = $this->getUserIdByName($row['first_name'], $row['last_name']);
-        $examId = $this->getExamIdByName('M2');
-        // dd($examId);
+        $scores = new Score([
+            'exam_id'=> $row['exam_id'] ?? $row['Exam id'] ?? $row['Exam ID'],
+            'user_id'=> $row['user_id'] ?? $row['User ID'] ?? $row['User id'],
+            'subject_id'=> $row['subject_id'] ?? $row['subject_id'] ?? $row['subject_id'],
+            'score'=> $row['Score'] ?? $row['score'],
+        ]);
+        $scores->save();
+        // // dd($row);
+        // $userId = $this->getUserIdByName($row['first_name'], $row['last_name']);
+        // $examId = $this->getExamIdByName('M2');
+        // // dd($examId);
 
-        $scores = [];
+        // $scores = [];
 
-        $subjects = [
-            'Khmer Literature',
-            'Math',
-            // 'Biology',
-            // 'Earth Science',
-            // 'Civics & Economics',
-            // 'Physics',
-            // 'Chemistry',
-            // 'ICT',
-            // 'Physical Education',
-            // 'History',
-            // 'Geography'
-        ];
-        // Iterate over each subject and create a Score object
-        foreach ($subjects as $subjectName) {
-            $subjectId = $this->getSubjectIdByName($subjectName);
-            $scoreValue = $row[strtolower(str_replace(' ', '_', $subjectName))];
+        // $subjects = [
+        //     'Khmer Literature',
+        //     'Math',
+        //     // 'Biology',
+        //     // 'Earth Science',
+        //     // 'Civics & Economics',
+        //     // 'Physics',
+        //     // 'Chemistry',
+        //     // 'ICT',
+        //     // 'Physical Education',
+        //     // 'History',
+        //     // 'Geography'
+        // ];
+        // // Iterate over each subject and create a Score object
+        // foreach ($subjects as $subjectName) {
+        //     $subjectId = $this->getSubjectIdByName($subjectName);
+        //     $scoreValue = $row[strtolower(str_replace(' ', '_', $subjectName))];
 
-            // Create and store the Score object
-            $scores[] = new Score([
-                'exam_id' => $examId,
-                'user_id' => $userId,
-                'subject_id' => $subjectId,
-                'score' => $scoreValue,
-            ]);
-        }
+        //     // Create and store the Score object
+        //     $scores[] = new Score([
+        //         'exam_id' => $examId,
+        //         'user_id' => $userId,
+        //         'subject_id' => $subjectId,
+        //         'score' => $scoreValue,
+        //     ]);
+        // }
 
 
-        return $scores;
+        // return $scores;
     }
 
     private function getSubjectIdByName($subjectName)

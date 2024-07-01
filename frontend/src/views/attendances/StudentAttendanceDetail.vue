@@ -1,5 +1,5 @@
 <template>
-  <v-breadcrumbs :items="breadcrumbs" class="py-0 px-0"></v-breadcrumbs>
+  <bread-crumb :items="pathTitles"/>
   <custom-title icon="mdi-account-details-outline">
     <template #right>
       <v-btn
@@ -7,6 +7,7 @@
         class="bg-green-darken-1"
         icon="mdi-export-variant"
         @click="exportExcel()"
+        size="small"
       ></v-btn>
     </template>
   </custom-title>
@@ -37,11 +38,11 @@
           { title: 'Reason', key: 'reason' },
           { title: 'Status', key: 'status' }
         ],
-        breadcrumbs: [
+        pathTitles: [
           {
             title: 'Dashboard',
             disabled: false,
-            href: '/teacher-dashboard'
+            text: '/teacher-dashboard'
           }
         ],
         pdfFile: null

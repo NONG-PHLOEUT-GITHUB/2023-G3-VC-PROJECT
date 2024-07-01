@@ -137,7 +137,7 @@
         loading: false,
         filterCriteria: {},
         headers: [
-          { title: '#ID', key: 'id', width: '2px' },
+          // { title: '#ID', key: 'id', width: '2px' },
           { title: 'Profile', key: 'profile' },
           { title: 'First Name', key: 'first_name' },
           { title: 'Last Name', key: 'last_name' },

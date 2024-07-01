@@ -71,7 +71,7 @@ const vuetify = createVuetify({
       },
       // dark: {
       //   colors: {
-      //     background: "#2a3737", 
+      //     background: "#330867", 
       //   }
       // },
     },

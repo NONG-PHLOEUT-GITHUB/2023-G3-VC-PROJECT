@@ -1,5 +1,28 @@
 <template>
-  <custom-title icon="mdi-table-chair"></custom-title>
+  <bread-crumb :items="pathTitle" />
+  <!-- <v-btn
+    size="x-small"
+    icon="mdi-arrow-left"
+    class="white mr-2"
+    @click="goBack"
+    variant="tonal"
+  ></v-btn>
+  <strong class="d-inline-block capitalize-first-letter">
+    Classroom Management
+  </strong> -->
+
+  <custom-title icon="mdi-table-chair">
+    <v-btn
+      size="x-small"
+      icon="mdi-arrow-left"
+      class="white mr-2"
+      @click="goBack"
+      variant="tonal"
+    ></v-btn>
+    <strong class="d-inline-block capitalize-first-letter">
+      {{ classroomDetails.classroom_name }}
+    </strong>
+  </custom-title>
   <v-card class="pa-2" elevation="0" variant="outlined">
     <template v-slot:append>
       <v-menu>
@@ -115,19 +138,37 @@
         'teachers',
         'classroomDetails'
       ]),
+      pathTitle() {
+        return [
+          {
+            title: this.pageTitle,
+            to: { name: 'Class Management' },
+            exact: true
+          },
+          {
+            title: this.pageSubTitle
+          }
+        ]
+      },
+      pageTitle() {
+        return `Class Management`
+      },
+      pageSubTitle() {
+        return  'Class Management description'
+      },
       items() {
         return [
           {
             action: 'studentList',
             title: this.$t('btn.studentList'),
             icon: 'mdi-list-box-outline',
-            color: 'primary',
+            color: 'primary'
           },
           {
             action: 'checkAttendance',
             title: this.$t('btn.checkAtt'),
             icon: 'mdi-check-decagram-outline',
-            color: 'primary',
+            color: 'primary'
           },
           {
             action: 'scoreReport',
@@ -164,6 +205,9 @@
             break
         }
       },
+      goBack() {
+        this.$router.back()
+      }
     }
   }
 </script>

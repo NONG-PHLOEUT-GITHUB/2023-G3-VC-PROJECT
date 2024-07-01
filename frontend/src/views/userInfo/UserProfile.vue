@@ -191,8 +191,9 @@
               color="red"
               variant="outlined"
               :disabled="isEdit"
-              @click="cancel()"
-            >
+              @click="goBack()"
+              >
+              <!-- @click="cancel()" -->
               {{ $t('btn.cancel') }}
             </v-btn>
             <v-btn class="bg-primary" :disabled="isEdit" type="submit">
@@ -257,9 +258,12 @@
           this.previewImage = ''
         }
       },
-      cancel() {
-        this.previewImage = null
-        this.isEdit = false
+      // cancel() {
+      //   this.previewImage = null
+      //   this.isEdit = false
+      // },
+      goBack() {
+        this.$router.back()
       },
       updateProfile() {
         const data = {

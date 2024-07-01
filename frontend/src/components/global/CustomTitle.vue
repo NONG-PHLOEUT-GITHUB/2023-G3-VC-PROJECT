@@ -26,7 +26,8 @@
     name: 'CustomTitle',
     props: {
       icon: { type: String, required: false },
-      rightIcon: { type: String }
+      rightIcon: { type: String },
+      centeredTitle: { type: Boolean, default: false },
     }
   }
 </script>
