@@ -3,8 +3,7 @@
   <v-row class="mb-4">
     <v-col cols="12" md="4">
       <v-card
-        border="opacity-50 sm"
-        class="mx-auto elevation-0"
+        hover
         rounded="xl"
         :subtitle="$t('dashboard.studentTotal')"
         :title="$t('dashboard.student')"
@@ -34,16 +33,14 @@
             size="small"
             variant="text"
             icon="mdi-arrow-up"
-          >
-          </v-btn>
+          ></v-btn>
         </template>
       </v-card>
     </v-col>
     <v-col cols="12" md="4">
       <v-card
         rounded="xl"
-        border="opacity-50 sm"
-        class="mx-auto elevation-0"
+        hover
         :subtitle="$t('dashboard.teacherTotal')"
         :title="$t('dashboard.teacher')"
       >
@@ -59,8 +56,7 @@
             size="small"
             variant="text"
             icon="mdi-arrow-up"
-          >
-          </v-btn>
+          ></v-btn>
         </template>
         <v-card-text class="py-0">
           <v-col>
@@ -78,12 +74,13 @@
       </v-card>
     </v-col>
     <v-col cols="12" md="4">
+      <!-- border="opacity-50 sm"
+      class="mx-auto elevation-0" -->
       <v-card
-        border="opacity-50 sm"
-        class="mx-auto elevation-0"
         rounded="xl"
         :subtitle="$t('dashboard.classTotal')"
         :title="$t('dashboard.class')"
+        hover
       >
         <template v-slot:prepend>
           <v-avatar color="primary">
@@ -97,8 +94,7 @@
             size="small"
             variant="text"
             icon="mdi-arrow-up"
-          >
-          </v-btn>
+          ></v-btn>
         </template>
         <v-card-text class="py-0">
           <v-col>

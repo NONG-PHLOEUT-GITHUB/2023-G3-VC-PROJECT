@@ -60,7 +60,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = User::store($request, $id); 
+        $user = User::store($request, $id);
         // return response()->json(['success' => true, 'message' => 'Update successfully','data'=>$user], 200);
 
         return $user;
@@ -168,7 +168,7 @@ class UserController extends Controller
     public function getTeachers(Request $request)
     {
         $query = User::whereIn('role', [1, 2]);
-        
+
         $filterableFields = ['first_name', 'last_name', 'email', 'phone_number', 'date_of_birth', 'address'];
 
         // Loop through the filterable fields and apply filters if values are provided
@@ -189,7 +189,7 @@ class UserController extends Controller
         return response()->json(["message" => true, "data" => $teachers], 200);
     }
 
-    public function getTeachersWithoutCoordinatorRole()
+    public function getCoordinators()
     {
         $teachersWithoutCoordinatorRole = User::where('role', 2)
             ->whereNotExists(function ($query) {
@@ -197,9 +197,20 @@ class UserController extends Controller
                     ->from('classrooms')
                     ->whereRaw('classrooms.coordinator_id = users.id');
             })
+            ->select('id', 'first_name', 'last_name','profile') // Select only the required fields
             ->get();
 
-        return response()->json(["message" => true, "data" => $teachersWithoutCoordinatorRole], 200);
+        // Transform the collection to only include the desired fields
+        $formattedTeachers = $teachersWithoutCoordinatorRole->map(function ($teacher) {
+            return [
+                'coodinator_id' => $teacher->id,
+                'first_name' => $teacher->first_name,
+                'last_name' => $teacher->last_name,
+                'profile' => $teacher->profile,
+            ];
+        });
+
+        return response()->json(["message" => true, "data" => $formattedTeachers], 200);
     }
 
     public function getTeacherBySubject($subject)
