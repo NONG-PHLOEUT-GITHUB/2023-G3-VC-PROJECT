@@ -76,9 +76,10 @@
 		"admin": {
 			"dashboard": "Dashboard",
 			"classroom": "Class Management",
-			"student": "Student Management",
-			"teacher": "Teacher Management",
-			"parents": "Guardian management"
+			"userMg": "User Management",
+			"student": "Students",
+			"teacher": "Teachers",
+			"parents": "Guardians"
 		},
 		"teacher": {
 			"classTeaching": "My class teaching",

@@ -1,7 +1,5 @@
 <template>
-  <v-navigation-drawer elevation="4" v-model="drawer" :width="282">
-    <!-- expand-on-hover
-  rail -->
+  <v-navigation-drawer elevation="4" v-model="drawer" :width="280">
     <template v-slot:prepend>
       <v-list>
         <v-list-item>
@@ -10,63 +8,53 @@
       </v-list>
     </template>
 
-    <v-list v-for="(link, i) in links" :key="link.title">
-        <v-list-item
-          v-if="!link.subLinks"
-          :key="i"
-          :to="link.href"
-          class="v-list-item"
-        >
-          <template v-slot:prepend>
-            <v-icon olor="primary" :icon="link.icon"></v-icon>
-          </template>
-          <v-list-item-title class="primary--text">
-            {{ link.title }}
-          </v-list-item-title>
-        </v-list-item>
-
-        <v-list-group v-else :key="link.title" no-action>
-          <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" >
-              <template v-slot:prepend>
-                <v-icon olor="primary" :icon="link.icon"></v-icon>
-              </template>
-              <v-list-item-title class="primary--text">
-                {{ link.title }}
-              </v-list-item-title>
-            </v-list-item>
-          </template>
-
-          <v-list-item
-            v-for="sublink in link.subLinks"
-            :to="sublink.href"
-            :key="sublink.title"
-          >
-            <v-list-item-title class="primary--text">
-              {{ sublink.title }}
-            </v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-    </v-list>
-  
-    <v-list dense>
+    <v-list v-for="(link, i) in menu" :key="link.title" dense class="pa-0">
       <v-list-item
-        v-for="(item, index) in menu"
-        :key="index"
-        link
-        :to="item.path"
+        v-if="!link.subLinks"
+        :key="i"
+        :to="link.path"
+        class="v-list-item"
         exact
         color="primary"
       >
         <template v-slot:prepend>
-          <v-icon :icon="item.icon"></v-icon>
+          <v-icon olor="primary" :icon="link.icon"></v-icon>
         </template>
-        <v-list-item-title>{{ item.title }}</v-list-item-title>
+        <v-list-item-title class="primary--text">
+          {{ link.title }}
+        </v-list-item-title>
       </v-list-item>
+
+      <v-list-group v-else :key="link.title" no-action>
+        <template v-slot:activator="{ props }">
+          <v-list-item v-bind="props">
+            <template v-slot:prepend>
+              <v-icon olor="primary" :icon="link.icon"></v-icon>
+            </template>
+            <v-list-item-title class="primary--text">
+              {{ link.title }}
+            </v-list-item-title>
+          </v-list-item>
+        </template>
+
+        <v-list-item
+          v-for="sublink in link.subLinks"
+          :to="sublink.path"
+          :key="sublink.title"
+          exact
+          color="primary"
+        >
+          <template v-slot:prepend>
+            <v-icon olor="primary" :icon="sublink.icon"></v-icon>
+          </template>
+          <v-list-item-title class="primary--text">
+            {{ sublink.title }}
+          </v-list-item-title>
+        </v-list-item>
+      </v-list-group>
     </v-list>
     <template v-slot:append>
       <div class="pa-2 text-center">
-        <!-- <v-chip block>Version 0.2</v-chip> -->
         <v-btn
           block
           class="text-none bg-primary"
@@ -112,26 +100,6 @@
           href: '/statistics',
           icon: 'mdi-chart-bar'
         }
-      ],
-      items: [
-        {
-          action: 'mdi-ticket',
-          title: 'Attractions',
-          items: [
-            { title: 'List Item 1' },
-            { title: 'List Item 2' },
-            { title: 'List Item 3' }
-          ]
-        },
-        {
-          title: 'Dining',
-          action: 'mdi-silverware-fork-knife',
-          items: [
-            { title: 'Breakfast & brunch' },
-            { title: 'New American' },
-            { title: 'Sushi' }
-          ]
-        }
       ]
     }),
     computed: {
@@ -146,29 +114,45 @@
             icon: 'mdi-home'
           },
           {
-            path: '/guardian-list',
-            title: this.$t('menu.admin.parents'),
-            icon: 'mdi-human-male-female-child'
-          },
-          {
-            path: '/teacher-list',
-            title: this.$t('menu.admin.teacher'),
-            icon: 'mdi-human-male-board-poll'
-          },
-          {
-            path: '/student-list',
-            title: this.$t('menu.admin.student'),
-            icon: 'mdi-android-studio'
+            icon: 'mdi-account-group-outline',
+            title: this.$t('menu.admin.userMg'),
+            subLinks: [
+              {
+                path: '/guardian-list',
+                title: this.$t('menu.admin.parents'),
+                icon: 'mdi-human-male-female-child'
+              },
+              {
+                path: '/teacher-list',
+                title: this.$t('menu.admin.teacher'),
+                icon: 'mdi-human-male-board-poll'
+              },
+              {
+                path: '/student-list',
+                title: this.$t('menu.admin.student'),
+                icon: 'mdi-account-school-outline'
+              }
+            ]
           },
           {
             path: '/class-list',
             title: this.$t('menu.admin.classroom'),
-            icon: 'mdi-clipboard-text'
+            icon: 'mdi-google-classroom'
           },
           {
             path: '/subject-list',
             title: 'Subject Management',
             icon: 'mdi-clipboard-text'
+          },
+          {
+            path: '/subject-list',
+            title: 'Certificate',
+            icon: 'mdi-file-certificate-outline'
+          },
+          {
+            path: '/subject-list',
+            title: 'Examination',
+            icon: 'mdi-file-certificate-outline'
           }
         ]
       },
