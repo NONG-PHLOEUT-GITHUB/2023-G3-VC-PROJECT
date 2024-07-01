@@ -1,4 +1,15 @@
 <template>
+  <!-- <bread-crumb :items="pathTitles" /> -->
+  <v-btn
+    size="x-small"
+    icon="mdi-arrow-left"
+    class="white mr-2"
+    @click="goBack"
+    variant="tonal"
+  ></v-btn>
+  <strong class="d-inline-block capitalize-first-letter">
+    Classroom Details
+  </strong>
   <custom-title icon="mdi-eye-check-outline">
     <template #right>
       <v-btn
@@ -13,7 +24,10 @@
     </template>
   </custom-title>
   <v-slide-y-reverse-transition mode="in-out">
-    <filter-student-each-class v-show="toggleFilter" @filter-student="onFilterApplied" />
+    <filter-student-each-class
+      v-show="toggleFilter"
+      @filter-student="onFilterApplied"
+    />
   </v-slide-y-reverse-transition>
   <v-data-table
     :headers="headers"
@@ -45,12 +59,9 @@
     components: { FilterStudentEachClass },
     data() {
       return {
-        students: [],
         date: null,
         chat_id: null,
         classrooms: [],
-        itemsPerPage: 10,
-        loading: false,
         toggleFilter: false,
         filterCriteria: {},
         headers: [
@@ -60,6 +71,23 @@
           { title: 'Gender', key: 'gender' },
           { title: 'Email', key: 'email' },
           { title: '', key: 'actions' }
+        ],
+        pathTitles: [
+          {
+            title: 'Classroom Management',
+            disabled: false,
+            to: { name: 'Class Management' }
+          },
+          {
+            title: ' Classroom Details',
+            disabled: false,
+            to: { name: '' },
+          }
+          // {
+          //   title: 'Link 2',
+          //   disabled: true,
+          //   href: ''
+          // }
         ]
       }
     },
@@ -68,14 +96,17 @@
       this.getStudentsInClassroom({ classroomId: id, ...this.filterCriteria })
     },
     computed: {
-      ...mapState(useClassroomStore, ['studentInClassroom']),
+      ...mapState(useClassroomStore, ['studentInClassroom'])
     },
     methods: {
       ...mapActions(useClassroomStore, ['getStudentsInClassroom']),
       onFilterApplied(filterData) {
         this.filterCriteria = filterData
-        const id = this.$route.params.classroomId;
+        const id = this.$route.params.classroomId
         this.getStudentsInClassroom({ classroomId: id, ...filterData })
+      },
+      goBack() {
+        this.$router.back()
       }
     }
   }

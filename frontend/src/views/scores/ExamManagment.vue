@@ -91,15 +91,15 @@
   >
     <template v-slot:item.actions="{ item }">
       <v-btn
-        @click="deleteExamList(item.id)"
+        @click="update(item.id)"
         variant="text"
-        icon="mdi-delete-forever"
+        icon="mdi-pencil"
         color="error"
       ></v-btn>
       <v-tooltip text="Upload score of exam">
         <template v-slot:activator="{ props }">
           <v-btn
-            color="primary"
+            color="green"
             v-bind="props"
             variant="text"
             icon="mdi-database-import-outline"
@@ -107,6 +107,12 @@
           ></v-btn>
         </template>
       </v-tooltip>
+      <v-btn
+        @click="deleteExamList(item.id)"
+        variant="text"
+        icon="mdi-delete-forever"
+        color="error"
+      ></v-btn>
     </template>
   </v-data-table>
 
@@ -182,6 +188,7 @@
       examName: '',
       filterCriteria: {},
       headers: [
+        { title: '#ID', key: 'id' },
         { title: 'Exam name', key: 'exam_name' },
         { title: 'Exam code', key: 'exam_code' },
         { title: 'Subject name', key: 'subject_name' },
@@ -256,7 +263,7 @@
               'Cache-Control': 'no-cache'
             }
           })
-          .then(response => {
+          .then(() => {
             this.$refs.fileInput.value = ''
             this.$root.$notif('Upload successfully', {
               type: 'success',

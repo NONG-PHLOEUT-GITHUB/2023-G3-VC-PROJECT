@@ -1,4 +1,14 @@
 <template>
+   <v-btn
+    size="x-small"
+    icon="mdi-arrow-left"
+    class="white mr-2"
+    @click="goBack"
+    variant="tonal"
+  ></v-btn>
+  <strong class="d-inline-block capitalize-first-letter">
+    Classroom Details
+  </strong>
   <custom-title icon="mdi-note-check-outline"></custom-title>
   <v-data-table
     :headers="headers"
@@ -77,6 +87,9 @@
         if (status == "absent") return 'red'
         else if (status > 50) return 'orange'
         else return 'green'
+      },
+      goBack() {
+        this.$router.back()
       },
       removeStudent(id) {
         http

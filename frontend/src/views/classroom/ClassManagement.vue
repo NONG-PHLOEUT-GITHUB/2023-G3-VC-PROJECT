@@ -46,7 +46,6 @@
               <v-col cols="12">
                 <v-autocomplete
                   v-model="selectedTeachers"
-                  :disabled="isUpdating"
                   :items="teachers"
                   :error-messages="teacherRole"
                   color="blue-grey-lighten-2"
@@ -83,12 +82,11 @@
               <v-col cols="12">
                 <v-autocomplete
                   v-model="coordinator"
-                  :disabled="isUpdating"
                   :items="coordinators"
                   color="blue-grey-lighten-2"
                   clearable
                   :item-title="fullName"
-                  item-value="id"
+                  item-value="coodinator_id"
                   :label="$t('classroom.form.coorName')"
                   chips
                   closable-chips
@@ -280,7 +278,7 @@
       saveClassroom() {
         const formData = {
           classroom_name: this.className.toUpperCase(),
-          coordinator_id: this.coordinatorId?.id || this.coordinatorId,
+          coordinator_id: this.coordinator?.id || this.coordinator,
           teacher_id: this.selectedTeachers
         }
 

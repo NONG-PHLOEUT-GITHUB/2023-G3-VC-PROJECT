@@ -225,6 +225,11 @@ const routes = [
         path: '/test', // matches any unknown path
         name: 'teacher-apsent',
         component: () => import('@/views/attendances/TeacherAttendanceList.vue')
+      },
+      {
+        path: '/subject-list', // matches any unknown path
+        name: 'Subject List',
+        component: () => import('@/views/subjects/SubjectList.vue')
       }
     ]
   }

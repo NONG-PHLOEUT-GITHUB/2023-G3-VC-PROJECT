@@ -1,4 +1,14 @@
 <template>
+   <v-btn
+    size="x-small"
+    icon="mdi-arrow-left"
+    class="white mr-2"
+    @click="goBack"
+    variant="tonal"
+  ></v-btn>
+  <strong class="d-inline-block capitalize-first-letter">
+    Classroom Details
+  </strong>
   <custom-title icon="mdi-book-check-outline">
     <template #right>
       <v-date-input
@@ -154,6 +164,9 @@
     methods: {
       ...mapActions(useClassroomStore, ['getStudentsInClassroom']),
       ...mapActions(useAttendanceStore, ['checkAttendance']),
+      goBack() {
+        this.$router.back()
+      },
       allowedDates(date) {
         const today = new Date()
         today.setHours(0, 0, 0, 0) // Ensure comparison is only by date, not time
