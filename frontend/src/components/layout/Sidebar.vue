@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer elevation="4" v-model="drawer">
+  <v-navigation-drawer elevation="4" v-model="drawer" :width="300">
     <!-- expand-on-hover
   rail -->
     <template v-slot:prepend>
@@ -9,6 +9,46 @@
         </v-list-item>
       </v-list>
     </template>
+
+    <v-list v-for="(link, i) in links" :key="link.title">
+        <v-list-item
+          v-if="!link.subLinks"
+          :key="i"
+          :to="link.href"
+          class="v-list-item"
+        >
+          <template v-slot:prepend>
+            <v-icon olor="primary" :icon="link.icon"></v-icon>
+          </template>
+          <v-list-item-title class="primary--text">
+            {{ link.title }}
+          </v-list-item-title>
+        </v-list-item>
+
+        <v-list-group v-else :key="link.title" no-action>
+          <template v-slot:activator="{ props }">
+            <v-list-item v-bind="props" >
+              <template v-slot:prepend>
+                <v-icon olor="primary" :icon="link.icon"></v-icon>
+              </template>
+              <v-list-item-title class="primary--text">
+                {{ link.title }}
+              </v-list-item-title>
+            </v-list-item>
+          </template>
+
+          <v-list-item
+            v-for="sublink in link.subLinks"
+            :to="sublink.href"
+            :key="sublink.title"
+          >
+            <v-list-item-title class="primary--text">
+              {{ sublink.title }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list-group>
+    </v-list>
+  
     <v-list dense>
       <v-list-item
         v-for="(item, index) in menu"
@@ -42,7 +82,58 @@
 
 <script>
   export default {
-    data: () => ({}),
+    data: () => ({
+      links: [
+        {
+          title: 'Home',
+          href: '/',
+          icon: 'mdi-home-outline'
+        },
+        {
+          icon: 'mdi-file-chart',
+          title: 'Reports',
+          subLinks: [
+            {
+              title: 'Sales',
+              href: '/sales'
+            },
+            {
+              title: 'Orders',
+              href: '/orders'
+            },
+            {
+              title: 'Inventory',
+              href: '/inventory'
+            }
+          ]
+        },
+        {
+          title: 'Statistics',
+          href: '/statistics',
+          icon: 'mdi-chart-bar'
+        }
+      ],
+      items: [
+        {
+          action: 'mdi-ticket',
+          title: 'Attractions',
+          items: [
+            { title: 'List Item 1' },
+            { title: 'List Item 2' },
+            { title: 'List Item 3' }
+          ]
+        },
+        {
+          title: 'Dining',
+          action: 'mdi-silverware-fork-knife',
+          items: [
+            { title: 'Breakfast & brunch' },
+            { title: 'New American' },
+            { title: 'Sushi' }
+          ]
+        }
+      ]
+    }),
     computed: {
       userRole() {
         return parseInt(localStorage.getItem('user_role')) // set string to integer
@@ -139,3 +230,13 @@
     }
   }
 </script>
+<style>
+  .v-list-group__items {
+    margin-left: -35px;
+  }
+  .v-navigation-drawer {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+</style>

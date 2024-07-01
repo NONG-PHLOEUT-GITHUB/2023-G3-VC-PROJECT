@@ -1,12 +1,12 @@
 <template>
   <!-- <v-layout class="rounded rounded-md"> -->
-    <sidebar v-model="drawer" />
-    <app-bar @toggle="toggleNav" />
-    <v-main class="main">
-      <v-container class="px-4 bg-background" fluid>
-        <router-view />
-      </v-container>
-    </v-main>
+  <sidebar v-model="drawer" @resize="resizeWidth" />
+  <app-bar @toggle="toggleNav" :width="appBarWidth"/>
+  <v-main class="main">
+    <v-container class="px-4 bg-background" fluid>
+      <router-view />
+    </v-container>
+  </v-main>
   <!-- </v-layout> -->
 </template>
 <script>
@@ -22,12 +22,18 @@
       AppBar
     },
     data: () => ({
-      drawer: true
+      drawer: true,
+      appBarWidth: '100%',
     }),
 
     methods: {
       toggleNav() {
         this.drawer = !this.drawer
+      },
+      resizeWidth(width) {
+        this.appBarWidth = width
+        this.$vuetify.application.left = width.slice(0, -2)
+        this.$refs.vMain.$el.style.userSelect = 'none'
       }
     }
   }
